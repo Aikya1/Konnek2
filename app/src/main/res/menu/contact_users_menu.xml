@@ -1,0 +1,30 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools">
+
+
+    <item
+        android:id="@+id/action_audio_call"
+        android:icon="@drawable/ic_app_audio_call"
+        android:title="@string/user_profile_audio_call"
+        android:visible="false"
+        app:showAsAction="always"
+        tools:ignore="AlwaysShowAction"/>
+
+    <item
+        android:id="@+id/switch_camera_toggle"
+        android:icon="@drawable/ic_app_video_call"
+        android:title="@string/user_profile_video_call"
+        android:visible="false"
+        app:showAsAction="always"
+        tools:ignore="AlwaysShowAction"/>
+
+    <item
+        android:id="@+id/action_contact"
+        android:icon="@drawable/ic_app_contacts"
+        android:title="@string/user_profile_audio_call"
+        android:visible="false"
+        app:showAsAction="always"
+        tools:ignore="AlwaysShowAction"/>
+
+</menu>

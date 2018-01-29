@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "865654938599",
+    "firebase_url": "https://konnek5-2de30.firebaseio.com",
+    "project_id": "konnek5-2de30",
+    "storage_bucket": "konnek5-2de30.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:865654938599:android:7f779eeee7970e58",
+        "android_client_info": {
+          "package_name": "com.android.konnek2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "865654938599-da40pgg036dhi0pdnpu1ruldnqot20na.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.android.konnek2",
+            "certificate_hash": "bff696f77b6228adee241e47b04d645c17b1374a"
+          }
+        },
+        {
+          "client_id": "865654938599-lsjmqs7onign81bv14lhnt67q6dje47o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCusti6uKbq2CWwVekPeC79KfDYgcQu1kk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "865654938599-lsjmqs7onign81bv14lhnt67q6dje47o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

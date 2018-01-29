@@ -1,0 +1,22 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item
+        android:id="@+id/action_audio_call"
+        android:icon="@drawable/ic_app_audio_call"
+        android:title="@string/user_profile_audio_call"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/action_video_call"
+        android:icon="@drawable/ic_app_video_call"
+        android:title="@string/user_profile_video_call"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/action_group_details"
+        android:icon="@drawable/ic_app_chat_information"
+        android:title="@string/action_bar_chat_details"
+        app:showAsAction="always"/>
+
+</menu>

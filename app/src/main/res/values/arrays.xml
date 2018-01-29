@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Konnek2 Start-->
+
+    <string-array name="home_title">
+        <item>Contacts</item>
+        <item>History</item>
+        <item>Connect</item>
+        <item>Support</item>
+        <item>Refer a friend</item>
+        <item>Settings</item>
+        <item>Sarai</item>
+        <item>Charity</item>
+        <item>m-Store</item>
+        <item>Hangouts</item>
+        <item>User Profile</item>
+    </string-array>
+
+    <integer-array name="home_image">
+
+        <item>@drawable/ic_app_grid_contact</item>
+        <item>@drawable/ic_app_grid_history</item>
+        <item>@drawable/ic_app_grid_chat</item>
+        <item>@drawable/ic_app_grid_support</item>
+        <item>@drawable/ic_app_grid_add_friend</item>
+        <item>@drawable/ic_app_grid_settings</item>
+        <item>@drawable/ic_app_grid_sarai</item>
+        <item>@drawable/ic_app_grid_affilates</item>
+        <item>@drawable/ic_app_grid_mstore</item>
+        <item>@drawable/ic_app_grid_friend</item>
+        <item>@drawable/ic_app_grid_profile</item>
+    </integer-array>
+
+
+    <string-array name="charity_description">
+        <item>Mother Teresa Charitable Trust (MTCT) ‘s history starts with the story of compassion. The mammoth crowd that followed the adieu procession of the legend Mother Teresa, Dr.G.K.Dhas, a kind hearted social activist took up the challenge of being and working for the poor...</item>
+        <item> Established in 1978, Help Age India is a leading charity platform in India working with and for disadvantaged elderly and has become the representative voice for India’s elderly. Dedicated to improving the status for India’s senior citizens, it works in 23 states providing medical services.. </item>
+        <item>Smile Foundation is a national level development organisation directly benefitting over 400,000 children and their families every year, through more than 200 live welfare projects on education, healthcare, livelihood and women empowerment, in over 950 remote villages and slums across 25 states of India...</item>
+    </string-array>
+
+    <string-array name="charity">
+        <item>Mother teresa charitable trust</item>
+        <item>Help age india</item>
+        <item>Smile foundation</item>
+    </string-array>
+
+
+
+    <!-- Travel  Heading & resource Ids -->
+    <string-array name="Travel_name">
+        <item>Flight</item>
+        <item>Cab</item>
+        <item>Hotel</item>
+        <item>Holliday</item>
+
+    </string-array>
+
+    <integer-array name="Travel_image">
+
+        <item>@drawable/ic_app_grid_flight</item>
+        <item>@drawable/ic_app_grid_cab</item>
+        <item>@drawable/ic_app_grid_hotel</item>
+        <item>@drawable/ic_app_grid_holiday</item>
+    </integer-array>
+
+
+
+    <!-- M Store Heading & resource Ids -->
+    <string-array name="mstore">
+        <item>Travel</item>
+        <item>Money</item>
+        <item>Retail</item>
+        <item>Grocery</item>
+        <item>Pharmacy</item>
+        <item>Movies</item>
+    </string-array>
+
+    <integer-array name="mstore_image">
+        <item>@drawable/ic_app_grid_travel</item>
+        <item>@drawable/ic_app_grid_topup</item>
+        <item>@drawable/ic_app_grid_shopping</item>
+        <item>@drawable/ic_app_grid_grocery</item>
+        <item>@drawable/ic_app_grid_pharmecy</item>
+        <item>@drawable/ic_app_grid_movies</item>
+    </integer-array>
+
+
+    <!-- Money  Heading & resource Ids -->
+    <string-array name="money_name">
+        <item>Money Transfer</item>
+        <item>Top Up</item>
+        <item>DTH Recharge</item>
+        <item>Loans</item>
+
+    </string-array>
+
+    <integer-array name="money_image">
+
+        <item>@drawable/ic_app_grid_money_transfer</item>
+        <item>@drawable/ic_app_grid_topup</item>
+        <item>@drawable/ic_app_grid_dth</item>
+        <item>@drawable/ic_app_grid_loan</item>
+    </integer-array>
+
+    <!--Konnek2 End-->
+
+
+    <integer-array name="local_view_coordinates">
+        <item>0</item>
+        <item>0</item>
+        <item>100</item>
+        <item>100</item>
+    </integer-array>
+
+    <integer-array name="local_view_coordinates_on_remote">
+        <item>70</item>
+        <item>0</item>
+        <item>30</item>
+        <item>30</item>
+    </integer-array>
+
+    <integer-array name="local_view_coordinates_full_screen">
+        <item>55</item>
+        <item>65</item>
+        <item>43</item>
+        <item>34</item>
+    </integer-array>
+
+    <string-array name="supported_attachment_types">
+        <item>IMAGE</item>
+        <item>LOCATION</item>
+        <item>AUDIO</item>
+        <item>VIDEO</item>
+    </string-array>
+
+</resources>

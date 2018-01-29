@@ -1,0 +1,148 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
+
+apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+repositories {
+    maven { url 'https://dl.bintray.com/drummer-aidan/maven' }
+    maven { url "https://jitpack.io" }
+    maven { url 'https://maven.fabric.io/public' }
+}
+android {
+    compileSdkVersion rootProject.compileSdkVersion
+    buildToolsVersion rootProject.buildToolsVersion
+
+    defaultConfig {
+        applicationId "com.android.konnek2"
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
+        versionCode rootProject.versionCode
+        versionName rootProject.versionName
+        multiDexEnabled = true
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    signingConfigs {
+        debug {
+
+        }
+        release {
+//            storeFile file(property('prodStoreFile'))
+//            storePassword property('prodStorePassword')
+//            keyAlias property('prodKeyAlias')
+//            keyPassword property('prodKeyPassword')
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            debuggable false
+            ext.enableCrashlytics = true
+            signingConfig signingConfigs.release
+            buildConfigField "String", "APP_ID", prodAppID
+            buildConfigField "String", "AUTH_KEY", prodAuthKey
+            buildConfigField "String", "AUTH_SECRET", prodAuthSecret
+            buildConfigField "String", "ACCOUNT_KEY", prodAccountKey
+            buildConfigField "String", "TWITTER_KEY", prodTwitterDigitsConsumerKey
+            buildConfigField "String", "TWITTER_SECRET", prodTwitterDigitsConsumerSecret
+            buildConfigField "String", "FIREBASE_AUTH_PROJECT_ID", devFirebaseAuthProjectId
+            resValue "string", "twitterDigitsApiKey", prodTwittedDigitsApiKey
+            resValue "string", "facebookAppId", prodFacebookAppID
+            resValue "string", "sender_id", prodPushRegistrationAppID
+        }
+
+        debug {
+            debuggable true
+            versionNameSuffix ' (debug)'
+            buildConfigField "String", "APP_ID", prodAppID
+            buildConfigField "String", "AUTH_KEY", prodAuthKey
+            buildConfigField "String", "AUTH_SECRET", prodAuthSecret
+            buildConfigField "String", "ACCOUNT_KEY", devAccountKey
+            buildConfigField "String", "TWITTER_KEY", devTwitterDigitsConsumerKey
+            buildConfigField "String", "TWITTER_SECRET", devTwitterDigitsConsumerSecret
+            buildConfigField "String", "FIREBASE_AUTH_PROJECT_ID", prodFirebaseAuthProjectId
+            resValue "string", "twitterDigitsApiKey", devTwittedDigitsApiKey
+            resValue "string", "facebookAppId", devFacebookAppID
+            resValue "string", "sender_id", devPushRegistrationAppID
+        }
+
+    }
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
+
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    applicationVariants.all { variant ->
+        changeApkFileName(variant)
+    }
+}
+
+
+
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+
+    compile 'org.greenrobot:eventbus:3.1.1'
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha9'
+    testCompile 'junit:junit:4.12'
+//    compile 'com.android.support:support-v4:26.1.0'
+    compile "com.android.support:support-v4:${rootProject.supportV4Version}"
+    // QuickBlox Lib
+    compile "com.android.support:multidex:${rootProject.multiDexVersion}"
+    compile "com.android.support:appcompat-v7:${rootProject.supportVersion}"
+    compile "com.android.support:design:${rootProject.supportVersion}"
+    compile "com.google.android.gms:play-services-base:${rootProject.googlePlayServicesVersion}"
+    compile "com.google.android.gms:play-services-gcm:${rootProject.googlePlayServicesVersion}"
+    compile "com.google.android.gms:play-services-maps:${rootProject.googlePlayServicesVersion}"
+    compile "com.google.android.gms:play-services-location:${rootProject.googlePlayServicesVersion}"
+    compile "com.google.android.gms:play-services-analytics:${rootProject.googlePlayServicesVersion}"
+    compile "com.firebase:firebase-jobdispatcher-with-gcm-dep:${rootProject.firebaseDispatcherVersion}"
+    compile "com.google.firebase:firebase-auth:${rootProject.firebaseAuthVersion}"
+    compile "com.firebaseui:firebase-ui-auth:${rootProject.firebaseUiAuthVersion}"
+    compile "com.nostra13.universalimageloader:universal-image-loader:${rootProject.universalImageLoaderVersion}"
+    compile "com.jakewharton:butterknife:${rootProject.butterknifeVersion}"
+    compile "com.afollestad.material-dialogs:core:${rootProject.materialDialogsVersion}"
+    compile "com.github.orangegangsters:swipy:${rootProject.swipyRecyclerviewVersion}@aar"
+    compile "com.timehop.stickyheadersrecyclerview:library:${rootProject.stickylistheadersRecyclerViewVersion}@aar"
+    compile "com.rockerhieu.emojicon:library:${rootProject.emojiconVersion}"
+    compile "com.soundcloud.android:android-crop:${rootProject.cropVersion}@aar"
+    compile('com.android.support:cardview-v7:27.0.2')
+            {
+                force = true
+            }
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.2@aar') {
+        transitive = true;
+    }
+    compile 'com.flurry.android:analytics:6.2.0'
+    compile project(':av')
+}
+
+def changeApkFileName(variant) {
+    variant.outputs.each { output ->
+        def file = output.outputFile
+        def newName = 'QMUN_Android_v.' + rootProject.versionName + '_c.' + rootProject.versionCode + '-' + variant.buildType.name + '.apk'
+        output.outputFile = new File(file.parent, newName)
+    }
+}
+
+apply plugin: 'com.google.gms.google-services'

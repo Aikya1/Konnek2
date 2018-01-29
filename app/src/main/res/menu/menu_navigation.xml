@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/home"
+            android:icon="@drawable/ic_app_navigation_home"
+            android:title="Home"/>
+
+
+        <item
+            android:id="@+id/profile"
+            android:icon="@drawable/ic_app_navigation_profile"
+            android:title="Profile"/>
+
+        <item
+            android:id="@+id/nave_settings"
+            android:icon="@drawable/ic_app_navigation_settings"
+            android:title="Settings"/>
+
+
+        <item
+            android:id="@+id/logout"
+            android:icon="@drawable/ic_app_naviagtion_logout"
+            android:title="Logout"/>
+    </group>
+    <item android:title="Account ">
+        <menu>
+            <item
+                android:id="@+id/delete"
+                android:icon="@drawable/ic_app_naviagtion_delete"
+                android:title="Delete Account"/>
+
+            <item
+                android:id="@+id/menu_app_version"
+                android:title="Version 1.0"/>
+        </menu>
+    </item>
+</menu>

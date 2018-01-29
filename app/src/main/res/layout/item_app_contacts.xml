@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/layout_contact_parnent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/margin_4dp">
+
+        <FrameLayout
+            android:id="@+id/layout_contacts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.android.konnek2.ui.views.roundedimageview.RoundedImageView
+                android:id="@+id/avatar_imageview_contact"
+                style="@style/AvatarImageViewStyle.Common"
+                android:layout_width="@dimen/image_view_small_avatar_layout_width"
+                android:layout_height="@dimen/image_view_small_avatar_layout_height"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                app:border_color="@color/colorPrimary"
+                app:border_width="@dimen/avatar_border_width"
+                app:oval="true"/>
+
+            <ImageView
+                android:id="@+id/image_userStatus"
+                android:layout_width="17dp"
+                android:layout_height="17dp"
+                android:layout_gravity="right|bottom"
+                android:src="@drawable/app_logo"/>
+        </FrameLayout>
+
+
+        <LinearLayout
+            android:id="@+id/layout_contact_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@+id/layout_contacts"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textview_contact_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:maxLines="2"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/text_size"
+                tools:text="Nabe dsjkd sdldjscljkd dsclk"/>
+
+            <TextView
+                android:id="@+id/textview_online_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:singleLine="true"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/text_size_small"
+                tools:text="Offline"/>
+        </LinearLayout>
+
+        <CheckBox
+            android:id="@+id/check_box_contacts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:visibility="invisible"
+            android:layout_centerVertical="true"/>
+    </RelativeLayout>
+
+
+</RelativeLayout>

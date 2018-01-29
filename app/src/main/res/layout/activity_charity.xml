@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_charity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        app:titleTextColor="@android:color/white">
+    </android.support.v7.widget.Toolbar>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+        <AutoCompleteTextView
+            android:id="@+id/charity_auto_txt_view"
+            android:layout_width="match_parent"
+            android:background="@drawable/layout_border"
+            android:textColor="@color/colorPrimary"
+            android:layout_height="wrap_content"/>
+
+
+        <ImageView
+            android:id="@+id/charity_image"
+            android:layout_width="230dp"
+            android:layout_height="230dp"
+            android:layout_below="@+id/charity_auto_txt_view"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/margin_10dp"
+            android:src="@drawable/charity_smile_foundation"/>
+
+        <TextView
+            android:id="@+id/charity_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/charity_image"
+            android:layout_marginTop="@dimen/margin_10dp"
+            android:gravity="left"
+            android:text="Description :"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/charity_txt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/charity_description"
+            android:layout_marginTop="@dimen/margin_10dp"
+            android:maxLines="6"
+            android:text="Mother Teresa Charitable Trust (MTCT) ‘s history starts with the story of compassion. The mammoth crowd that followed the adieu procession of the legend Mother Teresa, Dr.G.K.Dhas, a kind hearted social activist took up the challenge of being and working for the poor..."
+            android:textColor="@color/colorPrimary"
+            android:textSize="14sp"/>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/charity_txt"
+            android:layout_marginTop="@dimen/margin_15dp"
+            android:background="@drawable/edit_text_border"
+            android:paddingBottom="@dimen/margin_10dp">
+
+            <TextView
+                android:id="@+id/charity_txt1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_15dp"
+                android:gravity="center"
+                android:text="please confirm to add this charity"
+                android:textColor="@color/colorPrimary"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginBottom="@dimen/margin_20dp"
+                android:layout_marginLeft="@dimen/margin_25dp"
+                android:background="@drawable/button_rounded_corner"
+                android:text="Ok"
+                android:textColor="@color/white"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="@dimen/margin_20dp"
+                android:layout_marginRight="@dimen/margin_25dp"
+                android:background="@drawable/button_rounded_corner"
+                android:text="Cancel"
+                android:textColor="@color/white"/>
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

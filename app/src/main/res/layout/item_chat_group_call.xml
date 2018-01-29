@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout_chat_group_one"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="6dp"
+    >
+
+    <FrameLayout
+        android:id="@+id/layout_group_frame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
+
+        <com.android.konnek2.ui.views.roundedimageview.RoundedImageView
+            android:id="@+id/avatar_imageview_group"
+            style="@style/AvatarImageViewStyle.Common"
+            android:layout_width="@dimen/image_view_small_avatar_layout_width_group"
+            android:layout_height="@dimen/image_view_small_avatar_layout_width_group"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            app:border_color="@color/colorPrimary"
+            app:border_width="@dimen/avatar_border_width"
+            app:oval="true"/>
+
+        <ImageView
+            android:id="@+id/image_userStatus"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_gravity="right|bottom"
+            android:src="@drawable/signal_green"/>
+
+    </FrameLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="15dp"
+        android:layout_toRightOf="@id/layout_group_frame"
+        android:orientation="horizontal"
+        android:weightSum="4">
+
+        <TextView
+            android:id="@+id/txt_opponents_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_weight="3.5"
+            android:textSize="@dimen/text_size_14sp"
+            />
+
+        <CheckBox
+            android:id="@+id/user_check_box"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_margin="5dp"
+            android:layout_toRightOf="@id/txt_opponents_name"
+            android:layout_weight="0.5"
+
+            />
+    </LinearLayout>
+</RelativeLayout>
+
+
+
+

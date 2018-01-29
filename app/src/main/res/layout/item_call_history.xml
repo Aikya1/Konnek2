@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/call_LogParent"
+        style="@style/ListItem"
+        >
+
+
+        <com.android.konnek2.ui.views.roundedimageview.RoundedImageView
+            android:id="@+id/image_user"
+            style="@style/AvatarImageViewStyle.Common"
+            android:layout_width="@dimen/image_view_small_avatar_layout_width"
+            android:layout_height="@dimen/image_view_small_avatar_layout_width"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:padding="@dimen/padding_3dp"
+            app:border_color="@color/colorPrimary"
+            android:layout_gravity="center"
+            app:border_width="@dimen/avatar_border_width"
+            app:oval="true"/>
+
+        <ImageView
+            android:id="@+id/call_status"
+            android:layout_width="@dimen/margin_15dp"
+            android:layout_height="@dimen/margin_15dp"
+            android:layout_gravity="right|top"
+            android:src="@drawable/ic_call_uparrow"
+            android:visibility="visible"/>
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/call_userName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:text=" Rajesh kumar"
+                android:textSize="16sp"/>
+
+            <ImageView
+                android:id="@+id/call_priority"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_below="@+id/call_userName"
+                android:layout_marginTop="5dp"
+                android:visibility="visible"/>
+
+            <ImageView
+                android:id="@+id/image_call_LogDate"
+                android:layout_width="@dimen/margin_20dp"
+                android:layout_height="@dimen/margin_20dp"
+                android:layout_below="@+id/call_userName"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/ic_app_calander"
+                android:layout_toRightOf="@+id/call_priority"/>
+            <TextView
+                android:id="@+id/call_LogDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/call_userName"
+                android:layout_marginLeft="3dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@+id/image_call_LogDate"
+                android:text=" Date"
+                android:textSize="12sp"/>
+
+            <ImageView
+                android:id="@+id/image_call_LogTime"
+                android:layout_width="@dimen/margin_20dp"
+                android:layout_height="@dimen/margin_20dp"
+                android:layout_below="@+id/call_userName"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/ic_app_clock"
+                android:layout_toRightOf="@+id/call_LogDate"/>
+            <TextView
+                android:id="@+id/call_LogTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/call_userName"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@+id/image_call_LogTime"
+                android:text=" Time"
+                android:textSize="12sp"/>
+
+            <ImageView
+                android:id="@+id/image_timer"
+                android:layout_width="@dimen/margin_20dp"
+                android:layout_height="@dimen/margin_20dp"
+                android:layout_below="@+id/call_userName"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/ic_app_timer"
+                android:layout_toRightOf="@+id/call_LogTime"/>
+            <TextView
+                android:id="@+id/call_timer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/call_userName"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@+id/image_timer"
+                android:text=" 4.30"
+                android:textSize="12sp"/>
+
+            <ImageView
+                android:id="@+id/Image_call_type"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/ic_call_audiocall"
+                android:visibility="visible"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

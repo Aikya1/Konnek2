@@ -1,0 +1,65 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/bg_main"
+                android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/text_view_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/margin_90dp"
+        android:text="KONNEK2"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/text_size_24sp"
+        android:textStyle="bold"
+        android:typeface="monospace"
+        />
+
+    <ImageView
+        android:id="@+id/labels_imageview"
+        android:layout_width="125dp"
+        android:layout_height="125dp"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="@dimen/margin_30dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_app_logo"/>
+
+    <Button
+        android:id="@+id/phone_number_connect_button"
+        style="@style/TextViewDrawableStyle.White"
+        android:layout_width="@dimen/landing_button_width"
+        android:layout_height="@dimen/landing_button_height"
+        android:layout_below="@+id/labels_imageview"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="@dimen/margin_40dp"
+        android:background="@drawable/selector_button_green_oval"
+        android:text="@string/landing_connect_with_twitter_digits"
+        android:textAllCaps="true"
+        android:textSize="@dimen/landing_button_text_size"/>
+
+    <TextView
+        android:id="@+id/login_button"
+        style="@style/TextViewLinkStyle.Dark"
+        android:layout_width="@dimen/landing_button_width"
+        android:layout_height="@dimen/landing_button_height"
+        android:layout_below="@+id/phone_number_connect_button"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="@dimen/margin_35dp"
+        android:text="@string/landing_already_have_account"
+        android:textAllCaps="true"
+        android:textSize="@dimen/landing_button_text_size"/>
+
+    <TextView
+        android:id="@+id/app_version_textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/login_button"
+        android:layout_marginTop="@dimen/margin_35dp"
+        android:gravity="center"
+        android:text="@string/about_version"
+        android:textColor="@color/text_light_dark"
+        android:textSize="@dimen/text_size_14sp"/>
+
+</RelativeLayout>

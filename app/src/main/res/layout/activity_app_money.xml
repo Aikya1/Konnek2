@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_money"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        app:titleTextColor="@android:color/white">
+    </android.support.v7.widget.Toolbar>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gridBackground">
+
+        <GridView
+            android:id="@+id/money_grid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:horizontalSpacing="1dp"
+            android:numColumns="3"
+            android:scaleType="fitXY"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="1dp"
+            />
+
+        <TextView
+            android:id="@+id/travel_poweredby"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/money_logo"
+            android:gravity="center"
+            android:text="Powered by Xoom"
+            android:textColor="@color/colorPrimary"
+            android:textSize="10sp"/>
+
+
+        <ImageView
+            android:id="@+id/money_logo"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="bottom"
+            android:src="@drawable/ic_app_xoom"/>
+
+    </RelativeLayout>
+</LinearLayout>

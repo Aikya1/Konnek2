@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/fragmentIncomeCall"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/ic_call_background">
+
+    <ListView
+        android:id="@+id/list_users"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/layout_call_button"
+        android:layout_below="@+id/infoAboutCall"
+        android:layout_marginBottom="@dimen/margin_10dp"
+        android:layout_marginTop="@dimen/margin_10dp">
+
+    </ListView>
+
+    <RelativeLayout
+        android:id="@+id/infoAboutCall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/avatar_and_name"
+            layout="@layout/view_avatar_and_name_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+        </include>
+
+        <TextView
+            android:id="@+id/type_inc_call"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/avatar_and_name"
+            android:gravity="center"
+            android:text="@string/call_incoming_video_call"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/light_gray"
+            />
+
+        <TextView
+            android:id="@+id/text_call_participants"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/type_inc_call"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/margin_10dp"
+            android:text=" "
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_14sp"
+            android:visibility="gone"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_call_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/margin_30dp"
+        android:layout_marginLeft="@dimen/margin_10dp"
+        android:layout_marginRight="@dimen/margin_10dp"
+        android:gravity="center"
+        >
+
+        <ImageButton
+            android:id="@+id/rejectBtn"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/ic_call_phone_deline"
+            android:scaleType="centerCrop"
+            />
+
+        <ImageButton
+            android:id="@+id/takeBtn"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/ic_call_phone_answer"
+
+            />
+
+    </LinearLayout>
+
+</RelativeLayout>

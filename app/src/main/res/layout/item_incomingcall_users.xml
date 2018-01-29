@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal"
+              android:weightSum="2.5">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_25dp"
+        android:layout_marginTop="@dimen/margin_10dp"
+        android:layout_weight="0.5">
+
+
+        <com.android.konnek2.ui.views.roundedimageview.RoundedImageView
+            android:id="@+id/image_incoming_call"
+            style="@style/AvatarImageViewStyle.Common"
+            android:layout_width="@dimen/image_view_small_avatar_layout_width_group"
+            android:layout_height="@dimen/image_view_small_avatar_layout_width_group"
+            android:layout_gravity="center"
+            app:border_color="@color/colorPrimary"
+            app:border_width="@dimen/avatar_border_width"
+            app:oval="true"/>
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/txt_users_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="2"
+        android:text="sasasasasasa"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size16sp"/>
+
+
+</LinearLayout>

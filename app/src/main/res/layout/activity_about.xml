@@ -1,0 +1,64 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+    <TextView
+        android:id="@+id/app_version_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/margin_60dp"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/text_size18sp"
+        android:textStyle="bold"
+        android:typeface="monospace"
+        tools:text="@string/app_name"/>
+
+
+    <ImageView
+        android:id="@+id/logo_imageview"
+        android:layout_width="175dp"
+        android:layout_height="175dp"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="@dimen/about_logo_margin_top"
+        android:src="@drawable/ic_app_logo"/>
+
+
+    <ImageView
+        android:id="@+id/logo_vendor_imageview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="@dimen/about_logo_vendor_margin_bottom"
+        android:src="@drawable/about_logo_qb"
+        android:visibility="gone"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="@dimen/margin_40dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/license_button"
+            style="@style/TextViewLinkStyle.Green"
+            android:text="@string/about_user_agreement"
+            android:textSize="@dimen/text_size"/>
+
+        <TextView
+            android:id="@+id/vendor_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/about_version"
+            android:textColor="@color/text_light_dark"
+            android:textSize="@dimen/text_size_very_small"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

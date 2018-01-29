@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/text_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_background_change"
+        android:gravity="center"
+        android:padding="@dimen/padding_3dp"
+        android:text="Voice to Text Conversation"
+        android:textColor="@color/white"
+        android:typeface="serif"/>
+
+    <TextView
+        android:id="@+id/txt_speak"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_header"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/margin_5dp"
+        android:padding="@dimen/padding_3dp"
+        android:text="Tap Mic to Start"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold"
+        android:typeface="serif"/>
+
+
+    <ImageView
+        android:id="@+id/image_mic_text"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
+        android:layout_below="@+id/txt_speak"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/margin_10dp"
+        android:src="@drawable/ic_app_mic_voice_to_text"/>
+
+
+    <CheckBox
+        android:id="@+id/check_box_translate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/image_mic_text"
+        android:layout_centerHorizontal="true"
+        android:text="Translate"
+        android:textColor="@color/colorPrimary"
+        android:typeface="serif"
+        android:visibility="invisible"/>
+
+    <EditText
+        android:id="@+id/edit_text_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/check_box_translate"
+        android:layout_marginTop="@dimen/margin_10dp"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/text_size16sp"/>
+
+    <LinearLayout
+        android:id="@+id/layout_radio_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_speak"
+        android:orientation="vertical">
+
+        <RadioGroup
+            android:id="@+id/radio_group_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/button_english"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:checked="true"
+                android:drawableLeft="@android:drawable/btn_radio"
+                android:tag="en_US"
+                android:text="English"
+                android:textColor="@color/colorPrimary"
+                android:typeface="serif"/>
+
+            <RadioButton
+                android:id="@+id/button_spanish"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:drawableLeft="@android:drawable/btn_radio"
+                android:tag="es_ES"
+                android:text="Spanish"
+                android:textColor="@color/colorPrimary"
+                android:typeface="serif"/>
+
+            <RadioButton
+                android:id="@+id/button_hindi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:drawableLeft="@android:drawable/btn_radio"
+                android:tag="hi_IN"
+                android:text="Hindi"
+                android:textColor="@color/colorPrimary"
+                android:typeface="serif"/>
+
+
+        </RadioGroup>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/txt_speak"
+        android:orientation="vertical"
+        >
+
+        <RadioGroup
+            android:id="@+id/radio_group_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible">
+
+            <RadioButton
+                android:id="@+id/button_english_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:drawableRight="@android:drawable/btn_radio"
+                android:gravity="right|center_vertical"
+                android:tag="en"
+                android:text="English"
+                android:textColor="@color/colorPrimary"
+                android:typeface="serif"/>
+
+            <RadioButton
+                android:id="@+id/button_spanish_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:drawableRight="@android:drawable/btn_radio"
+                android:gravity="right|center_vertical"
+                android:tag="es"
+                android:text="Spanish"
+                android:textColor="@color/colorPrimary"
+                android:typeface="serif"/>
+
+            <RadioButton
+                android:id="@+id/button_hindi_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:drawableRight="@android:drawable/btn_radio"
+                android:gravity="right|center_vertical"
+                android:tag="hi"
+                android:text="Hinidi"
+                android:textColor="@color/colorPrimary"
+                android:typeface="serif"/>
+        </RadioGroup>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_text_message"
+        android:layout_marginTop="@dimen/margin_10dp"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:id="@+id/text_ok"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/button_background_change"
+            android:gravity="center"
+            android:padding="@dimen/padding_5dp"
+            android:text="Send"
+            android:textColor="@color/white"
+            android:typeface="serif"/>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:background="#FF0000FF"/>
+
+        <TextView
+            android:id="@+id/text_cancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/button_background_change"
+            android:gravity="center"
+            android:padding="@dimen/padding_5dp"
+            android:text="Cancel"
+            android:textColor="@color/white"
+            android:typeface="serif"/>
+    </LinearLayout>
+
+
+</RelativeLayout>

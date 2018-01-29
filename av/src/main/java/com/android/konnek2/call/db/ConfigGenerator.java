@@ -1,0 +1,18 @@
+package com.android.konnek2.call.db;
+
+import com.j256.ormlite.android.apptools.OrmLiteConfigUtil;
+import com.android.konnek2.call.db.helpers.DataHelper;
+
+
+import java.io.File;
+
+public class ConfigGenerator extends OrmLiteConfigUtil {
+
+    public static void main(String[] args) throws Exception {
+        File rawFolder = new File("Q-municate_db/src/main/res/raw");
+        File configFile = new File(rawFolder, "orm.properties");
+        rawFolder.mkdirs();
+        configFile.createNewFile();
+        writeConfigFile(configFile, DataHelper.TABLES);
+    }
+}

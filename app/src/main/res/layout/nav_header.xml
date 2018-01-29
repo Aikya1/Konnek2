@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="200dp"
+              android:background="@drawable/side_nav_bar"
+              android:orientation="vertical"
+              android:paddingBottom="20dp"
+              android:paddingTop="20dp">
+
+    <com.android.konnek2.ui.views.roundedimageview.RoundedImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/navigation_profile_image"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
+        android:layout_gravity="left"
+        android:layout_marginLeft="@dimen/margin_25dp"
+        android:layout_marginTop="@dimen/margin_20dp"
+        android:src="@drawable/default_image"
+        app:border_color="@color/white"
+        app:border_width="@dimen/avatar_border_width"
+        app:oval="true"/>
+
+    <TextView
+        android:id="@+id/tv_email_navigation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/navigation_profile_image"
+        android:layout_gravity="left"
+        android:layout_marginLeft="@dimen/margin_30dp"
+        android:layout_marginTop="@dimen/margin_5dp"
+        android:fontFamily="serif"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size18sp"/>
+
+    <TextView
+        android:id="@+id/tv_mobile_navigation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_email_navigation"
+        android:layout_gravity="left"
+        android:layout_marginLeft="@dimen/margin_30dp"
+        android:layout_marginTop="@dimen/margin_5dp"
+        android:fontFamily="serif"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_14sp"/>
+</LinearLayout>
