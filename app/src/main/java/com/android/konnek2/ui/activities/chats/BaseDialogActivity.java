@@ -43,6 +43,7 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.konnek2.R;
 import com.android.konnek2.call.core.core.command.Command;
+import com.android.konnek2.call.core.models.AppSession;
 import com.android.konnek2.call.core.models.CombinationMessage;
 import com.android.konnek2.call.core.qb.commands.QBLoadAttachFileCommand;
 import com.android.konnek2.call.core.qb.commands.chat.QBLoadDialogMessagesCommand;
@@ -83,6 +84,8 @@ import com.android.konnek2.utils.listeners.ChatUIHelperListener;
 import com.android.konnek2.utils.listeners.OnMediaPickedListener;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
+import com.quickblox.auth.session.QBSession;
+import com.quickblox.auth.session.QBSessionManager;
 import com.quickblox.chat.QBChatService;
 import com.quickblox.chat.model.QBAttachment;
 import com.quickblox.chat.model.QBChatDialog;
@@ -343,15 +346,30 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
     protected void onResume() {
         super.onResume();
         checkLoginToChatOrShowError();
+        chechSession();
         restoreDefaultCanPerformLogout();
-
         loadNextPartMessagesAsync();
-
         checkMessageSendingPossibility();
         resumeMediaPlayer();
     }
 
+
+    private void chechSession() {
+        AppSession session = AppSession.getSession();
+
+        boolean res = session.isLoggedIn();
+        Log.d(TAG, "Result = " + res);
+    }
+
+
     private void checkLoginToChatOrShowError() {
+        //problem is here..restore user session
+        boolean res = QBChatService.getInstance().isLoggedIn();
+        boolean res3 = isChatInitializedAndUserLoggedIn();
+        QBSession qbSession = QBSessionManager.getInstance().getActiveSession();
+        boolean res2 = qbSession.isValidToken();
+
+
         if (!QBChatService.getInstance().isLoggedIn()) {
             showSnackbar(R.string.error_disconnected, Snackbar.LENGTH_INDEFINITE);
         }

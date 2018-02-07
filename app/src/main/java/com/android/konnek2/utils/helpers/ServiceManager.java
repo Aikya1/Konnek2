@@ -110,6 +110,7 @@ public class ServiceManager {
                     public QBUser call(QBUser qbUser) {
                         Log.d(TAG, "login observer call " + qbUser);
                         UserCustomData userCustomData = Utils.customDataToObject(qbUser.getCustomData());
+
                         if (QBProvider.FACEBOOK.equals(socialProvider) && TextUtils.isEmpty(userCustomData.getAvatarUrl())) {
                             //Actions for first login via Facebook
                             CoreSharedHelper.getInstance().saveUsersImportInitialized(false);
@@ -127,6 +128,8 @@ public class ServiceManager {
                         }
 
                         qbUser.setPassword(QBSessionManager.getInstance().getToken());
+
+
 
                         saveOwnerUser(qbUser);
 
@@ -332,7 +335,9 @@ public class ServiceManager {
 
     private QBUser getUserWithFullNameAsPhone(QBUser user) {
         user.setFullName(user.getPhone());
+
         user.setCustomData(Utils.customDataToString(getUserCustomData(ConstsCore.EMPTY_STRING)));
+
         return user;
     }
 

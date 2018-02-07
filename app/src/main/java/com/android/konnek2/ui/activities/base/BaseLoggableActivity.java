@@ -19,7 +19,6 @@ public abstract class BaseLoggableActivity extends BaseActivity implements Logga
     @Override
     protected void onRestart() {
         super.onRestart();
-
     }
 
     @Override
@@ -33,7 +32,6 @@ public abstract class BaseLoggableActivity extends BaseActivity implements Logga
         super.onCreate(savedInstanceState);
 
         if (!appInitialized) {
-
             startSplashActivity();
         }
 

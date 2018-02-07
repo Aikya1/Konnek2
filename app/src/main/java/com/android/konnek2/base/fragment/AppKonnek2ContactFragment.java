@@ -40,6 +40,7 @@ import com.android.konnek2.utils.AppConstant;
 import com.android.konnek2.utils.AppPreference;
 import com.android.konnek2.utils.listeners.AppCommon;
 import com.android.konnek2.utils.listeners.ContactInterface;
+import com.quickblox.chat.QBChatService;
 import com.quickblox.chat.QBRestChatService;
 import com.quickblox.chat.model.QBChatDialog;
 import com.quickblox.chat.model.QBDialogType;
@@ -91,7 +92,6 @@ public class AppKonnek2ContactFragment extends BaseFragment implements ContactIn
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_konnek2_contact, container, false);
         listView = (ListView) view.findViewById(R.id.listview_contacts);
         progressBar = (ProgressBar) view.findViewById(R.id.progress_contact);
@@ -134,12 +134,16 @@ public class AppKonnek2ContactFragment extends BaseFragment implements ContactIn
         }
     }
 
+
+    //?
     private void searchUsers() {
 
         QBPagedRequestBuilder requestBuilder = new QBPagedRequestBuilder();
         requestBuilder.setPage(page);
         requestBuilder.setPerPage(ConstsCore.FL_FRIENDS_PER_PAGE);
 
+
+        //??
         QMUserService.getInstance().getUsersByPhoneNumbers(contactNumberList, requestBuilder, true).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new rx.Observer<List<QMUser>>() {
@@ -178,22 +182,25 @@ public class AppKonnek2ContactFragment extends BaseFragment implements ContactIn
     }
 
     @Override
-    public void contactChat(String contactGroupDialog) {
+    public void contactChat(String dialogId) {
 
 
         qbUser = AppSession.getSession().getUser();
-        QBChatDialog contactChatDialog;
-        String DialogId;
-        DialogId = contactGroupDialog;
+        QBChatDialog qbChatDialog = null;
+        String DialogId = dialogId;
         if (!DialogId.isEmpty() && DialogId != null) {
-
-            contactChatDialog = dataManager.getQBChatDialogDataManager().getByDialogId(DialogId);
-            if (contactChatDialog.getOccupants().size() >= 3) {
+            qbChatDialog = dataManager.getQBChatDialogDataManager().getByDialogId(DialogId);
+            if (qbChatDialog.getOccupants().size() >= 3) {
                 Log.d("", "contactGroup");
-                startGroupChatActivity(contactChatDialog);
+                startGroupChatActivity(qbChatDialog);
             } else {
-                startPrivateChatActivity(contactChatDialog);
+                startPrivateChatActivity(qbChatDialog);
             }
+
+
+
+
+
 
         }
 
@@ -210,7 +217,8 @@ public class AppKonnek2ContactFragment extends BaseFragment implements ContactIn
 
         QMUser opponent = ChatUtils.getOpponentFromPrivateDialog(UserFriendUtils.createLocalUser(qbUser), occupantsList);
         if (!TextUtils.isEmpty(chatDialog.getDialogId())) {
-            PrivateDialogActivity.startForResult(this, opponent, chatDialog, PICK_DIALOG);
+//            PrivateDialogActivity.startForResult(this, opponent, chatDialog, PICK_DIALOG);
+            PrivateDialogActivity.start(getContext(), opponent, chatDialog);
         }
     }
 
@@ -351,10 +359,12 @@ public class AppKonnek2ContactFragment extends BaseFragment implements ContactIn
     }
 
     public List<QBChatDialog> getDialogs(QBRequestGetBuilder qbRequestGetBuilder, Bundle returnedBundle) throws QBResponseException {
+
         qbDialogsList = QBRestChatService.getChatDialogs(null, qbRequestGetBuilder).perform();
         return qbDialogsList;
     }
 
+    //??
     private class getAllContactsAsyn extends AsyncTask {
 
         @Override
@@ -377,45 +387,51 @@ public class AppKonnek2ContactFragment extends BaseFragment implements ContactIn
     }
 
 
+    //??
     private void getAllContacts() {     // get Mobile Contacts
 
         String Number = null;
-        ContentResolver contentResolver = getActivity().getContentResolver();
-        String selection = ContactsContract.Contacts.IN_VISIBLE_GROUP + " = '"
-                + ("1") + "'";
-        String sortOrder = ContactsContract.Contacts.DISPLAY_NAME
-                + " COLLATE LOCALIZED ASC";
-        Cursor cursor = contentResolver.query(
-                ContactsContract.Contacts.CONTENT_URI, null, selection
-                        + " AND " + ContactsContract.Contacts.HAS_PHONE_NUMBER
-                        + "=1", null, sortOrder);
+        if (getActivity() != null) {
+            ContentResolver contentResolver = getActivity().getContentResolver();
+            String selection = ContactsContract.Contacts.IN_VISIBLE_GROUP + " = '"
+                    + ("1") + "'";
+            String sortOrder = ContactsContract.Contacts.DISPLAY_NAME
+                    + " COLLATE LOCALIZED ASC";
+
+
+            Cursor cursor = contentResolver.query(
+                    ContactsContract.Contacts.CONTENT_URI, null, selection
+                            + " AND " + ContactsContract.Contacts.HAS_PHONE_NUMBER
+                            + "=1", null, sortOrder);
 //        Cursor cursor = contentResolver.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC");
-        if (cursor.getCount() > 0) {
-            while (cursor.moveToNext()) {
+            if (cursor.getCount() > 0) {
+                while (cursor.moveToNext()) {
 
-                int hasPhoneNumber = Integer.parseInt(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)));
-                if (hasPhoneNumber > 0) {
-                    String id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
-                    String name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+                    int hasPhoneNumber = Integer.parseInt(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)));
+                    if (hasPhoneNumber > 0) {
+                        String id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
+                        String name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
 
-                    Cursor phoneCursor = contentResolver.query(
-                            ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-                            null,
-                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
-                            new String[]{id},
-                            null);
-                    if (phoneCursor.moveToNext()) {
-                        String phoneNumber = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                        Number = phoneNumber;
+                        Cursor phoneCursor = contentResolver.query(
+                                ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                                null,
+                                ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
+                                new String[]{id},
+                                null);
+                        if (phoneCursor.moveToNext()) {
+                            String phoneNumber = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                            Number = phoneNumber;
+                        }
+
+                        phoneCursor.close();
+                        String formattedNumber = PhoneNumberUtils.formatNumber(Number);
+                        contactNumberList.add(formattedNumber);
+                        appCallLogModel.setContactName(name);
+                        appCallLogModel.setContactNumber(formattedNumber);
+                        phoneContactList.add(appCallLogModel);
                     }
-
-                    phoneCursor.close();
-                    String formattedNumber = PhoneNumberUtils.formatNumber(Number);
-                    contactNumberList.add(formattedNumber);
-                    appCallLogModel.setContactName(name);
-                    appCallLogModel.setContactNumber(formattedNumber);
-                    phoneContactList.add(appCallLogModel);
                 }
+
             }
 
         }

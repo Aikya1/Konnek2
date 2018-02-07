@@ -13,7 +13,11 @@ import com.android.konnek2.call.core.utils.helpers.CoreSharedHelper;
 import com.android.konnek2.ui.activities.main.MainActivity;
 import com.android.konnek2.utils.helpers.ServiceManager;
 import com.quickblox.auth.model.QBProvider;
+import com.quickblox.auth.session.BaseService;
+import com.quickblox.auth.session.QBSession;
 import com.quickblox.auth.session.QBSessionManager;
+import com.quickblox.chat.QBChatService;
+import com.quickblox.core.exception.BaseServiceException;
 
 
 import java.util.Timer;
@@ -21,7 +25,7 @@ import java.util.TimerTask;
 
 import rx.Subscriber;
 
-public class SplashActivity extends BaseAuthActivity  {
+public class SplashActivity extends BaseAuthActivity {
 
     private static final String TAG = SplashActivity.class.getSimpleName();
     private static final int DELAY_FOR_OPENING_LANDING_ACTIVITY = 1000;
@@ -43,8 +47,8 @@ public class SplashActivity extends BaseAuthActivity  {
 
         //TODO VT temp code for correct migration from Twitter Digits to Firebase Phone Auth
         //should be removed in next release
-        if(QBSessionManager.getInstance().getSessionParameters() != null
-                && QBProvider.TWITTER_DIGITS.equals(QBSessionManager.getInstance().getSessionParameters().getSocialProvider())){
+        if (QBSessionManager.getInstance().getSessionParameters() != null
+                && QBProvider.TWITTER_DIGITS.equals(QBSessionManager.getInstance().getSessionParameters().getSocialProvider())) {
             restartAppWithFirebaseAuth();
             return;
         }
@@ -97,7 +101,7 @@ public class SplashActivity extends BaseAuthActivity  {
         startActivityByName(lastActivityClass, needCleanTask);
     }
 
-    private void restartAppWithFirebaseAuth(){
+    private void restartAppWithFirebaseAuth() {
         ServiceManager.getInstance().logout(new Subscriber<Void>() {
             @Override
             public void onCompleted() {

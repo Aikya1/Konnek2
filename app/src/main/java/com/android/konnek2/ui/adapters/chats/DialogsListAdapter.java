@@ -75,7 +75,6 @@ public class DialogsListAdapter extends BaseListAdapter<DialogWrapper> {
                 viewHolder.nameTextView.setText(currentDialog.getName());
                 viewHolder.avatarImageView.setImageResource(R.drawable.placeholder_group);
                 displayGroupPhotoImage(currentDialog.getPhoto(), viewHolder.avatarImageView);
-
             }
             long totalCount = dialogWrapper.getTotalCount();
             if (totalCount > ConstsCore.ZERO_INT_VALUE) {
@@ -120,7 +119,6 @@ public class DialogsListAdapter extends BaseListAdapter<DialogWrapper> {
 
     public void removeItem(String dialogId) {
         Iterator<DialogWrapper> iterator = objectsList.iterator();
-
         while (iterator.hasNext()) {
             DialogWrapper dialogWrapper = iterator.next();
             if (dialogWrapper.getChatDialog().getDialogId().equals(dialogId)) {

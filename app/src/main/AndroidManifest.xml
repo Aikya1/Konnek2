@@ -19,6 +19,11 @@
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.GET_TASKS"/>
 
+
+    <meta-data
+        android:name="android.support.VERSION"
+        android:value="26.0.1" />
+
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false"

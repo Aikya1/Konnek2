@@ -130,7 +130,6 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
 
     @Override
     public void contactUsersList(List<String> contactQMUserList) {
-
         contactUsersList.clear();
         contactGroupQMUsersList.clear();
         contactUsersList.addAll(contactQMUserList);
@@ -243,33 +242,36 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-            switch (item.getItemId()) {
-                case R.id.action_search:
-                    launchContactsFragment();
+        switch (item.getItemId()) {
+            case R.id.action_search:
+                launchContactsFragment();
 //                MainActivity.start(getActivity());
-                    break;
-                case R.id.action_start_invite_friends:
-                    InviteFriendsActivity.start(getActivity());
-                    break;
-                case R.id.action_start_feedback:
-                    FeedbackActivity.start(getActivity());
-                    break;
-                case R.id.action_start_settings:
+                break;
+            case R.id.action_start_invite_friends:
+                InviteFriendsActivity.start(getActivity());
+                break;
+            case R.id.action_start_feedback:
+                FeedbackActivity.start(getActivity());
+                break;
+            case R.id.action_start_settings:
 //                    SettingsActivity.startForResult(this);
-                    break;
-                case R.id.action_start_about:
-                    AboutActivity.start(getActivity());
-                    break;
-                default:
-                    return super.onOptionsItemSelected(item);
+                break;
+            case R.id.action_start_about:
+                AboutActivity.start(getActivity());
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
 
 
-            }
+        }
 
 
         return true;
     }
 
+    //On long click of an item in a listview, Show a delete option to the user
+    //From home activity when user goes to chat & connect, the list of all the chats will be
+    //shown to them. Here, on long click delete a private/group chat..
     @Override
     public void onCreateContextMenu(ContextMenu menu, View view, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, view, menuInfo);
@@ -427,18 +429,20 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
         }
     }
 
+    //OnClick of an item in the listview, This will fire up the chat window
+    //depending if its a private or a group chat..
     @OnItemClick(R.id.chats_listview)
     void startChat(int position) {
         QBChatDialog chatDialog = dialogsListAdapter.getItem(position).getChatDialog();
 
-            if (!baseActivity.checkNetworkAvailableWithError() && isFirstOpeningDialog(chatDialog.getDialogId())) {
-                return;
-            }
-            if (QBDialogType.PRIVATE.equals(chatDialog.getType())) {
-                startPrivateChatActivity(chatDialog);
-            } else {
-                startGroupChatActivity(chatDialog);
-            }
+        if (!baseActivity.checkNetworkAvailableWithError() && isFirstOpeningDialog(chatDialog.getDialogId())) {
+            return;
+        }
+        if (QBDialogType.PRIVATE.equals(chatDialog.getType())) {
+            startPrivateChatActivity(chatDialog);
+        } else {
+            startGroupChatActivity(chatDialog);
+        }
 
     }
 
@@ -737,7 +741,6 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
     }
 
     private class LoadChatsSuccessAction implements Command {
-
         @Override
         public void execute(Bundle bundle) {
 

@@ -220,44 +220,53 @@ public class AppKonnek2NonContactFragment extends BaseFragment implements Contac
 
 
         String Number = null;
-        ContentResolver contentResolver = getActivity().getContentResolver();
-        String selection = ContactsContract.Contacts.IN_VISIBLE_GROUP + " = '"
-                + ("1") + "'";
-        String sortOrder = ContactsContract.Contacts.DISPLAY_NAME
-                + " COLLATE LOCALIZED ASC";
-        Cursor cursor = contentResolver.query(
-                ContactsContract.Contacts.CONTENT_URI, null, selection
-                        + " AND " + ContactsContract.Contacts.HAS_PHONE_NUMBER
-                        + "=1", null, sortOrder);
+
+        if (getActivity() != null) {
+
+            ContentResolver contentResolver = getActivity().getContentResolver();
+
+
+            String selection = ContactsContract.Contacts.IN_VISIBLE_GROUP + " = '"
+                    + ("1") + "'";
+            String sortOrder = ContactsContract.Contacts.DISPLAY_NAME
+                    + " COLLATE LOCALIZED ASC";
+
+
+            Cursor cursor = contentResolver.query(
+                    ContactsContract.Contacts.CONTENT_URI, null, selection
+                            + " AND " + ContactsContract.Contacts.HAS_PHONE_NUMBER
+                            + "=1", null, sortOrder);
 //        Cursor cursor = contentResolver.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC");
-        if (cursor.getCount() > 0) {
-            while (cursor.moveToNext()) {
+            if (cursor.getCount() > 0) {
+                while (cursor.moveToNext()) {
 
-                int hasPhoneNumber = Integer.parseInt(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)));
-                if (hasPhoneNumber > 0) {
-                    String id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
-                    String name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+                    int hasPhoneNumber = Integer.parseInt(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)));
+                    if (hasPhoneNumber > 0) {
+                        String id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
+                        String name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
 
-                    Cursor phoneCursor = contentResolver.query(
-                            ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-                            null,
-                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
-                            new String[]{id},
-                            null);
-                    if (phoneCursor.moveToNext()) {
-                        String phoneNumber = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                        Number = phoneNumber;
+                        Cursor phoneCursor = contentResolver.query(
+                                ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                                null,
+                                ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
+                                new String[]{id},
+                                null);
+                        if (phoneCursor.moveToNext()) {
+                            String phoneNumber = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                            Number = phoneNumber;
+                        }
+
+                        phoneCursor.close();
+                        String formattedNumber = PhoneNumberUtils.formatNumber(Number);
+                        appCallLogModel = new AppCallLogModel();
+                        contactNumberList.add(formattedNumber);
+                        appCallLogModel.setContactName(name);
+                        appCallLogModel.setContactNumber(formattedNumber);
+                        phoneContactModel.add(appCallLogModel);
+
                     }
-
-                    phoneCursor.close();
-                    String formattedNumber = PhoneNumberUtils.formatNumber(Number);
-                    appCallLogModel = new AppCallLogModel();
-                    contactNumberList.add(formattedNumber);
-                    appCallLogModel.setContactName(name);
-                    appCallLogModel.setContactNumber(formattedNumber);
-                    phoneContactModel.add(appCallLogModel);
-
                 }
+
             }
 
         }

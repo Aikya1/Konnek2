@@ -31,6 +31,7 @@ import com.android.konnek2.call.db.utils.DialogTransformUtils;
 import com.android.konnek2.call.db.utils.ErrorUtils;
 import com.android.konnek2.call.services.QMUserService;
 import com.android.konnek2.call.services.model.QMUser;
+import com.quickblox.chat.Consts;
 import com.quickblox.chat.JIDHelper;
 import com.quickblox.chat.QBChatService;
 import com.quickblox.chat.QBRestChatService;
@@ -73,9 +74,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 
-
-
-public class QBChatHelper extends BaseThreadPoolHelper{
+public class QBChatHelper extends BaseThreadPoolHelper {
 
     private static final String TAG = QBChatHelper.class.getSimpleName();
 
@@ -171,7 +170,7 @@ public class QBChatHelper extends BaseThreadPoolHelper{
         systemMessagesManager.addSystemMessageListener(systemMessagesListener);
     }
 
-    public boolean isLoggedInToChat(){
+    public boolean isLoggedInToChat() {
         return chatService != null && chatService.isLoggedIn();
     }
 
@@ -218,7 +217,7 @@ public class QBChatHelper extends BaseThreadPoolHelper{
 
     public void sendAndSaveChatMessage(QBChatMessage qbChatMessage, QBChatDialog chatDialog) throws QBResponseException {
         addNecessaryPropertyForQBChatMessage(qbChatMessage, chatDialog.getDialogId());
-        Log.d("FRIENDREQUEST252525","QBChatHelper  sendAndSaveChatMessage"+qbChatMessage+"===="+ chatDialog.getDialogId());
+        Log.d("FRIENDREQUEST252525", "QBChatHelper  sendAndSaveChatMessage" + qbChatMessage + "====" + chatDialog.getDialogId());
         sendChatMessage(qbChatMessage, chatDialog);
         if (QBDialogType.PRIVATE.equals(chatDialog.getType())) {
             DbUtils.updateDialogModifiedDate(dataManager, chatDialog, ChatUtils.getMessageDateSent(qbChatMessage), false);
@@ -230,23 +229,23 @@ public class QBChatHelper extends BaseThreadPoolHelper{
         message.setMarkable(true);
         chatDialog.initForChat(chatService);
 
-        Log.d("FRIENDREQUEST252525","QBChatHelper  sendChatMessage");
+        Log.d("FRIENDREQUEST252525", "QBChatHelper  sendChatMessage");
         if (QBDialogType.GROUP.equals(chatDialog.getType())) {
             if (!chatDialog.isJoined()) {
-                Log.d("FRIENDREQUEST252525","QBChatHelper  sendChatMessage  IF  tryJoinRoomChat ");
+                Log.d("FRIENDREQUEST252525", "QBChatHelper  sendChatMessage  IF  tryJoinRoomChat ");
                 tryJoinRoomChat(chatDialog);
             }
         }
 
         String error = null;
         try {
-            Log.d("FRIENDREQUEST252525","QBChatHelper  sendChatMessage TRY ");
+            Log.d("FRIENDREQUEST252525", "QBChatHelper  sendChatMessage TRY ");
             chatDialog.sendMessage(message);
         } catch (SmackException.NotConnectedException e) {
             error = context.getString(R.string.dlg_fail_connection);
         }
         if (error != null) {
-            Log.d("FRIENDREQUEST252525","QBChatHelper  sendChatMessage TRY "+error);
+            Log.d("FRIENDREQUEST252525", "QBChatHelper  sendChatMessage TRY " + error);
             throw new QBResponseException(error);
         }
     }
@@ -279,7 +278,7 @@ public class QBChatHelper extends BaseThreadPoolHelper{
 
     public void deleteDialog(String dialogId, QBDialogType dialogType) {
         try {
-            if (QBDialogType.GROUP.equals(dialogType)){
+            if (QBDialogType.GROUP.equals(dialogType)) {
                 prepareAndSendNotificationsToOpponents(dialogId);
             }
 
@@ -291,11 +290,11 @@ public class QBChatHelper extends BaseThreadPoolHelper{
         DbUtils.deleteDialogLocal(dataManager, dialogId);
     }
 
-    public void saveDialogsToCache(List<QBChatDialog> qbDialogsList, boolean allDialogs){
+    public void saveDialogsToCache(List<QBChatDialog> qbDialogsList, boolean allDialogs) {
         if (qbDialogsList != null && !qbDialogsList.isEmpty()) {
             FinderUnknownUsers finderUnknownUsers = new FinderUnknownUsers(context, AppSession.getSession().getUser(), qbDialogsList);
             finderUnknownUsers.find();
-            if(allDialogs) {
+            if (allDialogs) {
                 DbUtils.saveDialogsToCacheAll(DataManager.getInstance(), qbDialogsList, currentDialog);
             } else {
                 DbUtils.saveDialogsToCacheByIds(DataManager.getInstance(), qbDialogsList, currentDialog);
@@ -406,7 +405,7 @@ public class QBChatHelper extends BaseThreadPoolHelper{
     }
 
     public QBChatDialog createPrivateDialogIfNotExist(int userId) throws QBResponseException {
-        Log.d("FRIENDREQUEST252525","QBChatHelper  createPrivateDialogIfNotExist   "+userId);
+        Log.d("FRIENDREQUEST252525", "QBChatHelper  createPrivateDialogIfNotExist   " + userId);
         QBChatDialog existingPrivateDialog = ChatUtils.getExistPrivateDialog(dataManager, userId);
         if (existingPrivateDialog == null) {
             existingPrivateDialog = createPrivateChatOnRest(userId);
@@ -626,12 +625,14 @@ public class QBChatHelper extends BaseThreadPoolHelper{
         }
     }
 
+
     public void joinRoomChat(QBChatDialog dialog) throws XMPPException, SmackException {
         dialog.initForChat(chatService);
         if (!dialog.isJoined()) { //join only to unjoined dialogs
             dialog.join(history());
         }
     }
+
 
     private DiscussionHistory history() {
         DiscussionHistory history = new DiscussionHistory();
@@ -675,6 +676,13 @@ public class QBChatHelper extends BaseThreadPoolHelper{
         QBRequestUpdateBuilder requestBuilder = new QBRequestUpdateBuilder();
         requestBuilder.push(com.quickblox.chat.Consts.DIALOG_OCCUPANTS, occupantsIdsList.getItemsAsString());
         return updateDialog(chatDialog, requestBuilder);
+    }
+
+    public void removeUserFromGroup(QBChatDialog chatDialog, QMUser selectedUser) throws QBResponseException {
+        QBRequestUpdateBuilder requestBuilder = new QBRequestUpdateBuilder();
+        requestBuilder.pullAll(Consts.DIALOG_USER_ID_FIELD_NAME, selectedUser);
+        updateDialog(chatDialog,requestBuilder);
+        DataManager.getInstance().getQBChatDialogDataManager().deleteById(selectedUser.getId());
     }
 
     public void removeUsersFromDialog(QBChatDialog chatDialog, List<Integer> userIdsList) throws QBResponseException {
@@ -788,7 +796,7 @@ public class QBChatHelper extends BaseThreadPoolHelper{
             if (isNotificationToGroupChat(chatMessage)) {
                 if (!ownMessage) {
                     updateGroupDialogByNotification(chatMessage);
-                } else if(isNotificationDeletedGroupChat(chatMessage)) {
+                } else if (isNotificationDeletedGroupChat(chatMessage)) {
 //                    not notify and return if currentUser deleted groupDialog
                     return;
                 }
@@ -872,7 +880,7 @@ public class QBChatHelper extends BaseThreadPoolHelper{
         void onReceivedNotification(String notificationType, QBChatMessage chatMessage);
     }
 
-    private class ChatConnectionListener extends AbstractConnectionListener{
+    private class ChatConnectionListener extends AbstractConnectionListener {
         @Override
         public void reconnectionSuccessful() {
             tryJoinRoomChats();

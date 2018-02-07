@@ -134,6 +134,7 @@ public abstract class BaseActivity extends AppCompatActivity implements ActionBa
         unbindService();
     }
 
+
     @Override
     public void initActionBar() {
 
@@ -262,8 +263,6 @@ public abstract class BaseActivity extends AppCompatActivity implements ActionBa
 
     @Override
     public void showSnackbar(int titleResId, int duration, Priority priority) {
-
-
         snackbarClientPriority.put(titleResId, priority);
         if (snackBarView != null) {
             createSnackBar(titleResId, duration);
@@ -374,12 +373,10 @@ public abstract class BaseActivity extends AppCompatActivity implements ActionBa
         fragmentsServiceConnectionSet = new HashSet<>();
         serviceConnection = new QBChatServiceConnection();
         localBroadcastManager = LocalBroadcastManager.getInstance(this);
-
         snackbarClientPriority = new SparseArray<>();
     }
 
     protected void setUpActionBarWithUpButton() {
-
         try {
             initActionBar();
             setActionBarUpButtonEnabled(true);
@@ -663,9 +660,7 @@ public abstract class BaseActivity extends AppCompatActivity implements ActionBa
         return isDialogLoading;
     }
 
-
     protected void loginChat() {
-
         isDialogLoading = true;
         showSnackbar(R.string.dialog_loading_dialogs, Snackbar.LENGTH_INDEFINITE, Priority.MAX);
         QBLoginChatCompositeCommand.start(this);

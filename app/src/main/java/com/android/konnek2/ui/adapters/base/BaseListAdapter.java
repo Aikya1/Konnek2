@@ -65,6 +65,11 @@ public abstract class BaseListAdapter<T> extends BaseAdapter {
         notifyDataSetChanged();
     }
 
+    public void removeItem(T item){
+        objectsList.remove(item);
+        notifyDataSetChanged();
+    }
+
 
     protected void displayAvatarImage(String uri, ImageView imageView) {
         if(ValidationUtils.isNull(uri)) {

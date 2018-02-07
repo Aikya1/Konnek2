@@ -4,7 +4,9 @@
     <!--Konnek2 Start-->
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
-    <!--<string name="sender_id">200611970129</string>-->
+
+    <!--<string name="sender_id">576886517252</string>-->
+
     <string name="outgoing_audio_confrence">Outgoing Audio Conference Call...</string>
     <string name="outgoing_audio">Outgoing Audio  Call...</string>
     <string name="outgoing_audio_conference">Outgoing Audio Conference  Call...</string>
@@ -137,7 +139,9 @@
     <string name="dialog_ctx_menu_prv_message">Private Message</string>
     <string name="dialog_ctx_menu_video_call">Video Call</string>
     <string name="dialog_ctx_menu_profile">View Profile</string>
-    <string name="dialog_ctx_menu_remove">Leave and remove chat</string>
+    <string name="dialog_ctx_menu_remove">Leave and remove group</string>
+    <string name="dialog_ctx_menu_remove_user_from_group">Remove user</string>
+
     <string name="dialog_ctx_menu_delete">Delete dialog</string>
     <string name="dialog_loading_dialogs">Updating dialogs list… Please wait</string>
     <string name="dialog_record_cancel">slide to cancel</string>

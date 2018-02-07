@@ -61,6 +61,10 @@ public class AppContactActivity extends BaseLoggableActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_contact);
+        if (!isChatInitializedAndUserLoggedIn()) {
+            loginChat();
+        }
+
         initViews();
 
     }

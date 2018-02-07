@@ -112,7 +112,6 @@ public class QBService extends Service {
     private void initCommands() {
         // first call init
         registerInitCallChatCommand();
-
         // chat commands
         registerCreatePrivateChatCommand();
         registerCreateGroupChatCommand();
@@ -522,7 +521,6 @@ public class QBService extends Service {
     }
 
     private class LoginBroadcastReceiver extends BroadcastReceiver {
-
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.d(TAG, "onReceive " + intent.getAction());

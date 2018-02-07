@@ -62,7 +62,7 @@ public class MainActivity extends BaseLoggableActivity {
 //
 //        }
 
-        Intent goToHone=new Intent(getApplicationContext(), AppHomeActivity.class);
+        Intent goToHone = new Intent(getApplicationContext(), AppHomeActivity.class);
         startActivity(goToHone);
         super.onBackPressed();
 
@@ -74,19 +74,15 @@ public class MainActivity extends BaseLoggableActivity {
 
         initFields();
         setUpActionBarWithUpButton();
-
         if (!isChatInitializedAndUserLoggedIn()) {
             loginChat();
         }
-
         addDialogsAction();
         launchDialogsListFragment();
         openPushDialogIfPossible();
     }
 
-
     private void openPushDialogIfPossible() {
-
         CoreSharedHelper sharedHelper = CoreSharedHelper.getInstance();
         if (sharedHelper.needToOpenDialog()) {
             QBChatDialog chatDialog = DataManager.getInstance().getQBChatDialogDataManager()

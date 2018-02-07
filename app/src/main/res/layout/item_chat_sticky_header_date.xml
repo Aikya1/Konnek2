@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_marginLeft="@dimen/padding_3dp"
-              android:layout_marginRight="@dimen/padding_3dp"
-              android:alpha="0.1"
-              android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/padding_3dp"
+    android:layout_marginRight="@dimen/padding_3dp"
+    android:alpha="0.1"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/header_date_textview"
@@ -15,13 +15,13 @@
         android:padding="2dp"
         android:textColor="@color/colorPrimary"
         android:textSize="@dimen/text_size_small"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:visibility="gone"
         android:layout_below="@+id/header_date_textview"
-        android:background="@color/white"/>
+        android:background="@color/white"
+        android:visibility="gone" />
 
 </LinearLayout>

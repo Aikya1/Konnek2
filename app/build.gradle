@@ -14,6 +14,9 @@ repositories {
     maven { url 'https://dl.bintray.com/drummer-aidan/maven' }
     maven { url "https://jitpack.io" }
     maven { url 'https://maven.fabric.io/public' }
+    maven {
+        url 'https://maven.google.com'
+    }
 }
 android {
     compileSdkVersion rootProject.compileSdkVersion
@@ -27,6 +30,12 @@ android {
         versionName rootProject.versionName
         multiDexEnabled = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath true
+            }
+        }
     }
 
     signingConfigs {
@@ -88,8 +97,10 @@ android {
         abortOnError false
     }
 
-    applicationVariants.all { variant ->
-        changeApkFileName(variant)
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "${variant.name}-${variant.versionName}.apk"
+        }
     }
 }
 
@@ -120,13 +131,16 @@ dependencies {
     compile "com.google.firebase:firebase-auth:${rootProject.firebaseAuthVersion}"
     compile "com.firebaseui:firebase-ui-auth:${rootProject.firebaseUiAuthVersion}"
     compile "com.nostra13.universalimageloader:universal-image-loader:${rootProject.universalImageLoaderVersion}"
+
     compile "com.jakewharton:butterknife:${rootProject.butterknifeVersion}"
+    debugCompile 'com.amitshekhar.android:debug-db:1.0.2'
+
     compile "com.afollestad.material-dialogs:core:${rootProject.materialDialogsVersion}"
     compile "com.github.orangegangsters:swipy:${rootProject.swipyRecyclerviewVersion}@aar"
     compile "com.timehop.stickyheadersrecyclerview:library:${rootProject.stickylistheadersRecyclerViewVersion}@aar"
     compile "com.rockerhieu.emojicon:library:${rootProject.emojiconVersion}"
     compile "com.soundcloud.android:android-crop:${rootProject.cropVersion}@aar"
-    compile('com.android.support:cardview-v7:27.0.2')
+    compile('com.android.support:cardview-v7:26.0.1')
             {
                 force = true
             }
@@ -137,12 +151,13 @@ dependencies {
     compile project(':av')
 }
 
-def changeApkFileName(variant) {
+/*def changeApkFileName(variant) {
     variant.outputs.each { output ->
         def file = output.outputFile
         def newName = 'QMUN_Android_v.' + rootProject.versionName + '_c.' + rootProject.versionCode + '-' + variant.buildType.name + '.apk'
         output.outputFile = new File(file.parent, newName)
     }
-}
+}*/
+
 
 apply plugin: 'com.google.gms.google-services'

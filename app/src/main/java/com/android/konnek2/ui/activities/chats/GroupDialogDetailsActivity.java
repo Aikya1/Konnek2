@@ -9,6 +9,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.view.ActionMode;
 import android.text.TextUtils;
+import android.util.Log;
+import android.view.ContextMenu;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,12 +22,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.android.konnek2.App;
 import com.android.konnek2.R;
 import com.android.konnek2.call.core.core.command.Command;
 import com.android.konnek2.call.core.models.AppSession;
 import com.android.konnek2.call.core.qb.commands.chat.QBDeleteChatCommand;
 import com.android.konnek2.call.core.qb.commands.chat.QBUpdateGroupDialogCommand;
 import com.android.konnek2.call.core.qb.commands.friend.QBAddFriendCommand;
+import com.android.konnek2.call.core.qb.helpers.QBChatHelper;
 import com.android.konnek2.call.core.service.QBService;
 import com.android.konnek2.call.core.service.QBServiceConsts;
 import com.android.konnek2.call.core.utils.ChatUtils;
@@ -53,8 +57,8 @@ import com.android.konnek2.utils.listeners.simple.SimpleActionModeCallback;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.quickblox.chat.QBChatService;
 import com.quickblox.chat.model.QBChatDialog;
+import com.quickblox.chat.request.QBDialogRequestBuilder;
 import com.quickblox.core.exception.QBResponseException;
-
 import com.quickblox.users.model.QBUser;
 import com.soundcloud.android.crop.Crop;
 
@@ -67,8 +71,10 @@ import java.util.Set;
 import butterknife.Bind;
 import butterknife.OnTextChanged;
 
-public class GroupDialogDetailsActivity extends BaseLoggableActivity implements AdapterView.OnItemClickListener, OnMediaPickedListener {
+public class GroupDialogDetailsActivity extends BaseLoggableActivity implements
+        AdapterView.OnItemClickListener, OnMediaPickedListener {
 
+    private final static String TAG = GroupDialogDetailsActivity.class.getSimpleName();
     public static final int UPDATE_DIALOG_REQUEST_CODE = 100;
     public static final int RESULT_DELETE_GROUP = 2;
 
@@ -120,13 +126,14 @@ public class GroupDialogDetailsActivity extends BaseLoggableActivity implements 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initFields();
+
+        registerForContextMenu(occupantsListView);
         setUpActionBarWithUpButton();
-
         initListView();
-
         addActions();
         registerBroadcastManagers();
     }
+
 
     @Override
     protected void onResume() {
@@ -231,6 +238,52 @@ public class GroupDialogDetailsActivity extends BaseLoggableActivity implements 
         }
     }
 
+    //On LongClick listener for the listview
+    //it's done in the group details of the group chat.
+    //In order to remove a user from the group.
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View view, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, view, menuInfo);
+
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.dialog_group_remove_user_ctx_menu, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+
+        AdapterView.AdapterContextMenuInfo adapterContextMenuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        switch (item.getItemId()) {
+            case R.id.action_delete:
+                if (checkNetworkAvailableWithError()) {
+                    QMUser selectedUser = groupDialogOccupantsAdapter.getItem(adapterContextMenuInfo.position);
+                    Log.d(TAG, "User = " + selectedUser.toString());
+                    qbDialog = dataManager.getQBChatDialogDataManager().getByDialogId(dialogId);
+                    if (selectedUser.getId() != AppSession.getSession().getUser().getId()) {
+
+
+                        occupantsList = getUsersForGroupChat(qbDialog.getDialogId(), qbDialog.getOccupants());
+//                        occupantsList.remove(selectedUser);
+                        groupDialogOccupantsAdapter.removeItem(selectedUser);
+
+                        occupantsListView.setAdapter(groupDialogOccupantsAdapter);
+
+                        List<DialogOccupant> list = dataManager.getDialogOccupantDataManager()
+                                .getActualDialogOccupantsByIds(dialogId, qbDialog.getOccupants());
+//                        list.remove(selectedUser);
+
+
+//                        updateDialog();
+
+
+                    }
+                }
+                break;
+        }
+        return true;
+    }
+
+
     @Override
     public void onMediaPicked(int requestCode, Attachment.Type attachmentType, Object attachment) {
         if (Attachment.Type.IMAGE.equals(attachmentType)) {
@@ -258,6 +311,7 @@ public class GroupDialogDetailsActivity extends BaseLoggableActivity implements 
         currentNotificationTypeList = new ArrayList<>();
         updatingDialogDetailsBroadcastReceiver = new UpdatingDialogDetailsBroadcastReceiver();
         occupantsList = new ArrayList<>();
+
     }
 
     private void fillUIWithData() {
@@ -343,6 +397,7 @@ public class GroupDialogDetailsActivity extends BaseLoggableActivity implements 
         groupDialogOccupantsAdapter.setFriendListHelper(friendListHelper);
         occupantsListView.setAdapter(groupDialogOccupantsAdapter);
         occupantsListView.setOnItemClickListener(this);
+
     }
 
     private void updateOccupantsList() {

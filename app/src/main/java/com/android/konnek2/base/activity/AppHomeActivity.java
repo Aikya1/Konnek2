@@ -25,12 +25,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.amitshekhar.DebugDB;
 import com.android.konnek2.R;
 import com.android.konnek2.call.core.models.AppSession;
 import com.android.konnek2.call.core.utils.UserFriendUtils;
 import com.android.konnek2.call.db.utils.ErrorUtils;
 import com.android.konnek2.call.services.model.QMUser;
 import com.android.konnek2.ui.activities.authorization.LandingActivity;
+import com.android.konnek2.ui.activities.base.BaseActivity;
 import com.android.konnek2.ui.activities.invitefriends.InviteFriendsActivity;
 import com.android.konnek2.ui.activities.main.MainActivity;
 import com.android.konnek2.ui.activities.profile.MyProfileActivity;
@@ -92,20 +94,19 @@ public class AppHomeActivity extends AppCompatActivity implements NavigationView
         title = getResources().getStringArray(R.array.home_title);          //  Image  Values  from resource  files
         subtitle[6] = AppConstant.SUB_TITLE_ONE;
         subtitle[2] = AppConstant.SUB_TITLE_TWO;
+
+        Log.d("AppHomeActivity", "Port = " + DebugDB.getAddressLog());
         gridView = (GridView) findViewById(R.id.home_rid);
         appHomeAdapter = new AppHomeAdapter(AppHomeActivity.this, title, subtitle, imageId);
         gridView.setAdapter(appHomeAdapter);
-
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-
                 switch (position) {
                     case 0:
-                            Intent goToContact = new Intent(getApplicationContext(), AppContactActivity.class);
-                            goToContact.putExtra(AppConstant.TAB_POSITION, 2);
-                            startActivity(goToContact);
+                        Intent goToContact = new Intent(getApplicationContext(), AppContactActivity.class);
+                        goToContact.putExtra(AppConstant.TAB_POSITION, 2);
+                        startActivity(goToContact);
                         break;
                     case 1:
                         Intent goToNavigation = new Intent(getApplicationContext(), AppCallHistoryActivity.class);
@@ -114,9 +115,9 @@ public class AppHomeActivity extends AppCompatActivity implements NavigationView
 
                         break;
                     case 2:
-                            Intent goTochat = new Intent(getApplicationContext(), MainActivity.class);
-                            goTochat.putExtra(AppConstant.TAB_POSITION, 1);
-                            startActivity(goTochat);
+                        Intent goTochat = new Intent(getApplicationContext(), MainActivity.class);
+                        goTochat.putExtra(AppConstant.TAB_POSITION, 1);
+                        startActivity(goTochat);
 
                         break;
                     case 3:
@@ -133,24 +134,24 @@ public class AppHomeActivity extends AppCompatActivity implements NavigationView
 //                        AppCommon.displayToast(AppConstant.TOAST_MESSAGE);
                         break;
                     case 6:
-                            Intent goToChatBot = new Intent(getApplicationContext(), AppChatBotActivity.class);
-                            startActivity(goToChatBot);
+                        Intent goToChatBot = new Intent(getApplicationContext(), AppChatBotActivity.class);
+                        startActivity(goToChatBot);
 
                         break;
                     case 7:
-                            Intent goToCharity = new Intent(getApplicationContext(), CharityActivity.class);
-                            startActivity(goToCharity);
+                        Intent goToCharity = new Intent(getApplicationContext(), CharityActivity.class);
+                        startActivity(goToCharity);
 
                         break;
                     case 8:
-                            Intent goTomStore = new Intent(getApplicationContext(), AppMobileStoreActivity.class);
-                            startActivity(goTomStore);
+                        Intent goTomStore = new Intent(getApplicationContext(), AppMobileStoreActivity.class);
+                        startActivity(goTomStore);
                         break;
 
                     case 9:
 
-                            Intent goToHangouts = new Intent(getApplicationContext(), HangoutActivity.class);
-                            startActivity(goToHangouts);
+                        Intent goToHangouts = new Intent(getApplicationContext(), HangoutActivity.class);
+                        startActivity(goToHangouts);
 
                         break;
                     case 10:

@@ -1,35 +1,39 @@
 {
   "project_info": {
-    "project_number": "865654938599",
-    "firebase_url": "https://konnek5-2de30.firebaseio.com",
-    "project_id": "konnek5-2de30",
-    "storage_bucket": "konnek5-2de30.appspot.com"
+    "project_number": "576886517252",
+    "firebase_url": "https://konnect2-53148.firebaseio.com",
+    "project_id": "konnect2-53148",
+    "storage_bucket": "konnect2-53148.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:865654938599:android:7f779eeee7970e58",
+        "mobilesdk_app_id": "1:576886517252:android:7f779eeee7970e58",
         "android_client_info": {
           "package_name": "com.android.konnek2"
         }
       },
       "oauth_client": [
         {
-          "client_id": "865654938599-da40pgg036dhi0pdnpu1ruldnqot20na.apps.googleusercontent.com",
+          "client_id": "576886517252-cbuvjnpoub4j0b7pv5fkm5e30vmd0aj7.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.android.konnek2",
-            "certificate_hash": "bff696f77b6228adee241e47b04d645c17b1374a"
+            "certificate_hash": "fe12ef1d9f3400527e4a0e8b222cf1c88176a45c"
           }
         },
         {
-          "client_id": "865654938599-lsjmqs7onign81bv14lhnt67q6dje47o.apps.googleusercontent.com",
+          "client_id": "576886517252-p7f2ld3so1kbvi6ttapcgujdjpns6s8l.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "576886517252-r6dubdog6bbm448hm23cail8pcb7dl2t.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCusti6uKbq2CWwVekPeC79KfDYgcQu1kk"
+          "current_key": "AIzaSyDOEXbE8jeoMGXnwUk4m-RphD4V0pQ3-EY"
         }
       ],
       "services": {
@@ -40,8 +44,15 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "865654938599-lsjmqs7onign81bv14lhnt67q6dje47o.apps.googleusercontent.com",
+              "client_id": "576886517252-p7f2ld3so1kbvi6ttapcgujdjpns6s8l.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "576886517252-7305j1lkdqscl6lf70de3d2scknj2qra.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.aikya.Aaspen.Konnek2"
+              }
             }
           ]
         },
