@@ -71,7 +71,10 @@ public class DialogWrapper implements Serializable {
 
     private void fillLastMessage(Context context, DataManager dataManager, List<Long> dialogOccupantsIdsList){
         Message message = dataManager.getMessageDataManager().getLastMessageWithTempByDialogId(dialogOccupantsIdsList);
-        DialogNotification dialogNotification = dataManager.getDialogNotificationDataManager().getLastDialogNotificationByDialogId(dialogOccupantsIdsList);
+        DialogNotification dialogNotification = dataManager
+                .getDialogNotificationDataManager()
+                .getLastDialogNotificationByDialogId(dialogOccupantsIdsList);
+
 
         lastMessage = ChatUtils.getDialogLastMessage(context.getResources().getString(R.string.cht_notification_message), message, dialogNotification);
     }

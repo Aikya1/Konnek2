@@ -84,13 +84,11 @@ public class DialogsListAdapter extends BaseListAdapter<DialogWrapper> {
             } else {
                 viewHolder.unreadMessagesTextView.setVisibility(View.GONE);
             }
-
         viewHolder.lastMessageTextView.setText(dialogWrapper.getLastMessage());
         return convertView;
     }
 
     public void updateItem(DialogWrapper dlgWrapper) {
-
         Log.i(TAG, "updateItem = " + dlgWrapper.getChatDialog().getUnreadMessageCount());
         int position = -1;
         for (int i = 0; i < objectsList.size(); i++) {

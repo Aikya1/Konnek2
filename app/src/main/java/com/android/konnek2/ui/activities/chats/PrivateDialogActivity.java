@@ -279,7 +279,6 @@ public class PrivateDialogActivity extends BaseDialogActivity {
 
     private void setOnlineStatus(QMUser user) {
         if (user != null) {
-
             if (friendListHelper != null) {
                 String offlineStatus = getString(R.string.last_seen, DateUtils.toTodayYesterdayShortDateWithoutYear2(user.getLastRequestAt().getTime()),
                         DateUtils.formatDateSimpleTime(user.getLastRequestAt().getTime()));

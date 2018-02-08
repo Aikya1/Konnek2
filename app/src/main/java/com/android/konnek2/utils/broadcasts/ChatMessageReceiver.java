@@ -1,7 +1,10 @@
 package com.android.konnek2.utils.broadcasts;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.android.konnek2.call.core.service.QBServiceConsts;
@@ -33,4 +36,5 @@ public class ChatMessageReceiver extends BroadcastReceiver {
             chatNotificationHelper.sendChatNotification(message, user.getId(), dialogId);
         }
     }
+
 }

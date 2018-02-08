@@ -27,6 +27,7 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.amitshekhar.DebugDB;
 import com.android.konnek2.R;
+import com.android.konnek2.base.testActivity.ConnectActivity;
 import com.android.konnek2.call.core.models.AppSession;
 import com.android.konnek2.call.core.utils.UserFriendUtils;
 import com.android.konnek2.call.db.utils.ErrorUtils;
@@ -125,7 +126,8 @@ public class AppHomeActivity extends AppCompatActivity implements NavigationView
                         AppCommon.displayToast(AppConstant.TOAST_MESSAGE);
                         break;
                     case 4:
-                        InviteFriendsActivity.start(AppHomeActivity.this);
+//                        InviteFriendsActivity.start(AppHomeActivity.this);
+                        ConnectActivity.start(AppHomeActivity.this);
 
                         break;
                     case 5:

@@ -72,7 +72,6 @@ public class AppSplashActivity extends BaseActivity {
     }
 
     public void startActivity() {
-
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

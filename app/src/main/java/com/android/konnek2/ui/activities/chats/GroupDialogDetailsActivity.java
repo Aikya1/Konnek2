@@ -251,31 +251,31 @@ public class GroupDialogDetailsActivity extends BaseLoggableActivity implements
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-
         AdapterView.AdapterContextMenuInfo adapterContextMenuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         switch (item.getItemId()) {
             case R.id.action_delete:
                 if (checkNetworkAvailableWithError()) {
                     QMUser selectedUser = groupDialogOccupantsAdapter.getItem(adapterContextMenuInfo.position);
-                    Log.d(TAG, "User = " + selectedUser.toString());
                     qbDialog = dataManager.getQBChatDialogDataManager().getByDialogId(dialogId);
+
                     if (selectedUser.getId() != AppSession.getSession().getUser().getId()) {
 
-
                         occupantsList = getUsersForGroupChat(qbDialog.getDialogId(), qbDialog.getOccupants());
-//                        occupantsList.remove(selectedUser);
-                        groupDialogOccupantsAdapter.removeItem(selectedUser);
+                        occupantsList.remove(selectedUser);
+                        updateOccupantsList();
+                        qbDialog.setOccupantsIds(ChatUtils.createOccupantsIdsFromUsersList(occupantsList));
 
-                        occupantsListView.setAdapter(groupDialogOccupantsAdapter);
+//                        UPDATE `dialog_occupant` SET `dialog_id` = ?, `dialog_occupant_status` = ?, `id` = ? WHERE `dialog_occupant_id` = ?
 
-                        List<DialogOccupant> list = dataManager.getDialogOccupantDataManager()
-                                .getActualDialogOccupantsByIds(dialogId, qbDialog.getOccupants());
-//                        list.remove(selectedUser);
+                        DialogOccupant dialogOccupant = new DialogOccupant();
 
+                        dialogOccupant.setDialog(dataManager.getDialogDataManager().getByDialogId(dialogId));
 
+                        dataManager.getDialogOccupantDataManager().update(dialogOccupant, true);
+
+                        qbDialog = dataManager.getQBChatDialogDataManager().getByDialogId(dialogId);
+                        Log.d(TAG, "Updated");
 //                        updateDialog();
-
-
                     }
                 }
                 break;

@@ -35,7 +35,8 @@ public class DialogOccupantDataManager extends BaseManager<DialogOccupant> {
         try {
             int action;
 
-            if(dialogOccupant.getDialog() != null && existsByDialogIdAndUserId(dialogOccupant.getDialog().getDialogId(), dialogOccupant.getUser().getId())){
+            if(dialogOccupant.getDialog() != null &&
+                    existsByDialogIdAndUserId(dialogOccupant.getDialog().getDialogId(), dialogOccupant.getUser().getId())){
                 dao.update(dialogOccupant);
                 action = UPDATE_ACTION;
             } else{

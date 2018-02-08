@@ -145,12 +145,10 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
 
     @Override
     public void contactChat(String contactGroupDialog) {
-
         QBChatDialog contactChatDialog;
         String DialogId;
         DialogId = contactGroupDialog;
         if (!DialogId.isEmpty() && DialogId != null) {
-
             contactChatDialog = dataManager.getQBChatDialogDataManager().getByDialogId(DialogId);
             if (contactChatDialog.getOccupants().size() >= 3) {
                 Log.d("", "contactGroup");
@@ -158,9 +156,7 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
             } else {
                 startPrivateChatActivity(contactChatDialog);
             }
-
         }
-
     }
 
     //    private AppRefreshDialogList appRefreshDialogList;
@@ -599,7 +595,6 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
     }
 
     private void startPrivateChatActivity(QBChatDialog chatDialog) {
-
         List<DialogOccupant> occupantsList = dataManager.getDialogOccupantDataManager()
                 .getDialogOccupantsListByDialogId(chatDialog.getDialogId());
         QMUser opponent = ChatUtils.getOpponentFromPrivateDialog(UserFriendUtils.createLocalUser(qbUser), occupantsList);

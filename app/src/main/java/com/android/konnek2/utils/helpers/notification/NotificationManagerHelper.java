@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
@@ -16,6 +17,8 @@ import com.android.konnek2.call.db.managers.DataManager;
 import com.android.konnek2.call.services.QMUserService;
 import com.android.konnek2.call.services.model.QMUser;
 import com.android.konnek2.base.activity.AppSplashActivity;
+import com.android.konnek2.ui.activities.main.MainActivity;
+import com.android.konnek2.utils.broadcasts.ChatMessageReceiver;
 import com.quickblox.chat.model.QBChatDialog;
 
 
@@ -30,11 +33,11 @@ public class NotificationManagerHelper {
         QBChatDialog chatDialog = DataManager.getInstance().getQBChatDialogDataManager()
                 .getByDialogId(dialogId);
         QMUser user = QMUserService.getInstance().getUserCache().get((long) userId);
-
-
-
 //        Intent intent = new Intent(context, SplashActivity.class);
-        Intent intent = new Intent(context, AppSplashActivity.class);
+
+//        Intent intent = new Intent(context, AppSplashActivity.class);
+        Intent intent = new Intent(context, MainActivity.class);
+
         intent.putExtra(QBServiceConsts.EXTRA_SHOULD_OPEN_DIALOG, true);
         sendChatNotificationEvent(context, intent, notificationEvent);
         sendNotifyIncomingMessage(context, dialogId);
@@ -47,7 +50,7 @@ public class NotificationManagerHelper {
     }
 
     public static void sendCommonNotificationEvent(Context context,
-                                             NotificationEvent notificationEvent) {
+                                                   NotificationEvent notificationEvent) {
 
 //        Intent intent = new Intent(context, SplashActivity.class);
         Intent intent = new Intent(context, AppSplashActivity.class);
@@ -57,7 +60,8 @@ public class NotificationManagerHelper {
 
     private static void sendChatNotificationEvent(Context context, Intent intent, NotificationEvent notificationEvent) {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        PendingIntent contentIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent contentIntent =
+                PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
                 .setSmallIcon(getNotificationIcon())
@@ -66,6 +70,7 @@ public class NotificationManagerHelper {
                 .setContentText(notificationEvent.getBody())
                 .setAutoCancel(true)
                 .setContentIntent(contentIntent);
+
 
         Notification notification = builder.build();
         notification.flags |= Notification.FLAG_AUTO_CANCEL;

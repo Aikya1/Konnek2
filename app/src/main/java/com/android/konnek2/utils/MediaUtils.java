@@ -175,7 +175,6 @@ public class MediaUtils {
         fragment.startActivityForResult(intent, IMAGE_VIDEO_LOCATION_REQUEST_CODE);
     }
 
-
     private static void setIntentMediaPicker(Intent intent) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
             intent.setAction(Intent.ACTION_GET_CONTENT);

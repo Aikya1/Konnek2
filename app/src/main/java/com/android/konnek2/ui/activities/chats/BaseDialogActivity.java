@@ -295,7 +295,6 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
     @OnTextChanged(R.id.message_edittext)
     void messageEditTextChanged(CharSequence charSequence) {
         setActionButtonVisibility(charSequence);
-
         if (currentChatDialog != null) {
             if (!isTypingNow) {
                 isTypingNow = true;

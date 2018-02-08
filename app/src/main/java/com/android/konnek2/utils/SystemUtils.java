@@ -1,6 +1,7 @@
 package com.android.konnek2.utils;
 
 import android.app.ActivityManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -15,6 +16,12 @@ public class SystemUtils {
     public static boolean isAppRunningNow() {
         ActivityManager activityManager = (ActivityManager) App.getInstance().getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningTaskInfo> runningTasks = activityManager.getRunningTasks(Integer.MAX_VALUE);
+
+        ActivityManager.RunningTaskInfo runningTaskInfo = runningTasks.get(0);
+        ComponentName componentName = runningTaskInfo.topActivity;
+        String pack = componentName.getPackageName();
+        String pack2 = App.getInstance().getPackageName();
+        boolean res = !runningTasks.isEmpty();
 
         if (!runningTasks.isEmpty()) {
             return runningTasks.get(0).topActivity.getPackageName().equalsIgnoreCase(App.getInstance().getPackageName());
@@ -54,7 +61,7 @@ public class SystemUtils {
         }
     }
 
-    public static String getNameActivityOnTopStack(){
+    public static String getNameActivityOnTopStack() {
         ActivityManager activityManager = (ActivityManager) App.getInstance().getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningTaskInfo> runningTasks = activityManager.getRunningTasks(Integer.MAX_VALUE);
         String ourPackageName = App.getInstance().getPackageName();
@@ -63,7 +70,7 @@ public class SystemUtils {
         if (runningTasks != null) {
             for (ActivityManager.RunningTaskInfo taskInfo : runningTasks) {
                 if (taskInfo.topActivity.getPackageName().equalsIgnoreCase(ourPackageName)) {
-                    topActivityName =  taskInfo.topActivity.getClassName();
+                    topActivityName = taskInfo.topActivity.getClassName();
                 }
             }
         }

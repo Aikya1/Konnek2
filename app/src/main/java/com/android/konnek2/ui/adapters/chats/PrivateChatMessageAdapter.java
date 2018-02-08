@@ -38,7 +38,10 @@ public class PrivateChatMessageAdapter extends BaseChatMessagesAdapter implement
 
     protected DataManager dataManager;
 
-    public PrivateChatMessageAdapter(BaseActivity baseActivity, List<CombinationMessage> chatMessages, FriendOperationListener friendOperationListener, QBChatDialog chatDialog) {
+    public PrivateChatMessageAdapter(BaseActivity baseActivity,
+                                     List<CombinationMessage> chatMessages,
+                                     FriendOperationListener friendOperationListener,
+                                     QBChatDialog chatDialog) {
         super(baseActivity, chatDialog, chatMessages);
         this.friendOperationListener = friendOperationListener;
         dataManager = DataManager.getInstance();

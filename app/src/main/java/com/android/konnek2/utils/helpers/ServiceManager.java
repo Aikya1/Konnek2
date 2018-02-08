@@ -90,9 +90,7 @@ public class ServiceManager {
                         }
 
                         qbUser.setPassword(password);
-
                         saveOwnerUser(qbUser);
-
                         AppSession.startSession(qbUser);
 
                         return qbUser;

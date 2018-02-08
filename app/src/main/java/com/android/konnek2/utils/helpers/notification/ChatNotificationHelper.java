@@ -4,13 +4,10 @@ import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
 
-
 import com.android.konnek2.App;
 import com.android.konnek2.R;
-
 import com.android.konnek2.call.core.models.NotificationEvent;
 import com.android.konnek2.utils.SystemUtils;
-
 import com.android.konnek2.utils.helpers.SharedHelper;
 
 
@@ -48,9 +45,9 @@ public class ChatNotificationHelper {
             dialogId = extras.getString(ChatNotificationHelper.DIALOG_ID);
         }
 
-        if (SystemUtils.isAppRunningNow()) {
+       /* if (SystemUtils.isAppRunningNow()) {
             return;
-        }
+        }*/
 
         if (isOwnMessage(userId)){
 
@@ -69,22 +66,21 @@ public class ChatNotificationHelper {
 
     }
 
+
+
     public void sendChatNotification(String message, int userId, String dialogId) {
         NotificationEvent notificationEvent = new NotificationEvent();
         notificationEvent.setTitle(context.getString(R.string.app_name));
         notificationEvent.setSubject(message);
         notificationEvent.setBody(message);
-
         NotificationManagerHelper.sendChatNotificationEvent(context, userId, dialogId, notificationEvent);
     }
 
     private void sendCommonNotification(String message) {
-
         NotificationEvent notificationEvent = new NotificationEvent();
         notificationEvent.setTitle(context.getString(R.string.app_name));
         notificationEvent.setSubject(message);
         notificationEvent.setBody(message);
-
         NotificationManagerHelper.sendCommonNotificationEvent(context, notificationEvent);
     }
 

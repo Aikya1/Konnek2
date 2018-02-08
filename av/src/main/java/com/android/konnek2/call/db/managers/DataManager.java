@@ -18,7 +18,6 @@ public class DataManager {
 
     private static DataManager instance;
     private DataHelper dataHelper;
-
     private FriendDataManager friendDataManager;
     private SocialDataManager socialDataManager;
     private UserRequestDataManager userRequestDataManager;
