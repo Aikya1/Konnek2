@@ -224,13 +224,13 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        baseActivity.showSnackbar(R.string.dialog_loading_dialogs, Snackbar.LENGTH_INDEFINITE);
+//        baseActivity.showSnackbar(R.string.dialog_loading_dialogs, Snackbar.LENGTH_INDEFINITE);
+        baseActivity.showProgress();
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-
         inflater.inflate(R.menu.dialogs_list_menu, menu);
 
     }
@@ -528,10 +528,11 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
             if (adapterFlag) {
                 emptyListTextView.setVisibility(View.VISIBLE);
 
-                emptyListTextView.setText(getResources().getString(R.string.dialog_no_chats));
+//                emptyListTextView.setText(getResources().getString(R.string.dialog_no_chats));
+//                emptyListTextView.setText(getResources().getString(R.string.Contact_load));
             } else {
-
-                emptyListTextView.setText(getResources().getString(R.string.Contact_load));
+//                emptyListTextView.setText(getResources().getString(R.string.dialog_no_chats));
+//                emptyListTextView.setText(getResources().getString(R.string.Contact_load));
             }
 
         }

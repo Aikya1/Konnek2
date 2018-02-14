@@ -532,7 +532,6 @@ public abstract class BaseActivity extends AppCompatActivity implements ActionBa
     }
 
     private void setCurrentFragment(Fragment fragment, String tag) {
-
         currentFragment = fragment;
         getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         FragmentTransaction transaction = buildTransaction();
@@ -662,7 +661,7 @@ public abstract class BaseActivity extends AppCompatActivity implements ActionBa
 
     protected void loginChat() {
         isDialogLoading = true;
-        showSnackbar(R.string.dialog_loading_dialogs, Snackbar.LENGTH_INDEFINITE, Priority.MAX);
+//        showSnackbar(R.string.dialog_loading_dialogs, Snackbar.LENGTH_INDEFINITE, Priority.MAX);
         QBLoginChatCompositeCommand.start(this);
     }
 
@@ -704,7 +703,7 @@ public abstract class BaseActivity extends AppCompatActivity implements ActionBa
         chatConnectionListener = new ConnectionListener() {
             @Override
             public void connected(XMPPConnection xmppConnection) {
-
+                hideSnackBar(R.string.error_disconnected);
             }
 
             @Override
@@ -842,7 +841,8 @@ public abstract class BaseActivity extends AppCompatActivity implements ActionBa
             QBLoginChatCompositeCommand.setIsRunning(false);
             blockUI(true);
             hideSnackBar(R.string.dialog_loading_dialogs);
-            showSnackbar(R.string.error_disconnected, Snackbar.LENGTH_INDEFINITE, Priority.MAX);
+//            showSnackbar(R.string.error_disconnected, Snackbar.LENGTH_INDEFINITE, Priority.MAX);
+            hideSnackBar(R.string.error_disconnected);
         }
     }
 

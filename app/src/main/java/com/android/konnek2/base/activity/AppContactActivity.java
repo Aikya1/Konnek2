@@ -11,25 +11,17 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.android.konnek2.R;
-import com.android.konnek2.call.core.models.AppSession;
-import com.android.konnek2.call.core.service.QBService;
-import com.android.konnek2.call.services.QMUserCacheImpl;
-import com.android.konnek2.call.services.model.QMUser;
 import com.android.konnek2.base.db.AppContactsSwipeViewAdapter;
+import com.android.konnek2.call.core.models.AppSession;
+import com.android.konnek2.call.services.model.QMUser;
 import com.android.konnek2.ui.activities.base.BaseLoggableActivity;
 import com.android.konnek2.utils.AppConstant;
-import com.quickblox.chat.QBChatService;
 import com.quickblox.chat.QBRestChatService;
-import com.quickblox.chat.QBSignaling;
-import com.quickblox.chat.QBWebRTCSignaling;
-import com.quickblox.chat.listeners.QBVideoChatSignalingManagerListener;
 import com.quickblox.chat.model.QBChatDialog;
 import com.quickblox.chat.model.QBDialogType;
 import com.quickblox.core.exception.QBResponseException;
 import com.quickblox.core.request.QBRequestGetBuilder;
 import com.quickblox.users.model.QBUser;
-import com.quickblox.videochat.webrtc.QBRTCClient;
-import com.quickblox.videochat.webrtc.callbacks.QBRTCClientSessionCallbacksImpl;
 
 import org.greenrobot.eventbus.EventBus;
 

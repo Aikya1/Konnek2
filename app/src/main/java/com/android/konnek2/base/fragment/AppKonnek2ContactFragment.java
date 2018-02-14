@@ -21,7 +21,11 @@ import android.widget.ProgressBar;
 
 import com.android.konnek2.App;
 import com.android.konnek2.R;
+import com.android.konnek2.base.db.AppCallLogModel;
+import com.android.konnek2.base.db.AppContactAdapter;
 import com.android.konnek2.call.core.models.AppSession;
+import com.android.konnek2.call.core.qb.helpers.QBChatHelper;
+import com.android.konnek2.call.core.qb.helpers.QBFriendListHelper;
 import com.android.konnek2.call.core.utils.ChatUtils;
 import com.android.konnek2.call.core.utils.ConstsCore;
 import com.android.konnek2.call.core.utils.UserFriendUtils;
@@ -30,8 +34,6 @@ import com.android.konnek2.call.db.models.DialogOccupant;
 import com.android.konnek2.call.services.QMUserCacheImpl;
 import com.android.konnek2.call.services.QMUserService;
 import com.android.konnek2.call.services.model.QMUser;
-import com.android.konnek2.base.db.AppCallLogModel;
-import com.android.konnek2.base.db.AppContactAdapter;
 import com.android.konnek2.ui.activities.call.CallActivity;
 import com.android.konnek2.ui.activities.chats.GroupDialogActivity;
 import com.android.konnek2.ui.activities.chats.PrivateDialogActivity;
@@ -40,17 +42,21 @@ import com.android.konnek2.utils.AppConstant;
 import com.android.konnek2.utils.AppPreference;
 import com.android.konnek2.utils.listeners.AppCommon;
 import com.android.konnek2.utils.listeners.ContactInterface;
-import com.quickblox.chat.QBChatService;
 import com.quickblox.chat.QBRestChatService;
 import com.quickblox.chat.model.QBChatDialog;
 import com.quickblox.chat.model.QBDialogType;
+import com.quickblox.core.Consts;
+import com.quickblox.core.QBEntityCallback;
 import com.quickblox.core.exception.QBResponseException;
 import com.quickblox.core.request.QBPagedRequestBuilder;
 import com.quickblox.core.request.QBRequestGetBuilder;
+import com.quickblox.core.server.Performer;
+import com.quickblox.users.QBUsers;
 import com.quickblox.users.model.QBUser;
 import com.quickblox.videochat.webrtc.QBRTCTypes;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import rx.android.schedulers.AndroidSchedulers;
@@ -62,6 +68,10 @@ import rx.schedulers.Schedulers;
 
 public class AppKonnek2ContactFragment extends BaseFragment implements ContactInterface {
 
+
+    public static final int DIALOG_ITEMS_PER_PAGE = 100;
+
+    private static final String TAG = AppKonnek2ContactFragment.class.getSimpleName();
     public static final int PICK_DIALOG = 100;
     private DataManager dataManager;
     public Bundle returnedBundle;
@@ -85,6 +95,7 @@ public class AppKonnek2ContactFragment extends BaseFragment implements ContactIn
     private List<QMUser> qmUsersList;
     private List<Integer> OpponentsList;
     private ProgressBar progressBar;
+    ArrayList<QBUser> qbUserList;
 
     public AppKonnek2ContactFragment() {
     }
@@ -196,10 +207,6 @@ public class AppKonnek2ContactFragment extends BaseFragment implements ContactIn
             } else {
                 startPrivateChatActivity(qbChatDialog);
             }
-
-
-
-
 
 
         }
@@ -339,14 +346,19 @@ public class AppKonnek2ContactFragment extends BaseFragment implements ContactIn
 
 
     public void privateDialogUsersList() {
+        //get all the users from QuickBlox Admin Panel.
+//        loadContacts();
 
         try {
-
             for (int i = 0; i < qbDialogsList.size(); i++) {
                 if (qbDialogsList.get(i).getType().equals(QBDialogType.PRIVATE)) {
                     qbPrivateDialogsList.add(qbDialogsList.get(i));
                 }
             }
+
+
+//            appContactAdapter = new AppContactAdapter(getActivity(), qbUserLists, AppKonnek2ContactFragment.this);
+
             appContactAdapter = new AppContactAdapter(getActivity(), qbPrivateDialogsList, AppKonnek2ContactFragment.this);
             if (appContactAdapter.getCount() > 0) {
                 listView.setAdapter(appContactAdapter);
@@ -357,6 +369,82 @@ public class AppKonnek2ContactFragment extends BaseFragment implements ContactIn
 
 
     }
+
+
+    public void loadContacts() {
+        QBPagedRequestBuilder pagedRequestBuilder = new QBPagedRequestBuilder();
+        pagedRequestBuilder.setPage(1);
+        pagedRequestBuilder.setPerPage(50);
+
+
+        QBRequestGetBuilder customObjectRequestBuilder = new QBRequestGetBuilder();
+        customObjectRequestBuilder.setLimit(DIALOG_ITEMS_PER_PAGE);
+
+        final QBChatHelper qbChatHelper = new QBChatHelper(getContext());
+        QBUsers.getUsers(pagedRequestBuilder).performAsync(new QBEntityCallback<ArrayList<QBUser>>() {
+            @Override
+            public void onSuccess(ArrayList<QBUser> qbUsers, Bundle bundle) {
+
+                //Need to create the dialogs here now..
+                Iterator<QBUser> qbUserIterator = qbUsers.iterator();
+                while (qbUserIterator.hasNext()) {
+                    final QBUser qbUserIter = qbUserIterator.next();
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            QBChatDialog chatDialog = null;
+                            try {
+                                chatDialog = qbChatHelper.createPrivateDialogIfNotExist(qbUserIter.getId());
+                            } catch (QBResponseException e) {
+                                e.printStackTrace();
+                            }
+//                            qbPrivateDialogsList.add(chatDialog);
+                        }
+                    }).start();
+
+
+                }
+
+            }
+
+            @Override
+            public void onError(QBResponseException e) {
+
+            }
+        });
+
+        QBRestChatService.getChatDialogs(QBDialogType.PRIVATE, customObjectRequestBuilder)
+                .performAsync(new QBEntityCallback<ArrayList<QBChatDialog>>() {
+                    @Override
+                    public void onSuccess(ArrayList<QBChatDialog> qbChatDialogs, Bundle bundle) {
+                        Log.d(TAG, "ChatDialogs");
+                        int size = qbChatDialogs.size();
+                        for (int i = 0; i < size; i++) {
+                            Log.d(TAG, "Name = " + qbChatDialogs.get(i).getName());
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(QBResponseException e) {
+                        Log.d(TAG, "Error = " + e.getMessage());
+                    }
+                });
+
+    }
+
+
+    //Testing....
+   /* private void getAllUsersFromQb() {
+
+        QBPagedRequestBuilder pagedRequestBuilder = new QBPagedRequestBuilder();
+        pagedRequestBuilder.setPage(1);
+        pagedRequestBuilder.setPerPage(50);
+
+
+        QBFriendListHelper friendListHelper =
+
+    }*/
 
     public List<QBChatDialog> getDialogs(QBRequestGetBuilder qbRequestGetBuilder, Bundle returnedBundle) throws QBResponseException {
 

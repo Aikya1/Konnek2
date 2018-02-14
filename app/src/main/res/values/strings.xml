@@ -124,7 +124,7 @@
     <!-- Dialog -->
     <string name="dialog_hint_message">Message</string>
     <!--<string name="dialog_no_chats">Oops…\nYou don\'t have any chats,\n tap \'Create\' button to create new group chat \nor go in private chat \nvia Friends Details page"</string>-->
-    <string name="dialog_no_chats">"you don't have friends to do chat \n please add new friend on search "</string>
+    <string name="dialog_no_chats">"You do not have any friends. Please add friends to start a chat."</string>
     <string name="Contact_load">"Updating contacts list… Please wait"</string>
     <string name="dialog_reply">Reply</string>
     <string name="dialog_user_is_not_friend">User is not your friend</string>

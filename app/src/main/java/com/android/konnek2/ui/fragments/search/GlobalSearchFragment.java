@@ -378,7 +378,6 @@ public class GlobalSearchFragment extends BaseFragment implements SearchListener
     }
 
     private class UserOperationAction implements UserOperationListener {
-
         @Override
         public void onAddUserClicked(int userId) {
             addToFriendList(userId);

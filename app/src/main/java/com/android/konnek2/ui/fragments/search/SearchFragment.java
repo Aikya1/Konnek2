@@ -96,7 +96,9 @@ public class SearchFragment extends BaseFragment implements SearchView.OnQueryTe
 
     @Override
     public boolean onQueryTextChange(String searchQuery) {
-        search(searchQuery);
+        if (searchQuery.length() >= 3) {
+            search(searchQuery);
+        }
         return true;
     }
 
@@ -138,6 +140,7 @@ public class SearchFragment extends BaseFragment implements SearchView.OnQueryTe
 
     private void search(String searchQuery) {
         if (searchViewPagerAdapter != null && searchViewPager != null) {
+
             searchViewPagerAdapter.search(searchViewPager.getCurrentItem(), searchQuery);
 
         }

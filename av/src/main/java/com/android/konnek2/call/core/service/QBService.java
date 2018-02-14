@@ -520,7 +520,7 @@ public class QBService extends Service {
         }
     }
 
-    private class LoginBroadcastReceiver extends BroadcastReceiver {
+    public class LoginBroadcastReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.d(TAG, "onReceive " + intent.getAction());

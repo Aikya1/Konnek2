@@ -71,7 +71,6 @@ public class MainActivity extends BaseLoggableActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         initFields();
         setUpActionBarWithUpButton();
         if (!isChatInitializedAndUserLoggedIn()) {

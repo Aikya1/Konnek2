@@ -69,12 +69,22 @@ public class CallActivity extends BaseLoggableActivity implements
 
     public static final int CALL_ACTIVITY_CLOSE = 1000;
     public static final int CALL_ACTIVITY_CLOSE_WIFI_DISABLED = 1001;
+
+    public void checkPermissionsAndStartCall(StartConversationReason startConversationReason) {
+
+        if (systemPermissionHelper.isAllPermissionsGrantedForCallByType(qbConferenceType)) {
+            startConversationFragment(startConversationReason);
+        } else {
+            systemPermissionHelper.requestPermissionsForCallByType(qbConferenceType);
+        }
+    }
+
     public static final String EXTRA_QB_SESSION = "extra_qb_session";
+
     private static final String TAG = CallActivity.class.getSimpleName();
 
     @Bind(R.id.timer_chronometer)
     Chronometer timerChronometer;
-
     private QBRTCTypes.QBConferenceType qbConferenceType;
     private List<QBUser> opponentsList;
     private QBChatDialog qbChatDialogs;
@@ -88,8 +98,8 @@ public class CallActivity extends BaseLoggableActivity implements
     private QBRTCClient qbRtcClient;
     private boolean wifiEnabled = true;
     private RingtonePlayer ringtonePlayer;
-    private boolean isStarted = false;
 
+    private boolean isStarted = false;
     private QBRTCSessionUserCallback qbRtcSessionUserCallback;
     private QBCallChatHelper qbCallChatHelper;
     private StartConversationReason startConversationReason;
@@ -100,12 +110,11 @@ public class CallActivity extends BaseLoggableActivity implements
     private SystemPermissionHelper systemPermissionHelper;
     private AppCallLogModel appCallLogModel;
     private ArrayList<AppCallLogModel> appCallLogModelArrayList;
+
     private String Name, Date, Times;
 
     public static void start(Activity activity, List<QBUser> qbUsersList, QBRTCTypes.QBConferenceType qbConferenceType,
                              QBRTCSessionDescription qbRtcSessionDescription) {
-
-
         Intent intent = new Intent(activity, CallActivity.class);
         intent.putExtra(QBServiceConsts.EXTRA_OPPONENTS, (Serializable) qbUsersList);
         intent.putExtra(QBServiceConsts.EXTRA_CONFERENCE_TYPE, qbConferenceType);
@@ -123,17 +132,13 @@ public class CallActivity extends BaseLoggableActivity implements
     }
 
     public void initActionBar() {
-
-
         toolbar = (Toolbar) findViewById(R.id.toolbar_call);
         if (toolbar != null) {
             toolbar.setVisibility(View.VISIBLE);
             setSupportActionBar(toolbar);
 //            toolbar.setNavigationIcon(R.drawable.ic_app_back);
         }
-
         actionBar = getSupportActionBar();
-
     }
 
     public void setCallActionBarTitle(String title) {
@@ -156,14 +161,13 @@ public class CallActivity extends BaseLoggableActivity implements
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
         super.onCreate(savedInstanceState);
         canPerformLogout.set(false);
         initFields();
 
         audioStreamReceiver = new AudioStreamReceiver();
         initWiFiManagerListener();
+
         if (ACTION_ANSWER_CALL.equals(getIntent().getAction())) {
             checkPermissionsAndStartCall(StartConversationReason.INCOME_CALL_FOR_ACCEPTION);
         }
@@ -336,9 +340,7 @@ public class CallActivity extends BaseLoggableActivity implements
 
     @Override
     public void onSessionClosed(final QBRTCSession session) {
-
         if (session.equals(getCurrentSession())) {
-
             Fragment currentFragment = getCurrentFragment();
             if (isInComingCall) {
                 stopIncomeCallTimer();
@@ -468,12 +470,12 @@ public class CallActivity extends BaseLoggableActivity implements
 
         DataManager dataManager = DataManager.getInstance();
         Friend friend = dataManager.getFriendDataManager().getByUserId(opponentId);
+
+
         return friend.getUser();
     }
 
     private void processCurrentWifiState(Context context) {
-
-
         WifiManager wifi = (WifiManager) context.getSystemService(WIFI_SERVICE);
         if (wifiEnabled != wifi.isWifiEnabled()) {
             wifiEnabled = wifi.isWifiEnabled();
@@ -556,15 +558,6 @@ public class CallActivity extends BaseLoggableActivity implements
             setCurrentFragment(fragment);
         } else {
 
-        }
-    }
-
-    public void checkPermissionsAndStartCall(StartConversationReason startConversationReason) {
-
-        if (systemPermissionHelper.isAllPermissionsGrantedForCallByType(qbConferenceType)) {
-            startConversationFragment(startConversationReason);
-        } else {
-            systemPermissionHelper.requestPermissionsForCallByType(qbConferenceType);
         }
     }
 

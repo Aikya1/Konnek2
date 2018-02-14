@@ -195,6 +195,10 @@ public class PrivateDialogActivity extends BaseDialogActivity {
         return true;
     }
 
+
+    //Overidden method that will populate the options on the toolbar
+    //the user can make a audio/video call by clicking on any of the
+    //options. ( Upper layout )
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 //        boolean isFriend = DataManager.getInstance().getFriendDataManager().getByUserId(
@@ -204,7 +208,6 @@ public class PrivateDialogActivity extends BaseDialogActivity {
 //            return true;
 //        }
         switch (item.getItemId()) {
-
             case R.id.action_audio_call:
                 AppConstant.CALL_TYPES = AppConstant.CALL_AUDIO;
                 callToUser(opponentUser, QBRTCTypes.QBConferenceType.QB_CONFERENCE_TYPE_AUDIO);
@@ -296,6 +299,8 @@ public class PrivateDialogActivity extends BaseDialogActivity {
         sendMessage();
     }
 
+
+    //Method that will initiate the audio call
     public void callToUser(QMUser user, QBRTCTypes.QBConferenceType qbConferenceType) {
 
         try {
