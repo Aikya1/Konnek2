@@ -225,8 +225,10 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 //        baseActivity.showSnackbar(R.string.dialog_loading_dialogs, Snackbar.LENGTH_INDEFINITE);
-        baseActivity.showProgress();
+//        baseActivity.showProgress();
     }
+
+
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -242,18 +244,6 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
             case R.id.action_search:
                 launchContactsFragment();
 //                MainActivity.start(getActivity());
-                break;
-            case R.id.action_start_invite_friends:
-                InviteFriendsActivity.start(getActivity());
-                break;
-            case R.id.action_start_feedback:
-                FeedbackActivity.start(getActivity());
-                break;
-            case R.id.action_start_settings:
-//                    SettingsActivity.startForResult(this);
-                break;
-            case R.id.action_start_about:
-                AboutActivity.start(getActivity());
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -310,9 +300,10 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
     public void onResume() {
         super.onResume();
         Log.d(TAG, "onResume");
-        if (dialogsListAdapter != null) {
+       /* if (dialogsListAdapter != null) {
             checkVisibilityEmptyLabel();
-        }
+        }*/
+
         if (dialogsListAdapter != null) {
             dialogsListAdapter.notifyDataSetChanged();
         }
@@ -321,6 +312,7 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
 
         if (State.finished == updateDialogsProcess) {
             baseActivity.hideSnackBar(R.string.dialog_loading_dialogs);
+            baseActivity.hideProgress();
         }
     }
 
@@ -483,6 +475,7 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
 
         if (!baseActivity.isDialogLoading()) {
             baseActivity.hideSnackBar(R.string.dialog_loading_dialogs);
+            baseActivity.hideProgress();
         }
 
 //        startForResult load dialogs from REST when finished loading from cache
@@ -697,9 +690,13 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
 
     private void checkEmptyList(int listSize) {
         if (listSize > 0) {
-            emptyListTextView.setVisibility(View.GONE);
+//            emptyListTextView.setVisibility(View.GONE);
+
+            baseActivity.hideProgress();
+
         } else {
-            emptyListTextView.setVisibility(View.VISIBLE);
+            baseActivity.showProgress();
+//            emptyListTextView.setVisibility(View.VISIBLE);
         }
     }
 

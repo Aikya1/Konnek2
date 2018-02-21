@@ -835,7 +835,6 @@ public abstract class BaseActivity extends AppCompatActivity implements ActionBa
     }
 
     public class LoginChatCompositeFailAction implements Command {
-
         @Override
         public void execute(Bundle bundle) {
             QBLoginChatCompositeCommand.setIsRunning(false);
