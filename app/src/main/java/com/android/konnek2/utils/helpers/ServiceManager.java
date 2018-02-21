@@ -269,6 +269,8 @@ public class ServiceManager {
         String password = inputUser.getPassword();
 
         UserCustomData userCustomDataNew = getUserCustomData(inputUser);
+
+
         inputUser.setCustomData(Utils.customDataToString(userCustomDataNew));
 
         inputUser.setPassword(null);

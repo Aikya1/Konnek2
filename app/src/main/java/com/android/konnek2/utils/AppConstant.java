@@ -40,7 +40,7 @@ public class AppConstant {
     public static String HISTORY = "History";
     public static String TRAVEL = "Travel";
     public static String SUB_TITLE_ONE = "chat bot";
-    public static String SUB_TITLE_TWO = "chat & call";
+    public static String SUB_TITLE_TWO = "Calls";
     public static String USER_PROFILE = "User Profile";
     public static String ADMIN_NAME = "admin name";
     public static String OTP_RECEIVED_BROADCAST_ACTION = "android.provider.Telephony.SMS_RECEIVED";

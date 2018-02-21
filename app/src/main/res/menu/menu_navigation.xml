@@ -17,13 +17,17 @@
             android:icon="@drawable/ic_app_navigation_settings"
             android:title="Settings"/>
 
-
         <item
+            android:id="@+id/delete"
+            android:icon="@drawable/ic_app_naviagtion_delete"
+            android:title="Delete Account"/>
+
+       <!-- <item
             android:id="@+id/logout"
             android:icon="@drawable/ic_app_naviagtion_logout"
-            android:title="Logout"/>
+            android:title="Logout"/>-->
     </group>
-    <item android:title="Account ">
+    <!--<item android:title="Account ">
         <menu>
             <item
                 android:id="@+id/delete"
@@ -34,5 +38,5 @@
                 android:id="@+id/menu_app_version"
                 android:title="Version 1.0"/>
         </menu>
-    </item>
+    </item>-->
 </menu>

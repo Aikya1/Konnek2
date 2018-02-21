@@ -4,31 +4,37 @@
 
     <string-array name="home_title">
         <item>Contacts</item>
-        <item>History</item>
-        <item>Connect</item>
-        <item>Support</item>
-        <item>Refer a friend</item>
+        <item>Chats</item>
+        <item>Calls</item>
+        <item>Catchup</item>
+        <item>Profile</item>
         <item>Settings</item>
-        <item>Sarai</item>
-        <item>Charity</item>
+        <item>Support</item>
+
+     <!--   <item>Charity</item>
         <item>m-Store</item>
         <item>Hangouts</item>
-        <item>User Profile</item>
+        <item>User Profile</item>-->
+
     </string-array>
 
     <integer-array name="home_image">
 
         <item>@drawable/ic_app_grid_contact</item>
-        <item>@drawable/ic_app_grid_history</item>
         <item>@drawable/ic_app_grid_chat</item>
-        <item>@drawable/ic_app_grid_support</item>
-        <item>@drawable/ic_app_grid_add_friend</item>
-        <item>@drawable/ic_app_grid_settings</item>
-        <item>@drawable/ic_app_grid_sarai</item>
-        <item>@drawable/ic_app_grid_affilates</item>
-        <item>@drawable/ic_app_grid_mstore</item>
+        <item>@drawable/ic_app_grid_history</item>
         <item>@drawable/ic_app_grid_friend</item>
         <item>@drawable/ic_app_grid_profile</item>
+        <item>@drawable/ic_app_grid_settings</item>
+        <item>@drawable/ic_app_grid_support</item>
+
+
+       <!-- <item>@drawable/ic_app_grid_add_friend</item>
+
+        <item>@drawable/ic_app_grid_sarai</item>
+        <item>@drawable/ic_app_grid_affilates</item>
+        <item>@drawable/ic_app_grid_mstore</item>-->
+
     </integer-array>
 
 

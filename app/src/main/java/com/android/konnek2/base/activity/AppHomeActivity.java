@@ -93,8 +93,8 @@ public class AppHomeActivity extends AppCompatActivity implements NavigationView
         initViews();
         imageId = getResources().obtainTypedArray(R.array.home_image); // String  Values  from resource  files
         title = getResources().getStringArray(R.array.home_title);          //  Image  Values  from resource  files
-        subtitle[6] = AppConstant.SUB_TITLE_ONE;
-        subtitle[2] = AppConstant.SUB_TITLE_TWO;
+//        subtitle[6] = AppConstant.SUB_TITLE_ONE;
+//        subtitle[2] = AppConstant.SUB_TITLE_TWO;
 
         Log.d("AppHomeActivity", "Port = " + DebugDB.getAddressLog());
         gridView = (GridView) findViewById(R.id.home_rid);
@@ -109,57 +109,64 @@ public class AppHomeActivity extends AppCompatActivity implements NavigationView
                         goToContact.putExtra(AppConstant.TAB_POSITION, 2);
                         startActivity(goToContact);
                         break;
-                    case 1:
-                        Intent goToNavigation = new Intent(getApplicationContext(), AppCallHistoryActivity.class);
-                        goToNavigation.putExtra(AppConstant.TAB_POSITION, 0);
-                        startActivity(goToNavigation);
 
-                        break;
-                    case 2:
+                    case 1:
                         Intent goTochat = new Intent(getApplicationContext(), MainActivity.class);
                         goTochat.putExtra(AppConstant.TAB_POSITION, 1);
                         startActivity(goTochat);
-
                         break;
+
+                    case 2:
+                        Intent goToNavigation = new Intent(getApplicationContext(), AppCallHistoryActivity.class);
+                        goToNavigation.putExtra(AppConstant.TAB_POSITION, 0);
+                        startActivity(goToNavigation);
+                        break;
+
+
                     case 3:
-
-                        AppCommon.displayToast(AppConstant.TOAST_MESSAGE);
+                        AppCommon.displayToast("Catch Up");
                         break;
+
                     case 4:
-//                        InviteFriendsActivity.start(AppHomeActivity.this);
-                        ConnectActivity.start(AppHomeActivity.this);
+                        MyProfileActivity.start(AppHomeActivity.this);
 
                         break;
+
                     case 5:
-//
+//                        InviteFriendsActivity.start(AppHomeActivity.this);
+//                        ConnectActivity.start(AppHomeActivity.this);
                         SettingsActivity.start(AppHomeActivity.this);
-//                        AppCommon.displayToast(AppConstant.TOAST_MESSAGE);
                         break;
+
+
                     case 6:
+//
+//                        SettingsActivity.start(AppHomeActivity.this);
+                        AppCommon.displayToast("Support");
+                        break;
+
+                  /*  case 7:
                         Intent goToChatBot = new Intent(getApplicationContext(), AppChatBotActivity.class);
                         startActivity(goToChatBot);
 
                         break;
-                    case 7:
+                    case 8:
                         Intent goToCharity = new Intent(getApplicationContext(), CharityActivity.class);
                         startActivity(goToCharity);
 
                         break;
-                    case 8:
+                    case 9:
                         Intent goTomStore = new Intent(getApplicationContext(), AppMobileStoreActivity.class);
                         startActivity(goTomStore);
                         break;
 
-                    case 9:
+                    case 10:
 
                         Intent goToHangouts = new Intent(getApplicationContext(), HangoutActivity.class);
                         startActivity(goToHangouts);
 
-                        break;
-                    case 10:
-                        MyProfileActivity.start(AppHomeActivity.this);
+                        break;*/
 
-                        break;
                     default:
                         break;
                 }
@@ -182,7 +189,7 @@ public class AppHomeActivity extends AppCompatActivity implements NavigationView
         Menu menuNav = navigationView.getMenu();
         MenuItem nav_text_logout = menuNav.findItem(R.id.delete);
         SpannableString s = new SpannableString(nav_text_logout.getTitle());
-        s.setSpan(new TextAppearanceSpan(this, R.style.TextAppearance44), 0, s.length(), 0);
+//        s.setSpan(new TextAppearanceSpan(this, R.style.TextAppearance44), 0, s.length(), 0);
         nav_text_logout.setTitle(s);
         View header = navigationView.getHeaderView(0);
         TextView tv_name = (TextView) header.findViewById(R.id.tv_email_navigation);
@@ -205,6 +212,7 @@ public class AppHomeActivity extends AppCompatActivity implements NavigationView
         }
 
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setItemIconTintList(null);
 
 
     }
@@ -255,14 +263,14 @@ public class AppHomeActivity extends AppCompatActivity implements NavigationView
                 drawerLayout.closeDrawers();
                 break;
 
-            case R.id.logout:
+      /*      case R.id.logout:
                 logout();
                 break;
-
-            case R.id.delete:
+*/
+        /*    case R.id.delete:
                 AppCommon.displayToast(AppConstant.TOAST_MESSAGE_COMMING_SOON);
                 drawerLayout.closeDrawers();
-                break;
+                break;*/
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer);
         drawer.closeDrawer(GravityCompat.START);

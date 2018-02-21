@@ -244,4 +244,6 @@ public class QBServiceConsts {
     public static final String USER_STATUS_CHANGED_ACTION = "user_status_changed";
     public static final int AUTH_TYPE_REGISTRATION = 1;
     public static final int AUTH_TYPE_LOGIN = 2;
+    public static final String REMOVE_USER_FROM_GROUP_ACTION = "remove_user_from_group_action";
+    public static final String REMOVE_SELECTED_USER_FROM_GROUP = "remove_selected_user_from_group";
 }
