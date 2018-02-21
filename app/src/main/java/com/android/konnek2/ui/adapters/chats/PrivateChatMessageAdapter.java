@@ -63,13 +63,11 @@ public class PrivateChatMessageAdapter extends BaseChatMessagesAdapter implement
         if (friendsRequestMessage) {
             textView.setText(chatMessage.getBody());
             timeTextMessageTextView.setText(DateUtils.formatDateSimpleTime(chatMessage.getCreatedDate() * SECOND_IN_MILLIS));
-
             setVisibilityFriendsActions(friendsViewHolder, View.GONE);
         } else if (friendsInfoRequestMessage) {
             Log.d(TAG, "friendsInfoRequestMessage onBindViewCustomHolder combinationMessage getBody= " + chatMessage.getBody());
             textView.setText(chatMessage.getBody());
             timeTextMessageTextView.setText(DateUtils.formatDateSimpleTime(chatMessage.getCreatedDate() * SECOND_IN_MILLIS));
-
             setVisibilityFriendsActions(friendsViewHolder, View.GONE);
 
             lastInfoRequestPosition = position;
@@ -99,7 +97,8 @@ public class PrivateChatMessageAdapter extends BaseChatMessagesAdapter implement
 
     @Override
     protected void onBindViewMsgRightHolder(TextMessageHolder holder, CombinationMessage chatMessage, int position) {
-        ImageView view = (ImageView) holder.itemView.findViewById(R.id.message_status_image_view);
+        //set the image view resource for the status of the message( delivered sent or failure )
+        ImageView view = (ImageView) holder.itemView.findViewById(R.id.message_status_image_view1);
         setViewVisibility(holder.avatar, View.GONE);
 
         if (chatMessage.getState() != null) {
@@ -112,11 +111,20 @@ public class PrivateChatMessageAdapter extends BaseChatMessagesAdapter implement
         super.onBindViewMsgRightHolder(holder, chatMessage, position);
     }
 
+    //Make changes below to edit the layout and get rid of the custom View holder above.
+    //The msg_linear_frame_left is the Parent Layout which is in the file
+    //widget_text_msg_left.xml
+    //we will have to modify the file in order to ensure that the layout is what we want
+    //also check layout_bubbles_left.xml -- done something there which im not sure about.
     @Override
     protected void onBindViewMsgLeftHolder(TextMessageHolder holder, CombinationMessage chatMessage, int position) {
-        LinearLayout linearLayout = (LinearLayout) holder.itemView.findViewById(R.id.msg_custom_widget_frame_top);
-        setViewVisibility(holder.avatar, View.GONE);
+        LinearLayout linearLayout = (LinearLayout) holder.itemView.findViewById(R.id.msg_linear_frame_left);
+        setViewVisibility(holder.avatar, View.VISIBLE);
         setViewVisibility(linearLayout, View.GONE);
+
+        TextView tv = holder.itemView.findViewById(R.id.msg_text_user_name);
+
+        tv.setText(chatMessage.getDialogOccupant().getUser().getFullName());
 
         updateMessageState(chatMessage, chatDialog);
         super.onBindViewMsgLeftHolder(holder, chatMessage, position);

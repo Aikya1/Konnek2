@@ -1,47 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:id="@+id/msg_linear_frame_left"
-              style="@style/WidgetTextMessage.Left">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/msg_linear_frame_left"
+    style="@style/WidgetTextMessage.Left">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/msg_image_avatar"
-        style="@style/AvatarImageViewStyle.Left"/>
+        style="@style/CustomAvatarImageViewStyle.Left"
+        android:layout_gravity="top"
+        android:layout_marginLeft="@dimen/margin_4dp"
+        android:layout_marginTop="@dimen/margin_4dp" />
 
     <LinearLayout
-        android:id="@+id/msg_bubble_background"
-        style="@style/BubbleTextFrame.Left">
-
+        android:id="@+id/msg_bubble_background2"
+        style="@style/CustomBubbleTextFrame.Left">
 
         <LinearLayout
             android:id="@+id/msg_linear_list_item_left"
-            style="@style/LinearWidgetTextMsg.Left">
+            style="@style/CustomLinearWidgetTextMsg.Left">
 
             <!--LinearLayout should place its actual message widget here.-->
             <LinearLayout
                 android:id="@+id/msg_custom_widget_frame_top"
-                style="@style/CustomWidgetFrame.Left"/>
+                style="@style/CustomWidgetFrame.Left" />
 
             <TextView
-                android:id="@+id/msg_text_time_message"
-                style="@style/TextViewTimeMsg.Left"
-                android:textColor="@color/black"
-                tools:text="August 16"/>
+                android:id="@+id/msg_text_user_name"
+                style="@style/CustomTextViewUserName.Left"
+                android:text="Pooja"/>
 
             <TextView
                 android:id="@+id/msg_text_message"
-                style="@style/TextViewTextMsg.Left"
-                android:textColor="@color/black"
-                tools:text="messagertdfsscsd"/>
+                style="@style/CustomTextViewTextMsg.Left"
+                tools:text="messagertdfsscsd" />
+
+            <TextView
+                android:id="@+id/msg_text_time_message"
+                style="@style/CustomTextViewTimeMsg.Left"
+                android:layout_gravity="end"
+                tools:text="August 16" />
 
             <LinearLayout
                 android:id="@+id/msg_link_preview"
-                style="@style/LinkPreviewFrame.Left"/>
+                style="@style/LinkPreviewFrame.Left" />
 
             <!--LinearLayout should place its actual message widget here.-->
             <LinearLayout
                 android:id="@+id/msg_custom_widget_frame_bottom"
-                style="@style/CustomWidgetFrame.Left"/>
+                style="@style/CustomWidgetFrame.Left" />
 
         </LinearLayout>
 

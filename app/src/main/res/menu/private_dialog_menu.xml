@@ -1,16 +1,39 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/action_audio_call"
-        android:icon="@drawable/ic_app_audio_call"
+        android:icon="@drawable/action_audio_call"
         android:title="@string/user_profile_audio_call"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/switch_camera_toggle"
-        android:icon="@drawable/ic_app_video_call"
+        android:icon="@drawable/switch_camera_toggle"
         android:title="@string/user_profile_video_call"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="always" />
 
+    <item
+        android:id="@+id/action_mute_notifications"
+        android:title="@string/action_mute_notifications" />
+
+    <item
+        android:id="@+id/action_view_contact"
+        android:title="@string/action_view_contact" />
+
+    <item
+        android:id="@+id/action_export_chat"
+        android:title="@string/action_export_chat" />
+
+    <item
+        android:id="@+id/action_create_shortcut"
+        android:title="@string/action_create_shortcut" />
+
+    <item
+        android:id="@+id/action_clear_chat"
+        android:title="@string/action_clear_chat" />
+
+    <item
+        android:id="@+id/action_delete_chat"
+        android:title="@string/action_delete_chat" />
 </menu>
