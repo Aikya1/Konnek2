@@ -379,5 +379,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="txt_in_progress">In progress</string>
+    <string name="terms_and_ser_1">I have read and agree to Konnek2 &#160;&#160;&#160;&#160;<u> Terms OF Service </u> </string>
+    <string name="terms_and_ser_2">I have read Konnek2 <u> Privacy Policy </u> and agree Konnek2 to save my personal data. </string>
 
 </resources>

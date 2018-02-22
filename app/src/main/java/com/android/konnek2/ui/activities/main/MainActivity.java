@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.android.konnek2.R;
 import com.android.konnek2.call.core.core.command.Command;
@@ -55,12 +56,15 @@ public class MainActivity extends BaseLoggableActivity {
     }
 
     @Override
-    public void onBackPressed() {
+    public void onBackPressed()
+    {
+
 //        if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
 //            finish();
 //        } else {
 //
 //        }
+
 
         Intent goToHone = new Intent(getApplicationContext(), AppHomeActivity.class);
         startActivity(goToHone);

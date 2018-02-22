@@ -1,0 +1,5 @@
+<root>
+    <item name='com.quickblox.core.QBEntityCallback'>
+        <annotation name='java.lang.Deprecated' />
+    </item>
+</root>

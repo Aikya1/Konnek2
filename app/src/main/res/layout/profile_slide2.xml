@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp">
+
+   <EditText
+       android:id="@+id/firstname"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:hint="Enter your First Name"
+       android:drawableLeft="@drawable/profile_blue_29_3x"
+       android:paddingLeft="20dp"
+       android:drawablePadding="20dp"
+       android:inputType="text"
+       android:textColor="@color/black"
+       />
+
+
+    <EditText
+        android:id="@+id/lastname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter your Last Name"
+        android:drawableLeft="@drawable/profile_blue_29_3x"
+        android:paddingLeft="20dp"
+        android:inputType="text"
+        android:drawablePadding="20dp"
+        android:layout_below="@+id/firstname"
+        android:textColor="@color/black"
+        />
+
+
+
+    <EditText
+        android:id="@+id/email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter your Email "
+        android:inputType="textEmailAddress"
+        android:drawablePadding="20dp"
+        android:drawableLeft="@drawable/email_1024_84x84"
+        android:paddingLeft="20dp"
+        android:layout_below="@+id/lastname"
+        android:textColor="@color/black"
+
+
+        />
+
+    <EditText
+        android:id="@+id/contactno"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter your Contact Number "
+        android:drawablePadding="20dp"
+        android:drawableLeft="@drawable/phoen_icon_white_29_3x"
+        android:paddingLeft="20dp"
+        android:layout_below="@+id/email"
+        android:inputType="phone"
+        />
+
+
+    <EditText
+        android:id="@+id/facebookid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter your Facebook "
+        android:focusable="false"
+        android:drawablePadding="20dp"
+        android:drawableLeft="@drawable/fb_84x84"
+        android:paddingLeft="20dp"
+        android:layout_below="@+id/contactno"
+
+        />
+
+
+    <EditText
+        android:id="@+id/facebookpwd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter your Password"
+        android:drawablePadding="20dp"
+        android:drawableLeft="@drawable/password_1024_84x84"
+        android:paddingLeft="20dp"
+        android:drawableRight="@drawable/show_pw_block_29_3x"
+        android:layout_below="@+id/facebookid"
+        android:inputType="textPassword"
+        />
+
+
+
+ <TextView
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:id="@+id/tv1"
+     android:layout_below="@+id/facebookid"
+     android:textStyle="bold"
+     android:layout_marginTop="50dp"
+     android:gravity="center"
+     android:text="Additional Security"
+     android:textSize="20dp"
+     android:textColor="@color/black"/>
+
+ <TextView
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:id="@+id/tv2"
+     android:layout_below="@+id/tv1"
+     android:paddingLeft="20dp"
+     android:text="In order to protect your account security, please create your account password."
+
+     android:textColor="@color/black"/>
+
+ <TextView
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:id="@+id/tv3"
+     android:layout_marginTop="20dp"
+     android:layout_below="@+id/tv2"
+     android:paddingLeft="20dp"
+     android:text="You can even use this password to access our web version."
+
+     android:textColor="@color/black"/>
+
+
+</RelativeLayout>

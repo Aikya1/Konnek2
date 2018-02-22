@@ -1,65 +1,273 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/bg_main"
-                android:orientation="vertical">
+                android:background="#121F3F"
+                android:orientation="vertical"
+    android:padding="20dp">
 
     <TextView
-        android:id="@+id/text_view_title"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginTop="@dimen/margin_90dp"
-        android:text="KONNEK2"
-        android:textColor="@color/colorPrimary"
-        android:textSize="@dimen/text_size_24sp"
-        android:textStyle="bold"
-        android:typeface="monospace"
-        />
-
+        android:text="Sign Up"
+        android:textColor="@color/white"
+        android:layout_centerHorizontal="true"
+        android:textSize="20dp"/>
     <ImageView
-        android:id="@+id/labels_imageview"
+        android:id="@+id/logo_imageview"
         android:layout_width="125dp"
         android:layout_height="125dp"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="@dimen/margin_30dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/ic_app_logo"/>
+        android:src="@drawable/konnect2" />
+    />
 
-    <Button
-        android:id="@+id/phone_number_connect_button"
-        style="@style/TextViewDrawableStyle.White"
-        android:layout_width="@dimen/landing_button_width"
-        android:layout_height="@dimen/landing_button_height"
-        android:layout_below="@+id/labels_imageview"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="@dimen/margin_40dp"
-        android:background="@drawable/selector_button_green_oval"
-        android:text="@string/landing_connect_with_twitter_digits"
-        android:textAllCaps="true"
-        android:textSize="@dimen/landing_button_text_size"/>
+    <com.firebase.ui.auth.ui.phone.CountryListSpinner
+        android:id="@+id/country_isd_list"
 
-    <TextView
-        android:id="@+id/login_button"
-        style="@style/TextViewLinkStyle.Dark"
-        android:layout_width="@dimen/landing_button_width"
-        android:layout_height="@dimen/landing_button_height"
-        android:layout_below="@+id/phone_number_connect_button"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="@dimen/margin_35dp"
-        android:text="@string/landing_already_have_account"
-        android:textAllCaps="true"
-        android:textSize="@dimen/landing_button_text_size"/>
-
-    <TextView
-        android:id="@+id/app_version_textview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/login_button"
-        android:layout_marginTop="@dimen/margin_35dp"
+        style="@style/FirebaseUI.CountrySpinner"
+
+
+
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/logo_imageview"
+
+
+        android:layout_marginTop="20dp"
+      />
+
+
+    <EditText
+        android:id="@+id/etphoneno"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/country_isd_list"
+        android:inputType="phone"
+        android:textColorHint="@color/white"
+        android:textColor="@color/white"
+        android:drawablePadding="20dp"
+        android:drawableLeft="@drawable/phoen_icon_white_29_3x"
+
+        android:hint="Enter Phone Number"/>
+
+    <RelativeLayout
+        android:id="@+id/termsLayout"
+        android:layout_below="@+id/etphoneno"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="10dp"
+
+
+            >
+
+            <CheckBox
+                android:id="@+id/checkBox1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:buttonTint="@color/white"
+
+
+                />
+
+            <ImageButton
+                android:id="@+id/fbButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_weight="1"
+
+                android:background="@drawable/transparent"
+                android:src="@drawable/fb" />
+
+            <TextView
+                android:id="@+id/terms1"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:textColor="@color/white"
+                android:clickable="true"
+                android:gravity="center"
+                android:paddingLeft="10dp"
+                android:layout_toLeftOf="@+id/checkBox1"
+                android:text="@string/terms_and_ser_1"
+
+
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linearLayout1"
+            android:layout_marginTop="10dp"
+
+
+
+            >
+
+            <CheckBox
+                android:id="@+id/checkBox2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/white"
+                android:layout_gravity="center"
+                />
+
+            <TextView
+                android:id="@+id/terms2"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:textColor="@color/white"
+                android:text="@string/terms_and_ser_2"
+                android:paddingLeft="10dp"
+                android:gravity="center"
+
+                android:layout_toLeftOf="@+id/checkBox2"
+
+                />
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btnsignups"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/termsLayout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:paddingLeft="30dp"
+        android:text="Sign Up"
+        android:textStyle="bold"/>
+
+   <!-- <TextView
+        android:id="@+id/tvor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnsignups"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
         android:gravity="center"
-        android:text="@string/about_version"
-        android:textColor="@color/text_light_dark"
-        android:textSize="@dimen/text_size_14sp"/>
+        android:text="OR"
+        android:textColor="@color/white"
+        android:textSize="30dp" />-->
+
+    <RelativeLayout
+        android:id="@+id/relative2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_below="@+id/btnsignups"
+        android:layout_marginTop="30dp">
+
+        <TextView
+            android:id="@+id/tvText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:text="OR"
+            android:textSize="20dp"
+            android:textColor="#FFFFFF"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:layout_toLeftOf="@id/tvText"
+            android:background="@color/white"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
+            android:layout_toRightOf="@id/tvText"
+            android:background="@color/white"
+            />
+
+    </RelativeLayout>
+
+  <!--  <com.facebook.login.widget.LoginButton
+        android:id="@+id/login_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvor"
+        android:layout_marginTop="30dp"
+        android:paddingLeft="30dp"
+         />
+-->
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/relative2"
+        android:layout_marginTop="22dp"
+        android:orientation="horizontal"
+        android:paddingLeft="30dp"
+        android:weightSum="2">
+
+
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/gmButton"
+            android:background="@drawable/transparent"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/gmail"
+            android:layout_weight="1"/>
+
+        <!-- <com.facebook.login.widget.LoginButton
+        android:id="@+id/login_butto"
+        android:layout_width="0dp"
+       android:layout_weight="1"
+        android:layout_height="wrap_content"
+
+       />
+-->
+     <!--  <com.facebook.login.widget.LoginButton
+            android:id="@+id/login_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_weight="1" />
+-->
+
+       <!-- <com.google.android.gms.common.SignInButton
+            android:id="@+id/google_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+
+            android:paddingLeft="30dp" />-->
+-->
+    </LinearLayout>
 
 </RelativeLayout>
