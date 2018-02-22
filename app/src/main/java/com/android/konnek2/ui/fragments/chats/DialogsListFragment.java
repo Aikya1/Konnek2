@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.Loader;
 import android.text.TextUtils;
 import android.util.Log;
@@ -22,6 +21,7 @@ import android.widget.TextView;
 
 import com.android.konnek2.App;
 import com.android.konnek2.R;
+import com.android.konnek2.base.db.AppCallLogModel;
 import com.android.konnek2.call.core.core.command.Command;
 import com.android.konnek2.call.core.models.AppSession;
 import com.android.konnek2.call.core.models.DialogWrapper;
@@ -45,15 +45,11 @@ import com.android.konnek2.call.db.models.Message;
 import com.android.konnek2.call.services.QMUserCacheImpl;
 import com.android.konnek2.call.services.QMUserService;
 import com.android.konnek2.call.services.model.QMUser;
-import com.android.konnek2.base.db.AppCallLogModel;
 import com.android.konnek2.loaders.DialogsListLoader;
-import com.android.konnek2.ui.activities.about.AboutActivity;
 import com.android.konnek2.ui.activities.call.CallActivity;
 import com.android.konnek2.ui.activities.chats.GroupDialogActivity;
 import com.android.konnek2.ui.activities.chats.NewMessageActivity;
 import com.android.konnek2.ui.activities.chats.PrivateDialogActivity;
-import com.android.konnek2.ui.activities.feedback.FeedbackActivity;
-import com.android.konnek2.ui.activities.invitefriends.InviteFriendsActivity;
 import com.android.konnek2.ui.adapters.chats.DialogsListAdapter;
 import com.android.konnek2.ui.fragments.base.BaseLoaderFragment;
 import com.android.konnek2.ui.fragments.search.SearchFragment;
@@ -66,7 +62,6 @@ import com.quickblox.chat.QBChatService;
 import com.quickblox.chat.model.QBChatDialog;
 import com.quickblox.chat.model.QBDialogType;
 import com.quickblox.core.helper.CollectionsUtil;
-
 import com.quickblox.users.model.QBUser;
 import com.quickblox.videochat.webrtc.QBRTCTypes;
 
@@ -140,7 +135,6 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
             menuItemVideoCall.setVisible(false);
             menuItemAudioCall.setVisible(false);
         }
-
     }
 
     @Override
@@ -179,6 +173,7 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
         initActions();
         addObservers();
     }
+
 
 
     @Override

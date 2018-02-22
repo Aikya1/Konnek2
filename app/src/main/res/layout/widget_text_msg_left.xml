@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/msg_linear_frame_left"
-    style="@style/WidgetTextMessage.Left">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/msg_image_avatar"
@@ -27,7 +28,7 @@
             <TextView
                 android:id="@+id/msg_text_user_name"
                 style="@style/CustomTextViewUserName.Left"
-                android:text="Pooja"/>
+                android:text="Pooja" />
 
             <TextView
                 android:id="@+id/msg_text_message"

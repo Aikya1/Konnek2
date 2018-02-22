@@ -53,6 +53,7 @@ public class PrivateChatMessageAdapter extends BaseChatMessagesAdapter implement
         Log.d(TAG, "onBindViewCustomHolder combinationMessage getBody= " + chatMessage.getBody());
         FriendsViewHolder friendsViewHolder = (FriendsViewHolder) holder;
 
+
         boolean friendsRequestMessage = DialogNotification.Type.FRIENDS_REQUEST.equals(
                 chatMessage.getNotificationType());
         boolean friendsInfoRequestMessage = chatMessage.getNotificationType() != null && !friendsRequestMessage;

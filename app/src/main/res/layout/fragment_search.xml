@@ -1,31 +1,64 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_main"
-    android:orientation="vertical">
+    android:background="@color/bg_main">
 
-    <RadioGroup
-        android:id="@+id/search_radiogroup"
+    <!-- <RadioGroup
+         android:id="@+id/search_radiogroup"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:orientation="horizontal">
+
+         <RadioButton
+             style="@style/SearchRadioButtonStyle"
+             android:id="@+id/local_search_radiobutton"
+             android:visibility="gone"
+             android:text="@string/search_local_list" />
+
+         <RadioButton
+             style="@style/SearchRadioButtonStyle"
+             android:id="@+id/global_search_radiobutton"
+              />
+
+     </RadioGroup>-->
+
+    <LinearLayout
+        android:id="@+id/group_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_marginTop="@dimen/margin_8dp"
+        android:orientation="horizontal"
+        android:weightSum="1">
 
-        <RadioButton
-            style="@style/SearchRadioButtonStyle"
-            android:id="@+id/local_search_radiobutton"
-            android:visibility="gone"
-            android:text="@string/search_local_list" />
+        <ImageView
+            android:id="@+id/group_icon"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_15dp"
+            android:layout_weight="0.2"
+            android:contentDescription="@string/action_create_shortcut"
+            android:src="@drawable/ic_new_group_icon" />
 
-        <RadioButton
-            style="@style/SearchRadioButtonStyle"
-            android:id="@+id/global_search_radiobutton"
-             />
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="0.7"
+            android:padding="@dimen/margin_8dp"
+            android:text="@string/create_group"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size18sp" />
 
-    </RadioGroup>
+    </LinearLayout>
+
 
     <android.support.v4.view.ViewPager
         android:id="@+id/search_viewpager"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-</LinearLayout>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/group_layout"
+        android:layout_marginTop="@dimen/margin_15dp" />
+</RelativeLayout>

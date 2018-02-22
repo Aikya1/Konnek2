@@ -81,6 +81,9 @@
 
     <style name="SearchViewStyle" parent="Widget.AppCompat.SearchView">
         <item name="searchHintIcon">@null</item>
+      <!--  <item name="closeIcon">@drawable/ic_close_btn_icon</item>
+        <item name="queryBackground">@color/white</item>-->
+
     </style>
 
     <style name="VideoPlayerTheme" parent="android:Theme.Holo">

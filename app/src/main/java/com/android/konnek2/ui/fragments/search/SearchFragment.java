@@ -13,14 +13,17 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RadioGroup;
-
+import android.view.WindowManager;
+import android.widget.AutoCompleteTextView;
+import android.widget.TextView;
 
 import com.android.konnek2.R;
 import com.android.konnek2.ui.adapters.search.SearchViewPagerAdapter;
 import com.android.konnek2.ui.fragments.base.BaseFragment;
 import com.android.konnek2.ui.fragments.chats.DialogsListFragment;
 import com.android.konnek2.utils.KeyboardUtils;
+
+import java.lang.reflect.Field;
 
 import butterknife.Bind;
 
@@ -29,8 +32,8 @@ public class SearchFragment extends BaseFragment implements SearchView.OnQueryTe
     @Bind(R.id.search_viewpager)
     ViewPager searchViewPager;
 
-    @Bind(R.id.search_radiogroup)
-    RadioGroup searchRadioGroup;
+   /* @Bind(R.id.search_radiogroup)
+    RadioGroup searchRadioGroup;*/
 
     private SearchViewPagerAdapter searchViewPagerAdapter;
 //    private AppGlobalSearch appGlobalSearchCallback;
@@ -43,9 +46,13 @@ public class SearchFragment extends BaseFragment implements SearchView.OnQueryTe
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup container, Bundle savedInstanceState) {
         View view = layoutInflater.inflate(R.layout.fragment_search, container, false);
 
+
+
         activateButterKnife(view);
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         initViewPagerAdapter();
-        initCustomListeners();
+//
+//  initCustomListeners();
 
         return view;
     }
@@ -78,7 +85,18 @@ public class SearchFragment extends BaseFragment implements SearchView.OnQueryTe
             searchView = (SearchView) searchMenuItem.getActionView();
             MenuItemCompat.expandActionView(searchMenuItem);
             MenuItemCompat.setOnActionExpandListener(searchMenuItem, this);
+
+            AutoCompleteTextView searchTextView = searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
+            try {
+                searchTextView.setBackgroundColor(getResources().getColor(R.color.white));
+                searchTextView.setTextColor(getResources().getColor(R.color.black));
+                Field mCursorDrawableRes = TextView.class.getDeclaredField("mCursorDrawableRes");
+                mCursorDrawableRes.setAccessible(true);
+            } catch (Exception e) {
+            }
+
         }
+
 
         if (searchView != null) {
             searchView.setQueryHint(getString(R.string.action_bar_search_hint));
@@ -128,11 +146,9 @@ public class SearchFragment extends BaseFragment implements SearchView.OnQueryTe
 //        searchRadioGroup.check(R.id.local_search_radiobutton);
     }
 
-    private void initCustomListeners() {
+    /*private void initCustomListeners() {
         searchRadioGroup.setOnCheckedChangeListener(new RadioGroupListener());
-
-
-    }
+    }*/
 
     private void launchDialogsListFragment() {
         baseActivity.setCurrentFragment(DialogsListFragment.newInstance());
@@ -152,7 +168,7 @@ public class SearchFragment extends BaseFragment implements SearchView.OnQueryTe
         }
     }
 
-    private class RadioGroupListener implements RadioGroup.OnCheckedChangeListener {
+    /*private class RadioGroupListener implements RadioGroup.OnCheckedChangeListener {
 
         @Override
         public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
@@ -169,7 +185,7 @@ public class SearchFragment extends BaseFragment implements SearchView.OnQueryTe
                     break;
             }
         }
-    }
+    }*/
 
     private class PageChangeListener extends ViewPager.SimpleOnPageChangeListener {
 
@@ -181,7 +197,7 @@ public class SearchFragment extends BaseFragment implements SearchView.OnQueryTe
 //
 //                    break;
                 case SearchViewPagerAdapter.GLOBAL_SEARCH:
-                    searchRadioGroup.check(R.id.global_search_radiobutton);
+//                    searchRadioGroup.check(R.id.global_search_radiobutton);
 
                     break;
             }

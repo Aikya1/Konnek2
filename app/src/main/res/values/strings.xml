@@ -388,5 +388,6 @@
     <string name="action_create_shortcut">Create Shortcut</string>
     <string name="action_clear_chat">Clear Chat</string>
     <string name="action_delete_chat">Delete Chat</string>
+    <string name="create_group">New Group</string>
 
 </resources>
