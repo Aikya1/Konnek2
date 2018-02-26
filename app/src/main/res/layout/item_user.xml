@@ -9,15 +9,13 @@
     android:padding="10dp">
 
     <com.android.konnek2.ui.views.roundedimageview.RoundedImageView
-        style="@style/AvatarImageViewStyle.Common"
         android:id="@+id/avatar_imageview"
-        android:layout_width="@dimen/image_view_small_avatar_layout_width"
-        android:layout_height="@dimen/image_view_small_avatar_layout_height"
+        style="@style/AvatarImageViewStyle.Common"
+        android:layout_width="@dimen/image_view_big_avatar_layout_width"
+        android:layout_height="@dimen/image_view_big_avatar_layout_width"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="5dp"
-        app:border_color="@color/colorPrimary"
-        app:border_width="@dimen/avatar_border_width"
+        android:layout_marginLeft="10dp"
         app:oval="true" />
 
     <RelativeLayout
@@ -37,7 +35,7 @@
             android:layout_gravity="fill"
             android:ellipsize="end"
             android:singleLine="true"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/black"
             android:textSize="@dimen/text_size"
             tools:text="Name" />
 
@@ -47,7 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/name_textview"
             android:layout_gravity="fill"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/black"
             android:textSize="@dimen/text_size_small"
             tools:text="Status" />
 

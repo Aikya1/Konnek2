@@ -15,7 +15,10 @@ import com.quickblox.core.request.QBPagedRequestBuilder;
 import com.quickblox.users.QBUsers;
 import com.quickblox.users.model.QBUser;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 
 public class QBFindUsersCommand extends ServiceCommand {
 
@@ -42,7 +45,14 @@ public class QBFindUsersCommand extends ServiceCommand {
         requestBuilder.setPerPage(ConstsCore.FL_FRIENDS_PER_PAGE);
 
         Bundle requestParams = new Bundle();
-        Collection<QBUser> userList = QBUsers.getUsersByFullName(constraint, requestBuilder, requestParams).perform();
+        List<String> tags = new LinkedList<>();
+        tags.add(constraint);
+
+
+//        Collection<QBUser> userList = QBUsers.getUsersByFullName(constraint, requestBuilder, requestParams).perform();
+
+
+        ArrayList<QBUser> userList= QBUsers.getUsersByTags(tags,requestBuilder,requestParams).perform();
         Collection<QMUser> userCollection = UserFriendUtils.createUsersList(userList);
 
         Bundle params = new Bundle();

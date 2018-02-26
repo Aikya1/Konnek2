@@ -64,8 +64,12 @@ public class GlobalSearchAdapter extends BaseFilterAdapter<QBUser, BaseClickList
         }
 
         final UserCustomData userCustomData = Utils.customDataToObject(user.getCustomData());
-        String avatarUrl = userCustomData.getAvatarUrl();
-        displayAvatarImage(avatarUrl, holder.avatarImageView);
+
+        if (userCustomData.getAvatarUrl() != null) {
+            String avatarUrl = userCustomData.getAvatarUrl();
+            displayAvatarImage(avatarUrl, holder.avatarImageView);
+        }
+
 
         checkVisibilityItems(holder, user);
 
@@ -138,7 +142,7 @@ public class GlobalSearchAdapter extends BaseFilterAdapter<QBUser, BaseClickList
             viewHolder.statusTextView.setTextColor(resources.getColor(R.color.green));
         } else {
             QMUser userFromDb = QMUserService.getInstance().getUserCache().get((long) user.getId());
-            if (userFromDb != null){
+            if (userFromDb != null) {
                 user = userFromDb;
             }
 

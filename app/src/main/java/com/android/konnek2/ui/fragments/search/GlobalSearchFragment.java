@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import com.android.konnek2.R;
 import com.android.konnek2.call.core.core.command.Command;
 import com.android.konnek2.call.core.models.AppSession;
+import com.android.konnek2.call.core.qb.commands.QBFindUsersCommand;
 import com.android.konnek2.call.core.qb.commands.friend.QBAddFriendCommand;
 import com.android.konnek2.call.core.service.QBService;
 import com.android.konnek2.call.core.service.QBServiceConsts;
@@ -32,12 +33,17 @@ import com.android.konnek2.utils.listeners.UserOperationListener;
 import com.android.konnek2.utils.listeners.simple.SimpleOnRecycleItemClickListener;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
+import com.quickblox.chat.model.QBChatDialog;
+import com.quickblox.core.QBEntityCallback;
+import com.quickblox.core.exception.QBResponseException;
 import com.quickblox.core.request.QBPagedRequestBuilder;
 
+import com.quickblox.users.QBUsers;
 import com.quickblox.users.model.QBUser;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -72,6 +78,8 @@ public class GlobalSearchFragment extends BaseFragment implements SearchListener
     private String searchQuery;
     private boolean excludedMe;
 
+    QBService qbService;
+
     public static GlobalSearchFragment newInstance() {
         return new GlobalSearchFragment();
     }
@@ -83,7 +91,7 @@ public class GlobalSearchFragment extends BaseFragment implements SearchListener
         activateButterKnife(view);
 
         initFields();
-        initContactsList(usersList);
+        initContactsList();
         initCustomListeners();
 
         addActions();
@@ -175,18 +183,58 @@ public class GlobalSearchFragment extends BaseFragment implements SearchListener
         swipyRefreshLayout.setEnabled(false);
     }
 
-    private void initContactsList(List<QBUser> usersList) {
+    private void initContactsList() {
+
+//        QBFindUsersCommand.start(getContext(), null, "dev", 100);
+
+        
+        QBPagedRequestBuilder requestBuilder = new QBPagedRequestBuilder();
+        requestBuilder.setPage(page);
+        requestBuilder.setPerPage(ConstsCore.FL_FRIENDS_PER_PAGE);
+
+
+        QMUserService.getInstance().getUserByTag("dev", requestBuilder, true)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new rx.Observer<List<QMUser>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.d(TAG, "OnCompleted..");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d(TAG, "onError.." + e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(List<QMUser> qbUsers) {
+                        Log.d(TAG, "onNext..");
+
+                        if (qbUsers != null && !qbUsers.isEmpty()) {
+                            checkForExcludeMe(qbUsers);
+                            usersList.clear();
+                            usersList.addAll(qbUsers);
+                            updateContactsList(usersList);
+                        }
+
+                        swipyRefreshLayout.setRefreshing(false);
+                        checkForEnablingRefreshLayout();
+                    }
+                });
+
+
         globalSearchAdapter = new GlobalSearchAdapter(baseActivity, usersList);
         globalSearchAdapter.setFriendListHelper(friendListHelper);
         contactsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         contactsRecyclerView.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
-        ;
         contactsRecyclerView.setAdapter(globalSearchAdapter);
         globalSearchAdapter.setUserOperationListener(userOperationAction);
     }
 
     private void initCustomListeners() {
 
+//
         globalSearchAdapter.setOnRecycleItemClickListener(new SimpleOnRecycleItemClickListener<QBUser>() {
 
             @Override
@@ -355,11 +403,9 @@ public class GlobalSearchFragment extends BaseFragment implements SearchListener
     }
 
     private class FindUserSuccessAction implements Command {
-
         @Override
         public void execute(Bundle bundle) {
             parseResult(bundle);
-
             swipyRefreshLayout.setRefreshing(false);
             checkForEnablingRefreshLayout();
         }

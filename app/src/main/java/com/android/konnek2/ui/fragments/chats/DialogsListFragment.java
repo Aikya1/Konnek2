@@ -175,7 +175,6 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
     }
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView");
@@ -224,7 +223,6 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
     }
 
 
-
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
@@ -237,7 +235,8 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
 
         switch (item.getItemId()) {
             case R.id.action_search:
-                launchContactsFragment();
+                addChat();
+//                launchContactsFragment();
 //                MainActivity.start(getActivity());
                 break;
             default:

@@ -41,7 +41,7 @@ public class FriendsAdapter extends BaseFilterAdapter<QMUser, BaseClickListenerV
 
     @Override
     public BaseClickListenerViewHolder<QMUser> onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(this, layoutInflater.inflate(R.layout.item_friend, parent, false));
+        return new ViewHolder(this, layoutInflater.inflate(R.layout.item_friend_1, parent, false));
     }
 
     @Override
@@ -49,11 +49,11 @@ public class FriendsAdapter extends BaseFilterAdapter<QMUser, BaseClickListenerV
         QMUser user = getItem(position);
         ViewHolder viewHolder = (ViewHolder) baseClickListenerViewHolder;
 
-        if (withFirstLetter) {
+       /* if (withFirstLetter) {
             initFirstLetter(viewHolder, position, user);
         } else {
             viewHolder.firstLatterTextView.setVisibility(View.GONE);
-        }
+        }*/
 
         viewHolder.nameTextView.setText(user.getFullName());
 
@@ -71,7 +71,7 @@ public class FriendsAdapter extends BaseFilterAdapter<QMUser, BaseClickListenerV
         notifyDataSetChanged();
     }
 
-    private void initFirstLetter(ViewHolder viewHolder, int position, QMUser user) {
+    /*private void initFirstLetter(ViewHolder viewHolder, int position, QMUser user) {
         if (TextUtils.isEmpty(user.getFullName())) {
             return;
         }
@@ -92,12 +92,12 @@ public class FriendsAdapter extends BaseFilterAdapter<QMUser, BaseClickListenerV
                 }
             }
         }
-    }
+    }*/
 
-    private void setLetterVisible(ViewHolder viewHolder, Character character) {
+ /*   private void setLetterVisible(ViewHolder viewHolder, Character character) {
         viewHolder.firstLatterTextView.setText(String.valueOf(character));
         viewHolder.firstLatterTextView.setVisibility(View.VISIBLE);
-    }
+    }*/
 
     private void setLabel(ViewHolder viewHolder, QMUser user) {
         boolean online = qbFriendListHelper != null && qbFriendListHelper.isUserOnline(user.getId());
@@ -109,7 +109,8 @@ public class FriendsAdapter extends BaseFilterAdapter<QMUser, BaseClickListenerV
         if (online) {
             viewHolder.labelTextView.setText(OnlineStatusUtils.getOnlineStatus(online));
             viewHolder.labelTextView.setTextColor(baseActivity.getResources().getColor(R.color.green));
-        } else {
+        } else if (user.getLastRequestAt() != null) {
+
             viewHolder.labelTextView.setText(baseActivity.getString(R.string.last_seen,
                     DateUtils.toTodayYesterdayShortDateWithoutYear2(user.getLastRequestAt().getTime()),
                     DateUtils.formatDateSimpleTime(user.getLastRequestAt().getTime())));
@@ -124,8 +125,8 @@ public class FriendsAdapter extends BaseFilterAdapter<QMUser, BaseClickListenerV
 
     protected static class ViewHolder extends BaseViewHolder<QMUser> {
 
-        @Bind(R.id.first_latter_textview)
-        TextView firstLatterTextView;
+     /*   @Bind(R.id.first_latter_textview)
+        TextView firstLatterTextView;*/
 
         @Bind(R.id.avatar_imageview)
         RoundedImageView avatarImageView;

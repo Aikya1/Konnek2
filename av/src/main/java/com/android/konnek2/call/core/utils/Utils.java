@@ -139,6 +139,13 @@ public class Utils {
         UserCustomData userCustomData = null;
         GsonBuilder gsonBuilder = new GsonBuilder();
 
+
+        if (userCustomDataString.contains("[") || userCustomDataString.contains("]")) {
+            userCustomDataString = userCustomDataString.replace("[", "{");
+            userCustomDataString = userCustomDataString.replace("]", "}");
+        }
+
+
         Gson gson = gsonBuilder.create();
 
         try {

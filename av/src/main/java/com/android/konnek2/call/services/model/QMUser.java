@@ -15,7 +15,6 @@ import java.util.List;
 public class QMUser extends QBUser {
 
 
-
     private String avatar;
 
     private String status;
@@ -36,7 +35,7 @@ public class QMUser extends QBUser {
         this.status = status;
     }
 
-    public static QMUser convert(QBUser qbUser){
+    public static QMUser convert(QBUser qbUser) {
         QMUser result = new QMUser();
         result.setId(qbUser.getId());
         result.setFullName(qbUser.getFullName());
@@ -58,15 +57,19 @@ public class QMUser extends QBUser {
         result.setUpdatedAt(qbUser.getUpdatedAt());
 
 
+        String customData = qbUser.getCustomData();
+
+
+
         final QMUserCustomData userCustomData = Utils.customDataToObject(qbUser.getCustomData());
         result.setAvatar(userCustomData.getAvatarUrl());
         result.setStatus(userCustomData.getStatus());
         return result;
     }
 
-    public static List<QMUser> convertList(List<QBUser> qbUsers){
+    public static List<QMUser> convertList(List<QBUser> qbUsers) {
         List<QMUser> result = new ArrayList<QMUser>(qbUsers.size());
-        for(QBUser qbUser: qbUsers){
+        for (QBUser qbUser : qbUsers) {
             result.add(QMUser.convert(qbUser));
         }
         return result;

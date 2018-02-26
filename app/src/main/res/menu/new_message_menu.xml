@@ -3,16 +3,15 @@
 
     <item
         android:id="@+id/action_search"
-        android:actionViewClass="android.widget.SearchView"
         android:icon="@drawable/ic_app_search"
         android:title="@string/action_bar_search"
         app:actionViewClass="android.support.v7.widget.SearchView"
-        app:showAsAction="always|collapseActionView" />
+        app:showAsAction="always|collapseActionView"/>
 
-    <item
+   <!-- <item
         android:id="@+id/action_create_group"
         android:icon="@drawable/ic_app_chat_group"
         android:title="@string/new_message_create_group"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="ifRoom" />-->
 
 </menu>
