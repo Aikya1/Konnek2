@@ -150,17 +150,17 @@ public class AppHomeActivity extends AppCompatActivity implements NavigationView
                         startActivity(goToChatBot);
 
                         break;
-                    case 8:
+                    case 7:
                         Intent goToCharity = new Intent(getApplicationContext(), CharityActivity.class);
                         startActivity(goToCharity);
 
                         break;
-                    case 9:
+                    case 8:
                         Intent goTomStore = new Intent(getApplicationContext(), AppMobileStoreActivity.class);
                         startActivity(goTomStore);
                         break;
 
-                    case 10:
+                    case 9:
 
                         Intent goToHangouts = new Intent(getApplicationContext(), HangoutActivity.class);
                         startActivity(goToHangouts);

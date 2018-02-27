@@ -57,7 +57,7 @@ public class MyProfileActivity extends BaseLoggableActivity implements OnMediaPi
     private QBUser qbUser;
     private boolean isNeedUpdateImage;
     private UserCustomData userCustomData;
-    private String currentFullName;
+    private String  currentFullName;
     private String oldFullName;
     private MediaPickHelper mediaPickHelper;
     private Uri imageUri;
@@ -166,13 +166,16 @@ public class MyProfileActivity extends BaseLoggableActivity implements OnMediaPi
 
     private void initCustomData() {
         userCustomData = Utils.customDataToObject(qbUser.getCustomData());
-        if (userCustomData == null) {
+        if (userCustomData == null)
+        {
             userCustomData = new UserCustomData();
         }
     }
 
-    private void loadAvatar() {
-        if (userCustomData != null && !TextUtils.isEmpty(userCustomData.getAvatarUrl())) {
+    private void loadAvatar()
+    {
+        if (userCustomData != null && !TextUtils.isEmpty(userCustomData.getAvatarUrl()))
+        {
             ImageLoader.getInstance().displayImage(userCustomData.getAvatarUrl(),
                     photoImageView, ImageLoaderUtils.UIL_USER_AVATAR_DISPLAY_OPTIONS);
         }

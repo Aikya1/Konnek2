@@ -9,8 +9,10 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.util.Log;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.android.konnek2.base.activity.Intro;
 import com.android.konnek2.utils.AppPreference;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -191,7 +193,9 @@ public abstract class BaseAuthActivity extends BaseActivity {
 
     protected void startMainActivity() {
 //        MainActivity.start(BaseAuthActivity.this);
-        AppHomeActivity.start(BaseAuthActivity.this);
+
+        startActivity(new Intent(BaseAuthActivity.this,Intro.class));
+//        AppHomeActivity.start(BaseAuthActivity.this);
         finish();
     }
 
@@ -230,6 +234,8 @@ public abstract class BaseAuthActivity extends BaseActivity {
 
         AppPreference.putQBUserId("" + user.getId());
         AppPreference.putQbUser("" + user);
+
+
         startMainActivity(user);
 
         // send analytics data

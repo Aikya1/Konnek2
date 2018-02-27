@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.android.konnek2.ui.views.roundedimageview.RoundedImageView
+        android:id="@+id/avatar_imageview"
+        style="@style/AvatarImageViewStyle.Common"
+        android:layout_width="125dp"
+        android:layout_height="125dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+
+        app:border_color="@color/colorPrimary"
+        app:border_width="@dimen/avatar_border_width"
+        app:oval="true" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/avatar_imageview"
+        android:layout_marginLeft="28dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="11dp"
+        android:gravity="center"
+        android:paddingTop="10dp"
+        android:textColor="@color/black"
+        android:text="Take a selfie and status" />
+
+
+
+    <ImageView
+        android:id="@+id/image_userStatus"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_above="@+id/textView"
+        android:layout_alignLeft="@+id/avatar_imageview"
+        android:layout_alignStart="@+id/avatar_imageview"
+        android:layout_gravity="right|bottom"
+        android:layout_marginLeft="93dp"
+        android:layout_marginStart="93dp"
+        android:src="@drawable/camera_selfie" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+
+        android:background="#c0c0c0"
+
+        android:layout_above="@+id/tv1"
+        android:id="@+id/view2"/>
+    <TextView
+        android:layout_width="500dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv1"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/textView"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        android:drawableRight="@drawable/pencilsss"
+        android:gravity="center|left"
+
+        android:layout_marginTop="10dp"
+        android:paddingLeft="20dp"
+        android:textColor="@color/black"
+        android:text="Set your status" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@+id/tv1"
+        android:background="#c0c0c0"
+        android:layout_marginTop="20dp"
+        android:id="@+id/view1"/>
+
+    <TextView
+        android:id="@+id/tv2"
+        android:layout_width="500dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tv1"
+        android:layout_alignStart="@+id/tv1"
+        android:layout_below="@+id/view1"
+        android:layout_marginTop="20dp"
+        android:paddingLeft="20dp"
+        android:textColor="@color/black"
+        android:text="My preferred languages for dictation are:"
+        />
+
+
+    <Spinner
+        android:id="@+id/spin1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:text="Language 1"
+        android:layout_below="@+id/tv2"
+        android:paddingLeft="20dp"
+        android:textSize="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_alignLeft="@+id/tv1"
+        android:layout_alignStart="@+id/tv1"
+        android:entries="@array/Language1"
+        />
+
+    <Spinner
+        android:id="@+id/spin2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:text="Language 2"
+        android:paddingLeft="20dp"
+        android:layout_below="@+id/spin1"
+        android:textSize="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_alignLeft="@+id/tv1"
+        android:layout_alignStart="@+id/tv1"
+        android:entries="@array/Language2"
+        />
+
+
+</RelativeLayout>

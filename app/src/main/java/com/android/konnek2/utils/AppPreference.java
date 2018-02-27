@@ -13,14 +13,18 @@ public class AppPreference {
     private Context context;
     public static SharedPreferences sigInPreference;
     public static SharedPreferences quickBloxPreference;
+
     public static SharedPreferences.Editor signInEditor;
     public static SharedPreferences.Editor quickBloxEditor;
+
+
 
     public AppPreference(Context context) {
         this.context = context;
 
         sigInPreference = context.getSharedPreferences(AppConstant.SIGN_PREFERENCE, 0);
         quickBloxPreference = context.getSharedPreferences(AppConstant.QUICKBLOX_PREFERENCE, 0);
+
         signInEditor = sigInPreference.edit();
         quickBloxEditor = quickBloxPreference.edit();
 
