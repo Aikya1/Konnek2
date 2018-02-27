@@ -55,15 +55,24 @@ public class FriendsAdapter extends BaseFilterAdapter<QMUser, BaseClickListenerV
             viewHolder.firstLatterTextView.setVisibility(View.GONE);
         }*/
 
-        viewHolder.nameTextView.setText(user.getFullName());
+        if (!isMe(user)) {
+            viewHolder.deviceTextView.setVisibility(View.VISIBLE);
+            viewHolder.labelTextView.setVisibility(View.VISIBLE);
+            viewHolder.nameTextView.setVisibility(View.VISIBLE);
+            viewHolder.nameTextView.setText(user.getFullName());
+            viewHolder.avatarImageView.setVisibility(View.VISIBLE);
 
-        displayAvatarImage(user.getAvatar(), viewHolder.avatarImageView);
+            if (user.getAvatar() != null || !TextUtils.isEmpty(user.getAvatar())) {
+                displayAvatarImage(user.getAvatar(), viewHolder.avatarImageView);
+            }
 
-        if (!TextUtils.isEmpty(query)) {
-            TextViewHelper.changeTextColorView(baseActivity, viewHolder.nameTextView, query);
+            if (!TextUtils.isEmpty(query)) {
+                TextViewHelper.changeTextColorView(baseActivity, viewHolder.nameTextView, query);
+            }
+
+            setLabel(viewHolder, user);
         }
 
-        setLabel(viewHolder, user);
     }
 
     public void setFriendListHelper(QBFriendListHelper qbFriendListHelper) {
@@ -110,11 +119,10 @@ public class FriendsAdapter extends BaseFilterAdapter<QMUser, BaseClickListenerV
             viewHolder.labelTextView.setText(OnlineStatusUtils.getOnlineStatus(online));
             viewHolder.labelTextView.setTextColor(baseActivity.getResources().getColor(R.color.green));
         } else if (user.getLastRequestAt() != null) {
-
             viewHolder.labelTextView.setText(baseActivity.getString(R.string.last_seen,
                     DateUtils.toTodayYesterdayShortDateWithoutYear2(user.getLastRequestAt().getTime()),
                     DateUtils.formatDateSimpleTime(user.getLastRequestAt().getTime())));
-            viewHolder.labelTextView.setTextColor(baseActivity.getResources().getColor(R.color.colorPrimary));
+//            viewHolder.labelTextView.setTextColor(baseActivity.getResources().getColor(R.color.colorPrimary));
         }
     }
 
@@ -130,6 +138,10 @@ public class FriendsAdapter extends BaseFilterAdapter<QMUser, BaseClickListenerV
 
         @Bind(R.id.avatar_imageview)
         RoundedImageView avatarImageView;
+
+
+        @Bind(R.id.device_tv)
+        TextView deviceTextView;
 
         @Bind(R.id.name_textview)
         TextView nameTextView;

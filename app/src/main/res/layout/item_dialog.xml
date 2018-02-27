@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="fill"
                 android:maxLines="2"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/black"
                 android:textSize="@dimen/text_size"
                 tools:text="Nabe dsjkd sdldjscljkd dsclk"/>
 
@@ -53,7 +53,7 @@
                 android:layout_below="@id/name_textview"
                 android:layout_gravity="center_vertical"
                 android:singleLine="true"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/dark_gray"
                 android:textSize="@dimen/text_size_small"
                 tools:text="1111111 sclk"/>
 

@@ -51,7 +51,7 @@
         <item name="android:buttonStyle">@style/ButtonStyle</item>
         <item name="buttonStyle">@style/ButtonStyle</item>
         <item name="android:actionOverflowButtonStyle">@style/OverFlow</item>
-
+        <item name="homeAsUpIndicator">@drawable/ic_app_back</item>
 
         <!-- Material Dialog theme -->
         <item name="md_dark_theme">false</item>

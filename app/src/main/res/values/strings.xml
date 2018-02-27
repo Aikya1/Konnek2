@@ -391,5 +391,8 @@
     <string name="action_clear_chat">Clear Chat</string>
     <string name="action_delete_chat">Delete Chat</string>
     <string name="create_group">New Group</string>
+    <string name="last_seen_user">last seen at 5:12 PM</string>
+    <string name="mobile">Mobile</string>
+    <string name="name">Pooja</string>
 
 </resources>

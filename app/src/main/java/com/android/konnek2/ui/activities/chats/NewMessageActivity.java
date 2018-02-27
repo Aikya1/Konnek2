@@ -14,45 +14,37 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
-import android.widget.TextView;
+import android.widget.LinearLayout;
 
 import com.android.konnek2.R;
 import com.android.konnek2.call.core.core.command.Command;
-import com.android.konnek2.call.core.qb.commands.QBFindUsersCommand;
+import com.android.konnek2.call.core.models.AppSession;
 import com.android.konnek2.call.core.qb.commands.chat.QBCreatePrivateChatCommand;
-import com.android.konnek2.call.core.qb.commands.friend.QBImportFriendsCommand;
-import com.android.konnek2.call.core.qb.commands.friend.QBInitFriendListCommand;
-import com.android.konnek2.call.core.qb.commands.friend.QBLoadFriendListCommand;
 import com.android.konnek2.call.core.service.QBService;
 import com.android.konnek2.call.core.service.QBServiceConsts;
 import com.android.konnek2.call.core.utils.ConstsCore;
-import com.android.konnek2.call.core.utils.UserFriendUtils;
 import com.android.konnek2.call.db.managers.DataManager;
 import com.android.konnek2.call.db.models.DialogOccupant;
-import com.android.konnek2.call.db.models.Friend;
 import com.android.konnek2.call.db.utils.DialogTransformUtils;
 import com.android.konnek2.call.services.QMUserService;
 import com.android.konnek2.call.services.model.QMUser;
-import com.android.konnek2.ui.activities.base.BaseActivity;
 import com.android.konnek2.ui.activities.base.BaseLoggableActivity;
 import com.android.konnek2.ui.adapters.friends.FriendsAdapter;
 import com.android.konnek2.utils.KeyboardUtils;
 import com.android.konnek2.utils.listeners.simple.SimpleOnRecycleItemClickListener;
 import com.quickblox.chat.model.QBChatDialog;
 import com.quickblox.core.request.QBPagedRequestBuilder;
-import com.quickblox.users.QBUsers;
 import com.quickblox.users.model.QBUser;
 
-
-import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import butterknife.Bind;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class NewMessageActivity extends BaseLoggableActivity implements SearchView.OnQueryTextListener, SearchView.OnCloseListener {
+public class NewMessageActivity extends BaseLoggableActivity implements SearchView.OnQueryTextListener, SearchView.OnCloseListener, View.OnClickListener {
 
     private static final String TAG = NewMessageActivity.class.getSimpleName();
 
@@ -60,11 +52,15 @@ public class NewMessageActivity extends BaseLoggableActivity implements SearchVi
     @Bind(R.id.friends_recyclerview)
     RecyclerView friendsRecyclerView;
 
+    @Bind(R.id.group_layout)
+    LinearLayout groupLayout;
+
+    private List<QMUser> usersList;
+
     private DataManager dataManager;
     private FriendsAdapter friendsAdapter;
     private QMUser selectedUser;
     private int page = 1;
-
 
     public static void startForResult(Fragment fragment, int requestCode) {
         Intent intent = new Intent(fragment.getActivity(), NewMessageActivity.class);
@@ -83,7 +79,7 @@ public class NewMessageActivity extends BaseLoggableActivity implements SearchVi
         setUpActionBarWithUpButton();
 
         initRecyclerView();
-//        initCustomListeners();
+        initCustomListeners();
 
         addActions();
     }
@@ -122,24 +118,27 @@ public class NewMessageActivity extends BaseLoggableActivity implements SearchVi
 
         if (searchMenuItem != null) {
             searchView = (SearchView) searchMenuItem.getActionView();
+            MenuItemCompat.expandActionView(searchMenuItem);
 
             AutoCompleteTextView searchTextView = searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
             try {
                 searchTextView.setBackgroundColor(getResources().getColor(R.color.white));
                 searchTextView.setTextColor(getResources().getColor(R.color.black));
-                Field mCursorDrawableRes = TextView.class.getDeclaredField("mCursorDrawableRes");
-                mCursorDrawableRes.setAccessible(true);
+                searchTextView.setHint(getResources().getString(R.string.action_bar_search));
+              /*  Field mCursorDrawableRes = TextView.class.getDeclaredField("mCursorDrawableRes");
+                mCursorDrawableRes.setAccessible(true);*/
             } catch (Exception e) {
             }
 
         }
 
-
         if (searchView != null) {
+            searchView.setQueryHint(getString(R.string.action_bar_search_hint));
             searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
             searchView.setOnQueryTextListener(this);
             searchView.setOnCloseListener(this);
         }
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -157,7 +156,10 @@ public class NewMessageActivity extends BaseLoggableActivity implements SearchVi
 
     @Override
     public boolean onClose() {
+
+        Log.d(TAG, "Closed");
         cancelSearch();
+        finish();
         return false;
     }
 
@@ -189,12 +191,16 @@ public class NewMessageActivity extends BaseLoggableActivity implements SearchVi
     }
 
     private void initFields() {
-        title = getString(R.string.new_message_title);
+//        title = getString(R.string.new_message_title);
         dataManager = DataManager.getInstance();
+        groupLayout.setOnClickListener(this);
+        usersList = new ArrayList<>();
     }
 
     private void initRecyclerView() {
 //        List<Friend> friendsList = dataManager.getFriendDataManager().getAllSorted();
+
+        showProgress();
 
         QBPagedRequestBuilder requestBuilder = new QBPagedRequestBuilder();
         requestBuilder.setPage(page);
@@ -217,19 +223,41 @@ public class NewMessageActivity extends BaseLoggableActivity implements SearchVi
 
                     @Override
                     public void onNext(List<QMUser> qbUsers) {
+                        hideProgress();
                         Log.d(TAG, "onNext..");
+
+
                         if (qbUsers != null && !qbUsers.isEmpty()) {
-                            friendsAdapter = new FriendsAdapter(NewMessageActivity.this, qbUsers, false);
-                            friendsAdapter.setFriendListHelper(friendListHelper);
-                            friendsRecyclerView.setLayoutManager(new LinearLayoutManager(NewMessageActivity.this));
-                            friendsRecyclerView.setAdapter(friendsAdapter);
-                            initCustomListeners();
+                            checkForExcludeMe(qbUsers);
+                            usersList.clear();
+                            usersList.addAll(qbUsers);
+                            updateContactsList(usersList);
+
                         }
                     }
                 });
 
-
+        friendsAdapter = new FriendsAdapter(NewMessageActivity.this, usersList, false);
+        friendsAdapter.setFriendListHelper(friendListHelper);
+        friendsRecyclerView.setLayoutManager(new LinearLayoutManager(NewMessageActivity.this));
+        friendsRecyclerView.setAdapter(friendsAdapter);
     }
+
+
+    private void updateContactsList(List<QMUser> usersList) {
+        this.usersList = usersList;
+        friendsAdapter.setList(usersList);
+    }
+
+
+    private void checkForExcludeMe(Collection<QMUser> usersCollection) {
+        QBUser qbUser = AppSession.getSession().getUser();
+        QMUser me = QMUser.convert(qbUser);
+        if (usersCollection.contains(me)) {
+            usersCollection.remove(me);
+        }
+    }
+
 
     private void initCustomListeners() {
         friendsAdapter.setOnRecycleItemClickListener(new SimpleOnRecycleItemClickListener<QMUser>() {
@@ -278,13 +306,27 @@ public class NewMessageActivity extends BaseLoggableActivity implements SearchVi
     private void search(String searchQuery) {
         if (friendsAdapter != null) {
             friendsAdapter.setFilter(searchQuery);
+            friendsAdapter.notifyDataSetChanged();
         }
     }
 
     private void cancelSearch() {
+        Log.d(TAG, "Cancel Search");
         if (friendsAdapter != null) {
-            friendsAdapter.flushFilter();
+            friendsAdapter.clear();
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()) {
+            case R.id.group_layout:
+                NewGroupDialogActivity.start(this);
+                break;
+        }
+
+
     }
 
     private class CreatePrivateChatSuccessAction implements Command {

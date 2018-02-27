@@ -6,6 +6,5 @@
         android:id="@+id/menu_logouts"
         android:visible="false"
         android:enabled="false"
-        android:title=""
         app:showAsAction="always"/>
 </menu>

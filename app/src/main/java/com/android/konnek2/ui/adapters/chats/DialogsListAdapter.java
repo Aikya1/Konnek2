@@ -62,28 +62,27 @@ public class DialogsListAdapter extends BaseListAdapter<DialogWrapper> {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-            if (QBDialogType.PRIVATE.equals(currentDialog.getType())) {
-                QMUser opponentUser = dialogWrapper.getOpponentUser();
-                if (opponentUser.getFullName() != null) {
-                    viewHolder.nameTextView.setText(opponentUser.getFullName());
-                    displayAvatarImage(opponentUser.getAvatar(), viewHolder.avatarImageView);
-                } else {
-                    viewHolder.nameTextView.setText(resources.getString(R.string.deleted_user));
-                }
-            }
-            else {
-                viewHolder.nameTextView.setText(currentDialog.getName());
-                viewHolder.avatarImageView.setImageResource(R.drawable.placeholder_group);
-                displayGroupPhotoImage(currentDialog.getPhoto(), viewHolder.avatarImageView);
-            }
-            long totalCount = dialogWrapper.getTotalCount();
-            if (totalCount > ConstsCore.ZERO_INT_VALUE) {
-                viewHolder.unreadMessagesTextView.setText(totalCount + ConstsCore.EMPTY_STRING);
-                viewHolder.unreadMessagesTextView.setVisibility(View.VISIBLE);
-
+        if (QBDialogType.PRIVATE.equals(currentDialog.getType())) {
+            QMUser opponentUser = dialogWrapper.getOpponentUser();
+            if (opponentUser.getFullName() != null) {
+                viewHolder.nameTextView.setText(opponentUser.getFullName());
+                displayAvatarImage(opponentUser.getAvatar(), viewHolder.avatarImageView);
             } else {
-                viewHolder.unreadMessagesTextView.setVisibility(View.GONE);
+                viewHolder.nameTextView.setText(resources.getString(R.string.deleted_user));
             }
+        } else {
+            viewHolder.nameTextView.setText(currentDialog.getName());
+            viewHolder.avatarImageView.setImageResource(R.drawable.placeholder_group);
+            displayGroupPhotoImage(currentDialog.getPhoto(), viewHolder.avatarImageView);
+        }
+        long totalCount = dialogWrapper.getTotalCount();
+        if (totalCount > ConstsCore.ZERO_INT_VALUE) {
+            viewHolder.unreadMessagesTextView.setText(totalCount + ConstsCore.EMPTY_STRING);
+            viewHolder.unreadMessagesTextView.setVisibility(View.VISIBLE);
+
+        } else {
+            viewHolder.unreadMessagesTextView.setVisibility(View.GONE);
+        }
         viewHolder.lastMessageTextView.setText(dialogWrapper.getLastMessage());
         return convertView;
     }
