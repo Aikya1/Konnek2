@@ -64,7 +64,6 @@ public class ServiceManager {
         this.context = App.getInstance();
         authService = QMAuthService.getInstance();
         userService = QMUserService.getInstance();
-
     }
 
     public Observable<QBUser> login(QBUser user) {

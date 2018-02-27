@@ -26,6 +26,14 @@ public class AppConstant {
     public static String TAB_CONTACTS_NON_KONNEK2 = " NON KONNEK2 USER";
     public static String TAB_CONTACTS_ONLINE_KONNEK2 = "  KONNEK2 ONLINE USER";
 
+    public static String GOCHAT_TAB_ONE="GOCHAT_CONTACTS";
+    public static String GOCHAT_TAB_TWO="GOCHAT_CHATS";
+    public static String GOCHAT_TAB_THREE="GOCHAT_CALLS";
+
+
+
+
+
     // TabView Title
     public static String HOME = "Home";
     public static String CONTECT = "Contact";
@@ -40,7 +48,9 @@ public class AppConstant {
     public static String HISTORY = "History";
     public static String TRAVEL = "Travel";
     public static String SUB_TITLE_ONE = "chat bot";
-    public static String SUB_TITLE_TWO = "Calls";
+    public static String SUB_TITLE_TWO = "chat & call";
+
+    public static String GOCHAT = "GoChat";
     public static String USER_PROFILE = "User Profile";
     public static String ADMIN_NAME = "admin name";
     public static String OTP_RECEIVED_BROADCAST_ACTION = "android.provider.Telephony.SMS_RECEIVED";
@@ -141,5 +151,8 @@ public class AppConstant {
     public static String CALL_DURATION_DATE = "call_duration_date";
     public static String CALL_DURATION_TIME= "call_duration_time";
     public static String QB_USER_NAME = "qb_user_name";
+
+    //QuickBlox Custom Objects
+    public static String PROFILE_CLASS_NAME="Profile";
 
 }

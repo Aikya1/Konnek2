@@ -9,22 +9,15 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.util.Log;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.android.konnek2.base.activity.Intro;
-import com.android.konnek2.utils.AppPreference;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.login.LoginResult;
-import com.firebase.ui.auth.ErrorCodes;
-import com.firebase.ui.auth.IdpResponse;
 import com.android.konnek2.R;
+import com.android.konnek2.base.activity.Intro;
 import com.android.konnek2.call.core.models.AppSession;
 import com.android.konnek2.call.core.models.LoginType;
-import com.android.konnek2.base.activity.AppHomeActivity;
 import com.android.konnek2.ui.activities.base.BaseActivity;
 import com.android.konnek2.ui.fragments.dialogs.UserAgreementDialogFragment;
+import com.android.konnek2.utils.AppPreference;
 import com.android.konnek2.utils.AuthUtils;
 import com.android.konnek2.utils.StringObfuscator;
 import com.android.konnek2.utils.helpers.FacebookHelper;
@@ -32,8 +25,12 @@ import com.android.konnek2.utils.helpers.FirebaseAuthHelper;
 import com.android.konnek2.utils.helpers.FlurryAnalyticsHelper;
 import com.android.konnek2.utils.helpers.GoogleAnalyticsHelper;
 import com.android.konnek2.utils.helpers.ServiceManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginResult;
+import com.firebase.ui.auth.ErrorCodes;
+import com.firebase.ui.auth.IdpResponse;
 import com.quickblox.auth.model.QBProvider;
-
 import com.quickblox.users.model.QBUser;
 
 import butterknife.Bind;

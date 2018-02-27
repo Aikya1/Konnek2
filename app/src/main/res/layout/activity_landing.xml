@@ -1,17 +1,18 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#121F3F"
-                android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#121F3F"
+    android:orientation="vertical"
     android:padding="20dp">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:text="Sign Up"
         android:textColor="@color/white"
-        android:layout_centerHorizontal="true"
-        android:textSize="20dp"/>
+        android:textSize="20dp" />
+
     <ImageView
         android:id="@+id/logo_imageview"
         android:layout_width="125dp"
@@ -26,20 +27,15 @@
 
     <com.firebase.ui.auth.ui.phone.CountryListSpinner
         android:id="@+id/country_isd_list"
-
+        style="@style/FirebaseUI.CountrySpinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/FirebaseUI.CountrySpinner"
-
-
-
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:textColor="@color/white"
         android:layout_below="@+id/logo_imageview"
-
-
         android:layout_marginTop="20dp"
-      />
+        android:backgroundTint="@color/white" />
 
 
     <EditText
@@ -49,20 +45,20 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/country_isd_list"
-        android:inputType="phone"
-        android:textColorHint="@color/white"
-        android:textColor="@color/white"
-        android:drawablePadding="20dp"
         android:drawableLeft="@drawable/phoen_icon_white_29_3x"
+        android:drawablePadding="20dp"
+        android:hint="Enter Phone Number"
+        android:inputType="phone"
+        android:textColor="@color/white"
 
-        android:hint="Enter Phone Number"/>
+        android:textColorHint="@color/white" />
 
     <RelativeLayout
         android:id="@+id/termsLayout"
-        android:layout_below="@+id/etphoneno"
-
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etphoneno">
 
         <LinearLayout
             android:id="@+id/linearLayout1"
@@ -99,12 +95,12 @@
                 android:id="@+id/terms1"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:textColor="@color/white"
+                android:layout_toLeftOf="@+id/checkBox1"
                 android:clickable="true"
                 android:gravity="center"
                 android:paddingLeft="10dp"
-                android:layout_toLeftOf="@+id/checkBox1"
                 android:text="@string/terms_and_ser_1"
+                android:textColor="@color/white"
 
 
                 />
@@ -120,27 +116,25 @@
             android:layout_marginTop="10dp"
 
 
-
             >
 
             <CheckBox
                 android:id="@+id/checkBox2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:buttonTint="@color/white"
                 android:layout_gravity="center"
-                />
+                android:buttonTint="@color/white" />
 
             <TextView
                 android:id="@+id/terms2"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                android:textColor="@color/white"
-                android:text="@string/terms_and_ser_2"
-                android:paddingLeft="10dp"
-                android:gravity="center"
-
                 android:layout_toLeftOf="@+id/checkBox2"
+                android:gravity="center"
+                android:paddingLeft="10dp"
+                android:text="@string/terms_and_ser_2"
+
+                android:textColor="@color/white"
 
                 />
 
@@ -158,26 +152,26 @@
         android:layout_marginTop="20dp"
         android:paddingLeft="30dp"
         android:text="Sign Up"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
-   <!-- <TextView
-        android:id="@+id/tvor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btnsignups"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:gravity="center"
-        android:text="OR"
-        android:textColor="@color/white"
-        android:textSize="30dp" />-->
+    <!-- <TextView
+         android:id="@+id/tvor"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_below="@+id/btnsignups"
+         android:layout_centerHorizontal="true"
+         android:layout_marginTop="20dp"
+         android:gravity="center"
+         android:text="OR"
+         android:textColor="@color/white"
+         android:textSize="30dp" />-->
 
     <RelativeLayout
         android:id="@+id/relative2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
         android:layout_below="@+id/btnsignups"
+        android:layout_centerVertical="true"
         android:layout_marginTop="30dp">
 
         <TextView
@@ -188,8 +182,8 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:text="OR"
-            android:textSize="20dp"
-            android:textColor="#FFFFFF"/>
+            android:textColor="#FFFFFF"
+            android:textSize="20dp" />
 
         <View
             android:layout_width="match_parent"
@@ -197,8 +191,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="16dp"
             android:layout_toLeftOf="@id/tvText"
-            android:background="@color/white"
-            />
+            android:background="@color/white" />
 
         <View
             android:layout_width="match_parent"
@@ -206,20 +199,19 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="16dp"
             android:layout_toRightOf="@id/tvText"
-            android:background="@color/white"
-            />
+            android:background="@color/white" />
 
     </RelativeLayout>
 
-  <!--  <com.facebook.login.widget.LoginButton
-        android:id="@+id/login_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvor"
-        android:layout_marginTop="30dp"
-        android:paddingLeft="30dp"
-         />
--->
+    <!--  <com.facebook.login.widget.LoginButton
+          android:id="@+id/login_button"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_below="@+id/tvor"
+          android:layout_marginTop="30dp"
+          android:paddingLeft="30dp"
+           />
+  -->
 
     <LinearLayout
         android:id="@+id/linearLayout3"
@@ -235,14 +227,14 @@
 
 
         <ImageButton
+            android:id="@+id/gmButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/gmButton"
-            android:background="@drawable/transparent"
-            android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/gmail"
-            android:layout_weight="1"/>
+            android:layout_centerVertical="true"
+            android:layout_weight="1"
+            android:background="@drawable/transparent"
+            android:src="@drawable/gmail" />
 
         <!-- <com.facebook.login.widget.LoginButton
         android:id="@+id/login_butto"
@@ -252,22 +244,22 @@
 
        />
 -->
-     <!--  <com.facebook.login.widget.LoginButton
-            android:id="@+id/login_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_weight="1" />
--->
+        <!--  <com.facebook.login.widget.LoginButton
+               android:id="@+id/login_button"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_centerInParent="true"
+               android:layout_weight="1" />
+   -->
 
-       <!-- <com.google.android.gms.common.SignInButton
-            android:id="@+id/google_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+        <!-- <com.google.android.gms.common.SignInButton
+             android:id="@+id/google_button"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_weight="1"
 
-            android:paddingLeft="30dp" />-->
--->
+             android:paddingLeft="30dp" />-->
+        -->
     </LinearLayout>
 
 </RelativeLayout>
