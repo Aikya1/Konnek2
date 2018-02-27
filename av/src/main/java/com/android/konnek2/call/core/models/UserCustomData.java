@@ -12,6 +12,48 @@ public class UserCustomData implements Serializable {
     public static String TAG_STATUS = "status";
     public static String TAG_IS_IMPORT = "is_import";
 
+
+    private int age;
+    private String firstName;
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    private String lastName;
+    private String gender;
+
+
+
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
     @SerializedName("avatar_url")
     private String avatarUrl;
 

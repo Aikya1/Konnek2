@@ -154,10 +154,20 @@ public class AppHomeActivity extends AppCompatActivity implements NavigationView
                         startActivity(goToHangouts);
 
                         break;
+
+                    case 11:
+
+                        Intent goChat = new Intent(getApplicationContext(), GoChatActivity.class);
+                        startActivity(goChat);
+
+                        break;
+
+
                     case 10:
                         MyProfileActivity.start(AppHomeActivity.this);
 
                         break;
+
                     default:
                         break;
                 }

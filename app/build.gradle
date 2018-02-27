@@ -119,6 +119,12 @@ dependencies {
 //    compile 'com.android.support:support-v4:26.1.0'
     compile "com.android.support:support-v4:${rootProject.supportV4Version}"
     // QuickBlox Lib
+
+
+    compile 'com.quickblox:quickblox-android-sdk-core:3.3.0'
+    compile 'com.quickblox:quickblox-android-sdk-chat:3.3.0'
+
+
     compile "com.android.support:multidex:${rootProject.multiDexVersion}"
     compile "com.android.support:appcompat-v7:${rootProject.supportVersion}"
     compile "com.android.support:design:${rootProject.supportVersion}"
@@ -134,6 +140,7 @@ dependencies {
 
     compile "com.jakewharton:butterknife:${rootProject.butterknifeVersion}"
     debugCompile 'com.amitshekhar.android:debug-db:1.0.2'
+
 
     compile "com.afollestad.material-dialogs:core:${rootProject.materialDialogsVersion}"
     compile "com.github.orangegangsters:swipy:${rootProject.swipyRecyclerviewVersion}@aar"

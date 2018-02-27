@@ -91,6 +91,8 @@ public class ServiceManager {
 
                         qbUser.setPassword(password);
 
+
+
                         saveOwnerUser(qbUser);
 
                         AppSession.startSession(qbUser);
@@ -128,6 +130,10 @@ public class ServiceManager {
                         }
 
                         qbUser.setPassword(QBSessionManager.getInstance().getToken());
+
+
+
+                      //  qbUser.setCustomDataAsObject();
 
 
 

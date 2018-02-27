@@ -14,6 +14,7 @@
         <item>m-Store</item>
         <item>Hangouts</item>
         <item>User Profile</item>
+        <item>Go Chat</item>
     </string-array>
 
     <integer-array name="home_image">
@@ -29,6 +30,7 @@
         <item>@drawable/ic_app_grid_mstore</item>
         <item>@drawable/ic_app_grid_friend</item>
         <item>@drawable/ic_app_grid_profile</item>
+
     </integer-array>
 
 
@@ -132,5 +134,43 @@
         <item>AUDIO</item>
         <item>VIDEO</item>
     </string-array>
+
+    <!-- dots inactive colors -->
+    <color name="dot_dark_screen1">#d1395c</color>
+    <color name="dot_dark_screen2">#14a895</color>
+
+
+    <!-- dots active colors -->
+    <color name="dot_light_screen1">#f98da5</color>
+    <color name="dot_light_screen2">#8cf9eb</color>
+
+
+    <array name="array_dot_active">
+        <item>@color/dot_light_screen1</item>
+        <item>@color/dot_light_screen2</item>
+
+    </array>
+
+    <array name="array_dot_inactive">
+        <item>@color/dot_dark_screen1</item>
+        <item>@color/dot_dark_screen2</item>
+
+    </array>
+
+    <string-array name="Language1">
+        <item>German</item>
+        <item>Spanish</item>
+        <item>English</item>
+
+    </string-array>
+
+    <string-array name="Language2">
+        <item>German</item>
+        <item>Spanish</item>
+        <item>English</item>
+
+    </string-array>
+
+
 
 </resources>
