@@ -3,23 +3,46 @@
     android:layout_height="match_parent"
     android:background="@color/bg_main"
     android:orientation="vertical">
+
     <include layout="@layout/toolbar" />
 
-    <EditText
+    <!--<EditText
         android:id="@+id/members_edittext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:editable="false"
         android:hint="@string/new_group_add_people"
+        android:inputType="none"
         android:maxLines="3"
         android:textColor="@color/colorPrimary"
-        android:textSize="@dimen/text_size" />
+        android:textSize="@dimen/text_size" />-->
+
+
+    <!--<include
+        layout="@layout/new_group_top_user_layout"
+        android:layout_width="50dp"
+        android:layout_height="50dp" />-->
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/groupUserRv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_4dp"
+        android:scrollbars="horizontal">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/friends_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/margin_4dp"
         android:scrollbars="vertical" />
 
 </LinearLayout>

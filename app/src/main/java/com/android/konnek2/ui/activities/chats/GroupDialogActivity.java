@@ -335,7 +335,6 @@ public class GroupDialogActivity extends BaseDialogActivity implements UserListI
                 dialog.dismiss();
             }
         });
-
         groupCallUserAdapter = new GroupCallUserAdapter(GroupDialogActivity.this, qbUserList, userOnlineStatus, this, qmUsers);
         listView.setAdapter(groupCallUserAdapter);
         dialog.show();
@@ -349,7 +348,7 @@ public class GroupDialogActivity extends BaseDialogActivity implements UserListI
 
     }
 
-    private class UserOnLineOffLine extends AsyncTask <List<QBUser>, Void, HashMap<String, String>> {
+    private class UserOnLineOffLine extends AsyncTask<List<QBUser>, Void, HashMap<String, String>> {
 
         @Override
         protected void onPreExecute() {

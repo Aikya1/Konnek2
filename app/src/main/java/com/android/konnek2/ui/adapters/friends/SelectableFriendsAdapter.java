@@ -5,12 +5,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 
-
 import com.android.konnek2.R;
-import com.android.konnek2.call.core.utils.ChatUtils;
 import com.android.konnek2.call.services.model.QMUser;
 import com.android.konnek2.ui.activities.base.BaseActivity;
 import com.android.konnek2.ui.adapters.base.BaseClickListenerViewHolder;
+import com.android.konnek2.utils.listeners.Chats.SelectedUserListListener;
 import com.android.konnek2.utils.listeners.SelectUsersListener;
 
 import java.util.ArrayList;
@@ -20,8 +19,10 @@ import butterknife.Bind;
 
 public class SelectableFriendsAdapter extends FriendsAdapter {
 
-    private SelectUsersListener selectUsersListener;
+    //    private SelectUsersListener selectUsersListener;
     private int counterFriends;
+
+    private SelectedUserListListener selectUsersListener;
     private List<QMUser> selectedFriendsList;
     private SparseBooleanArray sparseArrayCheckBoxes;
 
@@ -43,6 +44,14 @@ public class SelectableFriendsAdapter extends FriendsAdapter {
         final QMUser user = getItem(position);
         final ViewHolder viewHolder = (ViewHolder) baseClickListenerViewHolder;
 
+        viewHolder.deviceTextView.setVisibility(View.GONE);
+        if (user.getStatus() != null) {
+            viewHolder.labelTextView.setText(user.getStatus());
+        } else {
+            viewHolder.labelTextView.setText("No Status");
+        }
+
+
         viewHolder.selectFriendCheckBox.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -58,7 +67,7 @@ public class SelectableFriendsAdapter extends FriendsAdapter {
         viewHolder.selectFriendCheckBox.setChecked(checked);
     }
 
-    public void setSelectUsersListener(SelectUsersListener listener) {
+    public void setSelectUsersListener(SelectedUserListListener listener) {
         selectUsersListener = listener;
     }
 
@@ -81,8 +90,8 @@ public class SelectableFriendsAdapter extends FriendsAdapter {
     private void notifyCounterChanged(boolean isIncrease) {
         changeCounter(isIncrease);
         if (selectUsersListener != null) {
-            String fullNames = ChatUtils.getSelectedFriendsFullNamesFromMap(selectedFriendsList);
-            selectUsersListener.onSelectedUsersChanged(counterFriends, fullNames);
+//            String fullNames = ChatUtils.getSelectedFriendsFullNamesFromMap(selectedFriendsList);
+            selectUsersListener.onSelectedUsersChanged(counterFriends, selectedFriendsList);
         }
     }
 

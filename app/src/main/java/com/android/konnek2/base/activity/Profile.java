@@ -2,8 +2,10 @@ package com.android.konnek2.base.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.Build;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -14,23 +16,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.konnek2.Preference.ProfilePrefManager;
 import com.android.konnek2.R;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import butterknife.Bind;
+import butterknife.OnClick;
 
 public class Profile extends AppCompatActivity {
 
@@ -44,8 +38,8 @@ public class Profile extends AppCompatActivity {
     Spinner spin2;
 
 
-
     private ProfilePrefManager profileprefManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +52,7 @@ public class Profile extends AppCompatActivity {
             launchHomeScreen();
             finish();
         }
+
 
         // Making notification bar transparent
        /* if (Build.VERSION.SDK_INT >= 21) {
@@ -72,12 +67,11 @@ public class Profile extends AppCompatActivity {
         profilebtnNext = (Button) findViewById(R.id.btn_profile_next);
 
 
-
         // layouts of all profile sliders
         layouts = new int[]{
                 R.layout.profile_slide1,
                 R.layout.profile_slide2,
-                };
+        };
 
         // adding bottom dots
         addBottomDots(0);
@@ -113,9 +107,7 @@ public class Profile extends AppCompatActivity {
         });
 
 
-
     }
-
 
 
     private void addBottomDots(int currentPage) {
@@ -160,12 +152,12 @@ public class Profile extends AppCompatActivity {
             if (position == layouts.length - 1) {
                 // last page. make button text to GOT IT
                 //profilebtnNext.setText(getString(R.string.start));
-               // profilebtnSkip.setVisibility(View.GONE);
+                // profilebtnSkip.setVisibility(View.GONE);
 
             } else {
                 // still pages are left
-               // profilebtnNext.setText(getString(R.string.next));
-              //  profilebtnSkip.setVisibility(View.VISIBLE);
+                // profilebtnNext.setText(getString(R.string.next));
+                //  profilebtnSkip.setVisibility(View.VISIBLE);
             }
         }
 
@@ -196,8 +188,7 @@ public class Profile extends AppCompatActivity {
      */
 
 
-    public class MyViewPagerAdapter extends PagerAdapter
-    {
+    public class MyViewPagerAdapter extends PagerAdapter {
         private LayoutInflater layoutInflater;
 
         public MyViewPagerAdapter() {
@@ -221,20 +212,19 @@ public class Profile extends AppCompatActivity {
             container.addView(view);
 
 
-            spin1=view.findViewById(R.id.spin1);
-            spin2=view.findViewById(R.id.spin2);
-
+            spin1 = view.findViewById(R.id.spin1);
+            spin2 = view.findViewById(R.id.spin2);
 
 
             //CreATE AN adapter for Language1
-          //  ArrayAdapter<String> language1adapter=new ArrayAdapter<String>(Profile.this,android.R.layout.simple_spinner_item);
+            //  ArrayAdapter<String> language1adapter=new ArrayAdapter<String>(Profile.this,android.R.layout.simple_spinner_item);
           /*  ArrayAdapter<CharSequence>language1adapter=ArrayAdapter.createFromResource(Profile.this,R.array.Language1,android.R.layout.simple_spinner_item);
             language1adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spin1.setAdapter(language1adapter);
             */
 
 
-           // tv.setText("sasdasdas");
+            // tv.setText("sasdasdas");
 
             return view;
         }
@@ -244,5 +234,21 @@ public class Profile extends AppCompatActivity {
             View view = (View) object;
             container.removeView(view);
         }
+    }
+
+    @OnClick(R.id.image_userStatus)
+    public void setUpPhoto() {
+
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d("Profile", "onActivityResult: ");
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }

@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import com.android.konnek2.R;
 import com.android.konnek2.call.core.core.command.Command;
 import com.android.konnek2.call.core.models.AppSession;
+import com.android.konnek2.call.core.qb.commands.QBFindUsersCommand;
 import com.android.konnek2.call.core.qb.commands.chat.QBCreatePrivateChatCommand;
 import com.android.konnek2.call.core.service.QBService;
 import com.android.konnek2.call.core.service.QBServiceConsts;
@@ -36,6 +37,7 @@ import com.quickblox.chat.model.QBChatDialog;
 import com.quickblox.core.request.QBPagedRequestBuilder;
 import com.quickblox.users.model.QBUser;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -125,6 +127,7 @@ public class NewMessageActivity extends BaseLoggableActivity implements SearchVi
                 searchTextView.setBackgroundColor(getResources().getColor(R.color.white));
                 searchTextView.setTextColor(getResources().getColor(R.color.black));
                 searchTextView.setHint(getResources().getString(R.string.action_bar_search));
+                searchTextView.setHintTextColor(getResources().getColor(R.color.light_gray));
               /*  Field mCursorDrawableRes = TextView.class.getDeclaredField("mCursorDrawableRes");
                 mCursorDrawableRes.setAccessible(true);*/
             } catch (Exception e) {
@@ -202,7 +205,11 @@ public class NewMessageActivity extends BaseLoggableActivity implements SearchVi
 
         showProgress();
 
-        QBPagedRequestBuilder requestBuilder = new QBPagedRequestBuilder();
+
+        QBFindUsersCommand.start(this, null, "dev", 1);
+
+
+        /*QBPagedRequestBuilder requestBuilder = new QBPagedRequestBuilder();
         requestBuilder.setPage(page);
         requestBuilder.setPerPage(ConstsCore.FL_FRIENDS_PER_PAGE);
 
@@ -235,7 +242,8 @@ public class NewMessageActivity extends BaseLoggableActivity implements SearchVi
 
                         }
                     }
-                });
+                });*/
+
 
         friendsAdapter = new FriendsAdapter(NewMessageActivity.this, usersList, false);
         friendsAdapter.setFriendListHelper(friendListHelper);
@@ -274,6 +282,8 @@ public class NewMessageActivity extends BaseLoggableActivity implements SearchVi
     private void addActions() {
         addAction(QBServiceConsts.CREATE_PRIVATE_CHAT_SUCCESS_ACTION, new CreatePrivateChatSuccessAction());
         addAction(QBServiceConsts.CREATE_PRIVATE_CHAT_FAIL_ACTION, failAction);
+        addAction(QBServiceConsts.FIND_USERS_SUCCESS_ACTION, new FindAllUsersSuccessAction());
+        addAction(QBServiceConsts.FIND_USERS_FAIL_ACTION, failAction);
 
         updateBroadcastActionList();
     }
@@ -281,6 +291,8 @@ public class NewMessageActivity extends BaseLoggableActivity implements SearchVi
     private void removeActions() {
         removeAction(QBServiceConsts.CREATE_PRIVATE_CHAT_SUCCESS_ACTION);
         removeAction(QBServiceConsts.CREATE_PRIVATE_CHAT_FAIL_ACTION);
+        removeAction(QBServiceConsts.FIND_USERS_SUCCESS_ACTION);
+        removeAction(QBServiceConsts.FIND_USERS_FAIL_ACTION);
 
         updateBroadcastActionList();
     }
@@ -322,7 +334,9 @@ public class NewMessageActivity extends BaseLoggableActivity implements SearchVi
 
         switch (v.getId()) {
             case R.id.group_layout:
-                NewGroupDialogActivity.start(this);
+                Intent intent = new Intent();
+                intent.putExtra("data", (Serializable) usersList);
+                NewGroupDialogActivity.start(this, intent);
                 break;
         }
 
@@ -336,6 +350,21 @@ public class NewMessageActivity extends BaseLoggableActivity implements SearchVi
             hideProgress();
             QBChatDialog qbDialog = (QBChatDialog) bundle.getSerializable(QBServiceConsts.EXTRA_DIALOG);
             startPrivateChat(qbDialog);
+        }
+    }
+
+    private class FindAllUsersSuccessAction implements Command {
+        @Override
+        public void execute(Bundle bundle) throws Exception {
+            hideProgress();
+            Collection<QMUser> userCollection = (Collection<QMUser>) bundle.getSerializable(QBServiceConsts.EXTRA_USERS);
+            checkForExcludeMe(userCollection);
+            usersList.clear();
+            usersList.addAll(userCollection);
+            /*for (int i = 0; i < usersList.size(); i++) {
+                dataManager.getFriendDataManager().createOrUpdate(usersList.get(i));
+            }*/
+            updateContactsList(usersList);
         }
     }
 }

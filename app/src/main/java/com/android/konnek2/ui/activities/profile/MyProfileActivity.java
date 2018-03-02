@@ -124,7 +124,7 @@ public class MyProfileActivity extends BaseLoggableActivity implements OnMediaPi
     @OnClick(R.id.change_photo_view)
     void changePhoto(View view) {
         fullNameTextInputLayout.setError(null);
-        mediaPickHelper.pickAnMedia(this, MediaUtils.IMAGE_REQUEST_CODE);
+        mediaPickHelper.pickAnMedia(this, MediaUtils.CAMERA_PHOTO_REQUEST_CODE);
     }
 
     @Override

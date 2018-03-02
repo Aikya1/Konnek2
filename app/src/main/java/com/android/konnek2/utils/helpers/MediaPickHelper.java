@@ -1,5 +1,6 @@
 package com.android.konnek2.utils.helpers;
 
+import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -23,6 +24,6 @@ public class MediaPickHelper {
     }
 
     private void showMediaSourcePickerDialog(FragmentManager fm, MediaPickHelperFragment fragment) {
-        MediaSourcePickDialogFragment.show(fm,fragment);
+        MediaSourcePickDialogFragment.show(fm, fragment);
     }
 }

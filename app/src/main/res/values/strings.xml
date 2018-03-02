@@ -394,5 +394,6 @@
     <string name="last_seen_user">last seen at 5:12 PM</string>
     <string name="mobile">Mobile</string>
     <string name="name">Pooja</string>
+    <string name="image_description">Close</string>
 
 </resources>

@@ -7,14 +7,19 @@ import android.view.MenuItem;
 
 
 import com.android.konnek2.R;
+import com.android.konnek2.call.core.qb.commands.QBFindUsersCommand;
 import com.android.konnek2.call.core.service.QBService;
 import com.android.konnek2.call.core.utils.UserFriendUtils;
 import com.android.konnek2.call.db.managers.DataManager;
 import com.android.konnek2.call.db.models.Friend;
+import com.android.konnek2.call.services.QMUserService;
 import com.android.konnek2.call.services.model.QMUser;
 import com.android.konnek2.ui.activities.base.BaseLoggableActivity;
 import com.android.konnek2.ui.adapters.friends.FriendsAdapter;
+import com.quickblox.core.request.QBPagedRequestBuilder;
+import com.quickblox.users.QBUsers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -23,7 +28,6 @@ public abstract class BaseFriendsListActivity extends BaseLoggableActivity {
 
     @Bind(R.id.friends_recyclerview)
     protected RecyclerView friendsRecyclerView;
-
     protected FriendsAdapter friendsAdapter;
     protected DataManager dataManager;
 
@@ -80,6 +84,8 @@ public abstract class BaseFriendsListActivity extends BaseLoggableActivity {
     }
 
     protected List<QMUser> getFriendsList() {
+
+//        QBFindUsersCommand.start(this, null, "dev", 1);
         List<Friend> friendsList = dataManager.getFriendDataManager().getAllSorted();
         return UserFriendUtils.getUsersFromFriends(friendsList);
     }
