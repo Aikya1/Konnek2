@@ -11,4 +11,7 @@ import java.util.List;
 public interface SelectedUserListListener {
 
     void onSelectedUsersChanged(int count, List<QMUser> selectedUsers);
+
+    void removeSelectedUser(int position, int userId);
+
 }

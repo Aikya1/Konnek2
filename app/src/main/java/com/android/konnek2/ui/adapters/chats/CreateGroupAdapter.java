@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.android.konnek2.R;
 import com.android.konnek2.call.services.model.QMUser;
+import com.android.konnek2.utils.listeners.Chats.SelectedUserListListener;
 
 import java.util.List;
 
@@ -19,6 +20,7 @@ import java.util.List;
 public class CreateGroupAdapter extends RecyclerView.Adapter<CreateGroupAdapter.MyView> {
 
     private List<QMUser> list;
+    private SelectedUserListListener selectUsersListener;
 
     public class MyView extends RecyclerView.ViewHolder {
 
@@ -32,12 +34,14 @@ public class CreateGroupAdapter extends RecyclerView.Adapter<CreateGroupAdapter.
             closeBtnIv = view.findViewById(R.id.closeBtnIv);
             userProfileIv = view.findViewById(R.id.userProfileIv);
 
+
         }
     }
 
 
-    public CreateGroupAdapter(List<QMUser> selectedList) {
+    public CreateGroupAdapter(List<QMUser> selectedList, SelectedUserListListener listener) {
         this.list = selectedList;
+        selectUsersListener = listener;
     }
 
     @Override
@@ -50,6 +54,12 @@ public class CreateGroupAdapter extends RecyclerView.Adapter<CreateGroupAdapter.
     @Override
     public void onBindViewHolder(final MyView holder, final int position) {
         holder.textView.setText(list.get(position).getFullName());
+        holder.closeBtnIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectUsersListener.removeSelectedUser(position, list.get(position).getId());
+            }
+        });
     }
 
     @Override
@@ -57,5 +67,10 @@ public class CreateGroupAdapter extends RecyclerView.Adapter<CreateGroupAdapter.
         return list.size();
     }
 
+
+    public void removeItem(int position) {
+        list.remove(position);
+        notifyDataSetChanged();
+    }
 
 }

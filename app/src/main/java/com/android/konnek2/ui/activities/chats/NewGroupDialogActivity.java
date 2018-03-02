@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.android.konnek2.R;
 import com.android.konnek2.call.services.model.QMUser;
@@ -29,11 +27,13 @@ public class NewGroupDialogActivity extends BaseFriendsListActivity implements S
     //    @Bind(R.id.members_edittext)
 //    TextView membersEditText;
     static List<QMUser> selectedFriendsList;
-    LinearLayout linearLayout1;
+    @Bind(R.id.horizontal_line_view)
+    View horizontalLineView;
 
     @Bind(R.id.groupUserRv)
     RecyclerView groupRecyclerView;
     CreateGroupAdapter createGroupAdapter;
+    SelectableFriendsAdapter selectableFriendsAdapter;
 
 
     public static void start(Context context) {
@@ -77,7 +77,8 @@ public class NewGroupDialogActivity extends BaseFriendsListActivity implements S
 
     @Override
     protected FriendsAdapter getFriendsAdapter() {
-        return new SelectableFriendsAdapter(this, selectedFriendsList, true);
+        selectableFriendsAdapter = new SelectableFriendsAdapter(this, selectedFriendsList, true);
+        return selectableFriendsAdapter;
     }
 
     @Override
@@ -98,19 +99,26 @@ public class NewGroupDialogActivity extends BaseFriendsListActivity implements S
             image.setBackgroundResource(R.drawable.close_profile_icon);
             linearLayout1.addView(image);
         }*/
-
-        createGroupAdapter = new CreateGroupAdapter(selectedFriendsList);
+        createGroupAdapter = new CreateGroupAdapter(selectedFriendsList, this);
         LinearLayoutManager horizontalLayoutManagaer
                 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         groupRecyclerView.setLayoutManager(horizontalLayoutManagaer);
         groupRecyclerView.setAdapter(createGroupAdapter);
 
+        updateView();
     }
+
+    @Override
+    public void removeSelectedUser(int position, int userId) {
+        createGroupAdapter.removeItem(position);
+//        selectableFriendsAdapter.setCheckedStatus(position);
+        selectableFriendsAdapter.getCbAndChangeStatus(userId);
+        updateView();
+    }
+
 
     private void initFields() {
         title = getString(R.string.new_group_title);
-        linearLayout1 = (LinearLayout) findViewById(R.id.linearLayout1);
-
 
     }
 
@@ -122,5 +130,14 @@ public class NewGroupDialogActivity extends BaseFriendsListActivity implements S
                 ((SelectableFriendsAdapter) friendsAdapter).selectFriend(position);
             }
         });
+    }
+
+    public void updateView() {
+        if (createGroupAdapter.getItemCount() > 0) {
+            horizontalLineView.setVisibility(View.VISIBLE);
+
+        } else {
+            horizontalLineView.setVisibility(View.GONE);
+        }
     }
 }
