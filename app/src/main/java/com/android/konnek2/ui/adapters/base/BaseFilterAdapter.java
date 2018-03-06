@@ -113,4 +113,6 @@ public abstract class BaseFilterAdapter<T, VH extends BaseClickListenerViewHolde
     }
 
     protected abstract boolean isMatch(T item, String query);
+
+
 }

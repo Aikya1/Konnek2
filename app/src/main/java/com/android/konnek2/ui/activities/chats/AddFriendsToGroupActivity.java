@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.android.konnek2.R;
 import com.android.konnek2.call.core.core.command.Command;
+import com.android.konnek2.call.core.models.AppSession;
 import com.android.konnek2.call.core.qb.commands.chat.QBAddFriendsToGroupCommand;
 import com.android.konnek2.call.core.service.QBServiceConsts;
 import com.android.konnek2.call.core.utils.UserFriendUtils;
@@ -20,10 +21,12 @@ import com.android.konnek2.utils.ToastUtils;
 import com.android.konnek2.utils.listeners.simple.SimpleOnRecycleItemClickListener;
 import com.quickblox.chat.QBChatService;
 import com.quickblox.chat.model.QBChatDialog;
+import com.quickblox.users.model.QBUser;
 
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -70,7 +73,11 @@ public class AddFriendsToGroupActivity extends BaseFriendsListActivity {
     protected List<QMUser> getFriendsList() {
         qbDialog = (QBChatDialog) getIntent().getExtras().getSerializable(QBServiceConsts.EXTRA_DIALOG);
         qbDialog.initForChat(QBChatService.getInstance());
+
+
         List<Friend> friendsList = dataManager.getFriendDataManager().getAllForGroupDetails(qbDialog.getOccupants());
+
+
         if (!friendsList.isEmpty()) {
             List<Integer> actualFriendIdsList = UserFriendUtils.getFriendIdsListFromList(friendsList);
             List<DialogOccupant> dialogOccupantsList = dataManager.getDialogOccupantDataManager()
@@ -96,12 +103,12 @@ public class AddFriendsToGroupActivity extends BaseFriendsListActivity {
         if (!selectedFriendsList.isEmpty()) {
             if (isChatInitializedAndUserLoggedIn() && checkNetworkAvailableWithError()) {
                 boolean joined = chatHelper != null && qbDialog != null && chatHelper.isDialogJoined(qbDialog);
-                if(joined) {
+                if (joined) {
                     showProgress();
                     friendIdsList = UserFriendUtils.getFriendIds(selectedFriendsList);
                     QBAddFriendsToGroupCommand.start(this, qbDialog.getDialogId(),
                             (ArrayList<Integer>) friendIdsList);
-                } else{
+                } else {
                     ToastUtils.longToast(R.string.chat_service_is_initializing);
                 }
             } else {
@@ -155,6 +162,29 @@ public class AddFriendsToGroupActivity extends BaseFriendsListActivity {
             String firstName = friend1.getUser().getFullName();
             String secondName = friend2.getUser().getFullName();
             return firstName.compareToIgnoreCase(secondName);
+        }
+    }
+
+    private class FindAllUsersSuccessAction implements Command {
+        @Override
+        public void execute(Bundle bundle) throws Exception {
+            hideProgress();
+            Collection<QMUser> userCollection = (Collection<QMUser>) bundle.getSerializable(QBServiceConsts.EXTRA_USERS);
+            checkForExcludeMe(userCollection);
+            /*usersList.clear();
+            usersList.addAll(userCollection);
+            *//*for (int i = 0; i < usersList.size(); i++) {
+                dataManager.getFriendDataManager().createOrUpdate(usersList.get(i));
+            }*//*
+            updateContactsList(usersList);*/
+        }
+    }
+
+    private void checkForExcludeMe(Collection<QMUser> usersCollection) {
+        QBUser qbUser = AppSession.getSession().getUser();
+        QMUser me = QMUser.convert(qbUser);
+        if (usersCollection.contains(me)) {
+            usersCollection.remove(me);
         }
     }
 }

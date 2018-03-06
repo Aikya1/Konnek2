@@ -23,8 +23,6 @@ public class FcmPushListenerService extends QBFcmPushListenerService {
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
 
-        Log.d(TAG, "Message received..." + remoteMessage.toString());
-        Log.d(TAG, "Message received..." + remoteMessage.getFrom());
     }
 
     @Override

@@ -124,7 +124,6 @@ public class SelectableFriendsAdapter extends FriendsAdapter {
     }
 
     public void getCbAndChangeStatus(int userId) {
-
         CheckBox checkBox = checkBoxMap.get(userId);
         if (checkBox != null) {
             checkBox.setChecked(false);

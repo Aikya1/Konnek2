@@ -1,14 +1,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/bg_main"
-              android:orientation="vertical">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_main"
+    android:orientation="vertical">
 
-    <include layout="@layout/toolbar"/>
+    <include layout="@layout/toolbar" />
 
-    <LinearLayout
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -26,9 +25,7 @@
                 style="@style/AvatarImageViewStyle.Common"
                 android:onClick="changeAvatarOnClick"
                 android:src="@drawable/placeholder_group"
-                app:border_color="@color/dark_gray"
-                app:border_width="@dimen/avatar_border_width"
-                app:oval="true"/>
+                app:oval="true" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -47,7 +44,7 @@
                     android:background="@null"
                     android:ellipsize="end"
                     android:maxLines="2"
-                    android:textSize="@dimen/text_size"/>
+                    android:textSize="@dimen/text_size" />
 
                 <TextView
                     android:id="@+id/occupants_textview"
@@ -55,7 +52,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/text_size_small"/>
+                    android:textSize="@dimen/text_size_small" />
 
             </LinearLayout>
         </LinearLayout>
@@ -73,7 +70,7 @@
                 android:layout_height="15dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="15dp"
-                android:src="@drawable/badge_online"/>
+                android:src="@drawable/badge_online" />
 
             <TextView
                 android:id="@+id/online_occupants_textview"
@@ -81,19 +78,19 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/text_size_small"
-                tools:text="111"/>
+                tools:text="111" />
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/divider_height"
-            android:background="@color/dark_gray"/>
+            android:background="@color/dark_gray" />
 
         <ListView
             android:id="@+id/occupants_listview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/white"/>
+            android:background="@color/white" />
 
     </LinearLayout>
 

@@ -74,4 +74,5 @@ public class BaseClickListenerViewHolder<V> extends RecyclerView.ViewHolder {
     protected void displayAvatarImage(String uri, ImageView imageView) {
         ImageLoader.getInstance().displayImage(uri, imageView, ImageLoaderUtils.UIL_USER_AVATAR_DISPLAY_OPTIONS);
     }
+
 }

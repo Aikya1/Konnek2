@@ -1,22 +1,46 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
-    <item
-        android:id="@+id/action_audio_call"
-        android:icon="@drawable/ic_app_audio_call"
-        android:title="@string/user_profile_audio_call"
-        app:showAsAction="always"/>
 
     <item
         android:id="@+id/action_video_call"
-        android:icon="@drawable/ic_app_video_call"
+        android:icon="@drawable/switch_camera_toggle"
         android:title="@string/user_profile_video_call"
-        app:showAsAction="always"/>
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_audio_call"
+        android:icon="@drawable/action_audio_call"
+        android:title="@string/user_profile_audio_call"
+        app:showAsAction="always" />
+
+
+    <item
+        android:id="@+id/action_add_user"
+        android:title="@string/add_user_to_group"/>
+
+    <item
+        android:id="@+id/action_mute_notifications"
+        android:title="@string/action_mute_notifications" />
+
     <item
         android:id="@+id/action_group_details"
-        android:icon="@drawable/ic_app_chat_information"
-        android:title="@string/action_bar_chat_details"
-        app:showAsAction="always"/>
+        android:title="@string/action_group_details" />
+
+    <item
+        android:id="@+id/action_export_group_chat"
+        android:title="@string/action_export_group_chat" />
+
+    <item
+        android:id="@+id/action_create_shortcut"
+        android:title="@string/action_create_shortcut" />
+
+    <item
+        android:id="@+id/action_clear_chat"
+        android:title="@string/action_clear_chat" />
+
+    <item
+        android:id="@+id/action_exit_group"
+        android:title="@string/action_exit_group" />
 
 </menu>

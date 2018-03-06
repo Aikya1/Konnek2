@@ -5,7 +5,7 @@
 
     <string name="app_policy_link">http://q-municate.com/agreement/</string>
 
-    <string name="api_domain"></string>
-    <string name="chat_domain"></string>
+    <string name="api_domain">apikonnek2.quickblox.com</string>
+    <string name="chat_domain">chatkonnek2.quickblox.com</string>
 
 </resources>

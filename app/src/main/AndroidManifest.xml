@@ -21,7 +21,8 @@
 
     <meta-data
         android:name="android.support.VERSION"
-        android:value="26.0.1" />
+        android:value="26.0.2"
+        tools:node="replace" />
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -79,7 +80,7 @@
             android:name="com.android.konnek2.ui.activities.authorization.SignUpActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
 
             <!--<intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -276,17 +277,17 @@
             android:value="@string/google_maps_key"
             tools:replace="android:value" />
 
-        <activity android:name="com.android.konnek2.base.activity.AppHomeActivity"></activity>
-        <activity android:name="com.android.konnek2.base.activity.AppReferFriendActivity"></activity>
-        <activity android:name="com.android.konnek2.base.activity.AppChatBotActivity"></activity>
-        <activity android:name="com.android.konnek2.base.activity.CharityActivity"></activity>
-        <activity android:name="com.android.konnek2.base.activity.AppMobileStoreActivity"></activity>
-        <activity android:name="com.android.konnek2.base.activity.AppTravelActivity"></activity>
-        <activity android:name="com.android.konnek2.base.activity.HangoutActivity"></activity>
+        <activity android:name="com.android.konnek2.base.activity.AppHomeActivity" />
+        <activity android:name="com.android.konnek2.base.activity.AppReferFriendActivity" />
+        <activity android:name="com.android.konnek2.base.activity.AppChatBotActivity" />
+        <activity android:name="com.android.konnek2.base.activity.CharityActivity" />
+        <activity android:name="com.android.konnek2.base.activity.AppMobileStoreActivity" />
+        <activity android:name="com.android.konnek2.base.activity.AppTravelActivity" />
+        <activity android:name="com.android.konnek2.base.activity.HangoutActivity" />
 
-        <activity android:name="com.android.konnek2.base.activity.AppMoneyActivity"></activity>
-        <activity android:name="com.android.konnek2.base.activity.AppCallHistoryActivity"></activity>
-        <activity android:name="com.android.konnek2.base.activity.AppContactActivity"></activity>
+        <activity android:name="com.android.konnek2.base.activity.AppMoneyActivity" />
+        <activity android:name="com.android.konnek2.base.activity.AppCallHistoryActivity" />
+        <activity android:name="com.android.konnek2.base.activity.AppContactActivity" />
     </application>
 
 </manifest>

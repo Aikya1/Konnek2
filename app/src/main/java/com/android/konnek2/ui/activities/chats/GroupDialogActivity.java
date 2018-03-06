@@ -45,6 +45,7 @@ import com.quickblox.videochat.webrtc.QBRTCSessionDescription;
 import com.quickblox.videochat.webrtc.QBRTCTypes;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -203,6 +204,15 @@ public class GroupDialogActivity extends BaseDialogActivity implements UserListI
                 new UserOnLineOffLine().execute(qbUserList);
                 break;
 
+            case R.id.action_add_user:
+              /*  Intent intent = new Intent();
+
+
+
+                intent.putExtra("data", (Serializable) usersList);
+                NewGroupDialogActivity.start(this, intent);*/
+
+                break;
             default:
                 return super.onOptionsItemSelected(item);
         }

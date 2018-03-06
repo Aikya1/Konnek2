@@ -12,32 +12,45 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        android:padding="@dimen/margin_8dp">
 
-
-        <com.android.konnek2.ui.views.roundedimageview.RoundedImageView
-            style="@style/AvatarImageViewStyle.Common"
-            android:id="@+id/photo_imageview"
-            android:layout_width="@dimen/image_view_small_avatar_layout_width"
-            android:layout_height="@dimen/image_view_small_avatar_layout_height"
-            android:layout_gravity="top"
-            android:background="@drawable/selector_button_general"
-            android:src="@drawable/add_photo"
-            app:border_color="@color/colorPrimary"
-            app:border_width="@dimen/avatar_border_width"
-            app:oval="true" />
-
-        <EditText
-            android:id="@+id/group_name_edittext"
+        <RelativeLayout
             android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.android.konnek2.ui.views.roundedimageview.RoundedImageView
+                android:id="@+id/photo_imageview"
+                style="@style/AvatarImageViewStyle.Common"
+                android:layout_width="@dimen/image_view_big_avatar_layout_width"
+                android:layout_height="@dimen/image_view_big_avatar_layout_width"
+                android:layout_gravity="top"
+                android:background="@drawable/selector_button_general"
+                android:src="@drawable/add_photo"
+                app:oval="true" />
+
+            <EditText
+                android:id="@+id/group_name_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/photo_imageview"
+                android:background="@android:color/transparent"
+                android:hint="@string/create_group_group_name"
+                android:inputType="textNoSuggestions"
+                android:maxLines="3"
+                android:textColor="@color/dark_gray"
+                android:textColorHint="@color/black"
+                android:textSize="@dimen/text_size" />
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="5dp"
-            android:hint="@string/create_group_group_name"
-            android:maxLines="3"
-            android:textColor="@color/text_dark"
-            android:textSize="@dimen/text_size"
-            tools:text="Lyiu hh  yiu hh L n n huuh uho upi yuh h yh yiu hh L n n huuh uho upi yuh h yh yiu hh " />
+            android:padding="@dimen/margin_4dp"
+            android:text="@string/new_group_title_1" />
 
     </LinearLayout>
 
@@ -45,16 +58,17 @@
         android:id="@+id/participants_count_textview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
+        android:background="@color/light_gray"
+        android:padding="@dimen/margin_8dp"
         android:text="@string/create_group_participants"
         android:textColor="@color/text_light_dark"
-        android:textSize="@dimen/text_size_small"
-        android:textStyle="bold" />
+        android:textSize="@dimen/text_size_small" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/friends_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/margin_4dp"
         android:scrollbars="vertical" />
 
 </LinearLayout>

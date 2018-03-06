@@ -1,6 +1,7 @@
 package com.android.konnek2.ui.adapters.friends;
 
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -39,15 +40,27 @@ public class FriendsAdapter extends BaseFilterAdapter<QMUser, BaseClickListenerV
         return item.getFullName() != null && item.getFullName().toLowerCase().contains(query);
     }
 
+
     @Override
     public BaseClickListenerViewHolder<QMUser> onCreateViewHolder(ViewGroup parent, int viewType) {
+
+
+
+        Log.d("APP.JAVA", "View Type = " + viewType);
         return new ViewHolder(this, layoutInflater.inflate(R.layout.item_friend_1, parent, false));
     }
 
     @Override
+    public int getItemViewType(int position) {
+        return super.getItemViewType(position);
+    }
+
+    @Override
     public void onBindViewHolder(BaseClickListenerViewHolder<QMUser> baseClickListenerViewHolder, final int position) {
+
         QMUser user = getItem(position);
         ViewHolder viewHolder = (ViewHolder) baseClickListenerViewHolder;
+
 
        /* if (withFirstLetter) {
             initFirstLetter(viewHolder, position, user);

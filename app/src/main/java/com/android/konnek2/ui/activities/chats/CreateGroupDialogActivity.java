@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -89,7 +90,12 @@ public class CreateGroupDialogActivity extends BaseFriendsListActivity implement
 
     @Override
     protected void initRecyclerView() {
+
         super.initRecyclerView();
+        /*friendsAdapter = getFriendsAdapter();
+        friendsAdapter.setFriendListHelper(friendListHelper);
+        friendsRecyclerView.setAdapter(friendsAdapter);
+        friendsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));*/
         friendsAdapter.setOnRecycleItemClickListener(new SimpleOnRecycleItemClickListener<QMUser>() {
 
             @Override

@@ -39,14 +39,23 @@ android {
     }
 
     signingConfigs {
-        debug {
-
-        }
+        /*debug {
+            storeFile file("/home/rajeev/AndroidKeystores/Konnek2.jks")
+            storePassword "aikya@123"
+            keyAlias "key0"
+            keyPassword "aikya@123"
+        }*/
         release {
 //            storeFile file(property('prodStoreFile'))
 //            storePassword property('prodStorePassword')
 //            keyAlias property('prodKeyAlias')
 //            keyPassword property('prodKeyPassword')
+        }
+        config {
+            keyAlias 'MyKonnek2Key'
+            keyPassword 'aikya@123'
+            storeFile file('/home/rajeev/AndroidKeystores/Konnek2NewKey.jks')
+            storePassword 'aikya@123'
         }
     }
     buildTypes {
@@ -66,7 +75,6 @@ android {
             resValue "string", "facebookAppId", prodFacebookAppID
             resValue "string", "sender_id", prodPushRegistrationAppID
         }
-
         debug {
             debuggable true
             versionNameSuffix ' (debug)'
@@ -80,8 +88,8 @@ android {
             resValue "string", "twitterDigitsApiKey", devTwittedDigitsApiKey
             resValue "string", "facebookAppId", devFacebookAppID
             resValue "string", "sender_id", devPushRegistrationAppID
+            signingConfig signingConfigs.config
         }
-
     }
 
     packagingOptions {
@@ -113,19 +121,16 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-
     compile 'org.greenrobot:eventbus:3.1.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha9'
     testCompile 'junit:junit:4.12'
-//    compile 'com.android.support:support-v4:26.1.0'
+
+    //    compile 'com.android.support:support-v4:26.1.0'
     compile "com.android.support:support-v4:${rootProject.supportV4Version}"
+
     // QuickBlox Lib
-
-
     compile 'com.quickblox:quickblox-android-sdk-core:3.3.0'
     compile 'com.quickblox:quickblox-android-sdk-chat:3.3.0'
-
-
     compile "com.android.support:multidex:${rootProject.multiDexVersion}"
     compile "com.android.support:appcompat-v7:${rootProject.supportVersion}"
     compile "com.android.support:design:${rootProject.supportVersion}"
@@ -138,20 +143,16 @@ dependencies {
     compile "com.google.firebase:firebase-auth:${rootProject.firebaseAuthVersion}"
     compile "com.firebaseui:firebase-ui-auth:${rootProject.firebaseUiAuthVersion}"
     compile "com.nostra13.universalimageloader:universal-image-loader:${rootProject.universalImageLoaderVersion}"
-
     compile "com.jakewharton:butterknife:${rootProject.butterknifeVersion}"
     debugCompile 'com.amitshekhar.android:debug-db:1.0.2'
-
-
     compile "com.afollestad.material-dialogs:core:${rootProject.materialDialogsVersion}"
     compile "com.github.orangegangsters:swipy:${rootProject.swipyRecyclerviewVersion}@aar"
     compile "com.timehop.stickyheadersrecyclerview:library:${rootProject.stickylistheadersRecyclerViewVersion}@aar"
     compile "com.rockerhieu.emojicon:library:${rootProject.emojiconVersion}"
     compile "com.soundcloud.android:android-crop:${rootProject.cropVersion}@aar"
-    compile('com.android.support:cardview-v7:26.0.1')
-            {
-                force = true
-            }
+    compile('com.android.support:cardview-v7:26.0.1') {
+        force = true
+    }
     compile('com.crashlytics.sdk.android:crashlytics:2.6.2@aar') {
         transitive = true;
     }

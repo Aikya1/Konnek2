@@ -32,6 +32,7 @@ import com.quickblox.chat.model.QBRosterEntry;
 import com.quickblox.core.exception.QBResponseException;
 import com.quickblox.core.request.QBPagedRequestBuilder;
 import com.quickblox.users.QBUsers;
+//import com.quickblox.users.model.QBAddressBookContact;
 import com.quickblox.users.model.QBUser;
 
 
@@ -66,6 +67,8 @@ public class QBFriendListHelper extends BaseThreadPoolHelper implements Serializ
     private DataManager dataManager;
     private Timer userLoadingTimer;
     private List<Integer> userLoadingIdsList;
+//    private ArrayList<QBAddressBookContact> contactsGlobal;
+
 
     //ThreadPoolExecutor
     private static final int THREAD_POOL_SIZE = 3;
@@ -103,6 +106,23 @@ public class QBFriendListHelper extends BaseThreadPoolHelper implements Serializ
         if (isNotInvited(userId)) {
             invite(userId);
         }
+    }
+
+    public void addContactToAddressBook(String name, String phone) {
+        String UDID = null;
+        boolean force = true;
+
+       /* if (contactsGlobal == null) {
+            contactsGlobal = new ArrayList<>();
+        }*/
+
+       /* QBAddressBookContact qbAddressBookContact = new QBAddressBookContact();
+        qbAddressBookContact.setName(name);
+        qbAddressBookContact.setPhone(phone);
+        contactsGlobal.add(qbAddressBookContact);
+        response = QBUsers.uploadAddressBook(contactsGlobal, UDID, force).perform();*/
+
+
     }
 
     public void addFriend(int userId) throws Exception {

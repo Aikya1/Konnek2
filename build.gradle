@@ -6,7 +6,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:3.0.1'
         classpath 'io.fabric.tools:gradle:1.+'
-        classpath 'com.google.gms:google-services:3.0.0'
+        classpath 'com.google.gms:google-services:3.2.0'
     }
 }
 
@@ -58,7 +58,7 @@ ext {
     // Dependencies versions
     multiDexVersion = '1.0.1'
     supportVersion = '27.0.2'
-    googlePlayServicesVersion = '11.0.4'
+    googlePlayServicesVersion = '11.8.0'
     universalImageLoaderVersion = '1.9.1'
     ormliteAndroidVersion = '5.0'
     ormliteCoreVersion = '5.0'
@@ -87,6 +87,6 @@ ext {
     crashlyticsVersion = '2.2.2'
     firebaseVersion = ext.googlePlayServicesVersion
     firebaseAuthVersion = ext.googlePlayServicesVersion
-    firebaseUiAuthVersion = '2.3.0'
+    firebaseUiAuthVersion = '3.2.2'
     firebaseDispatcherVersion = '0.8.2'
 }

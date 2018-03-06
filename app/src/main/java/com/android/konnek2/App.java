@@ -5,6 +5,7 @@ import android.support.multidex.MultiDexApplication;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.android.konnek2.call.core.service.QBService;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.core.CrashlyticsCore;
 import com.android.konnek2.call.core.utils.ConstsCore;
@@ -95,7 +96,20 @@ public class App extends MultiDexApplication {
                 StringObfuscator.getApplicationId(),
                 StringObfuscator.getAuthKey(),
                 StringObfuscator.getAuthSecret());
+
+
         QBSettings.getInstance().setAccountKey(StringObfuscator.getAccountKey());
+        String chatServerDomain = QBSettings.getInstance().getChatServerDomain();
+        String serverApiDomain = QBSettings.getInstance().getServerApiDomain();
+        String apiEndPoint = QBSettings.getInstance().getApiEndpoint();
+        String chatEndPoint = QBSettings.getInstance().getChatEndpoint();
+
+        Log.d("APP.JAVA", "chat server domain = " + chatServerDomain);
+        Log.d("APP.JAVA", "Api server domain" + serverApiDomain);
+        Log.d("APP.JAVA", "Api End Point = " + apiEndPoint);
+        Log.d("APP JAVA", "Chat End Point" + chatEndPoint);
+
+
         QBSettings.getInstance().setLogLevel(LogLevel.DEBUG);  // Local Level Enabled  by suresh
         initDomains();
         initHTTPConfig();
