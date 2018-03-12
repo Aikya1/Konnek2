@@ -37,7 +37,8 @@ public class DialogsListAdapter extends BaseListAdapter<DialogWrapper> {
     private static final String TAG = DialogsListAdapter.class.getSimpleName();
 
 
-    public DialogsListAdapter(BaseActivity baseActivity, List<DialogWrapper> objectsList, boolean typeFlag, ContactInterface contactInterface) {
+    public DialogsListAdapter(BaseActivity baseActivity, List<DialogWrapper> objectsList,
+                              boolean typeFlag, ContactInterface contactInterface) {
         super(baseActivity, objectsList);
     }
 

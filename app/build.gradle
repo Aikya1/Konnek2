@@ -21,24 +21,27 @@ repositories {
 android {
     compileSdkVersion rootProject.compileSdkVersion
     buildToolsVersion rootProject.buildToolsVersion
-
     defaultConfig {
         applicationId "com.android.konnek2"
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
-        versionCode rootProject.versionCode
         versionName rootProject.versionName
         multiDexEnabled = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
         javaCompileOptions {
             annotationProcessorOptions {
                 includeCompileClasspath true
             }
         }
-    }
 
+    }
     signingConfigs {
+        debug {
+            keyAlias 'MyKonnek2Key'
+            keyPassword 'aikya@123'
+            storeFile file('/home/rajeev/AndroidKeystores/Konnek2NewKey.jks')
+            storePassword 'aikya@123'
+        }
         /*debug {
             storeFile file("/home/rajeev/AndroidKeystores/Konnek2.jks")
             storePassword "aikya@123"
@@ -51,12 +54,12 @@ android {
 //            keyAlias property('prodKeyAlias')
 //            keyPassword property('prodKeyPassword')
         }
-        config {
+       /* debug {
             keyAlias 'MyKonnek2Key'
             keyPassword 'aikya@123'
             storeFile file('/home/rajeev/AndroidKeystores/Konnek2NewKey.jks')
             storePassword 'aikya@123'
-        }
+        }*/
     }
     buildTypes {
         release {
@@ -88,27 +91,25 @@ android {
             resValue "string", "twitterDigitsApiKey", devTwittedDigitsApiKey
             resValue "string", "facebookAppId", devFacebookAppID
             resValue "string", "sender_id", devPushRegistrationAppID
-            signingConfig signingConfigs.config
+//            signingConfig signingConfigs.config
         }
     }
-
     packagingOptions {
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE.txt'
     }
-
     dexOptions {
         javaMaxHeapSize "4g"
     }
-
     lintOptions {
         abortOnError false
     }
-
     android.applicationVariants.all { variant ->
         variant.outputs.all {
             outputFileName = "${variant.name}-${variant.versionName}.apk"
         }
+    }
+    productFlavors {
     }
 }
 

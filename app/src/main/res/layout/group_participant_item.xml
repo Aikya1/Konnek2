@@ -5,8 +5,7 @@
     android:id="@+id/contentRelativeLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="10dp">
+    android:orientation="horizontal">
 
     <com.android.konnek2.ui.views.roundedimageview.RoundedImageView
         android:id="@+id/avatar_imageview"
@@ -19,12 +18,12 @@
         app:oval="true" />
 
     <RelativeLayout
+        android:id="@+id/userLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/userLayout"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="15dp"
-        android:layout_toLeftOf="@+id/add_friend_imagebutton"
+        android:layout_marginLeft="@dimen/margin_4dp"
+        android:layout_toLeftOf="@+id/group_admin_icon"
         android:layout_toRightOf="@id/avatar_imageview"
         android:orientation="vertical">
 
@@ -35,7 +34,7 @@
             android:layout_gravity="fill"
             android:singleLine="true"
             android:textColor="@color/black"
-            android:textSize="@dimen/text_size"
+            android:textSize="@dimen/text_size_14sp"
             tools:text="Title" />
 
         <TextView
@@ -45,19 +44,18 @@
             android:layout_below="@id/name_textview"
             android:layout_gravity="fill"
             android:textColor="@color/gray"
-            android:textSize="@dimen/text_size_small"
+            android:textSize="@dimen/text_size_12sp"
             tools:text="Subtitle" />
 
     </RelativeLayout>
 
-    <ImageButton
-        android:id="@+id/add_friend_imagebutton"
+    <ImageView
+        android:id="@+id/group_admin_icon"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:background="@drawable/selector_button_general"
-        android:padding="10dp"
-        android:src="@drawable/ic_add_user_dark"
-        android:visibility="gone" />
+        android:visibility="gone"
+        android:contentDescription="@string/image_description"
+        android:src="@drawable/group_admin_icon" />
 
 </RelativeLayout>

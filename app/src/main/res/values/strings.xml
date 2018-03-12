@@ -124,7 +124,7 @@
     <!-- Dialog -->
     <string name="dialog_hint_message">Message</string>
     <!--<string name="dialog_no_chats">Oops…\nYou don\'t have any chats,\n tap \'Create\' button to create new group chat \nor go in private chat \nvia Friends Details page"</string>-->
-    <string name="dialog_no_chats">"You do not have any friends. Please add friends to start a chat."</string>
+    <string name="dialog_no_chats">"No chats found. Please start a chat."</string>
     <string name="Contact_load">"Updating contacts list… Please wait"</string>
     <string name="dialog_reply">Reply</string>
     <string name="dialog_user_is_not_friend">User is not your friend</string>
@@ -388,7 +388,7 @@
     <string name="action_view_contact">View Contact</string>
     <string name="action_export_chat">Export Chat</string>
     <string name="action_create_shortcut">Create Shortcut</string>
-    <string name="action_clear_chat">Clear Chat</string>
+    <string name="action_clear_chat">Clear chat</string>
     <string name="action_delete_chat">Delete Chat</string>
     <string name="create_group">New Group</string>
     <string name="last_seen_user">last seen at 5:12 PM</string>
@@ -401,5 +401,13 @@
     <string name="action_export_group_chat">Export group chat</string>
     <string name="action_exit_group">Exit group</string>
     <string name="add_user_to_group">Add User</string>
+    <string name="custom_notifications">Custom Notifications</string>
+    <string name="participants">Participants</string>
+    <string name="add_participants">Add Participants</string>
+    <string name="no_of_participants">5 Participants</string>
+    <string name="dictation_heading">Dictation</string>
+    <string name="tap_to_start">Tap to Start</string>
+    <string name="eng_lang">English</string>
+    <string name="hindi_lang">Hindi</string>
 
 </resources>

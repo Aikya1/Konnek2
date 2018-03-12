@@ -429,7 +429,6 @@ public class PrivateDialogActivity extends BaseDialogActivity {
     }
 
     private class FriendObserver implements Observer {
-
         @Override
         public void update(Observable observable, Object data) {
             if (data != null) {
@@ -443,7 +442,6 @@ public class PrivateDialogActivity extends BaseDialogActivity {
     }
 
     private class TypingStatusBroadcastReceiver extends BroadcastReceiver {
-
         @Override
         public void onReceive(Context context, Intent intent) {
             Bundle extras = intent.getExtras();

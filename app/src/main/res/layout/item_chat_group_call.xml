@@ -23,8 +23,6 @@
             android:layout_height="@dimen/image_view_small_avatar_layout_width_group"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            app:border_color="@color/colorPrimary"
-            app:border_width="@dimen/avatar_border_width"
             app:oval="true"/>
 
         <ImageView

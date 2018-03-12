@@ -192,11 +192,9 @@ public class GroupDialogActivity extends BaseDialogActivity implements UserListI
         switch (item.getItemId()) {
             case R.id.action_group_details:
                 GroupDialogDetailsActivity.start(this, currentChatDialog.getDialogId());
-
                 break;
             case R.id.action_audio_call:
                 callType = false;
-
                 new UserOnLineOffLine().execute(qbUserList);
                 break;
             case R.id.action_video_call:
@@ -206,9 +204,6 @@ public class GroupDialogActivity extends BaseDialogActivity implements UserListI
 
             case R.id.action_add_user:
               /*  Intent intent = new Intent();
-
-
-
                 intent.putExtra("data", (Serializable) usersList);
                 NewGroupDialogActivity.start(this, intent);*/
 
@@ -371,10 +366,14 @@ public class GroupDialogActivity extends BaseDialogActivity implements UserListI
 
                 if (qbUserList != null && !qbUserList[0].isEmpty()) {
 
-                    if (friendListHelper != null) {
+                    if (friendListHelper != null && qbUserList[0].get(i).getLastRequestAt() != null) {
+
                         String offlineStatus = getString(R.string.last_seen, DateUtils.toTodayYesterdayShortDateWithoutYear2(qbUserList[0].get(i).getLastRequestAt().getTime()),
                                 DateUtils.formatDateSimpleTime(qbUserList[0].get(i).getLastRequestAt().getTime()));
-                        userOnlineStatus.put("" + qbUserList[0].get(i).getId(), OnlineStatusUtils.getOnlineStatus(GroupDialogActivity.this, friendListHelper.isUserOnline(qbUserList[0].get(i).getId()), offlineStatus));
+                        userOnlineStatus.put("" + qbUserList[0].get(i).getId(),
+                                OnlineStatusUtils.getOnlineStatus(GroupDialogActivity.this,
+                                        friendListHelper.isUserOnline(qbUserList[0].get(i).getId()),
+                                        offlineStatus));
 
                     }
 

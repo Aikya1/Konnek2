@@ -26,6 +26,7 @@ import com.android.konnek2.call.core.service.QBServiceConsts;
 import com.android.konnek2.call.core.utils.ConstsCore;
 import com.android.konnek2.call.db.managers.DataManager;
 import com.android.konnek2.call.db.models.DialogOccupant;
+import com.android.konnek2.call.db.models.Friend;
 import com.android.konnek2.call.db.utils.DialogTransformUtils;
 import com.android.konnek2.call.services.QMUserService;
 import com.android.konnek2.call.services.model.QMUser;
@@ -269,14 +270,23 @@ public class NewMessageActivity extends BaseLoggableActivity implements SearchVi
 
     private void initCustomListeners() {
         friendsAdapter.setOnRecycleItemClickListener(new SimpleOnRecycleItemClickListener<QMUser>() {
-
             @Override
             public void onItemClicked(View view, QMUser user, int position) {
                 super.onItemClicked(view, user, position);
                 selectedUser = user;
+                insertUserAsFriendToDb(selectedUser);
                 checkForOpenChat(user);
             }
         });
+    }
+
+    private void insertUserAsFriendToDb(QMUser selectedUser) {
+
+        Friend friend = new Friend();
+        friend.setUser(selectedUser);
+
+        dataManager.getFriendDataManager().createOrUpdate(friend, true);
+
     }
 
     private void addActions() {
@@ -339,8 +349,6 @@ public class NewMessageActivity extends BaseLoggableActivity implements SearchVi
                 NewGroupDialogActivity.start(this, intent);
                 break;
         }
-
-
     }
 
     private class CreatePrivateChatSuccessAction implements Command {

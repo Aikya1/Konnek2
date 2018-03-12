@@ -288,6 +288,17 @@
         <activity android:name="com.android.konnek2.base.activity.AppMoneyActivity" />
         <activity android:name="com.android.konnek2.base.activity.AppCallHistoryActivity" />
         <activity android:name="com.android.konnek2.base.activity.AppContactActivity" />
+
+
+        <activity android:name=".base.testActivity.TestActivity">
+
+           <!-- <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>-->
+        </activity>
+
     </application>
 
 </manifest>

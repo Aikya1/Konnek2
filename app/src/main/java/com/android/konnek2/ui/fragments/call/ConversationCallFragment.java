@@ -181,7 +181,9 @@ public class ConversationCallFragment extends Fragment implements Serializable, 
     }
 
     private void displayOpponentAvatar() {
+
         QMUser opponent = ((CallActivity) getActivity()).getOpponentAsUserFromDB(opponents.get(0).getId());
+
         if (StartConversationReason.INCOME_CALL_FOR_ACCEPTION.equals(startConversationReason) && !isVideoCall) {
             avatarAndNameView.setVisibility(View.VISIBLE);
             ImageLoader.getInstance().displayImage(opponent.getAvatar(), avatarImageview, ImageLoaderUtils.UIL_USER_AVATAR_DISPLAY_OPTIONS);

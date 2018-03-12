@@ -127,7 +127,6 @@ public class CallActivity extends BaseLoggableActivity implements
 
     @Override
     protected int getContentResId() {
-
         return R.layout.activity_call;
     }
 
@@ -175,21 +174,25 @@ public class CallActivity extends BaseLoggableActivity implements
 
     private void initCallFragment() {
 
+        if (startConversationReason != null) {
+            switch (startConversationReason) {
+                case INCOME_CALL_FOR_ACCEPTION:
 
-        switch (startConversationReason) {
-            case INCOME_CALL_FOR_ACCEPTION:
+                    if (qbRtcSessionDescription != null) {
+                        addIncomingCallFragment(qbRtcSessionDescription);
+                        isInComingCall = true;
+                        initIncomingCallTask();
+                    }
+                    break;
+                case OUTCOME_CALL_MADE:
 
-                if (qbRtcSessionDescription != null) {
-                    addIncomingCallFragment(qbRtcSessionDescription);
-                    isInComingCall = true;
-                    initIncomingCallTask();
-                }
-                break;
-            case OUTCOME_CALL_MADE:
+                    checkPermissionsAndStartCall(StartConversationReason.OUTCOME_CALL_MADE);
+                    break;
+            }
 
-                checkPermissionsAndStartCall(StartConversationReason.OUTCOME_CALL_MADE);
-                break;
         }
+
+
     }
 
     @Override

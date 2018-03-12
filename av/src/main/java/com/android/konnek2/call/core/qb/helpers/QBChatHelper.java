@@ -262,6 +262,12 @@ public class QBChatHelper extends BaseThreadPoolHelper {
         return qbDialogsList;
     }
 
+    public QBChatDialog getDialogById(String dialogId) throws QBResponseException {
+        QBChatDialog qbChatDialog = QBRestChatService.getChatDialogById(dialogId).perform();
+
+        return qbChatDialog;
+    }
+
 
     public List<QBChatMessage> getDialogMessages(QBRequestGetBuilder customObjectRequestBuilder,
                                                  Bundle returnedBundle, QBChatDialog qbDialog,
@@ -681,7 +687,7 @@ public class QBChatHelper extends BaseThreadPoolHelper {
     public void removeUserFromGroup(QBChatDialog chatDialog, QMUser selectedUser) throws QBResponseException {
         QBRequestUpdateBuilder requestBuilder = new QBRequestUpdateBuilder();
         requestBuilder.pullAll(Consts.DIALOG_USER_ID_FIELD_NAME, selectedUser);
-        updateDialog(chatDialog,requestBuilder);
+        updateDialog(chatDialog, requestBuilder);
         DataManager.getInstance().getQBChatDialogDataManager().deleteById(selectedUser.getId());
     }
 
@@ -715,6 +721,7 @@ public class QBChatHelper extends BaseThreadPoolHelper {
         dialogToCreate.setType(QBDialogType.GROUP);
         dialogToCreate.setOccupantsIds(occupantIdsList);
         dialogToCreate.setPhoto(photoUrl);
+
 
         QBChatDialog qbDialog = QBRestChatService.createChatDialog(dialogToCreate).perform();
         DbUtils.saveDialogToCache(dataManager, qbDialog);

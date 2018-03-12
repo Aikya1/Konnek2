@@ -27,7 +27,7 @@
             android:gravity="center"
             android:padding="10dp"
             android:text="@string/dialog_no_chats"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/dark_gray"
             android:textSize="@dimen/text_size"
             android:visibility="gone" />
 

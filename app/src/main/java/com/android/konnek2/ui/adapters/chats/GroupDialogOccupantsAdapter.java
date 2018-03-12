@@ -60,9 +60,11 @@ public class GroupDialogOccupantsAdapter extends BaseListAdapter<QMUser> {
         viewHolder.nameTextView.setText(fullName);
 
         setStatus(viewHolder, user);
-        viewHolder.addFriendImageView.setVisibility(isFriend(user) ? View.GONE : View.VISIBLE);
 
-        initListeners(viewHolder, user.getId());
+        //this is to ensure that there is no friend concept
+        //viewHolder.addFriendImageView.setVisibility(isFriend(user) ? View.GONE : View.VISIBLE);
+
+//        initListeners(viewHolder, user.getId());
 
         displayAvatarImage(user.getAvatar(), viewHolder.avatarImageView);
 
@@ -86,7 +88,7 @@ public class GroupDialogOccupantsAdapter extends BaseListAdapter<QMUser> {
             viewHolder.onlineStatusTextView.setTextColor(context.getResources().getColor(R.color.green));
         } else {
             QMUser userFromDb = QMUserService.getInstance().getUserCache().get((long) user.getId());
-            if (userFromDb != null){
+            if (userFromDb != null) {
                 user = userFromDb;
             }
 

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -22,6 +23,9 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.MenuItem;
@@ -146,7 +150,7 @@ public abstract class BaseActivity extends AppCompatActivity implements ActionBa
         if (toolbar != null) {
 
             setSupportActionBar(toolbar);
-
+            toolbar.setTitleTextColor(getResources().getColor(R.color.white));
         }
         actionBar = getSupportActionBar();
     }
@@ -154,7 +158,12 @@ public abstract class BaseActivity extends AppCompatActivity implements ActionBa
     @Override
     public void setActionBarTitle(String title) {
         if (actionBar != null) {
-            actionBar.setTitle(title);
+            if (title != null) {
+                Spannable text = new SpannableString(title);
+                text.setSpan(new ForegroundColorSpan(Color.WHITE), 0, text.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                actionBar.setTitle(text);
+            }
+
 //            Title.setText(title);
         }
     }
@@ -231,7 +240,6 @@ public abstract class BaseActivity extends AppCompatActivity implements ActionBa
 
     @Override
     public boolean checkNetworkAvailableWithError() {
-
         if (!isNetworkAvailable()) {
             ToastUtils.longToast(R.string.dlg_fail_connection);
             return false;

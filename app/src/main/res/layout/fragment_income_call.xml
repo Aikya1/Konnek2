@@ -50,7 +50,6 @@
             android:layout_below="@+id/type_inc_call"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/margin_10dp"
-            android:text=" "
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_14sp"
             android:visibility="gone"/>

@@ -4,16 +4,15 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
-import android.text.style.TextAppearanceSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,14 +26,11 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.amitshekhar.DebugDB;
 import com.android.konnek2.R;
-import com.android.konnek2.base.testActivity.ConnectActivity;
 import com.android.konnek2.call.core.models.AppSession;
 import com.android.konnek2.call.core.utils.UserFriendUtils;
 import com.android.konnek2.call.db.utils.ErrorUtils;
 import com.android.konnek2.call.services.model.QMUser;
 import com.android.konnek2.ui.activities.authorization.LandingActivity;
-import com.android.konnek2.ui.activities.base.BaseActivity;
-import com.android.konnek2.ui.activities.invitefriends.InviteFriendsActivity;
 import com.android.konnek2.ui.activities.main.MainActivity;
 import com.android.konnek2.ui.activities.profile.MyProfileActivity;
 import com.android.konnek2.ui.activities.settings.SettingsActivity;
@@ -42,15 +38,12 @@ import com.android.konnek2.ui.adapters.base.AppHomeAdapter;
 import com.android.konnek2.ui.fragments.dialogs.base.TwoButtonsDialogFragment;
 import com.android.konnek2.ui.views.roundedimageview.RoundedImageView;
 import com.android.konnek2.utils.AppConstant;
-import com.android.konnek2.utils.AppPreference;
 import com.android.konnek2.utils.helpers.FacebookHelper;
 import com.android.konnek2.utils.helpers.FirebaseAuthHelper;
 import com.android.konnek2.utils.helpers.ServiceManager;
 import com.android.konnek2.utils.image.ImageLoaderUtils;
 import com.android.konnek2.utils.listeners.AppCommon;
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.nostra13.universalimageloader.core.ImageLoader;
-
 
 import rx.Subscriber;
 
@@ -95,8 +88,9 @@ public class AppHomeActivity extends AppCompatActivity implements NavigationView
         title = getResources().getStringArray(R.array.home_title);          //  Image  Values  from resource  files
 //        subtitle[6] = AppConstant.SUB_TITLE_ONE;
 //        subtitle[2] = AppConstant.SUB_TITLE_TWO;
-
+        Log.d("AppHomeActivity", "Port = " + DebugDB.isServerRunning());
         Log.d("AppHomeActivity", "Port = " + DebugDB.getAddressLog());
+        Log.d("AppHomeActivity", "Port = " + DebugDB.isServerRunning());
         gridView = (GridView) findViewById(R.id.home_rid);
         appHomeAdapter = new AppHomeAdapter(AppHomeActivity.this, title, subtitle, imageId);
         gridView.setAdapter(appHomeAdapter);

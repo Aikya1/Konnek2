@@ -25,8 +25,7 @@
             style="@style/ChatActionButtonStyle"
             android:contentDescription="@string/image_description"
             android:onClick="sendMessage"
-            android:src="@drawable/ic_app_send_message"
-            android:visibility="gone" />
+            android:src="@drawable/ic_app_send_message" />
 
         <ImageButton
             android:id="@+id/attach_button"

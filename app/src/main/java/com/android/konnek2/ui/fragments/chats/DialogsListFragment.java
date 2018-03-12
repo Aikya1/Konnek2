@@ -121,6 +121,7 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
     private LoadChatsSuccessAction loadChatsSuccessAction;
     private LoadChatsFailedAction loadChatsFailedAction;
     private UpdateDialogSuccessAction updateDialogSuccessAction;
+    private LoginChatCompositeSuccessAction loginChatCompositeSuccessAction;
 
 
     @Override
@@ -219,7 +220,7 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 //        baseActivity.showSnackbar(R.string.dialog_loading_dialogs, Snackbar.LENGTH_INDEFINITE);
-//        baseActivity.showProgress();
+        baseActivity.showProgress();
     }
 
 
@@ -294,13 +295,14 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
     public void onResume() {
         super.onResume();
         Log.d(TAG, "onResume");
-       /* if (dialogsListAdapter != null) {
+        if (dialogsListAdapter != null) {
             checkVisibilityEmptyLabel();
-        }*/
+        }
 
         if (dialogsListAdapter != null) {
             dialogsListAdapter.notifyDataSetChanged();
         }
+
         checkLoaderConsumerQueue();
         checkUpdateDialogs();
 
@@ -309,6 +311,7 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
             baseActivity.hideProgress();
         }
     }
+
 
     private void checkUpdateDialogs() {
 
@@ -428,6 +431,8 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
 
     }
 
+
+    //Fab button to start a chat...
     @OnClick(R.id.fab_dialogs_new_chat)
     public void onAddChatClick(View view) {
         addChat();
@@ -455,26 +460,28 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
 
     @Override
     public void onLoadFinished(Loader<List<DialogWrapper>> loader, List<DialogWrapper> dialogsList) {
-        updateDialogsProcess = State.started;
-        if (dialogsListLoader.isLoadCacheFinished()) {
-            //clear queue after loading all dialogs from cache before updating all dialogs from REST
-            loaderConsumerQueue.clear();
-        } else {
-            updateDialogsListFromQueue();
-        }
+        if (dialogsList.size() > 0) {
+            updateDialogsProcess = State.started;
+            if (dialogsListLoader.isLoadCacheFinished()) {
+                //clear queue after loading all dialogs from cache before updating all dialogs from REST
+                loaderConsumerQueue.clear();
+            } else {
+                updateDialogsListFromQueue();
+            }
 
-        updateDialogsAdapter(dialogsList);
+            updateDialogsAdapter(dialogsList);
 
-        checkEmptyList(dialogsListAdapter.getCount());
+            checkEmptyList(dialogsListAdapter.getCount());
 
-        if (!baseActivity.isDialogLoading()) {
-            baseActivity.hideSnackBar(R.string.dialog_loading_dialogs);
-            baseActivity.hideProgress();
-        }
+            if (!baseActivity.isDialogLoading()) {
+                baseActivity.hideSnackBar(R.string.dialog_loading_dialogs);
+                baseActivity.hideProgress();
+            }
 
 //        startForResult load dialogs from REST when finished loading from cache
-        if (dialogsListLoader.isLoadCacheFinished()) {
-            QBLoadDialogsCommand.start(getContext(), true);
+            if (dialogsListLoader.isLoadCacheFinished()) {
+                QBLoadDialogsCommand.start(getContext(), true);
+            }
         }
     }
 
@@ -509,22 +516,6 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
 
     private void checkVisibilityEmptyLabel() {
 //        emptyListTextView.setVisibility(dialogsListAdapter.isEmpty() ? View.VISIBLE : View.GONE);
-        if (!dialogsListAdapter.isEmpty()) {
-            emptyListTextView.setVisibility(View.GONE);
-        } else {
-            if (adapterFlag) {
-                emptyListTextView.setVisibility(View.VISIBLE);
-
-//                emptyListTextView.setText(getResources().getString(R.string.dialog_no_chats));
-//                emptyListTextView.setText(getResources().getString(R.string.Contact_load));
-            } else {
-//                emptyListTextView.setText(getResources().getString(R.string.dialog_no_chats));
-//                emptyListTextView.setText(getResources().getString(R.string.Contact_load));
-            }
-
-        }
-
-
     }
 
     private void addObservers() {
@@ -548,6 +539,7 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
 
     private void removeActions() {
 
+        baseActivity.removeAction(QBServiceConsts.LOGIN_CHAT_COMPOSITE_SUCCESS_ACTION);
         baseActivity.removeAction(QBServiceConsts.DELETE_DIALOG_SUCCESS_ACTION);
         baseActivity.removeAction(QBServiceConsts.DELETE_DIALOG_FAIL_ACTION);
         baseActivity.removeAction(QBServiceConsts.UPDATE_CHAT_DIALOG_ACTION);
@@ -559,6 +551,7 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
 
     private void addActions() {
 
+        baseActivity.addAction(QBServiceConsts.LOGIN_CHAT_COMPOSITE_SUCCESS_ACTION, loginChatCompositeSuccessAction);
         baseActivity.addAction(QBServiceConsts.DELETE_DIALOG_SUCCESS_ACTION, deleteDialogSuccessAction);
         baseActivity.addAction(QBServiceConsts.DELETE_DIALOG_FAIL_ACTION, deleteDialogFailAction);
         baseActivity.addAction(QBServiceConsts.LOAD_CHATS_DIALOGS_SUCCESS_ACTION, loadChatsSuccessAction);
@@ -575,6 +568,7 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
     }
 
     private void initActions() {
+        loginChatCompositeSuccessAction = new LoginChatCompositeSuccessAction();
         deleteDialogSuccessAction = new DeleteDialogSuccessAction();
         deleteDialogFailAction = new DeleteDialogFailAction();
         loadChatsSuccessAction = new LoadChatsSuccessAction();
@@ -685,11 +679,7 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
     private void checkEmptyList(int listSize) {
         if (listSize > 0) {
 //            emptyListTextView.setVisibility(View.GONE);
-
-            baseActivity.hideProgress();
-
         } else {
-            baseActivity.showProgress();
 //            emptyListTextView.setVisibility(View.VISIBLE);
         }
     }
@@ -708,8 +698,6 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
     }
 
     private class DeleteDialogSuccessAction implements Command {
-
-
         @Override
         public void execute(Bundle bundle) {
 
@@ -742,6 +730,18 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
 
         private boolean isLoadPerPage(Bundle bundle) {
             return bundle.get(ConstsCore.DIALOGS_START_ROW) != null && bundle.get(ConstsCore.DIALOGS_PER_PAGE) != null;
+        }
+    }
+
+
+    private class LoginChatCompositeSuccessAction implements Command {
+
+        @Override
+        public void execute(Bundle bundle) throws Exception {
+            Log.i(TAG, "LoginChatCompositeSuccessAction bundle= " + bundle);
+            if (dialogsListLoader.isLoadCacheFinished()) {
+                QBLoadDialogsCommand.start(getContext(), true);
+            }
         }
     }
 

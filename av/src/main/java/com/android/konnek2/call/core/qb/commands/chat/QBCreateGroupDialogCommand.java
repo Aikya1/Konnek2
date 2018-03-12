@@ -40,6 +40,7 @@ public class QBCreateGroupDialogCommand extends ServiceCommand {
         String photoUrl = (String) extras.getSerializable(QBServiceConsts.EXTRA_ROOM_PHOTO_URL);
 
         QBChatDialog dialog = chatHelper.createGroupChat(roomName, UserFriendUtils.getFriendIdsFromUsersList(friendList), photoUrl);
+
         extras.putSerializable(QBServiceConsts.EXTRA_DIALOG, dialog);
         return extras;
     }

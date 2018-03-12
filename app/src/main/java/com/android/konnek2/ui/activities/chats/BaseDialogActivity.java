@@ -29,6 +29,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Chronometer;
 import android.widget.CompoundButton;
@@ -1565,22 +1566,26 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
     public void voiceToText() {
 
         LayoutInflater inflater = getLayoutInflater();
-        alertLayout = inflater.inflate(R.layout.item_voice_to_text, null);
+        alertLayout = inflater.inflate(R.layout.item_voice_to_text_1, null);
         micImage = alertLayout.findViewById(R.id.image_mic_text);
         editTextMessage = alertLayout.findViewById(R.id.edit_text_message);
+        radioGroupLeft = alertLayout.findViewById(R.id.radio_group_left);
+
         final TextView headerView = alertLayout.findViewById(R.id.text_header);
         final TextView tapToSpeak = alertLayout.findViewById(R.id.txt_speak);
-        final TextView buttonOk = alertLayout.findViewById(R.id.text_ok);
-        final TextView buttonCancel = alertLayout.findViewById(R.id.text_cancel);
-        radioGroupLeft = alertLayout.findViewById(R.id.radio_group_left);
-        radioGroupRight = alertLayout.findViewById(R.id.radio_group_right);
-        final CheckBox lanuageTranslate = alertLayout.findViewById(R.id.check_box_translate);
+
+        final Button buttonOk = alertLayout.findViewById(R.id.text_ok);
+        final Button buttonCancel = alertLayout.findViewById(R.id.text_cancel);
+
+//        radioGroupRight = alertLayout.findViewById(R.id.radio_group_right);
+//        final CheckBox lanuageTranslate = alertLayout.findViewById(R.id.check_box_translate);
+
         selectedRadioButtonIDLeft = 0;
         selectedRadioButtonIDRight = 0;
         SelectedLanguageLeft = "en_US";
         myCountDownTimer = new MyCountDownTimer(60000, 1000);
 
-        lanuageTranslate.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        /*lanuageTranslate.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
@@ -1593,7 +1598,7 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
                     radioGroupRight.setVisibility(View.GONE);
                 }
             }
-        });
+        });*/
 
         radioGroupLeft.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -1613,7 +1618,8 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
                 }
             }
         });
-        radioGroupRight.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+
+        /*radioGroupRight.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
 
@@ -1629,13 +1635,14 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
                 }
 
             }
-        });
+        });*/
+
         headerView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 count++;
-                if (count == 3)
-                    lanuageTranslate.setVisibility(View.VISIBLE);
+                /*if (count == 3)
+                    lanuageTranslate.setVisibility(View.VISIBLE);*/
             }
         });
         micImage.setOnClickListener(new View.OnClickListener() {
@@ -1656,7 +1663,6 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
         });
 
 //        micImage.setOnLongClickListener(new VoiceToTextListener());
-
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
 //        alert.setTitle("Info");
         alert.setView(alertLayout);

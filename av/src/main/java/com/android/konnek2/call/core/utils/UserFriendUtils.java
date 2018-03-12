@@ -139,6 +139,15 @@ public class UserFriendUtils {
         return friendIdsList;
     }
 
+    public static List<Integer> getIdsFromList(List<QMUser> userList) {
+        List<Integer> userIdsList = new ArrayList<Integer>();
+
+        for (QMUser id : userList) {
+            userIdsList.add(id.getId());
+        }
+        return userIdsList;
+    }
+
     public static List<Friend> getFriendsListFromDialogOccupantsList(List<DialogOccupant> dialogOccupantsList) {
         List<Friend> friendsList = new ArrayList<>(dialogOccupantsList.size());
         for (DialogOccupant dialogOccupant : dialogOccupantsList) {
@@ -146,6 +155,16 @@ public class UserFriendUtils {
         }
         return friendsList;
     }
+
+
+
+    /*public static List<QMUser> getUserList(List<DialogOccupant> dialogOccupantsList) {
+        List<QMUser> userList = new ArrayList<>(dialogOccupantsList.size());
+        for (DialogOccupant dialogOccupant : dialogOccupantsList) {
+            userList.add(new QMUser(dialogOccupant.getUser()));
+        }
+        return userList;
+    }*/
 
     public static String getUserNameByID(Integer userId, List<QBUser> usersList) {
         for (QBUser user : usersList) {
@@ -160,7 +179,7 @@ public class UserFriendUtils {
         ArrayList<QBUser> result = new ArrayList<>();
         for (Integer userId : ids) {
             for (QBUser user : usersList) {
-                if (userId.equals(user.getId())){
+                if (userId.equals(user.getId())) {
                     result.add(user);
                 }
             }
@@ -169,9 +188,8 @@ public class UserFriendUtils {
     }
 
     public static List<QBUser> createQbUserList(List<QMUser> user) {
-        List<QBUser> qbUserList =new ArrayList<>();
-        for(int i=0; i<user.size();i++ )
-        {
+        List<QBUser> qbUserList = new ArrayList<>();
+        for (int i = 0; i < user.size(); i++) {
             QBUser qbUser = new QBUser();
             qbUser.setId(user.get(i).getId());
             qbUser.setLogin(user.get(i).getLogin());
