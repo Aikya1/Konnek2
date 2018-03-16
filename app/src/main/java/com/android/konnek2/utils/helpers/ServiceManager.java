@@ -21,6 +21,7 @@ import com.quickblox.auth.session.QBSessionManager;
 import com.quickblox.content.QBContent;
 import com.quickblox.content.model.QBFile;
 import com.quickblox.core.exception.QBResponseException;
+import com.quickblox.core.request.QBPagedRequestBuilder;
 import com.quickblox.core.server.Performer;
 import com.quickblox.extensions.RxJavaPerformProcessor;
 import com.quickblox.messages.services.QBPushManager;
@@ -29,6 +30,8 @@ import com.quickblox.messages.services.SubscribeService;
 import com.quickblox.users.model.QBUser;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -66,6 +69,50 @@ public class ServiceManager {
         userService = QMUserService.getInstance();
     }
 
+
+    public Observable<List<QMUser>> checkIfUserExist(String phNumber) {
+
+        QBPagedRequestBuilder pagedRequestBuilder = new QBPagedRequestBuilder();
+        pagedRequestBuilder.setPage(1);
+        pagedRequestBuilder.setPerPage(50);
+
+        ArrayList<String> phones = new ArrayList<String>();
+        phones.add(phNumber);
+        Observable<List<QMUser>> result = userService.getUsersByPhoneNumbers(phones, pagedRequestBuilder, true)
+                .subscribeOn(Schedulers.io())
+                .map(new Func1<List<QMUser>, List<QMUser>>() {
+                    @Override
+                    public List<QMUser> call(List<QMUser> userList) {
+                        return userList;
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread());
+
+        return result;
+
+    }
+
+
+    public Observable<QBUser> signUp(QBUser user) {
+
+        final String password = user.getPassword();
+
+        Observable<QBUser> result = authService.signup(user)
+                .subscribeOn(Schedulers.io())
+                .map(new Func1<QBUser, QBUser>() {
+                    @Override
+                    public QBUser call(QBUser qbUser) {
+                        saveOwnerUser(qbUser);
+                        AppSession.startSession(qbUser);
+                        qbUser.setPassword(password);
+                        return qbUser;
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread());
+
+        return result;
+    }
+
     public Observable<QBUser> login(QBUser user) {
         final String userPassword = user.getPassword();
 
@@ -75,7 +122,6 @@ public class ServiceManager {
                     @Override
                     public QBUser call(QBUser qbUser) {
                         CoreSharedHelper.getInstance().saveUsersImportInitialized(true);
-
                         String password = userPassword;
 
                         if (!hasUserCustomData(qbUser)) {
@@ -108,9 +154,8 @@ public class ServiceManager {
                     @Override
                     public QBUser call(QBUser qbUser) {
                         Log.d(TAG, "login observer call " + qbUser);
-                        UserCustomData userCustomData = Utils.customDataToObject(qbUser.getCustomData());
-
-                        if (QBProvider.FACEBOOK.equals(socialProvider) && TextUtils.isEmpty(userCustomData.getAvatarUrl())) {
+//                        UserCustomData userCustomData = Utils.customDataToObject(qbUser.getCustomData());
+                        if (QBProvider.FACEBOOK.equals(socialProvider) /*&& TextUtils.isEmpty(userCustomData.getAvatarUrl())*/) {
                             //Actions for first login via Facebook
                             CoreSharedHelper.getInstance().saveUsersImportInitialized(false);
                             getFBUserWithAvatar(qbUser);
@@ -119,22 +164,19 @@ public class ServiceManager {
                             CoreSharedHelper.getInstance().saveUsersImportInitialized(false);
                             getUserWithFullNameAsPhone(qbUser);
                         }
-                        try {
+                        /*try {
                             updateUserSync(qbUser);
                         } catch (QBResponseException e) {
                             Log.d(TAG, "updateUser " + e.getMessage());
                             throw Exceptions.propagate(e);
-                        }
+                        }*/
 
-                        qbUser.setPassword(QBSessionManager.getInstance().getToken());
+//                        qbUser.setPassword(QBSessionManager.getInstance().getToken());
 
-
-
-                      //  qbUser.setCustomDataAsObject();
-
-
-
-                        saveOwnerUser(qbUser);
+                        qbUser.setPassword(qbUser.getPhone());
+//                        qbUser.setPassword();
+                        //  qbUser.setCustomDataAsObject();
+//                        saveOwnerUser(qbUser);
 
                         AppSession.startSession(qbUser);
 
@@ -212,11 +254,11 @@ public class ServiceManager {
         Observable<QMUser> result = null;
         final String password = inputUser.getPassword();
 
-        UserCustomData userCustomDataNew = getUserCustomData(inputUser);
+        /*UserCustomData userCustomDataNew = getUserCustomData(inputUser);
         inputUser.setCustomData(Utils.customDataToString(userCustomDataNew));
 
         inputUser.setPassword(null);
-        inputUser.setOldPassword(null);
+        inputUser.setOldPassword(null);*/
         QMUser qmUser = QMUser.convert(inputUser);
         result = QMUserService.getInstance().updateUser(qmUser)
                 .subscribeOn(Schedulers.io())
@@ -270,12 +312,9 @@ public class ServiceManager {
 
     public QBUser updateUserSync(QBUser inputUser) throws QBResponseException {
         QBUser user;
-
         String password = inputUser.getPassword();
 
         UserCustomData userCustomDataNew = getUserCustomData(inputUser);
-
-
         inputUser.setCustomData(Utils.customDataToString(userCustomDataNew));
 
         inputUser.setPassword(null);
@@ -334,21 +373,27 @@ public class ServiceManager {
 
     private QBUser getFBUserWithAvatar(QBUser user) {
         String avatarUrl = context.getString(com.android.konnek2.R.string.url_to_facebook_avatar, user.getFacebookId());
-        user.setCustomData(Utils.customDataToString(getUserCustomData(avatarUrl)));
         return user;
     }
 
+
+    /*private UserCustomData getUserCustomData(QBUser user) {
+        if (TextUtils.isEmpty(user.getCustomData())) {
+            return new UserCustomData();
+        }
+        String data = user.getCustomData();
+        UserCustomData userCustomData = Utils.customDataToObject(user.getCustomData());
+        if (userCustomData != null) {
+            return userCustomData;
+        } else {
+            return new UserCustomData();
+        }
+    }
+*/
     private QBUser getUserWithFullNameAsPhone(QBUser user) {
         user.setFullName(user.getPhone());
-
-        user.setCustomData(Utils.customDataToString(getUserCustomData(ConstsCore.EMPTY_STRING)));
-
         return user;
     }
 
-    private UserCustomData getUserCustomData(String avatarUrl) {
-        String isImport = "1"; // TODO: temp, first FB or TD login (for correct work need use crossplatform)
-        return new UserCustomData(avatarUrl, ConstsCore.EMPTY_STRING, isImport);
-    }
 
 }

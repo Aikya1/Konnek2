@@ -162,7 +162,6 @@ public class ConversationCallFragment extends Fragment implements Serializable, 
             cameraToggle.setEnabled(false);
             cameraToggle.setChecked(false);
         }
-
         correctButtonsVisibilityByGrantedPermissions();
     }
 

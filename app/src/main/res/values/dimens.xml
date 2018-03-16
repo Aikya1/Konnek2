@@ -152,4 +152,7 @@
 
     <dimen name="link_preview_width">220dp</dimen>
 
+    <dimen name="button_height_35dp">35dp</dimen>
+    <dimen name="layout_height_30dp">30dp</dimen>
+
 </resources>

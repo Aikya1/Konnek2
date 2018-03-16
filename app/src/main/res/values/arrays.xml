@@ -11,10 +11,10 @@
         <item>Settings</item>
         <item>Support</item>
 
-     <!--   <item>Charity</item>
-        <item>m-Store</item>
-        <item>Hangouts</item>
-        <item>User Profile</item>-->
+        <!--   <item>Charity</item>
+           <item>m-Store</item>
+           <item>Hangouts</item>
+           <item>User Profile</item>-->
 
     </string-array>
 
@@ -29,11 +29,11 @@
         <item>@drawable/ic_app_grid_support</item>
 
 
-       <!-- <item>@drawable/ic_app_grid_add_friend</item>
+        <!-- <item>@drawable/ic_app_grid_add_friend</item>
 
-        <item>@drawable/ic_app_grid_sarai</item>
-        <item>@drawable/ic_app_grid_affilates</item>
-        <item>@drawable/ic_app_grid_mstore</item>-->
+         <item>@drawable/ic_app_grid_sarai</item>
+         <item>@drawable/ic_app_grid_affilates</item>
+         <item>@drawable/ic_app_grid_mstore</item>-->
 
     </integer-array>
 
@@ -49,7 +49,6 @@
         <item>Help age india</item>
         <item>Smile foundation</item>
     </string-array>
-
 
 
     <!-- Travel  Heading & resource Ids -->
@@ -68,7 +67,6 @@
         <item>@drawable/ic_app_grid_hotel</item>
         <item>@drawable/ic_app_grid_holiday</item>
     </integer-array>
-
 
 
     <!-- M Store Heading & resource Ids -->
@@ -150,21 +148,22 @@
 
 
     <array name="array_dot_active">
-        <item>@color/dot_light_screen1</item>
-        <item>@color/dot_light_screen2</item>
+        <item>@color/colorPrimary</item>
+        <item>@color/colorPrimary</item>
+        <item>@color/colorPrimary</item>
 
     </array>
 
     <array name="array_dot_inactive">
-        <item>@color/dot_dark_screen1</item>
-        <item>@color/dot_dark_screen2</item>
+        <item>@color/white</item>
+        <item>@color/white</item>
+        <item>@color/white</item>
 
     </array>
 
     <string-array name="Language1">
-        <item>German</item>
-        <item>Spanish</item>
         <item>English</item>
+        <item>Hindi</item>
 
     </string-array>
 
@@ -174,7 +173,6 @@
         <item>English</item>
 
     </string-array>
-
 
 
 </resources>

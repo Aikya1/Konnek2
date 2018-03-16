@@ -22,6 +22,8 @@ public class QBRestHelper extends BaseHelper {
         QMUser resultUser = null;
         try {
             QMUser user = QMUserService.getInstance().getUserSync(userId, true);
+
+
             resultUser = user;
         } catch (QBResponseException e) {
             // user not found

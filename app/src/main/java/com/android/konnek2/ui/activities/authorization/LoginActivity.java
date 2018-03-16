@@ -52,7 +52,7 @@ public class LoginActivity extends BaseAuthActivity {
     void loginFB(View view) {
         if (checkNetworkAvailableWithError()) {
             loginType = LoginType.FACEBOOK;
-            startSocialLogin();
+//            startSocialLogin();
         }
     }
 

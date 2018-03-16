@@ -121,8 +121,6 @@ public class CallActivity extends BaseLoggableActivity implements
         intent.putExtra(QBServiceConsts.EXTRA_START_CONVERSATION_REASON_TYPE, StartConversationReason.OUTCOME_CALL_MADE);
         intent.putExtra(QBServiceConsts.EXTRA_SESSION_DESCRIPTION, qbRtcSessionDescription);
         activity.startActivityForResult(intent, CALL_ACTIVITY_CLOSE);
-
-
     }
 
     @Override
@@ -235,22 +233,18 @@ public class CallActivity extends BaseLoggableActivity implements
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         getMenuInflater().inflate(R.menu.call_menu, menu);
         return true;
     }
 
     @Override
     protected void onDestroy() {
-
-
         super.onDestroy();
         opponentsList = null;
         if (qbCallChatHelper != null) {
             qbCallChatHelper.removeRTCSessionUserCallback();
             qbCallChatHelper.releaseCurrentSession(CallActivity.this, CallActivity.this);
         }
-
         appSharedHelper.saveLastOpenActivity(null);
     }
 

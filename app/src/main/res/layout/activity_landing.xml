@@ -1,41 +1,50 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fb="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#121F3F"
-    android:orientation="vertical"
-    android:padding="20dp">
+    android:background="@drawable/welcome_screenbg">
 
     <TextView
+        android:id="@+id/signUpHeading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:text="Sign Up"
+        android:text="@string/sign_up"
         android:textColor="@color/white"
-        android:textSize="20dp" />
+        android:textSize="20sp" />
 
     <ImageView
         android:id="@+id/logo_imageview"
         android:layout_width="125dp"
         android:layout_height="125dp"
         android:layout_alignParentTop="true"
+        android:layout_below="@+id/signUpHeading"
         android:layout_centerHorizontal="true"
-        android:layout_gravity="center"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="@dimen/margin_40dp"
         android:scaleType="fitCenter"
         android:src="@drawable/konnect2" />
     />
 
-    <com.firebase.ui.auth.ui.phone.CountryListSpinner
+    <com.hbb20.CountryCodePicker
         android:id="@+id/country_isd_list"
         style="@style/FirebaseUI.CountrySpinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:textColor="@color/white"
         android:layout_below="@+id/logo_imageview"
-        android:layout_marginTop="20dp"
-        android:backgroundTint="@color/white" />
+        android:layout_marginEnd="25dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="@dimen/margin_20dp"
+        android:backgroundTint="@color/white"
+        android:textColor="@color/white"
+        fb:ccp_contentColor="@color/white"
+        fb:ccp_showArrow="false"
+        fb:ccp_textGravity="LEFT"
+        fb:ccp_textSize="@dimen/text_size16sp" />
 
 
     <EditText
@@ -45,30 +54,34 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/country_isd_list"
+        android:layout_marginEnd="25dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginStart="25dp"
+        android:backgroundTint="@color/white"
         android:drawableLeft="@drawable/phoen_icon_white_29_3x"
-        android:drawablePadding="20dp"
-        android:hint="Enter Phone Number"
+        android:drawablePadding="@dimen/padding_10dp"
+        android:drawableStart="@drawable/phoen_icon_white_29_3x"
+        android:hint="@string/enter_phone_number"
         android:inputType="phone"
         android:textColor="@color/white"
-
         android:textColorHint="@color/white" />
 
     <RelativeLayout
         android:id="@+id/termsLayout"
         android:layout_width="match_parent"
-
         android:layout_height="wrap_content"
-        android:layout_below="@+id/etphoneno">
+        android:layout_below="@+id/etphoneno"
+        android:layout_marginEnd="25dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="@dimen/padding_10dp">
 
         <LinearLayout
             android:id="@+id/linearLayout1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            android:layout_marginTop="10dp"
-
-
-            >
+            android:layout_height="wrap_content">
 
             <CheckBox
                 android:id="@+id/checkBox1"
@@ -76,67 +89,32 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:buttonTint="@color/white"
-
-
-                />
-
-            <ImageButton
-                android:id="@+id/fbButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:layout_weight="1"
-
-                android:background="@drawable/transparent"
-                android:src="@drawable/fb" />
-
-            <TextView
-                android:id="@+id/terms1"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_toLeftOf="@+id/checkBox1"
-                android:clickable="true"
-                android:gravity="center"
-                android:paddingLeft="10dp"
+                android:paddingLeft="@dimen/padding_10dp"
+                android:paddingStart="@dimen/padding_10dp"
                 android:text="@string/terms_and_ser_1"
                 android:textColor="@color/white"
-
-
-                />
+                tools:ignore="RtlSymmetry,UnusedAttribute" />
 
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/linearLayout2"
             android:layout_width="match_parent"
-
             android:layout_height="wrap_content"
             android:layout_below="@+id/linearLayout1"
-            android:layout_marginTop="10dp"
-
-
-            >
+            android:layout_marginTop="10dp">
 
             <CheckBox
                 android:id="@+id/checkBox2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:buttonTint="@color/white" />
-
-            <TextView
-                android:id="@+id/terms2"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_toLeftOf="@+id/checkBox2"
-                android:gravity="center"
-                android:paddingLeft="10dp"
+                android:buttonTint="@color/white"
+                android:paddingLeft="@dimen/padding_10dp"
+                android:paddingStart="@dimen/padding_10dp"
                 android:text="@string/terms_and_ser_2"
+                android:textColor="@color/white" />
 
-                android:textColor="@color/white"
-
-                />
 
         </LinearLayout>
 
@@ -149,9 +127,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/termsLayout"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:paddingLeft="30dp"
-        android:text="Sign Up"
+        android:layout_marginEnd="25dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="@dimen/margin_20dp"
+        android:text="@string/sign_up"
         android:textStyle="bold" />
 
     <!-- <TextView
@@ -172,7 +153,11 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/btnsignups"
         android:layout_centerVertical="true"
-        android:layout_marginTop="30dp">
+        android:layout_marginEnd="25dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="@dimen/padding_10dp">
 
         <TextView
             android:id="@+id/tvText"
@@ -213,53 +198,57 @@
            />
   -->
 
+
     <LinearLayout
         android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
         android:layout_below="@+id/relative2"
-        android:layout_marginTop="22dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="@dimen/margin_20dp"
         android:orientation="horizontal"
-        android:paddingLeft="30dp"
         android:weightSum="2">
 
-
-        <ImageButton
-            android:id="@+id/gmButton"
+        <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
             android:layout_weight="1"
-            android:background="@drawable/transparent"
-            android:src="@drawable/gmail" />
+            android:orientation="vertical">
 
-        <!-- <com.facebook.login.widget.LoginButton
-        android:id="@+id/login_butto"
-        android:layout_width="0dp"
-       android:layout_weight="1"
-        android:layout_height="wrap_content"
+            <Button
+                android:id="@+id/facebookView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/facebook_signin_btn"
+                android:gravity="center" />
 
-       />
--->
-        <!--  <com.facebook.login.widget.LoginButton
-               android:id="@+id/login_button"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:layout_centerInParent="true"
-               android:layout_weight="1" />
-   -->
+            <com.facebook.login.widget.LoginButton
+                android:id="@+id/login_button"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="12dp"
+                android:visibility="invisible" />
 
-        <!-- <com.google.android.gms.common.SignInButton
-             android:id="@+id/google_button"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_weight="1"
+        </LinearLayout>
 
-             android:paddingLeft="30dp" />-->
-        -->
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/signin"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:text="@string/googleloginText" />
     </LinearLayout>
+
 
 </RelativeLayout>

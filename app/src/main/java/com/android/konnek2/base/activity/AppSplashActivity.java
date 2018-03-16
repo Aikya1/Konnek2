@@ -2,8 +2,12 @@ package com.android.konnek2.base.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Handler;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.WindowManager;
 
@@ -20,8 +24,11 @@ import com.android.konnek2.utils.AppPreference;
 import com.android.konnek2.utils.helpers.ServiceManager;
 import com.quickblox.auth.model.QBProvider;
 import com.quickblox.auth.session.QBSessionManager;
+import com.quickblox.auth.session.QBSessionParameters;
 
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -54,6 +61,8 @@ public class AppSplashActivity extends BaseActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_app_splash);
 
+        generateFacebookKeyHash();
+
         if (QBSessionManager.getInstance().getSessionParameters() != null
                 && QBProvider.TWITTER_DIGITS.equals(QBSessionManager.getInstance().getSessionParameters().getSocialProvider())) {
             restartAppWithFirebaseAuth();
@@ -63,11 +72,27 @@ public class AppSplashActivity extends BaseActivity {
         AppSession.load();
         processPushIntent();
 
+
         if (QBSessionManager.getInstance().getSessionParameters() != null && appSharedHelper.isSavedRememberMe()) {
             startLastOpenActivityOrMain();
         } else {
 //            startLandingActivity();
             startActivity();
+        }
+    }
+
+    private void generateFacebookKeyHash() {
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo("com.android.konnek2", PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.e("MY KEY HASH:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+
+        } catch (NoSuchAlgorithmException e) {
+
         }
     }
 

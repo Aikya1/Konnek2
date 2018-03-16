@@ -258,7 +258,6 @@ public class NewMessageActivity extends BaseLoggableActivity implements SearchVi
         friendsAdapter.setList(usersList);
     }
 
-
     private void checkForExcludeMe(Collection<QMUser> usersCollection) {
         QBUser qbUser = AppSession.getSession().getUser();
         QMUser me = QMUser.convert(qbUser);

@@ -28,11 +28,16 @@ import com.android.konnek2.ui.fragments.chats.DialogsListFragment;
 import com.android.konnek2.utils.MediaUtils;
 import com.android.konnek2.utils.helpers.FacebookHelper;
 import com.android.konnek2.utils.helpers.ImportFriendsHelper;
+import com.android.konnek2.utils.helpers.ServiceManager;
 import com.android.konnek2.utils.image.ImageLoaderUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 import com.quickblox.chat.model.QBChatDialog;
 import com.quickblox.chat.model.QBDialogType;
+import com.quickblox.users.model.QBUser;
+
+import rx.Observable;
+import rx.Subscriber;
 
 
 public class MainActivity extends BaseLoggableActivity {
@@ -56,8 +61,7 @@ public class MainActivity extends BaseLoggableActivity {
     }
 
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
 
 //        if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
 //            finish();
@@ -76,6 +80,9 @@ public class MainActivity extends BaseLoggableActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initFields();
+
+//        loginUser();
+
         setUpActionBarWithUpButton();
         if (!isChatInitializedAndUserLoggedIn()) {
             loginChat();
@@ -83,6 +90,31 @@ public class MainActivity extends BaseLoggableActivity {
         addDialogsAction();
         launchDialogsListFragment();
         openPushDialogIfPossible();
+    }
+
+    private void loginUser() {
+
+        AppSession.getSession().getUser().setPassword("aikya@123");
+
+        Observable<QBUser> userObservable = ServiceManager.getInstance().login(AppSession.getSession().getUser());
+        userObservable.subscribe(new Subscriber<QBUser>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Log.d(TAG, "ERrro = " + e.getMessage());
+            }
+
+            @Override
+            public void onNext(QBUser qbUser) {
+
+                Log.d(TAG, "USER = " + qbUser);
+
+            }
+        });
     }
 
     private void openPushDialogIfPossible() {
@@ -215,11 +247,14 @@ public class MainActivity extends BaseLoggableActivity {
 
     private void checkVisibilityUserIcon() {
         UserCustomData userCustomData = Utils.customDataToObject(AppSession.getSession().getUser().getCustomData());
-        if (!TextUtils.isEmpty(userCustomData.getAvatarUrl())) {
-            loadLogoActionBar(userCustomData.getAvatarUrl());
-        } else {
-            setActionBarIcon(MediaUtils.getRoundIconDrawable(this,
-                    BitmapFactory.decodeResource(getResources(), R.drawable.placeholder_user)));
+
+        if (userCustomData != null) {
+            if (!TextUtils.isEmpty(userCustomData.getAvatarUrl())) {
+                loadLogoActionBar(userCustomData.getAvatarUrl());
+            } else {
+                setActionBarIcon(MediaUtils.getRoundIconDrawable(this,
+                        BitmapFactory.decodeResource(getResources(), R.drawable.placeholder_user)));
+            }
         }
     }
 

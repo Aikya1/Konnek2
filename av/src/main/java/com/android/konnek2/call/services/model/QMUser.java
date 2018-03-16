@@ -1,7 +1,9 @@
 package com.android.konnek2.call.services.model;
 
+import com.android.konnek2.call.core.models.UserCustomData;
 import com.j256.ormlite.table.DatabaseTable;
 import com.android.konnek2.call.services.utils.Utils;
+import com.quickblox.customobjects.model.QBCustomObject;
 import com.quickblox.users.model.QBUser;
 
 import java.util.ArrayList;
@@ -37,6 +39,7 @@ public class QMUser extends QBUser {
 
     public static QMUser convert(QBUser qbUser) {
         QMUser result = new QMUser();
+
         result.setId(qbUser.getId());
         result.setFullName(qbUser.getFullName());
         result.setEmail(qbUser.getEmail());
@@ -56,9 +59,8 @@ public class QMUser extends QBUser {
         result.setCreatedAt(qbUser.getCreatedAt());
         result.setUpdatedAt(qbUser.getUpdatedAt());
 
-
         String customData = qbUser.getCustomData();
-
+//        UserCustomData customObject = (UserCustomData) qbUser.getCustomDataAsObject();
 
 
         final QMUserCustomData userCustomData = Utils.customDataToObject(qbUser.getCustomData());

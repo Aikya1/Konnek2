@@ -213,7 +213,6 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
         appCallLogModel = new AppCallLogModel();
         appCallLogModelArrayList = new ArrayList<AppCallLogModel>();
 
-
     }
 
     @Override

@@ -15,6 +15,11 @@ public class AppConstant {
 
     public static String APP_NAME = "Konnek2";
 
+    public static String LOGIN_TYPE_FIREBASE = "FIREBASE";
+    public static String LOGIN_TYPE_MANUAL = "MANUAL";
+    public static String LOGIN_TYPE_FACEBOOK = "FACEBOOK";
+    public static String LOGIN_TYPE_GMAIL = "GMAIL";
+
     //Tab Header
     public static String TAB_ONE = "Tab 1";
     public static String TAB_TWO = "Tab 2";
@@ -26,12 +31,9 @@ public class AppConstant {
     public static String TAB_CONTACTS_NON_KONNEK2 = " NON KONNEK2 USER";
     public static String TAB_CONTACTS_ONLINE_KONNEK2 = "  KONNEK2 ONLINE USER";
 
-    public static String GOCHAT_TAB_ONE="GOCHAT_CONTACTS";
-    public static String GOCHAT_TAB_TWO="GOCHAT_CHATS";
-    public static String GOCHAT_TAB_THREE="GOCHAT_CALLS";
-
-
-
+    public static String GOCHAT_TAB_ONE = "GOCHAT_CONTACTS";
+    public static String GOCHAT_TAB_TWO = "GOCHAT_CHATS";
+    public static String GOCHAT_TAB_THREE = "GOCHAT_CALLS";
 
 
     // TabView Title
@@ -149,10 +151,10 @@ public class AppConstant {
 
     public static String CALL_DURATION_NAME = "call_duration_name";
     public static String CALL_DURATION_DATE = "call_duration_date";
-    public static String CALL_DURATION_TIME= "call_duration_time";
+    public static String CALL_DURATION_TIME = "call_duration_time";
     public static String QB_USER_NAME = "qb_user_name";
 
     //QuickBlox Custom Objects
-    public static String PROFILE_CLASS_NAME="Profile";
+    public static String PROFILE_CLASS_NAME = "Profile";
 
 }

@@ -212,7 +212,6 @@ public class PrivateDialogActivity extends BaseDialogActivity {
                 callToUser(opponentUser, QBRTCTypes.QBConferenceType.QB_CONFERENCE_TYPE_AUDIO);
                 break;
             case R.id.switch_camera_toggle:
-
                 AppConstant.CALL_TYPES = AppConstant.CALL_VIDEO;
                 callToUser(opponentUser, QBRTCTypes.QBConferenceType.QB_CONFERENCE_TYPE_VIDEO);
                 break;

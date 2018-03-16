@@ -10,8 +10,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
 import com.android.konnek2.R;
+import com.google.firebase.auth.PhoneAuthProvider;
 
 
+import java.util.Arrays;
 import java.util.Collections;
 
 public class FirebaseAuthHelper {
@@ -21,15 +23,29 @@ public class FirebaseAuthHelper {
     public static final int RC_SIGN_IN = 456;
     public static final String EXTRA_FIREBASE_ACCESS_TOKEN = "extra_firebase_access_token";
 
-    public void loginByPhone(Activity activity) {
+
+    public void loginByPhone(Activity activity, String phNo, String countryCode) {
         activity.startActivityForResult(
                 AuthUI.getInstance()
                         .createSignInIntentBuilder()
-                        .setAvailableProviders(Collections.singletonList(new AuthUI.IdpConfig.Builder(AuthUI.PHONE_VERIFICATION_PROVIDER).build()))
-                        .setTheme(R.style.FirebaseStyle)
-                        .setIsSmartLockEnabled(false)
+                        .setAvailableProviders(
+                                Arrays.asList(
+                                        new AuthUI.IdpConfig.PhoneBuilder().setDefaultNumber(countryCode + phNo)
+                                                .build()))
                         .build(),
                 RC_SIGN_IN);
+
+
+       /* activity.startActivityForResult(
+                AuthUI.getInstance()
+                        .createSignInIntentBuilder()
+                        .setAvailableProviders(
+                                Arrays.asList(new AuthUI.IdpConfig.Builder(AuthUI.PHONE_VERIFICATION_PROVIDER).build(),
+                                        new AuthUI.IdpConfig.PhoneBuilder().setDefaultNumber("+91", "9535108986").build())
+                                        .setTheme(R.style.FirebaseStyle)
+                                        .setIsSmartLockEnabled(false)
+                                        .build(),
+                                RC_SIGN_IN);*/
     }
 
     public static FirebaseUser getCurrentFirebaseUser() {

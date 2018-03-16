@@ -14,7 +14,7 @@ public class TestActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_group_dialog_details_1);
+        setContentView(R.layout.activity_landing);
     }
 
 }

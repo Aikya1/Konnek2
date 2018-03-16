@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/view_avatar_and_name_vertical"
     android:layout_width="match_parent"
@@ -15,7 +14,7 @@
         android:layout_height="@dimen/call_opponent_avatar_dimention"
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/margin_40dp"
-        app:oval="true"/>
+        app:oval="true" />
 
     <TextView
         android:id="@+id/calling_to_text_view"
@@ -24,7 +23,6 @@
         android:layout_marginTop="@dimen/margin_10dp"
         android:gravity="center_horizontal"
         android:textColor="@color/light_gray"
-        android:textSize="@dimen/text_size_large"
-        />
+        android:textSize="@dimen/text_size_large" />
 
 </LinearLayout>

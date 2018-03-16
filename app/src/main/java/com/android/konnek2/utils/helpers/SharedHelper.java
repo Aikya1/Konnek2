@@ -32,4 +32,7 @@ public class SharedHelper extends CoreSharedHelper {
     public void saveSavedRememberMe(boolean save) {
         savePref(Constants.REMEMBER_ME, save);
     }
+
+
+
 }

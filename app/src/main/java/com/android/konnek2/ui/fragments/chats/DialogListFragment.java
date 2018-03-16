@@ -137,7 +137,7 @@ public class DialogListFragment extends BaseLoaderFragment<List<DialogWrapper>> 
 
 
     @OnClick(R.id.fab_dialogs_new_chat)
-    public void startChat(){
+    public void startChat() {
         ToastUtils.shortToast("clicked...");
     }
 
@@ -251,6 +251,7 @@ public class DialogListFragment extends BaseLoaderFragment<List<DialogWrapper>> 
 
         @Override
         public void execute(Bundle bundle) throws Exception {
+            baseActivity.hideProgress();
             updateDialogsProcess = State.finished;
         }
     }

@@ -112,14 +112,26 @@ public class Utils {
     }
 
     public static String customDataToString(UserCustomData userCustomData) {
-        JSONObject jsonObject = new JSONObject();
 
+        /*  userCustomData.setFirstName(firstName);
+                        userCustomData.setLastName(lastName);
+                        userCustomData.setAvatarUrl(s1);
+                        userCustomData.setAge(22);
+                        userCustomData.setContactno(phNo);
+                        userCustomData.setPrefEmail(userEmail);
+                        userCustomData.setStatus(status.getText().toString());
+                        userCustomData.setSignUpType(signUpType);
+                        userCustomData.setDeviceUDid("asdasdasd");*/
+        JSONObject jsonObject = new JSONObject();
         setJsonValue(jsonObject, UserCustomData.TAG_AVATAR_URL, userCustomData.getAvatarUrl());
         setJsonValue(jsonObject, UserCustomData.TAG_STATUS, userCustomData.getStatus());
-        setJsonValue(jsonObject, UserCustomData.TAG_IS_IMPORT, userCustomData.getIsImport());
-
-
-
+        setJsonValue(jsonObject, UserCustomData.TAG_firstName, userCustomData.getFirstName());
+        setJsonValue(jsonObject, UserCustomData.TAG_lastName, userCustomData.getLastName());
+        setJsonValue(jsonObject, UserCustomData.TAG_age, userCustomData.getAge());
+        setJsonValue(jsonObject, UserCustomData.TAG_STATUS, userCustomData.getStatus());
+        setJsonValue(jsonObject, UserCustomData.TAG_signUpType, userCustomData.getSignUpType());
+        setJsonValue(jsonObject, UserCustomData.TAG_prefEmail, userCustomData.getPrefEmail());
+        setJsonValue(jsonObject, UserCustomData.TAG_contactNo, userCustomData.getContactno());
 
 
         return jsonObject.toString();
@@ -143,12 +155,10 @@ public class Utils {
         UserCustomData userCustomData = null;
         GsonBuilder gsonBuilder = new GsonBuilder();
 
-
         if (userCustomDataString.contains("[") || userCustomDataString.contains("]")) {
             userCustomDataString = userCustomDataString.replace("[", "{");
             userCustomDataString = userCustomDataString.replace("]", "}");
         }
-
 
         Gson gson = gsonBuilder.create();
 

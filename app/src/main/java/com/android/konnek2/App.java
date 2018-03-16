@@ -22,6 +22,8 @@ import com.android.konnek2.utils.StringObfuscator;
 import com.android.konnek2.utils.helpers.ServiceManager;
 import com.android.konnek2.utils.helpers.SharedHelper;
 import com.android.konnek2.utils.image.ImageLoaderUtils;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.quickblox.auth.session.QBSettings;
 import com.quickblox.chat.QBChatService;
@@ -62,7 +64,13 @@ public class App extends MultiDexApplication {
         initApplication();
         registerActivityLifecycleCallbacks(new ActivityLifecycleHandler());
         createTable();
+        initFacebook();
 //        appcallLogTableDAO = new AppCallLogTable(appDBAdapter.getDataBase(), instance);
+    }
+
+    private void initFacebook() {
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
     }
 
     private void initFabric() {

@@ -10,13 +10,11 @@ import android.support.design.widget.TextInputLayout;
 import android.util.Log;
 import android.widget.EditText;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.konnek2.R;
 import com.android.konnek2.base.activity.Intro;
 import com.android.konnek2.call.core.models.AppSession;
 import com.android.konnek2.call.core.models.LoginType;
 import com.android.konnek2.ui.activities.base.BaseActivity;
-import com.android.konnek2.ui.fragments.dialogs.UserAgreementDialogFragment;
 import com.android.konnek2.utils.AppPreference;
 import com.android.konnek2.utils.AuthUtils;
 import com.android.konnek2.utils.StringObfuscator;
@@ -68,6 +66,8 @@ public abstract class BaseAuthActivity extends BaseActivity {
 
     private ServiceManager serviceManager;
 
+    private String phNo, countryCode;
+
     public static void start(Context context) {
         Intent intent = new Intent(context, BaseAuthActivity.class);
         context.startActivity(intent);
@@ -111,8 +111,6 @@ public abstract class BaseAuthActivity extends BaseActivity {
 
     private void onReceiveFirebaseAuthResult(int resultCode, Intent data) {
         IdpResponse response = IdpResponse.fromResultIntent(data);
-
-
         // Successfully signed in
         if (resultCode == RESULT_OK) {
 
@@ -157,8 +155,8 @@ public abstract class BaseAuthActivity extends BaseActivity {
         serviceManager = ServiceManager.getInstance();
     }
 
-    protected void startSocialLogin() {
-        if (!appSharedHelper.isShownUserAgreement()) {
+    protected void startSocialLogin(String phNo, String countryCode) {
+        /*if (!appSharedHelper.isShownUserAgreement()) {
             UserAgreementDialogFragment
                     .show(getSupportFragmentManager(), new MaterialDialog.ButtonCallback() {
                         @Override
@@ -170,16 +168,20 @@ public abstract class BaseAuthActivity extends BaseActivity {
                     });
         } else {
             loginWithSocial();
-        }
+        }*/
+
+        this.phNo = phNo;
+        this.countryCode = countryCode;
+        loginWithSocial(phNo, countryCode);
     }
 
-    private void loginWithSocial() {
+    private void loginWithSocial(String phNo, String countryCode) {
         appSharedHelper.saveFirstAuth(true);
         appSharedHelper.saveSavedRememberMe(true);
         if (loginType.equals(LoginType.FACEBOOK)) {
             facebookHelper.login(new FacebookLoginCallback());
         } else if (loginType.equals(LoginType.FIREBASE_PHONE)) {
-            firebaseAuthHelper.loginByPhone(BaseAuthActivity.this);
+            firebaseAuthHelper.loginByPhone(BaseAuthActivity.this, phNo, countryCode);
         }
     }
 
@@ -191,10 +193,19 @@ public abstract class BaseAuthActivity extends BaseActivity {
     protected void startMainActivity() {
 //        MainActivity.start(BaseAuthActivity.this);
 
-        startActivity(new Intent(BaseAuthActivity.this,Intro.class));
+//        startActivity(new Intent(BaseAuthActivity.this, Intro.class));
+
+        Intent intent = new Intent(BaseAuthActivity.this, Intro.class);
+        intent.putExtra("phNo", phNo);
+        intent.putExtra("countryCode", countryCode);
+
+        appSharedHelper.saveLastOpenActivity(Intro.class.getName());
+
+        startActivity(intent);
 //        AppHomeActivity.start(BaseAuthActivity.this);
         finish();
     }
+
 
     protected void login(String userEmail, final String userPassword) {
         appSharedHelper.saveFirstAuth(true);
@@ -281,12 +292,13 @@ public abstract class BaseAuthActivity extends BaseActivity {
     }
 
     private class FirebaseAuthCallback implements FirebaseAuthHelper.RequestFirebaseIdTokenCallback {
-
         @Override
         public void onSuccess(String authToken) {
             showProgress();
-            serviceManager.login(QBProvider.FIREBASE_PHONE, authToken, StringObfuscator.getFirebaseAuthProjectId())
-                    .subscribe(socialLoginObserver);
+        /*    serviceManager.login(QBProvider.FIREBASE_PHONE, authToken, StringObfuscator.getFirebaseAuthProjectId())
+                    .subscribe(socialLoginObserver);*/
+
+            startMainActivity();
         }
 
         @Override

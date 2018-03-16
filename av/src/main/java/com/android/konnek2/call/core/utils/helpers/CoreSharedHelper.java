@@ -47,6 +47,11 @@ public class CoreSharedHelper {
         public static final String LAST_OPEN_ACTIVITY = "last_open_activity";
 
         public static final String PERMISSIONS_SAVE_FILE_WAS_REQUESTED = "permission_save_file_was_requested";
+
+        public static final String PHONE_NUMBER = "phNo";
+        public static final String COUNTRY_CODE = "countryCode";
+
+        public static final String LOGIN_TYPE = "login_type";
     }
 
     protected final SharedPreferences sharedPreferences;
@@ -132,11 +137,35 @@ public class CoreSharedHelper {
         savePref(Constants.FB_TOKEN, token);
     }
 
-    public void saveFirebaseToken(String firebaseToken){
+    public void saveFirebaseToken(String firebaseToken) {
         savePref(FIREBASE_TOKEN, firebaseToken);
     }
 
-    public String getFirebaseToken(){
+    public void saveUserPhoneNumber(String phNo) {
+        savePref(Constants.PHONE_NUMBER, phNo);
+    }
+
+    public String getUserPhoneNumber() {
+        return getPref(Constants.PHONE_NUMBER, null);
+    }
+
+    public void saveCountryCode(String countryCode) {
+        savePref(Constants.COUNTRY_CODE, countryCode);
+    }
+
+    public void saveLoginType(String loginType) {
+        savePref(Constants.LOGIN_TYPE, loginType);
+    }
+
+    public String getLoginType() {
+        return getPref(Constants.LOGIN_TYPE);
+    }
+
+    public String getCountryCode() {
+        return getPref(Constants.COUNTRY_CODE, null);
+    }
+
+    public String getFirebaseToken() {
         return getPref(FIREBASE_TOKEN, null);
     }
 
@@ -172,44 +201,44 @@ public class CoreSharedHelper {
         savePref(Constants.USER_FULL_NAME, fullName);
     }
 
-    public void saveFBId(String facebookId){
+    public void saveFBId(String facebookId) {
         savePref(USER_FB_ID, facebookId);
     }
 
-    public String getFBId(){
+    public String getFBId() {
         return getPref(USER_FB_ID);
     }
 
 
-    public void saveTwitterId(String twitterId){
+    public void saveTwitterId(String twitterId) {
         savePref(USER_TWITTER_ID, twitterId);
     }
 
-    public String getTwitterId(){
+    public String getTwitterId() {
         return getPref(USER_TWITTER_ID);
     }
 
-    public void saveUserCustomData(String customData){
+    public void saveUserCustomData(String customData) {
         savePref(USER_CUSTOM_DATA, customData);
     }
 
-    public String getUserCustomData(){
+    public String getUserCustomData() {
         return getPref(USER_CUSTOM_DATA);
     }
 
-    public void saveTwitterDigitsId(String twitterDigitsId){
+    public void saveTwitterDigitsId(String twitterDigitsId) {
         savePref(USER_TD_ID, twitterDigitsId);
     }
 
-    public String getTwitterDigitsId(){
+    public String getTwitterDigitsId() {
         return getPref(USER_TD_ID);
     }
 
-    public boolean isPermissionsSaveFileWasRequested(){
+    public boolean isPermissionsSaveFileWasRequested() {
         return getPref(Constants.PERMISSIONS_SAVE_FILE_WAS_REQUESTED, false);
     }
 
-    public void savePermissionsSaveFileWasRequested(boolean requested){
+    public void savePermissionsSaveFileWasRequested(boolean requested) {
         savePref(Constants.PERMISSIONS_SAVE_FILE_WAS_REQUESTED, requested);
     }
 

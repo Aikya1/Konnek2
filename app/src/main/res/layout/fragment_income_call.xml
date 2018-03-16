@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/fragmentIncomeCall"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/ic_call_background">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/fragmentIncomeCall"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/ic_call_background">
 
     <ListView
         android:id="@+id/list_users"
@@ -28,9 +28,7 @@
             android:id="@+id/avatar_and_name"
             layout="@layout/view_avatar_and_name_vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
-        </include>
+            android:layout_height="wrap_content"></include>
 
         <TextView
             android:id="@+id/type_inc_call"
@@ -40,8 +38,7 @@
             android:gravity="center"
             android:text="@string/call_incoming_video_call"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/light_gray"
-            />
+            android:textColor="@color/light_gray" />
 
         <TextView
             android:id="@+id/text_call_participants"
@@ -52,38 +49,37 @@
             android:layout_marginTop="@dimen/margin_10dp"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_14sp"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
     </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/layout_call_button"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
         android:layout_marginBottom="@dimen/margin_30dp"
         android:layout_marginLeft="@dimen/margin_10dp"
         android:layout_marginRight="@dimen/margin_10dp"
-        android:gravity="center"
-        >
+        android:gravity="center">
 
         <ImageButton
             android:id="@+id/rejectBtn"
-            android:layout_width="140dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_margin="@dimen/margin_4dp"
             android:background="@drawable/ic_call_phone_deline"
-            android:scaleType="centerCrop"
-            />
+            android:contentDescription="@string/image_description"
+            android:scaleType="centerCrop" />
 
         <ImageButton
             android:id="@+id/takeBtn"
-            android:layout_width="140dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_margin="@dimen/margin_4dp"
             android:background="@drawable/ic_call_phone_answer"
-
-            />
+            android:contentDescription="@string/image_description" />
 
     </LinearLayout>
 

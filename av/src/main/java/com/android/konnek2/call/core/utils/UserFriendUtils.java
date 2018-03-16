@@ -5,6 +5,7 @@ import com.android.konnek2.call.db.models.DialogOccupant;
 import com.android.konnek2.call.db.models.Friend;
 import com.android.konnek2.call.db.models.UserRequest;
 import com.android.konnek2.call.services.model.QMUser;
+import com.google.gson.Gson;
 import com.quickblox.chat.model.QBRosterEntry;
 
 
@@ -39,19 +40,24 @@ public class UserFriendUtils {
     }
 
     public static QMUser createLocalUser(QBUser qbUser) {
+        Gson gson = new Gson();
         QMUser user = new QMUser();
         user.setId(qbUser.getId());
         user.setFullName(qbUser.getFullName());
         user.setEmail(qbUser.getEmail());
         user.setPhone(qbUser.getPhone());
         user.setLogin(qbUser.getLogin());
+        user.setPassword(qbUser.getPassword());
 
         if (qbUser.getLastRequestAt() != null) {
             user.setLastRequestAt(qbUser.getLastRequestAt());
         }
 
-
         UserCustomData userCustomData = Utils.customDataToObject(qbUser.getCustomData());
+        String userCustomDataStringToSave = gson.toJson(userCustomData);
+        user.setCustomData(userCustomDataStringToSave);
+
+
 
         if (userCustomData != null) {
             user.setAvatar(userCustomData.getAvatarUrl());

@@ -59,6 +59,9 @@ public class QBLoginChatCommand extends ServiceCommand {
 
         login(currentUser);
 
+
+
+
         return extras;
     }
 

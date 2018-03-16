@@ -2,32 +2,55 @@ package com.android.konnek2.base.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Handler;
-import android.os.Looper;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.Html;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.android.konnek2.Preference.ProfilePrefManager;
 import com.android.konnek2.R;
+import com.android.konnek2.call.core.models.AppSession;
+import com.android.konnek2.call.core.models.UserCustomData;
+import com.android.konnek2.call.db.models.Attachment;
+import com.android.konnek2.call.services.model.QMUser;
+import com.android.konnek2.call.services.utils.ErrorUtils;
+import com.android.konnek2.ui.activities.base.BaseActivity;
+import com.android.konnek2.ui.views.roundedimageview.RoundedImageView;
+import com.android.konnek2.utils.AppConstant;
+import com.android.konnek2.utils.AppPreference;
+import com.android.konnek2.utils.AuthUtils;
+import com.android.konnek2.utils.EmailPhoneValidationUtils;
+import com.android.konnek2.utils.MediaUtils;
+import com.android.konnek2.utils.ToastUtils;
+import com.android.konnek2.utils.helpers.MediaPickHelper;
+import com.android.konnek2.utils.helpers.ServiceManager;
+import com.android.konnek2.utils.listeners.OnMediaPickedListener;
+import com.google.gson.Gson;
+import com.quickblox.core.helper.StringifyArrayList;
+import com.quickblox.users.model.QBUser;
+import com.soundcloud.android.crop.Crop;
 
-import butterknife.OnClick;
+import java.io.File;
 
-public class Profile extends AppCompatActivity {
+import rx.Observable;
+import rx.Observer;
 
+public class Profile extends BaseActivity implements OnMediaPickedListener {
+
+
+    private static String TAG = Profile.class.getSimpleName();
     private ViewPager viewPager;
     private MyViewPagerAdapter myViewPagerAdapter;
     private LinearLayout dotsLayout;
@@ -36,53 +59,75 @@ public class Profile extends AppCompatActivity {
     private Button profilebtnSkip, profilebtnNext;
     Spinner spin1;
     Spinner spin2;
-
-
+    private MediaPickHelper mediaPickHelper;
+    private Uri imageUri;
+    private boolean isNeedUpdateImage;
+    //ImageUtils imageUtils;
+    RoundedImageView photoImageView;
+    ImageView camimageview;
+    Button save;
+    private String currentFullName;
+    private UserCustomData userCustomData;
+    EditText status, firstNameEt, lastNameEt, emailEt, contactnoEt, passwordEt;
+    Observable<QMUser> qmUserObservable;
+    Observable<QBUser> qmUserSignUpObservable;
+    private String firstName, lastName, phNo, userEmail, profileUrl, userStatus, userLanguage, signUpType, password;
+    StringifyArrayList<String> tags = new StringifyArrayList<String>();
     private ProfilePrefManager profileprefManager;
+    File file;
+
+    private String loginType;
+    private QBUser qbUser;
+
+
+    ServiceManager serviceManager;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected int getContentResId() {
+        return R.layout.activity_profile;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-
-
         // Checking for first time launch - before calling setContentView()
         profileprefManager = new ProfilePrefManager(this);
         if (!profileprefManager.isFirstTimeLaunch()) {
             launchHomeScreen();
             finish();
         }
-
-
+        phNo = getIntent().getExtras().getString("phNo");
+        serviceManager = ServiceManager.getInstance();
         // Making notification bar transparent
        /* if (Build.VERSION.SDK_INT >= 21) {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         }
 */
-        setContentView(R.layout.activity_profile);
-
+        // setContentView(R.layout.activity_profile);
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         dotsLayout = (LinearLayout) findViewById(R.id.layoutProfileDots);
         profilebtnSkip = (Button) findViewById(R.id.btn_profile_skip);
         profilebtnNext = (Button) findViewById(R.id.btn_profile_next);
-
-
+        qbUser = AppSession.getSession().getUser();
+        mediaPickHelper = new MediaPickHelper();
         // layouts of all profile sliders
         layouts = new int[]{
                 R.layout.profile_slide1,
                 R.layout.profile_slide2,
         };
-
         // adding bottom dots
         addBottomDots(0);
-
         // making notification bar transparent
         changeStatusBarColor();
-
         myViewPagerAdapter = new MyViewPagerAdapter();
         viewPager.setAdapter(myViewPagerAdapter);
-
         viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
+
+
+        if (phNo != null) {
+            myViewPagerAdapter.setContactNumber(phNo);
+        }
 
         profilebtnSkip.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,7 +135,6 @@ public class Profile extends AppCompatActivity {
                 launchHomeScreen();
             }
         });
-
         profilebtnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,6 +143,7 @@ public class Profile extends AppCompatActivity {
                 int current = getItem(+1);
                 if (current < layouts.length) {
                     // move to next screen
+                    //initData();
                     viewPager.setCurrentItem(current);
                 } else {
                     launchHomeScreen();
@@ -106,16 +151,14 @@ public class Profile extends AppCompatActivity {
             }
         });
 
+        loginType = appSharedHelper.getLoginType();
 
     }
 
-
     private void addBottomDots(int currentPage) {
         dots = new TextView[layouts.length];
-
         int[] colorsActive = getResources().getIntArray(R.array.array_dot_active);
         int[] colorsInactive = getResources().getIntArray(R.array.array_dot_inactive);
-
         dotsLayout.removeAllViews();
         for (int i = 0; i < dots.length; i++) {
             dots[i] = new TextView(this);
@@ -124,11 +167,9 @@ public class Profile extends AppCompatActivity {
             dots[i].setTextColor(colorsInactive[currentPage]);
             dotsLayout.addView(dots[i]);
         }
-
         if (dots.length > 0)
             dots[currentPage].setTextColor(colorsActive[currentPage]);
     }
-
 
     private int getItem(int i) {
         return viewPager.getCurrentItem() + i;
@@ -141,19 +182,15 @@ public class Profile extends AppCompatActivity {
     }
 
     //  viewpager change listener
-
     ViewPager.OnPageChangeListener viewPagerPageChangeListener = new ViewPager.OnPageChangeListener() {
-
         @Override
         public void onPageSelected(int position) {
             addBottomDots(position);
-
             // changing the next button text 'NEXT' / 'GOT IT'
             if (position == layouts.length - 1) {
                 // last page. make button text to GOT IT
                 //profilebtnNext.setText(getString(R.string.start));
                 // profilebtnSkip.setVisibility(View.GONE);
-
             } else {
                 // still pages are left
                 // profilebtnNext.setText(getString(R.string.next));
@@ -163,12 +200,10 @@ public class Profile extends AppCompatActivity {
 
         @Override
         public void onPageScrolled(int arg0, float arg1, int arg2) {
-
         }
 
         @Override
         public void onPageScrollStateChanged(int arg0) {
-
         }
     };
 
@@ -183,16 +218,53 @@ public class Profile extends AppCompatActivity {
         }*/
     }
 
+    @Override
+    public void onMediaPicked(int requestCode, Attachment.Type attachmentType, Object attachment) {
+        if (Attachment.Type.IMAGE.equals(attachmentType)) {
+            startCropActivity(MediaUtils.getValidUri((File) attachment, this));
+        }
+    }
+
+    private void startCropActivity(Uri originalUri) {
+        imageUri = MediaUtils.getValidUri(new File(getCacheDir(), Crop.class.getName()), this);
+        Crop.of(originalUri, imageUri).asSquare().start(this);
+    }
+
+    @Override
+    public void onMediaPickError(int requestCode, Exception e) {
+        ErrorUtils.showError(this, e);
+    }
+
+    @Override
+    public void onMediaPickClosed(int requestCode) {
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == Crop.REQUEST_CROP) {
+            handleCrop(resultCode, data);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void handleCrop(int resultCode, Intent result) {
+        if (resultCode == RESULT_OK) {
+            isNeedUpdateImage = true;
+            photoImageView.setImageURI(imageUri);
+        } else if (resultCode == Crop.RESULT_ERROR) {
+            ToastUtils.longToast(Crop.getError(result).getMessage());
+        }
+    }
+
     /**
      * View pager adapter
      */
-
-
     public class MyViewPagerAdapter extends PagerAdapter {
         private LayoutInflater layoutInflater;
 
         public MyViewPagerAdapter() {
         }
+
 
         @Override
         public int getCount() {
@@ -204,28 +276,114 @@ public class Profile extends AppCompatActivity {
             return view == obj;
         }
 
+
+        public void setContactNumber(String number) {
+            if (contactnoEt != null) {
+                contactnoEt.setText(number);
+            }
+        }
+
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
             View view = layoutInflater.inflate(layouts[position], container, false);
             container.addView(view);
-
-
             spin1 = view.findViewById(R.id.spin1);
-            spin2 = view.findViewById(R.id.spin2);
+            //  spin2 = view.findViewById(R.id.spin2);
+            photoImageView = findViewById(R.id.change_photo_view);
+            camimageview = findViewById(R.id.image_userStatus);
+            save = findViewById(R.id.btn_profile_next);
+            firstNameEt = findViewById(R.id.firstname);
+            status = findViewById(R.id.etstatus);
+            lastNameEt = findViewById(R.id.lastname);
+            contactnoEt = findViewById(R.id.contactno);
+            emailEt = findViewById(R.id.email);
+            passwordEt = findViewById(R.id.facebookpwd);
+
+            if (phNo != null && contactnoEt != null) {
+                contactnoEt.setText(phNo);
+            }
 
 
-            //CreATE AN adapter for Language1
-            //  ArrayAdapter<String> language1adapter=new ArrayAdapter<String>(Profile.this,android.R.layout.simple_spinner_item);
-          /*  ArrayAdapter<CharSequence>language1adapter=ArrayAdapter.createFromResource(Profile.this,R.array.Language1,android.R.layout.simple_spinner_item);
-            language1adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            spin1.setAdapter(language1adapter);
-            */
+            camimageview.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mediaPickHelper.pickAnMedia(Profile.this, MediaUtils.IMAGE_REQUEST_CODE);
+                }
+            });
+            //Onclick of people
+            photoImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mediaPickHelper.pickAnMedia(Profile.this, MediaUtils.IMAGE_REQUEST_CODE);
+                }
+            });
+            save.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    file = MediaUtils.getCreatedFileFromUri(imageUri);
+                    if (file != null && validates()) {
+
+                        userStatus = status.getText().toString();
+                        userLanguage = "English";
+                        firstName = firstNameEt.getText().toString().trim();
+                        lastName = lastNameEt.getText().toString().trim();
+                        userEmail = emailEt.getText().toString().trim();
+                        phNo = contactnoEt.getText().toString().trim();
+                        signUpType = "Android";
+                        StringifyArrayList<String> tags = new StringifyArrayList<String>();
+                        tags.add("dev");
+                        //to get cropped camera image
+                        String s = file.getAbsolutePath();
+                        String s1 = s.replace("Crop", "jpg");
+                        File file1 = new File(s1);
+                        file.renameTo(file1);
+                        //without otp start
+
+                       /* if (loginType.equalsIgnoreCase(AppConstant.LOGIN_TYPE_MANUAL)) {
+                            qbUser = new QBUser();
+                        } else {
+                            qbUser = AppSession.getSession().getUser();
+                        }*/
+                        qbUser = new QBUser();
+                        qbUser.setLogin(phNo);
+                        qbUser.setPassword(userEmail.toLowerCase() + phNo);
+                        qbUser.setEmail(userEmail);
+                        qbUser.setFullName(firstName + " " + lastName);
+                        qbUser.setPhone(phNo);
 
 
-            // tv.setText("sasdasdas");
+                        userCustomData = new UserCustomData();
+                        userCustomData.setFirstName(firstName);
+                        userCustomData.setLastName(lastName);
+                        userCustomData.setAvatarUrl(s1);
+                        userCustomData.setAge("22");
+                        userCustomData.setContactno(phNo);
+                        userCustomData.setPrefEmail(userEmail);
+                        userCustomData.setStatus(status.getText().toString());
+                        userCustomData.setSignUpType(signUpType);
+                        userCustomData.setDeviceUDid("asdasdasd");
 
+                        Gson gson = new Gson();
+                        String userCustomDataStringToSave = gson.toJson(userCustomData);
+                        qbUser.setCustomData(userCustomDataStringToSave);
+
+                        String userCustomDataStringToParse = qbUser.getCustomData();
+                        UserCustomData userCustomDataObject = gson.fromJson(userCustomDataStringToParse, UserCustomData.class);
+                        qbUser.setTags(tags);
+
+
+//                        if (loginType.equalsIgnoreCase(AppConstant.LOGIN_TYPE_MANUAL)) {
+                        serviceManager.signUp(qbUser)
+                                .subscribe(manualLoginObserver);
+                        /*} else {
+
+                            serviceManager.updateUser(qbUser)
+                                    .subscribe(updateUserObserver);
+                        }*/
+                    }
+                }
+            });
             return view;
         }
 
@@ -236,19 +394,107 @@ public class Profile extends AppCompatActivity {
         }
     }
 
-    @OnClick(R.id.image_userStatus)
-    public void setUpPhoto() {
+    private boolean validates() {
 
+        phNo = contactnoEt.getText().toString();
+        userEmail = emailEt.getText().toString();
+        password = passwordEt.getText().toString();
+
+        if (TextUtils.isEmpty(status.getText().toString())) {
+            ToastUtils.shortToast("Status is Mandatory");
+            return false;
+        }
+        if (TextUtils.isEmpty(firstNameEt.getText().toString())) {
+            ToastUtils.shortToast("First Name is Mandatory");
+            return false;
+        } else if (TextUtils.isEmpty(lastNameEt.getText().toString())) {
+            ToastUtils.shortToast("Last Name is Mandatory");
+            return false;
+        } else if (TextUtils.isEmpty(emailEt.getText().toString())) {
+            ToastUtils.shortToast("Email is Mandatory");
+            return false;
+        } else if (!EmailPhoneValidationUtils.isValidEmail(userEmail)) {
+            ToastUtils.shortToast("Email is empty/not valid");
+            return false;
+        } else if (!EmailPhoneValidationUtils.isValidPhone(phNo) || TextUtils.isEmpty(phNo)) {
+            ToastUtils.shortToast("Phone No is empty/not valid");
+            return false;
+        } else if (TextUtils.isEmpty(password)) {
+            ToastUtils.shortToast("Password can't be empty.");
+            return false;
+        } else if (password.length() < 8) {
+            ToastUtils.shortToast("Password should be greate than 8 characters");
+        }
+        return true;
     }
 
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d("Profile", "onActivityResult: ");
+    /*------------------------------------TEST CODE ---------------------------*/
+
+
+    private Observer<QBUser> manualLoginObserver = new Observer<QBUser>() {
+        @Override
+        public void onCompleted() {
+
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            hideProgress();
+            AuthUtils.parseExceptionMessage(Profile.this, e.getMessage());
+        }
+
+        @Override
+        public void onNext(QBUser qbUser) {
+            appSharedHelper.saveFirstAuth(true);
+            appSharedHelper.saveSavedRememberMe(true);
+            performLoginSuccessAction(qbUser);
+        }
+    };
+
+
+    private void performLoginSuccessAction(QBUser user) {
+        AppPreference.putQBUserId("" + user.getId());
+        AppPreference.putQbUser("" + user);
+        startMainActivity(user);
+        // send analytics data
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+    protected void startMainActivity(QBUser user) {
+        AppSession.getSession().updateUser(user);
+        startMainActivity();
     }
+
+    protected void startMainActivity() {
+//        MainActivity.start(BaseAuthActivity.this);
+//        startActivity(new Intent(Profile.this, Intro.class));
+        appSharedHelper.saveLastOpenActivity(AppHomeActivity.class.getSimpleName());
+        AppHomeActivity.start(Profile.this);
+        finish();
+    }
+
+
+    private Observer<QBUser> updateUserObserver = new Observer<QBUser>() {
+        @Override
+        public void onCompleted() {
+
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            hideProgress();
+            AuthUtils.parseExceptionMessage(Profile.this, e.getMessage());
+        }
+
+        @Override
+        public void onNext(QBUser qbUser) {
+            appSharedHelper.saveFirstAuth(true);
+            appSharedHelper.saveSavedRememberMe(true);
+            performLoginSuccessAction(qbUser);
+
+        }
+    };
+
+
 }
