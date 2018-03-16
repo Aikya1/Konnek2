@@ -52,6 +52,9 @@ public class CoreSharedHelper {
         public static final String COUNTRY_CODE = "countryCode";
 
         public static final String LOGIN_TYPE = "login_type";
+        public static final String FACEBOOK_ID = "facebook_id";
+        public static final java.lang.String USER_GENDER = "user_gender";
+        public static final String USER_PROFILE_URL = "user_profile_pic";
     }
 
     protected final SharedPreferences sharedPreferences;
@@ -199,6 +202,30 @@ public class CoreSharedHelper {
 
     public void saveUserFullName(String fullName) {
         savePref(Constants.USER_FULL_NAME, fullName);
+    }
+
+    public void saveFacebookId(String fbId) {
+        savePref(Constants.FACEBOOK_ID, fbId);
+    }
+
+    public String getFacebookId() {
+        return getPref(Constants.FACEBOOK_ID);
+    }
+
+    public void saveUserGender(String gender) {
+        savePref(Constants.USER_GENDER, gender);
+    }
+
+    public String getUserGender() {
+        return getPref(Constants.USER_GENDER);
+    }
+
+    public void saveUserProfilePic(String profileUrl) {
+        savePref(Constants.USER_PROFILE_URL, profileUrl);
+    }
+
+    public String getUserProfileUrl() {
+        return getPref(Constants.USER_PROFILE_URL);
     }
 
     public void saveFBId(String facebookId) {

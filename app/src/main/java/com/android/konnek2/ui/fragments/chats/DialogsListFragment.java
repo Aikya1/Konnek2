@@ -588,7 +588,6 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
     }
 
     private void updateDialogsList(int startRow, int perPage) {
-
         if (!loaderConsumerQueue.isEmpty()) {
             loaderConsumerQueue.offer(new LoaderConsumer(startRow, perPage));
             return;

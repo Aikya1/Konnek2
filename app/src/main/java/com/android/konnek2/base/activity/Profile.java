@@ -37,6 +37,8 @@ import com.android.konnek2.utils.ToastUtils;
 import com.android.konnek2.utils.helpers.MediaPickHelper;
 import com.android.konnek2.utils.helpers.ServiceManager;
 import com.android.konnek2.utils.listeners.OnMediaPickedListener;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.signature.StringSignature;
 import com.google.gson.Gson;
 import com.quickblox.core.helper.StringifyArrayList;
 import com.quickblox.users.model.QBUser;
@@ -72,7 +74,7 @@ public class Profile extends BaseActivity implements OnMediaPickedListener {
     EditText status, firstNameEt, lastNameEt, emailEt, contactnoEt, passwordEt;
     Observable<QMUser> qmUserObservable;
     Observable<QBUser> qmUserSignUpObservable;
-    private String firstName, lastName, phNo, userEmail, profileUrl, userStatus, userLanguage, signUpType, password;
+    private String firstName, lastName, phNo, userEmail, profileUrl, userStatus, userLanguage, signUpType, password, fullName, facebookId;
     StringifyArrayList<String> tags = new StringifyArrayList<String>();
     private ProfilePrefManager profileprefManager;
     File file;
@@ -301,6 +303,36 @@ public class Profile extends BaseActivity implements OnMediaPickedListener {
             emailEt = findViewById(R.id.email);
             passwordEt = findViewById(R.id.facebookpwd);
 
+
+            //If user comes by facebook
+            if (appSharedHelper.getLoginType().equalsIgnoreCase(AppConstant.LOGIN_TYPE_FACEBOOK)) {
+
+
+                profileUrl = appSharedHelper.getUserProfileUrl();
+                fullName = appSharedHelper.getUserFullName();
+                String facebookId = appSharedHelper.getFacebookId();
+                userEmail = appSharedHelper.getUserEmail();
+//                String gender = appSharedHelper.getUserGender();
+
+                if (emailEt != null) {
+                    emailEt.setText(userEmail);
+                }
+                if (firstNameEt != null) {
+                    firstNameEt.setText(fullName);
+                }
+
+            }
+
+            if (profileUrl != null) {
+                Glide.with(Profile.this)
+                        .load(profileUrl)
+                        .animate(R.anim.abc_fade_in)
+                        .signature(new StringSignature(String.valueOf(System.currentTimeMillis())))
+                        .centerCrop()
+                        .into(photoImageView);
+            }
+
+
             if (phNo != null && contactnoEt != null) {
                 contactnoEt.setText(phNo);
             }
@@ -322,8 +354,19 @@ public class Profile extends BaseActivity implements OnMediaPickedListener {
             save.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    file = MediaUtils.getCreatedFileFromUri(imageUri);
-                    if (file != null && validates()) {
+
+                    if (file != null && imageUri != null) {
+                        file = MediaUtils.getCreatedFileFromUri(imageUri);
+                    }
+
+
+                    if (file == null && profileUrl != null) {
+                        file = new File(profileUrl);
+                    }
+
+                    if (validates()) {
+
+                        showProgress();
 
                         userStatus = status.getText().toString();
                         userLanguage = "English";
@@ -336,9 +379,14 @@ public class Profile extends BaseActivity implements OnMediaPickedListener {
                         tags.add("dev");
                         //to get cropped camera image
                         String s = file.getAbsolutePath();
-                        String s1 = s.replace("Crop", "jpg");
-                        File file1 = new File(s1);
-                        file.renameTo(file1);
+                        String s1 = null;
+                        if (s.contains("Crop")) {
+                            s1 = s.replace("Crop", "jpg");
+                            File file1 = new File(s1);
+                            file.renameTo(file1);
+                        }
+
+
                         //without otp start
 
                        /* if (loginType.equalsIgnoreCase(AppConstant.LOGIN_TYPE_MANUAL)) {
@@ -356,8 +404,17 @@ public class Profile extends BaseActivity implements OnMediaPickedListener {
 
                         userCustomData = new UserCustomData();
                         userCustomData.setFirstName(firstName);
+
+                        if (facebookId != null) {
+                            userCustomData.setFacebookId(facebookId);
+                        }
                         userCustomData.setLastName(lastName);
-                        userCustomData.setAvatarUrl(s1);
+
+                        if (s1 != null) {
+                            userCustomData.setAvatarUrl(s1);
+                        } else {
+                            userCustomData.setAvatarUrl(profileUrl);
+                        }
                         userCustomData.setAge("22");
                         userCustomData.setContactno(phNo);
                         userCustomData.setPrefEmail(userEmail);
@@ -401,11 +458,17 @@ public class Profile extends BaseActivity implements OnMediaPickedListener {
         userEmail = emailEt.getText().toString();
         password = passwordEt.getText().toString();
 
-        if (TextUtils.isEmpty(status.getText().toString())) {
+        if(file == null || imageUri == null){
+
+            ToastUtils.shortToast("Please upload pic");
+            return false;
+        }
+
+        else if (TextUtils.isEmpty(status.getText().toString())) {
             ToastUtils.shortToast("Status is Mandatory");
             return false;
         }
-        if (TextUtils.isEmpty(firstNameEt.getText().toString())) {
+        else if (TextUtils.isEmpty(firstNameEt.getText().toString())) {
             ToastUtils.shortToast("First Name is Mandatory");
             return false;
         } else if (TextUtils.isEmpty(lastNameEt.getText().toString())) {
@@ -464,6 +527,7 @@ public class Profile extends BaseActivity implements OnMediaPickedListener {
 
                 @Override
                 public void onNext(QBUser user) {
+                    hideProgress();
                     performLoginSuccessAction(loginUser);
                 }
             });
@@ -509,6 +573,7 @@ public class Profile extends BaseActivity implements OnMediaPickedListener {
 
         @Override
         public void onNext(QBUser qbUser) {
+            hideProgress();
             appSharedHelper.saveFirstAuth(true);
             appSharedHelper.saveSavedRememberMe(true);
             performLoginSuccessAction(qbUser);

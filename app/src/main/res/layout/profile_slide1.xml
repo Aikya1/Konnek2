@@ -1,5 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="20dp">
@@ -62,8 +63,11 @@
         android:drawableRight="@drawable/pencilsss"
         android:gravity="center|left"
         android:hint="Set your status"
+        android:inputType="text"
+        android:maxLines="1"
         android:paddingLeft="20dp"
-        android:textColor="@color/black" />
+        android:textColor="@color/black"
+        tools:ignore="RtlHardcoded" />
 
     <View
         android:id="@+id/view1"

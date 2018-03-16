@@ -91,8 +91,8 @@
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:label="@string/app_name"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+            android:label="@string/app_name" />
+
         <activity
             android:name=".ui.activities.main.MainActivity"
             android:screenOrientation="portrait" />
@@ -187,14 +187,21 @@
             </intent-filter>
         </activity>
 
+
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebookAppId"
+            android:value="@string/facebook_app_id"
             tools:replace="android:value" />
+        <!-- <meta-data
+             android:name="com.facebook.sdk.ApplicationId"
+             android:value="@string/facebookAppId"
+             tools:replace="android:value" />-->
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="7aea78439bec41a9005c7488bb6751c5e33fe270"
             tools:replace="android:value" />
+
+
         <meta-data
             android:name="com.quickblox.messages.TYPE"
             android:value="FCM" />

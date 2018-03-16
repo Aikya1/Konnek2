@@ -6,17 +6,31 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
 import com.android.konnek2.R;
 import com.android.konnek2.base.activity.GdprActivity;
 import com.android.konnek2.call.services.model.QMUser;
+import com.android.konnek2.utils.AppConstant;
 import com.android.konnek2.utils.ToastUtils;
 import com.android.konnek2.utils.helpers.ServiceManager;
 import com.android.konnek2.utils.helpers.SystemPermissionHelper;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.hbb20.CountryCodePicker;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.Bind;
@@ -37,7 +51,14 @@ public class LandingActivity extends BaseAuthActivity {
     @Bind(R.id.country_isd_list)
     CountryCodePicker countryCodePicker;
 
+    @Bind(R.id.login_button)
+    LoginButton facebookLoginBtn;
+
+    @Bind(R.id.facebookView)
+    Button facebookManualBtn;
+
     String countryCode, phNumber;
+
 
 /*    @Bind(R.id.login_button)
     LoginButton fbLoginBtn;*/
@@ -65,6 +86,65 @@ public class LandingActivity extends BaseAuthActivity {
         check2 = findViewById(R.id.checkBox2);
         etphoneno = findViewById(R.id.etphoneno);
         serviceManager = ServiceManager.getInstance();
+
+        facebookLoginBtn.setReadPermissions(Arrays.asList(
+                "public_profile", "email"));
+        callbackManager = CallbackManager.Factory.create();
+
+
+        LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                Log.d(TAG, "FB Success");
+
+                // App code
+                GraphRequest request = GraphRequest.newMeRequest(
+                        loginResult.getAccessToken(),
+                        new GraphRequest.GraphJSONObjectCallback() {
+                            @Override
+                            public void onCompleted(JSONObject object, GraphResponse response) {
+                                Log.v("LoginActivity", response.toString());
+
+                                // Application code
+                                try {
+                                    //send user to gdpr screen
+                                    String profileUrl = "http://graph.facebook.com/" + object.getString("id") + "/picture?type=large";
+                                    appSharedHelper.saveLoginType(AppConstant.LOGIN_TYPE_FACEBOOK);
+                                    appSharedHelper.saveUserFullName(object.getString("name"));
+                                    appSharedHelper.saveFacebookId(object.getString("id"));
+                                    appSharedHelper.saveUserEmail(object.getString("email"));
+                                    appSharedHelper.saveUserGender(object.getString("gender"));
+                                    appSharedHelper.saveUserProfilePic(profileUrl);
+
+                                    Intent i = new Intent(LandingActivity.this, GdprActivity.class);
+                                    i.putExtra("loginType", AppConstant.LOGIN_TYPE_FACEBOOK);
+                                    startActivity(i);
+
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+                        });
+                Bundle parameters = new Bundle();
+                parameters.putString("fields", "id,name,email,gender");
+                request.setParameters(parameters);
+                request.executeAsync();
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+                Log.d(TAG, "FB Error == " + error.getMessage());
+
+            }
+        });
+
     }
 
 
@@ -73,6 +153,14 @@ public class LandingActivity extends BaseAuthActivity {
         super.onStart();
         checkRecordPermission();
     }
+
+
+    @OnClick(R.id.facebookView)
+    public void setUpFbLogin() {
+
+        facebookLoginBtn.callOnClick();
+    }
+
 
     @OnClick(R.id.btnsignups)
     void phoneNumberConnect(View view) {
@@ -86,7 +174,7 @@ public class LandingActivity extends BaseAuthActivity {
                /* serviceManager.checkIfUserExist(etphoneno.getText().toString())
                         .subscribe(checkIfUserExists);*/
 
-
+                showProgress();
                 countryCode = countryCodePicker.getDefaultCountryCodeWithPlus();
                 String ccWithoutPlus = countryCodePicker.getDefaultCountryCode();
                 phNumber = etphoneno.getText().toString();
@@ -178,6 +266,7 @@ public class LandingActivity extends BaseAuthActivity {
                 appSharedHelper.saveUserPhoneNumber(phNumber);
                 appSharedHelper.saveCountryCode(countryCode);
                 Intent i = new Intent(LandingActivity.this, GdprActivity.class);
+                i.putExtra("loginType", AppConstant.LOGIN_TYPE_MANUAL);
                 i.putExtra("phNo", etphoneno.getText().toString());
                 i.putExtra("countryCode", countryCode);
                 startActivity(i);

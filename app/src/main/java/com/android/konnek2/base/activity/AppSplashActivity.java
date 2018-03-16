@@ -32,6 +32,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import butterknife.OnClick;
 import rx.Subscriber;
 
 public class AppSplashActivity extends BaseActivity {

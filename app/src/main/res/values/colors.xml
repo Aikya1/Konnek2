@@ -64,7 +64,7 @@
 
     <color name="badge_unread_messages_counter">#d20000</color>
     <!--<color name="badge_online">#1cba48</color>-->
-    <color name="badge_online">@color/colorPrimary</color>
+    <color name="badge_online">@color/green</color>
 
     <color name="button_general_pressed">#dddddd</color>
 

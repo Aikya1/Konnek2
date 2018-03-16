@@ -40,6 +40,7 @@ public class UserCustomData implements Serializable {
     public static String TAG_lastName = "lastname";
     public static String TAG_contactNo = "contactNo";
     public static String TAG_age = "age";
+    public static String FACEBOOK_ID = "facebook_id";
 
 
 
@@ -57,6 +58,7 @@ public class UserCustomData implements Serializable {
     private String lastName;
     private String contactno;
     private String gender;
+    private String facebookId;
 
     public String getAge() {
         return age;
@@ -235,4 +237,11 @@ public class UserCustomData implements Serializable {
     private String addressLine1;
 
 
+    public String getFacebookId() {
+        return facebookId;
+    }
+
+    public void setFacebookId(String facebookId) {
+        this.facebookId = facebookId;
+    }
 }

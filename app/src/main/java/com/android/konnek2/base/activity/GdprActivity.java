@@ -27,6 +27,7 @@ public class GdprActivity extends BaseAuthActivity {
     @Bind(R.id.submitbtn)
     Button submit;
 
+    Bundle bundle;
 
     @Override
     protected int getContentResId() {
@@ -38,9 +39,16 @@ public class GdprActivity extends BaseAuthActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gdpr);
         ButterKnife.bind(this);
+        bundle = getIntent().getExtras();
 
-        phNo = getIntent().getExtras().getString("phNo");
-        countryCode = getIntent().getExtras().getString("countryCode");
+        //if login type is manual then get phone nubmer with country code
+        if (bundle != null && bundle.getString("loginType").equalsIgnoreCase(AppConstant.LOGIN_TYPE_MANUAL)) {
+            phNo = getIntent().getExtras().getString("phNo");
+            countryCode = getIntent().getExtras().getString("countryCode");
+        }
+
+        appSharedHelper.saveLoginType(bundle.getString("loginType"));
+
     }
 
 
@@ -51,14 +59,11 @@ public class GdprActivity extends BaseAuthActivity {
             if (rgYesBtn.isChecked()) {
                 //OTP verification
                 loginType = LoginType.FIREBASE_PHONE;
-                appSharedHelper.saveLoginType(AppConstant.LOGIN_TYPE_FIREBASE);
                 startSocialLogin(phNo, countryCode);
             }
             if (rgNoBtn.isChecked()) {
                 //No OTP VERIFICATION : GOTO INTRO screen
                 //Manual login...
-                loginType = LoginType.MANUAL;
-                appSharedHelper.saveLoginType(AppConstant.LOGIN_TYPE_MANUAL);
                 Intent i = new Intent(GdprActivity.this, Intro.class);
                 i.putExtra("phNo", phNo);
                 startActivity(i);

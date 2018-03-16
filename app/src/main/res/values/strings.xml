@@ -436,4 +436,12 @@
     <string name="or_text">OR</string>
     <string name="enter_phone_number">Enter Phone Number</string>
 
+
+
+
+
+    <!--FACEBOOK INTEGRATION-->
+    <string name="facebook_app_id">1458967860878390</string>
+    <string name="fb_login_protocol_scheme">fb1458967860878390</string>
+
 </resources>

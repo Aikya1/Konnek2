@@ -23,6 +23,7 @@ import com.android.konnek2.utils.helpers.FirebaseAuthHelper;
 import com.android.konnek2.utils.helpers.FlurryAnalyticsHelper;
 import com.android.konnek2.utils.helpers.GoogleAnalyticsHelper;
 import com.android.konnek2.utils.helpers.ServiceManager;
+import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
@@ -66,6 +67,9 @@ public abstract class BaseAuthActivity extends BaseActivity {
 
     private ServiceManager serviceManager;
 
+    protected CallbackManager callbackManager;
+
+
     private String phNo, countryCode;
 
     public static void start(Context context) {
@@ -100,6 +104,8 @@ public abstract class BaseAuthActivity extends BaseActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        callbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == FirebaseAuthHelper.RC_SIGN_IN) {
