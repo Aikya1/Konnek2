@@ -43,10 +43,10 @@ public class Utils {
 
         Gson gson = gsonBuilder.create();
 
-       /* if (userCustomDataString.contains("{") || userCustomDataString.contains("}")) {
-            userCustomDataString = userCustomDataString.replace("{", "[");
-            userCustomDataString = userCustomDataString.replace("}", "]");
-        }*/
+        if (userCustomDataString.contains("[") || userCustomDataString.contains("]")) {
+            userCustomDataString = userCustomDataString.replace("[", "{");
+            userCustomDataString = userCustomDataString.replace("]", "}");
+        }
 
         try {
 

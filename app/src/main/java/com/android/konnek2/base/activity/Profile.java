@@ -46,6 +46,7 @@ import java.io.File;
 
 import rx.Observable;
 import rx.Observer;
+import rx.Subscriber;
 
 public class Profile extends BaseActivity implements OnMediaPickedListener {
 
@@ -448,7 +449,26 @@ public class Profile extends BaseActivity implements OnMediaPickedListener {
         public void onNext(QBUser qbUser) {
             appSharedHelper.saveFirstAuth(true);
             appSharedHelper.saveSavedRememberMe(true);
-            performLoginSuccessAction(qbUser);
+            final QBUser loginUser = qbUser;
+            serviceManager.login(qbUser).subscribe(new Subscriber<QBUser>() {
+                @Override
+                public void onCompleted() {
+
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    hideProgress();
+                    AuthUtils.parseExceptionMessage(Profile.this, e.getMessage());
+                }
+
+                @Override
+                public void onNext(QBUser user) {
+                    performLoginSuccessAction(loginUser);
+                }
+            });
+
+
         }
     };
 

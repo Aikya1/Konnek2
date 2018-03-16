@@ -418,7 +418,6 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
     @OnItemClick(R.id.chats_listview)
     void startChat(int position) {
         QBChatDialog chatDialog = dialogsListAdapter.getItem(position).getChatDialog();
-
         if (!baseActivity.checkNetworkAvailableWithError() && isFirstOpeningDialog(chatDialog.getDialogId())) {
             return;
         }

@@ -406,13 +406,17 @@ public class QBChatHelper extends BaseThreadPoolHelper {
     }
 
     public QBChatDialog createPrivateChatOnRest(int opponentId) throws QBResponseException {
+
         QBChatDialog dialog = QBRestChatService.createChatDialog(DialogUtils.buildPrivateDialog(opponentId)).perform();
+
         return dialog;
     }
 
     public QBChatDialog createPrivateDialogIfNotExist(int userId) throws QBResponseException {
         Log.d("FRIENDREQUEST252525", "QBChatHelper  createPrivateDialogIfNotExist   " + userId);
+
         QBChatDialog existingPrivateDialog = ChatUtils.getExistPrivateDialog(dataManager, userId);
+
         if (existingPrivateDialog == null) {
             existingPrivateDialog = createPrivateChatOnRest(userId);
             DbUtils.saveDialogToCache(dataManager, existingPrivateDialog, false);
