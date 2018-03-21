@@ -133,6 +133,7 @@ public class Utils {
         setJsonValue(jsonObject, UserCustomData.TAG_prefEmail, userCustomData.getPrefEmail());
         setJsonValue(jsonObject, UserCustomData.TAG_contactNo, userCustomData.getContactno());
         setJsonValue(jsonObject, UserCustomData.FACEBOOK_ID, userCustomData.getFacebookId());
+        setJsonValue(jsonObject, UserCustomData.TAG_isEuropean, userCustomData.getIsEuropean());
 
 
         return jsonObject.toString();

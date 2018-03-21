@@ -66,7 +66,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="68dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/button_rounded_corner"
         android:padding="@dimen/margin_8dp"
         android:text="@string/get_started"
@@ -89,11 +89,12 @@
         android:textAlignment="center"
         android:textAllCaps="true"
         android:textColor="@color/black"
-        android:textSize="@dimen/text_size18sp"
+        android:textSize="@dimen/text_size16sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/getStartedBtn" />
+        app:layout_constraintTop_toBottomOf="@+id/getStartedBtn"
+        app:layout_constraintVertical_bias="0.14999998" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline16"

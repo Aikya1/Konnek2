@@ -105,6 +105,7 @@ public class QMAuthService extends QMBaseService {
         return observable;
     }
 
+
     public Observable<QBUser> signUpLogin(final QBUser user){
         Observable<QBUser> result = null;
         Performer<QBUser> performer = QBUsers.signUpSignInTask(user);

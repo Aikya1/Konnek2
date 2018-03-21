@@ -42,6 +42,10 @@ public class AppContactActivity extends BaseLoggableActivity {
     private List<Integer> OpponentsList;
     private QBUser qbUser;
 
+    private int[] tabIcons = {
+            R.drawable.konnek2_tab_icon,
+    };
+
     @Override
     protected int getContentResId() {
 
@@ -83,7 +87,6 @@ public class AppContactActivity extends BaseLoggableActivity {
     protected void onStop() {
         super.onStop();
 
-
     }
 
     private void initViews() {
@@ -99,9 +102,11 @@ public class AppContactActivity extends BaseLoggableActivity {
         tabLayout = findViewById(R.id.tabLayout_tab_contact);
         toolbar = findViewById(R.id.toolbar_contact);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setSubtitle(AppConstant.HOME + AppConstant.GREATER_THAN + AppConstant.CONTECT);
+//        getSupportActionBar().setSubtitle(AppConstant.HOME + AppConstant.GREATER_THAN + AppConstant.CONTECT);
         toolbar.setNavigationIcon(R.drawable.ic_app_back);
-        toolbar.setSubtitleTextColor(getResources().getColor(R.color.white));
+
+//      toolbar.setSubtitleTextColor(getResources().getColor(R.color.white));
+
         title = " " + AppSession.getSession().getUser().getFullName();
         swipeViewer();
         new getDialogListAsyn().execute();
@@ -112,22 +117,37 @@ public class AppContactActivity extends BaseLoggableActivity {
 
         try {
 
-            tabLayout.addTab(tabLayout.newTab().setText(AppConstant.TAB_ONE));
+//            View view1 = getLayoutInflater().inflate(R.layout.contacts_custom_tab_layout, null);
+//            tabLayout.addTab(tabLayout.newTab().setCustomView(view1));
+
+            tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.verification_tick_icon));
             tabLayout.addTab(tabLayout.newTab().setText(AppConstant.TAB_TWO));
             tabLayout.addTab(tabLayout.newTab().setText(AppConstant.TAB_THREE));
 
             tabLayout.setBackgroundColor(getResources().getColor(R.color.white));
             tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
+            tabLayout.getTabAt(0).setCustomView(R.layout.contacts_custom_tab_layout);
+
             appContactsSwipeViewAdapter = new AppContactsSwipeViewAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
 
             TabViewPager.setAdapter(appContactsSwipeViewAdapter);
             tabLayout.setTabsFromPagerAdapter(appContactsSwipeViewAdapter);
             tabLayout.setupWithViewPager(TabViewPager);
+
+            setupTabIcons();
+
             tabLayout.setVisibility(View.VISIBLE);
             TabViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
+
             tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                 @Override
                 public void onTabSelected(TabLayout.Tab tab) {
+
+                    /*if (tab.getPosition() == 0) {
+                        tab.setIcon(R.drawable.konnek2_tab_icon);
+                    }*/
                     TabViewPager.setCurrentItem(tab.getPosition());
                 }
 
@@ -146,19 +166,20 @@ public class AppContactActivity extends BaseLoggableActivity {
         }
     }
 
+    private void setupTabIcons() {
+        tabLayout.getTabAt(0).setIcon(tabIcons[0]);
+    }
+
 
     private class getDialogListAsyn extends AsyncTask {
-
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
         }
 
         @Override
         protected Object doInBackground(Object... arg0) {
             try {
-
                 getDialogs(qbRequestGetBuilder, returnedBundle);
             } catch (QBResponseException e) {
                 e.printStackTrace();
@@ -181,11 +202,8 @@ public class AppContactActivity extends BaseLoggableActivity {
     }
 
     public void privateDialogUsersList() {
-
         for (int i = 0; i < qbDialogsList.size(); i++) {
-
             if (qbDialogsList.get(i).getType().equals(QBDialogType.PRIVATE)) {
-
                 qbPrivateDialogsList.add(qbDialogsList.get(i));
             }
         }
@@ -209,7 +227,6 @@ public class AppContactActivity extends BaseLoggableActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();

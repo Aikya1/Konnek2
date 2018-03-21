@@ -8,6 +8,7 @@ import android.support.v7.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
+
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.konnek2.R;
 import com.android.konnek2.call.core.models.InviteFriend;
@@ -63,7 +64,7 @@ public class InviteFriendsActivity extends BaseLoggableActivity implements Count
     }
 
     private void checkPermissionsAndInitFriendsListIfPossible() {
-        if (systemPermissionHelper.isAllPermissionsGrantedForImportFriends()){
+        if (systemPermissionHelper.isAllPermissionsGrantedForImportFriends()) {
             initFriendsList();
         } else {
             systemPermissionHelper.requestPermissionsForImportFriends();
@@ -92,7 +93,8 @@ public class InviteFriendsActivity extends BaseLoggableActivity implements Count
 //    }
 
     private void initFriendsList() {
-        friendsContactsList = EmailHelper.getMobileContacts(this);
+//        friendsContactsList = EmailHelper.getMobileContacts(this);
+        friendsContactsList = EmailHelper.getContactList(this);
         friendsAdapter = new InviteFriendsAdapter(this, friendsContactsList);
         friendsAdapter.setCounterChangedListener(this);
         friendsListView.setAdapter(friendsAdapter);
@@ -202,7 +204,7 @@ public class InviteFriendsActivity extends BaseLoggableActivity implements Count
         switch (requestCode) {
             case SystemPermissionHelper.PERMISSIONS_FOR_IMPORT_FRIENDS_REQUEST: {
                 if (grantResults.length > 0) {
-                    if (systemPermissionHelper.isAllPermissionsGrantedForImportFriends()){
+                    if (systemPermissionHelper.isAllPermissionsGrantedForImportFriends()) {
                         initFriendsList();
                     } else {
                         showPermissionSettingsDialog();

@@ -8,6 +8,8 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -429,6 +431,10 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
                 appSharedHelper.saveUserPhoneNumber(phNumber);
                 appSharedHelper.saveCountryCode(countryCode);
                 gdprCustomDialog.show();
+                Window window = gdprCustomDialog.getWindow();
+                window.setLayout(ViewGroup.LayoutParams.FILL_PARENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT);
+
             }
 
         }
@@ -445,10 +451,10 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
     public void finish(String result) {
         if (result.equalsIgnoreCase("yes")) {
             loginType = LoginType.FIREBASE_PHONE;
-            appSharedHelper.saveIsGdpr(true);
+            appSharedHelper.saveIsGdpr("Yes");
             startSocialLogin(phNumber, countryCode);
         } else {
-            appSharedHelper.saveIsGdpr(false);
+            appSharedHelper.saveIsGdpr("No");
             //No OTP VERIFICATION : GOTO INTRO screen
             //Manual login...
             Intent i = new Intent(LandingActivity.this, Profile.class);

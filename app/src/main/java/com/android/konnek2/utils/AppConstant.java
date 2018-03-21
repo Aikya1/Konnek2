@@ -30,8 +30,8 @@ public class AppConstant {
     public static String TAB_CHAT = "CHAT";
     public static String TAB_CONTACTS = "CONTACTS";
     public static String TAB_CONTACTS_KONNEK2_USERS = "KONNEK2 USER ";
-    public static String TAB_CONTACTS_NON_KONNEK2 = " NON KONNEK2 USER";
-    public static String TAB_CONTACTS_ONLINE_KONNEK2 = "  KONNEK2 ONLINE USER";
+    public static String TAB_CONTACTS_NON_KONNEK2 = " Others";
+    public static String TAB_CONTACTS_ONLINE_KONNEK2 = "  Online Users";
 
     public static String GOCHAT_TAB_ONE = "GOCHAT_CONTACTS";
     public static String GOCHAT_TAB_TWO = "GOCHAT_CHATS";

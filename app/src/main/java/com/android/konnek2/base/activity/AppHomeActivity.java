@@ -38,12 +38,19 @@ import com.android.konnek2.ui.adapters.base.AppHomeAdapter;
 import com.android.konnek2.ui.fragments.dialogs.base.TwoButtonsDialogFragment;
 import com.android.konnek2.ui.views.roundedimageview.RoundedImageView;
 import com.android.konnek2.utils.AppConstant;
+import com.android.konnek2.utils.helpers.EmailHelper;
 import com.android.konnek2.utils.helpers.FacebookHelper;
 import com.android.konnek2.utils.helpers.FirebaseAuthHelper;
 import com.android.konnek2.utils.helpers.ServiceManager;
 import com.android.konnek2.utils.image.ImageLoaderUtils;
 import com.android.konnek2.utils.listeners.AppCommon;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.quickblox.users.QBUsers;
+import com.quickblox.users.model.QBAddressBookContact;
+import com.quickblox.users.model.QBAddressBookResponse;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import rx.Subscriber;
 
@@ -64,6 +71,7 @@ public class AppHomeActivity extends AppCompatActivity implements NavigationView
     private FirebaseAuthHelper firebaseAuthHelper;
     public static final int REQUEST_CODE_LOGOUT = 300;
     private QMUser user;
+    ServiceManager serviceManager;
 
 
     public static void start(Context context) {
@@ -91,6 +99,8 @@ public class AppHomeActivity extends AppCompatActivity implements NavigationView
         gridView = findViewById(R.id.home_rid);
         appHomeAdapter = new AppHomeAdapter(AppHomeActivity.this, title, subtitle, imageId);
         gridView.setAdapter(appHomeAdapter);
+
+
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -163,6 +173,22 @@ public class AppHomeActivity extends AppCompatActivity implements NavigationView
 
             }
         });
+
+
+        /*+++++++++++++++++++++TEST CODE ++++++++++++++++*/
+
+        serviceManager = ServiceManager.getInstance();
+
+
+
+
+        /* serviceManager.signUp(qbUser)
+                                .subscribe(manualLoginObserver);*/
+     /*   serviceManager.uploadAllContacts()
+        .*/;
+
+
+
     }
 
     public void initViews() {

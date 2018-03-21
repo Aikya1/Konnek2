@@ -27,6 +27,9 @@ import com.quickblox.extensions.RxJavaPerformProcessor;
 import com.quickblox.messages.services.QBPushManager;
 import com.quickblox.messages.services.SubscribeService;
 
+import com.quickblox.users.QBUsers;
+import com.quickblox.users.model.QBAddressBookContact;
+import com.quickblox.users.model.QBAddressBookResponse;
 import com.quickblox.users.model.QBUser;
 
 import java.io.File;
@@ -394,6 +397,10 @@ public class ServiceManager {
         user.setFullName(user.getPhone());
         return user;
     }
+
+
+
+    /*+========================TEST CODE==========================*/
 
 
 }

@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.android.konnek2.R;
 import com.android.konnek2.base.fragment.AppKonnek2ContactFragment;
 import com.android.konnek2.base.fragment.AppKonnek2NonContactFragment;
 import com.android.konnek2.base.fragment.AppKonnek2OnlineContactFragment;
@@ -54,6 +55,12 @@ public class AppContactsSwipeViewAdapter extends FragmentStatePagerAdapter {
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        return "" + contactsTitles[position];
+        if (position >= 1) {
+            return "" + contactsTitles[position];
+        } else {
+            return "";
+        }
     }
+
+
 }

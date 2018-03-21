@@ -314,6 +314,11 @@ public class Profile extends BaseActivity implements OnMediaPickedListener {
                     emailEt.setEnabled(false);
                 }
 
+            } else if (appSharedHelper.getLoginType().equalsIgnoreCase(AppConstant.LOGIN_TYPE_MANUAL)) {
+
+                if (contactnoEt != null) {
+                    contactnoEt.setEnabled(false);
+                }
             }
 
 
@@ -328,7 +333,7 @@ public class Profile extends BaseActivity implements OnMediaPickedListener {
 
 
             if (phNo != null && contactnoEt != null) {
-                contactnoEt.setText(countryCode + phNo);
+                contactnoEt.setText(phNo);
             }
 
 
@@ -422,6 +427,7 @@ public class Profile extends BaseActivity implements OnMediaPickedListener {
                         userCustomData.setStatus(status.getText().toString());
                         userCustomData.setSignUpType(signUpType);
                         userCustomData.setDeviceUDid("asdasdasd");
+                        userCustomData.setIsEuropean(appSharedHelper.getIsGdpr());
 
                         Gson gson = new Gson();
                         String userCustomDataStringToSave = gson.toJson(userCustomData);

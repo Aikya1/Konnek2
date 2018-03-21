@@ -158,11 +158,11 @@ public class CoreSharedHelper {
         savePref(Constants.COUNTRY_CODE, countryCode);
     }
 
-    public void saveIsGdpr(boolean value) {
+    public void saveIsGdpr(String value) {
         savePref(Constants.IS_GDPR, value);
     }
 
-    public boolean getIsGdpr() {
+    public String getIsGdpr() {
         return getPref(Constants.IS_GDPR);
     }
 

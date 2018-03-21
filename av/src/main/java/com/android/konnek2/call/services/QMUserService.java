@@ -9,6 +9,8 @@ import com.quickblox.core.request.QBPagedRequestBuilder;
 import com.quickblox.core.server.Performer;
 import com.quickblox.extensions.RxJavaPerformProcessor;
 import com.quickblox.users.QBUsers;
+import com.quickblox.users.model.QBAddressBookContact;
+import com.quickblox.users.model.QBAddressBookResponse;
 import com.quickblox.users.model.QBUser;
 
 import java.util.ArrayList;
@@ -119,6 +121,8 @@ public class QMUserService extends QMBaseService {
     public Observable<QMUser> getUserByExternalId(final String externalId, boolean forceLoad) {
         return getUserByColumn(QMUserColumns.EXTERNAL_ID, externalId, forceLoad);
     }
+
+
 
     public Observable<QMUser> updateUser(final QMUser user) {
         Observable<QMUser> result = null;
@@ -581,7 +585,7 @@ public class QMUserService extends QMBaseService {
             case QMUserColumns.TAGS:
                 List<String> tags = new LinkedList<>();
                 tags.add(value);
-                result = QBUsers.getUsersByTags(tags,requestBuilder);
+                result = QBUsers.getUsersByTags(tags, requestBuilder);
                 break;
 
             case QMUserColumns.EMAIL:
