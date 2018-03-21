@@ -7,9 +7,9 @@ package com.android.konnek2.utils;
 public interface AppConversionCallaback {
 
 
-    public void onConversionSuccess(String result);
+    void onConversionSuccess(String result);
 
-    public void onConversionCompletion();
+    void onConversionCompletion();
 
-    public void onConversionErrorOccured(String errorMessage);
+    void onConversionErrorOccured(String errorMessage);
 }

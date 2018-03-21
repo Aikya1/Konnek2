@@ -41,7 +41,9 @@
                     android:layout_toRightOf="@+id/msg_text_time_message"
                     android:paddingLeft="5dp"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/ic_status_mes_sent_received" />
+                    android:src="@drawable/ic_status_mes_sent_received"
+                    android:layout_toEndOf="@+id/msg_text_time_message"
+                    android:paddingStart="5dp" />
 
             </RelativeLayout>
 

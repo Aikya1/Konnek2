@@ -105,14 +105,19 @@ public abstract class BaseAuthActivity extends BaseActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        callbackManager.onActivityResult(requestCode, resultCode, data);
+        if (callbackManager != null) {
+            callbackManager.onActivityResult(requestCode, resultCode, data);
+            if (requestCode == FirebaseAuthHelper.RC_SIGN_IN) {
+
+                onReceiveFirebaseAuthResult(resultCode, data);
+            }
+            facebookHelper.onActivityResult(requestCode, resultCode, data);
+
+        }
+
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == FirebaseAuthHelper.RC_SIGN_IN) {
 
-            onReceiveFirebaseAuthResult(resultCode, data);
-        }
-        facebookHelper.onActivityResult(requestCode, resultCode, data);
     }
 
     private void onReceiveFirebaseAuthResult(int resultCode, Intent data) {

@@ -1,5 +1,6 @@
 package com.android.konnek2.ui.views.maskedimageview;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -17,7 +18,7 @@ import com.android.konnek2.R;
 import com.android.konnek2.call.core.utils.ConstsCore;
 
 
-public class MaskedImageView extends ImageView {
+public class MaskedImageView extends android.support.v7.widget.AppCompatImageView {
 
     private Paint maskedPaint;
     private Paint copyPaint;
@@ -64,7 +65,7 @@ public class MaskedImageView extends ImageView {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        int sc = canvas.saveLayer(boundsRectF, copyPaint,
+        @SuppressLint("WrongConstant") int sc = canvas.saveLayer(boundsRectF, copyPaint,
                 Canvas.HAS_ALPHA_LAYER_SAVE_FLAG | Canvas.FULL_COLOR_LAYER_SAVE_FLAG);
 
         maskDrawable.setBounds(boundsRect);

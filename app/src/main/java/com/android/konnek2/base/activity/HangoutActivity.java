@@ -18,7 +18,7 @@ public class HangoutActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hangout);
-        toolbar = (Toolbar) findViewById(R.id.toolbar_hangouts);
+        toolbar = findViewById(R.id.toolbar_hangouts);
         setSupportActionBar(toolbar);
         getSupportActionBar().setSubtitle(AppConstant.HOME + AppConstant.GREATER_THAN + AppConstant.HANGOUTS);
         toolbar.setNavigationIcon(R.drawable.ic_app_back);

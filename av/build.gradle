@@ -18,7 +18,7 @@ android {
 //            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 //        }
 //    }
-    buildToolsVersion '26.0.2'
+    buildToolsVersion '26.0.3'
 }
 
 dependencies {
@@ -53,7 +53,7 @@ dependencies {
     compile "com.quickblox:quickblox-android-sdk-videochat-webrtc:${rootProject.qbSdkVersion}"
 
     compile("com.digits.sdk.android:digits:${rootProject.twitterDigitsSdkVersion}@aar") {
-        transitive = true;
+        transitive = true
     }
 
 

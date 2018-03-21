@@ -71,7 +71,7 @@ public class BaseChatMessagesAdapter extends QBMessagesAdapter<CombinationMessag
     public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
         View view = holder.itemView;
 
-        TextView headerTextView = (TextView) view.findViewById(R.id.header_date_textview);
+        TextView headerTextView = view.findViewById(R.id.header_date_textview);
         CombinationMessage combinationMessage = getItem(position);
         headerTextView.setText(DateUtils.toTodayYesterdayFullMonthDate(combinationMessage.getCreatedDate()));
     }

@@ -5,7 +5,6 @@ import com.android.konnek2.call.core.utils.ChatUtils;
 import com.android.konnek2.call.db.managers.DataManager;
 import com.quickblox.chat.model.QBChatDialog;
 import com.quickblox.chat.model.QBDialogType;
-;
 
 public class ChatDialogUtils {
 

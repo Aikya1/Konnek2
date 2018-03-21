@@ -20,11 +20,7 @@ public class EmailPhoneValidationUtils {
         CharSequence inputString = phone;
         Pattern pattern = Pattern.compile(mobileExpression);
         Matcher matcher = pattern.matcher(inputString);
-        if (matcher.matches()) {
-            return true;
-        } else {
-            return false;
-        }
+        return matcher.matches();
     }
 
 

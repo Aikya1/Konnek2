@@ -35,7 +35,8 @@
                     android:layout_alignParentLeft="true"
                     app:border_color="@color/dark_gray"
                     app:border_width="@dimen/avatar_border_width"
-                    app:oval="true" />
+                    app:oval="true"
+                    android:layout_alignParentStart="true" />
 
                 <TextView
                     android:id="@+id/full_name_edittext"
@@ -48,7 +49,10 @@
                     android:maxLines="2"
                     android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/text_size"
-                    tools:text="FullName" />
+                    tools:text="FullName"
+                    android:layout_marginStart="@dimen/padding_large"
+                    android:layout_toStartOf="@+id/edit_profile_imagebutton"
+                    android:layout_toEndOf="@id/avatar_imageview" />
 
                 <ImageButton
                     android:id="@+id/edit_profile_imagebutton"
@@ -56,8 +60,10 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerInParent="true"
+                    android:contentDescription="@string/image_description"
                     android:background="@drawable/selector_button_general"
-                    android:src="@drawable/ic_app_profile_edit_blue" />
+                    android:src="@drawable/ic_app_profile_edit_blue"
+                    android:layout_alignParentEnd="true" />
 
             </RelativeLayout>
 

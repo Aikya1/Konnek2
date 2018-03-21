@@ -824,11 +824,7 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
     }
 
     protected boolean needScrollBottom(int countAddedMessages) {
-        if (lastVisiblePosition + countAddedMessages < messagesAdapter.getItemCount() - 1) {
-            return false;
-        }
-
-        return true;
+        return lastVisiblePosition + countAddedMessages >= messagesAdapter.getItemCount() - 1;
     }
 
     protected void scrollMessagesToBottom(int countAddedMessages) {
@@ -1608,7 +1604,7 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
                 selectedRadioButtonIDLeft = radioGroupLeft.getCheckedRadioButtonId();
                 if (selectedRadioButtonIDLeft != -1) {
 
-                    RadioButton selectedRadioButton = (RadioButton) alertLayout.findViewById(selectedRadioButtonIDLeft);
+                    RadioButton selectedRadioButton = alertLayout.findViewById(selectedRadioButtonIDLeft);
                     String selectedRadioButtonTag = String.valueOf(selectedRadioButton.getTag());
 
                     SelectedLanguageLeft = selectedRadioButtonTag;

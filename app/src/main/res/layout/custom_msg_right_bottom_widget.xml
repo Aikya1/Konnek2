@@ -5,4 +5,5 @@
     android:layout_gravity="top"
     android:scaleType="fitCenter"
     android:paddingLeft="5dp"
-    xmlns:android="http://schemas.android.com/apk/res/android" />
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:paddingStart="5dp" />

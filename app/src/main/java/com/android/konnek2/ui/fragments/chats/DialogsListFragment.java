@@ -175,7 +175,6 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
         addObservers();
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView");
@@ -205,7 +204,8 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
         dataManager = DataManager.getInstance();
         commonObserver = new CommonObserver();
         qbUser = AppSession.getSession().getUser();
-        qmUserCache = new QMUserCacheImpl(getActivity());
+
+        //        qmUserCache = new QMUserCacheImpl(getActivity());
         qbUserLists = new ArrayList<>();
         contactUsersList = new ArrayList<>();
         contactGroupDialogList = new ArrayList<>();
@@ -736,9 +736,9 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
         @Override
         public void execute(Bundle bundle) throws Exception {
             Log.i(TAG, "LoginChatCompositeSuccessAction bundle= " + bundle);
-            if (dialogsListLoader.isLoadCacheFinished()) {
+//            if (dialogsListLoader.isLoadCacheFinished()) {
                 QBLoadDialogsCommand.start(getContext(), true);
-            }
+//            }
         }
     }
 
@@ -900,4 +900,6 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
         App.appcallLogTableDAO.saveCallLog(appCallLogModelArrayList);
 
     }
+
+
 }

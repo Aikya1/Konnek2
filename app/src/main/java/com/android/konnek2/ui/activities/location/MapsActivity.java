@@ -197,10 +197,7 @@ public class MapsActivity extends BaseLoggableActivity
                     Manifest.permission.ACCESS_FINE_LOCATION, !isMessageLocation);
             return true;
         }
-        if (checkProvideGeoData()) {
-            return true;
-        }
-        return false;
+        return checkProvideGeoData();
     }
 
     /**

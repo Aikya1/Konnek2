@@ -41,10 +41,10 @@ public class GroupDialogOccupantsAdapter extends BaseListAdapter<QMUser> {
             convertView = layoutInflater.inflate(R.layout.item_dialog_friend, null);
             viewHolder = new ViewHolder();
 
-            viewHolder.avatarImageView = (RoundedImageView) convertView.findViewById(R.id.avatar_imageview);
-            viewHolder.nameTextView = (TextView) convertView.findViewById(R.id.name_textview);
-            viewHolder.onlineStatusTextView = (TextView) convertView.findViewById(R.id.status_textview);
-            viewHolder.addFriendImageView = (ImageView) convertView.findViewById(R.id.add_friend_imagebutton);
+            viewHolder.avatarImageView = convertView.findViewById(R.id.avatar_imageview);
+            viewHolder.nameTextView = convertView.findViewById(R.id.name_textview);
+            viewHolder.onlineStatusTextView = convertView.findViewById(R.id.status_textview);
+            viewHolder.addFriendImageView = convertView.findViewById(R.id.add_friend_imagebutton);
 
             convertView.setTag(viewHolder);
         } else {

@@ -87,7 +87,8 @@
                 android:layout_marginTop="5dp"
                 android:text="@string/auth_choose_user_picture"
                 android:textColor="@color/text_dark"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:layout_marginStart="15dp" />
 
         </LinearLayout>
 

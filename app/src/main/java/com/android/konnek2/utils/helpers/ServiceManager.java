@@ -282,7 +282,7 @@ public class ServiceManager {
 
         Observable<QMUser> result = null;
 
-        Performer<QBFile> performer = QBContent.uploadFileTask(file, true, (String) null);
+        Performer<QBFile> performer = QBContent.uploadFileTask(file, true, null);
         final Observable<QBFile> observable = performer.convertTo(RxJavaPerformProcessor.INSTANCE);
 
         result = observable

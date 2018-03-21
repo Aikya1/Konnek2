@@ -32,7 +32,8 @@
             android:maxLines="2"
             android:paddingRight="5dp"
             android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/text_size"/>
+            android:textSize="@dimen/text_size"
+            android:paddingEnd="5dp" />
 
     </LinearLayout>
 

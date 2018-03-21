@@ -32,7 +32,7 @@ public class AppCallHistoryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_call_history);
-        toolbar = (Toolbar) findViewById(R.id.toolbar_hisory);
+        toolbar = findViewById(R.id.toolbar_hisory);
         setSupportActionBar(toolbar);
         getSupportActionBar().setSubtitle(AppConstant.HOME + AppConstant.GREATER_THAN +AppConstant.HISTORY);
         toolbar.setNavigationIcon(R.drawable.ic_app_back);
@@ -43,7 +43,7 @@ public class AppCallHistoryActivity extends AppCompatActivity {
 
     public void initViews() {
 
-        callListivew = (ListView) findViewById(R.id.call_logList);
+        callListivew = findViewById(R.id.call_logList);
         currentUserName = AppPreference.getUserName();
         appCallLogModels = new ArrayList<AppCallLogModel>();
         if (currentUserName != null && !currentUserName .isEmpty()) {

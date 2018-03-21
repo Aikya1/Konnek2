@@ -122,7 +122,7 @@ public class ImageLoaderUtils {
             String fileExtension = MimeTypeMap.getFileExtensionFromUrl(uri);
             String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(fileExtension);
 
-            return mimeType == null ? false : mimeType.startsWith("video/");
+            return mimeType != null && mimeType.startsWith("video/");
         }
 
         private Bitmap scaleBitmap(Bitmap origBitmap, int width, int height) {

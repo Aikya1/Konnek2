@@ -29,7 +29,6 @@ import com.android.konnek2.call.core.models.AppSession;
 import com.android.konnek2.call.core.models.ParcelableQBDialog;
 import com.android.konnek2.call.core.qb.commands.chat.QBDeleteChatCommand;
 import com.android.konnek2.call.core.qb.commands.chat.QBLoadDialogByIdsCommand;
-import com.android.konnek2.call.core.qb.commands.chat.QBRemoveUserFromGroupCommand;
 import com.android.konnek2.call.core.qb.commands.chat.QBUpdateGroupDialogCommand;
 import com.android.konnek2.call.core.qb.commands.friend.QBAddFriendCommand;
 import com.android.konnek2.call.core.service.QBService;
@@ -277,6 +276,10 @@ public class GroupDialogDetailsActivity extends BaseLoggableActivity implements
 
         switch (item.getItemId()) {
             case R.id.action_delete:
+
+                /*THIS IS THE CODE TO REMOVE A USER FROM THE GROUP ....*/
+
+
                 if (checkNetworkAvailableWithError()) {
                     QMUser selectedUser = groupDialogParticipantsAdapter.getItem(position);
                     qbDialog = dataManager.getQBChatDialogDataManager().getByDialogId(dialogId);

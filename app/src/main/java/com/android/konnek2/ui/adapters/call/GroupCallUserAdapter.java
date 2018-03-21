@@ -76,10 +76,10 @@ public class GroupCallUserAdapter extends BaseAdapter {   // by suresh
 
         try {
 
-            holder.txtOpponentName = (TextView) rowView.findViewById(R.id.txt_opponents_name);
-            holder.userImage = (RoundedImageView) rowView.findViewById(R.id.avatar_imageview_group);
-            holder.userStatusImage = (ImageView) rowView.findViewById(R.id.image_userStatus);
-            holder.userCheckBox = (CheckBox) rowView.findViewById(R.id.user_check_box);
+            holder.txtOpponentName = rowView.findViewById(R.id.txt_opponents_name);
+            holder.userImage = rowView.findViewById(R.id.avatar_imageview_group);
+            holder.userStatusImage = rowView.findViewById(R.id.image_userStatus);
+            holder.userCheckBox = rowView.findViewById(R.id.user_check_box);
             displayAvatarImage(qmUserLists.get(position).getAvatar(), holder.userImage);
             if (!userOnlineStatus.isEmpty())
                 holder.txtOpponentName.setText(qbUserList.get(position).getFullName());

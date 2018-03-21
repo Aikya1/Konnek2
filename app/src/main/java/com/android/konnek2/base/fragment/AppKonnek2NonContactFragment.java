@@ -64,8 +64,8 @@ public class AppKonnek2NonContactFragment extends BaseFragment implements Contac
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_konnek2_non_contact, container, false);
-        nonKonnek2Listiview = (ListView) view.findViewById(R.id.listview_non_konnek2_contacts);
-        progressBar = (ProgressBar) view.findViewById(R.id.progress_non_contact);
+        nonKonnek2Listiview = view.findViewById(R.id.listview_non_konnek2_contacts);
+        progressBar = view.findViewById(R.id.progress_non_contact);
         return view;
     }
 
@@ -266,6 +266,7 @@ public class AppKonnek2NonContactFragment extends BaseFragment implements Contac
 
                     }
                 }
+                cursor.close();
 
             }
 

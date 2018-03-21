@@ -10,7 +10,6 @@ import com.android.konnek2.call.core.utils.ConstsCore;
 import com.android.konnek2.call.db.managers.DataManager;
 import com.android.konnek2.utils.DialogsUtils;
 import com.quickblox.chat.model.QBChatDialog;
-;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,12 +83,7 @@ public class DialogsListLoader extends BaseLoader<List<DialogWrapper>> {
     }
 
     private void checkLoadFinishedFromREST(int size) {
-        if((loadAll && !loadFromCache) || (size < ConstsCore.CHATS_DIALOGS_PER_PAGE && !loadFromCache)) {
-            loadRestFinished = true;
-
-        } else {
-            loadRestFinished = false;
-        }
+        loadRestFinished = (loadAll && !loadFromCache) || (size < ConstsCore.CHATS_DIALOGS_PER_PAGE && !loadFromCache);
     }
 
     private void retrieveAllDialogsFromCacheByPages() {

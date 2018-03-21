@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<full-backup-content>
+    <!-- TODO Remove the following "exclude" elements to make them a part of the auto backup -->
+    <!-- Exclude the shared preferences file that contains the GCM registrationId -->
+    <exclude
+        domain="sharedpref"
+        path="Konnek2_slider.xml" />
+    <exclude
+        domain="sharedpref"
+        path="Q-municate.xml" />
+    <exclude
+        domain="sharedpref"
+        path="sign_preference.xml" />
+    <exclude
+        domain="sharedpref"
+        path="quickblox_preference.xml" />
+    <exclude
+        domain="sharedpref"
+        path="Konnek2_profile_slider.xml" />
+</full-backup-content>

@@ -175,7 +175,7 @@ public class CombinationMessage extends QBChatMessage implements Serializable {
         @Override
         public int compare(CombinationMessage combinationMessage1, CombinationMessage combinationMessage2) {
             return ((Long) combinationMessage1.getCreatedDate()).compareTo(
-                    ((Long) combinationMessage2.getCreatedDate()));
+                    combinationMessage2.getCreatedDate());
         }
     }
 }

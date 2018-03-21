@@ -95,9 +95,9 @@ public class AppContactActivity extends BaseLoggableActivity {
         qbPrivateDialogsList = new ArrayList<>();
         qmUsersList = new ArrayList<>();
         OpponentsList = new ArrayList<>();
-        TabViewPager = (ViewPager) findViewById(R.id.viewPager_tab_contact);
-        tabLayout = (TabLayout) findViewById(R.id.tabLayout_tab_contact);
-        toolbar = (Toolbar) findViewById(R.id.toolbar_contact);
+        TabViewPager = findViewById(R.id.viewPager_tab_contact);
+        tabLayout = findViewById(R.id.tabLayout_tab_contact);
+        toolbar = findViewById(R.id.toolbar_contact);
         setSupportActionBar(toolbar);
         getSupportActionBar().setSubtitle(AppConstant.HOME + AppConstant.GREATER_THAN + AppConstant.CONTECT);
         toolbar.setNavigationIcon(R.drawable.ic_app_back);
@@ -107,6 +107,7 @@ public class AppContactActivity extends BaseLoggableActivity {
         new getDialogListAsyn().execute();
 
     }
+
     public void swipeViewer() {
 
         try {
@@ -114,8 +115,11 @@ public class AppContactActivity extends BaseLoggableActivity {
             tabLayout.addTab(tabLayout.newTab().setText(AppConstant.TAB_ONE));
             tabLayout.addTab(tabLayout.newTab().setText(AppConstant.TAB_TWO));
             tabLayout.addTab(tabLayout.newTab().setText(AppConstant.TAB_THREE));
+
+            tabLayout.setBackgroundColor(getResources().getColor(R.color.white));
             tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
             appContactsSwipeViewAdapter = new AppContactsSwipeViewAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+
             TabViewPager.setAdapter(appContactsSwipeViewAdapter);
             tabLayout.setTabsFromPagerAdapter(appContactsSwipeViewAdapter);
             tabLayout.setupWithViewPager(TabViewPager);

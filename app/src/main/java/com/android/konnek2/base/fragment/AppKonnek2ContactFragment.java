@@ -104,8 +104,8 @@ public class AppKonnek2ContactFragment extends BaseFragment implements ContactIn
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_konnek2_contact, container, false);
-        listView = (ListView) view.findViewById(R.id.listview_contacts);
-        progressBar = (ProgressBar) view.findViewById(R.id.progress_contact);
+        listView = view.findViewById(R.id.listview_contacts);
+        progressBar = view.findViewById(R.id.progress_contact);
         return view;
     }
 
@@ -517,10 +517,15 @@ public class AppKonnek2ContactFragment extends BaseFragment implements ContactIn
                         appCallLogModel.setContactName(name);
                         appCallLogModel.setContactNumber(formattedNumber);
                         phoneContactList.add(appCallLogModel);
+
                     }
                 }
 
+                cursor.close();
             }
+
+
+
 
         }
     }

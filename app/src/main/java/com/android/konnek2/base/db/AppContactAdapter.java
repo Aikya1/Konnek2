@@ -86,12 +86,12 @@ public class AppContactAdapter extends BaseAdapter {
         viewHolder = new ViewHolder();
 
         try {
-            viewHolder.layoutContactParent = (RelativeLayout) rowView.findViewById(R.id.layout_contact_parnent);
-            viewHolder.checkBoxContacts = (CheckBox) rowView.findViewById(R.id.check_box_contacts);
+            viewHolder.layoutContactParent = rowView.findViewById(R.id.layout_contact_parnent);
+            viewHolder.checkBoxContacts = rowView.findViewById(R.id.check_box_contacts);
 
-            viewHolder.userImage = (RoundedImageView) rowView.findViewById(R.id.avatar_imageview_contact);
-            viewHolder.txtName = (TextView) rowView.findViewById(R.id.textview_contact_name);
-            viewHolder.txtStatus = (TextView) rowView.findViewById(R.id.textview_online_status);
+            viewHolder.userImage = rowView.findViewById(R.id.avatar_imageview_contact);
+            viewHolder.txtName = rowView.findViewById(R.id.textview_contact_name);
+            viewHolder.txtStatus = rowView.findViewById(R.id.textview_online_status);
             qmUsersList = getQMUsersFromDialog(dialogList.get(position));
             viewHolder.txtName.setText(dialogList.get(position).getName());
             viewHolder.userImage.setTag(dialogList.get(position).getDialogId());

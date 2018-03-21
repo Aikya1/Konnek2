@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!-- suppress AndroidElementNotAllowed -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.android.konnek2">
@@ -43,6 +43,7 @@
     <application
         android:name=".App"
         android:allowBackup="true"
+        android:fullBackupContent="@xml/backup_descriptor"
         android:icon="@mipmap/ic_app_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
@@ -92,7 +93,6 @@
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
-
         <activity
             android:name=".ui.activities.main.MainActivity"
             android:screenOrientation="portrait" />
@@ -187,21 +187,20 @@
             </intent-filter>
         </activity>
 
-
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id"
             tools:replace="android:value" />
-        <!-- <meta-data
+        <!--
+             <meta-data
              android:name="com.facebook.sdk.ApplicationId"
              android:value="@string/facebookAppId"
-             tools:replace="android:value" />-->
+             tools:replace="android:value" />
+        -->
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="7aea78439bec41a9005c7488bb6751c5e33fe270"
             tools:replace="android:value" />
-
-
         <meta-data
             android:name="com.quickblox.messages.TYPE"
             android:value="FCM" />
@@ -215,12 +214,16 @@
         <service
             android:name=".call.core.service.QBService"
             android:icon="@drawable/ic_launcher" />
-        <service android:name=".fcm.FcmPushListenerService">
+        <service
+            android:name=".fcm.FcmPushListenerService"
+            android:permission="">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service android:name="com.quickblox.messages.services.fcm.QBFcmPushListenerService">
+        <service
+            android:name="com.quickblox.messages.services.fcm.QBFcmPushListenerService"
+            android:permission="">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
@@ -237,7 +240,9 @@
             android:name=".utils.broadcasts.NetworkChangeReceiver"
             android:label="NetworkChangeReceiver">
             <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action
+                    android:name="android.net.conn.CONNECTIVITY_CHANGE"
+                    tools:ignore="BatteryLife" />
             </intent-filter>
         </receiver>
         <receiver
@@ -291,13 +296,15 @@
         <activity android:name=".base.activity.AppContactActivity" />
         <activity android:name=".base.testActivity.TestActivity">
 
-            <!-- <intent-filter>
+            <!--
+             <intent-filter>
                  <action android:name="android.intent.action.MAIN" />
 
                  <category android:name="android.intent.category.LAUNCHER" />
-             </intent-filter>-->
+             </intent-filter>
+            -->
         </activity>
-        <activity android:name=".base.activity.GdprActivity"></activity>
+        <activity android:name=".base.activity.RegistrationSuccessActivity"></activity>
     </application>
 
 </manifest>

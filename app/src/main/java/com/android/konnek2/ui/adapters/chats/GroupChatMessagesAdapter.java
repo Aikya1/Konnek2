@@ -56,11 +56,11 @@ public class GroupChatMessagesAdapter extends BaseChatMessagesAdapter {
         String senderName;
         senderName = chatMessage.getDialogOccupant().getUser().getFullName();
 
-        TextView opponentNameTextView = (TextView) holder.itemView.findViewById(R.id.opponent_name_text_view);
+        TextView opponentNameTextView = holder.itemView.findViewById(R.id.opponent_name_text_view);
         opponentNameTextView.setTextColor(colorUtils.getRandomTextColorById(chatMessage.getDialogOccupant().getUser().getId()));
         opponentNameTextView.setText(senderName);
 
-        TextView customMessageTimeTextView = (TextView) holder.itemView.findViewById(R.id.custom_msg_text_time_message);
+        TextView customMessageTimeTextView = holder.itemView.findViewById(R.id.custom_msg_text_time_message);
         customMessageTimeTextView.setText(getDate(chatMessage.getDateSent()));
 
         updateMessageState(chatMessage, chatDialog);

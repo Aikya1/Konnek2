@@ -54,12 +54,12 @@ public class AppMoneyAdapter extends BaseAdapter {
         if (convertView == null) {
             grid = new View(mContext);
             grid = inflater.inflate(R.layout.item_money, null);
-            TextView textView = (TextView) grid.findViewById(R.id.grid_moneytext);
-            ImageView imageView = (ImageView) grid.findViewById(R.id.grid_moneyimage);
+            TextView textView = grid.findViewById(R.id.grid_moneytext);
+            ImageView imageView = grid.findViewById(R.id.grid_moneyimage);
             textView.setText(moneylName[position]);
             imageView.setImageResource(moneyImage.getResourceId(position, 0));
         } else {
-            grid = (View) convertView;
+            grid = convertView;
         }
 
 

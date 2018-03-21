@@ -12,7 +12,9 @@
               android:paddingRight="8dp"
               android:textColor="@color/colorPrimary"
               android:textStyle="bold"
-              tools:text="Oppponent Name"/>
+              tools:text="Oppponent Name"
+        android:paddingEnd="8dp"
+        android:layout_width="0dp" />
 
     <TextView
         android:id="@+id/custom_msg_text_time_message"

@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface UserListInterface {
 
-    public void seletedUsers(List<String> seletedUsersList);
+    void seletedUsers(List<String> seletedUsersList);
 }

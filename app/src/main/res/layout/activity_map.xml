@@ -28,6 +28,7 @@
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_margin="@dimen/padding_large"
+            android:contentDescription="@string/image_description"
             android:src="@drawable/ic_app_logo" />
 
         <TextView
@@ -35,7 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:textSize="@dimen/text_size_large"
-            android:text="@string/send_current_location" />
+            android:text="@string/send_current_location"
+            android:textSize="@dimen/text_size_large" />
     </FrameLayout>
 </LinearLayout>

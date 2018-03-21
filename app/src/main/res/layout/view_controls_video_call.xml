@@ -27,7 +27,7 @@
         android:background="@drawable/selector_call_end"
         android:src="@drawable/ic_call_end"
         android:scaleType="centerCrop"
-        />
+        android:layout_marginStart="@dimen/call_buttons_margin" />
 
     <ToggleButton
         android:id="@+id/cameraToggle"
@@ -38,6 +38,6 @@
         android:checked="true"
         android:textOff=""
         android:textOn=""
-        />
+        android:layout_marginStart="@dimen/call_buttons_margin" />
 
 </LinearLayout>

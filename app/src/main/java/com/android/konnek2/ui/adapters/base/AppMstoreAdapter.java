@@ -52,12 +52,12 @@ public class AppMstoreAdapter extends BaseAdapter {
         if (convertView == null) {
             grid = new View(mContext);
             grid = inflater.inflate(R.layout.item_mstore, null);
-            TextView textView = (TextView) grid.findViewById(R.id.grid_msotretext);
-            ImageView imageView = (ImageView) grid.findViewById(R.id.grid_mstoreimage);
+            TextView textView = grid.findViewById(R.id.grid_msotretext);
+            ImageView imageView = grid.findViewById(R.id.grid_mstoreimage);
             textView.setText(mstoreName[position]);
             imageView.setImageResource(mstoreImage.getResourceId(position,0));
         } else {
-            grid = (View) convertView;
+            grid = convertView;
         }
         return grid;
     }

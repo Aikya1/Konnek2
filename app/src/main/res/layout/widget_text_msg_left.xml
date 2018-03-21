@@ -10,7 +10,8 @@
         style="@style/CustomAvatarImageViewStyle.Left"
         android:layout_gravity="top"
         android:layout_marginLeft="@dimen/margin_4dp"
-        android:layout_marginTop="@dimen/margin_4dp" />
+        android:layout_marginTop="@dimen/margin_4dp"
+        android:layout_marginStart="@dimen/margin_4dp" />
 
     <LinearLayout
         android:id="@+id/msg_bubble_background2"

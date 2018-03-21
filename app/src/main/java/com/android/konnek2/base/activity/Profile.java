@@ -59,7 +59,7 @@ public class Profile extends BaseActivity implements OnMediaPickedListener {
     private LinearLayout dotsLayout;
     private TextView[] dots;
     private int[] layouts;
-    private Button profilebtnSkip, profilebtnNext;
+    private Button profilebtnNext;
     Spinner spin1;
     Spinner spin2;
     private MediaPickHelper mediaPickHelper;
@@ -75,6 +75,8 @@ public class Profile extends BaseActivity implements OnMediaPickedListener {
     Observable<QMUser> qmUserObservable;
     Observable<QBUser> qmUserSignUpObservable;
     private String firstName, lastName, phNo, userEmail, profileUrl, userStatus, userLanguage, signUpType, password, fullName, facebookId;
+    private String countryCode;
+
     StringifyArrayList<String> tags = new StringifyArrayList<String>();
     private ProfilePrefManager profileprefManager;
     File file;
@@ -101,17 +103,12 @@ public class Profile extends BaseActivity implements OnMediaPickedListener {
             finish();
         }
         phNo = getIntent().getExtras().getString("phNo");
+        countryCode = getIntent().getExtras().getString("countryCode");
         serviceManager = ServiceManager.getInstance();
-        // Making notification bar transparent
-       /* if (Build.VERSION.SDK_INT >= 21) {
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-        }
-*/
         // setContentView(R.layout.activity_profile);
-        viewPager = (ViewPager) findViewById(R.id.view_pager);
-        dotsLayout = (LinearLayout) findViewById(R.id.layoutProfileDots);
-        profilebtnSkip = (Button) findViewById(R.id.btn_profile_skip);
-        profilebtnNext = (Button) findViewById(R.id.btn_profile_next);
+        viewPager = findViewById(R.id.view_pager);
+        dotsLayout = findViewById(R.id.layoutProfileDots);
+        profilebtnNext = findViewById(R.id.btn_profile_next);
         qbUser = AppSession.getSession().getUser();
         mediaPickHelper = new MediaPickHelper();
         // layouts of all profile sliders
@@ -132,12 +129,6 @@ public class Profile extends BaseActivity implements OnMediaPickedListener {
             myViewPagerAdapter.setContactNumber(phNo);
         }
 
-        profilebtnSkip.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                launchHomeScreen();
-            }
-        });
         profilebtnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -305,23 +296,26 @@ public class Profile extends BaseActivity implements OnMediaPickedListener {
 
 
             //If user comes by facebook
-            if (appSharedHelper.getLoginType().equalsIgnoreCase(AppConstant.LOGIN_TYPE_FACEBOOK)) {
-
+            if (appSharedHelper.getLoginType().equalsIgnoreCase(AppConstant.LOGIN_TYPE_FACEBOOK) ||
+                    appSharedHelper.getLoginType().equalsIgnoreCase(AppConstant.LOGIN_TYPE_GMAIL)) {
 
                 profileUrl = appSharedHelper.getUserProfileUrl();
                 fullName = appSharedHelper.getUserFullName();
-                String facebookId = appSharedHelper.getFacebookId();
                 userEmail = appSharedHelper.getUserEmail();
 //                String gender = appSharedHelper.getUserGender();
+                String socialId = appSharedHelper.getSocialId();
 
-                if (emailEt != null) {
-                    emailEt.setText(userEmail);
-                }
                 if (firstNameEt != null) {
                     firstNameEt.setText(fullName);
                 }
 
+                if (emailEt != null) {
+                    emailEt.setText(userEmail);
+                    emailEt.setEnabled(false);
+                }
+
             }
+
 
             if (profileUrl != null) {
                 Glide.with(Profile.this)
@@ -334,7 +328,7 @@ public class Profile extends BaseActivity implements OnMediaPickedListener {
 
 
             if (phNo != null && contactnoEt != null) {
-                contactnoEt.setText(phNo);
+                contactnoEt.setText(countryCode + phNo);
             }
 
 
@@ -355,19 +349,21 @@ public class Profile extends BaseActivity implements OnMediaPickedListener {
                 @Override
                 public void onClick(View v) {
 
+
+                    viewPager.setCurrentItem(1);
+
                     if (file != null && imageUri != null) {
                         file = MediaUtils.getCreatedFileFromUri(imageUri);
                     }
-
+                    String s1 = null;
 
                     if (file == null && profileUrl != null) {
                         file = new File(profileUrl);
                     }
 
+
                     if (validates()) {
-
                         showProgress();
-
                         userStatus = status.getText().toString();
                         userLanguage = "English";
                         firstName = firstNameEt.getText().toString().trim();
@@ -378,12 +374,15 @@ public class Profile extends BaseActivity implements OnMediaPickedListener {
                         StringifyArrayList<String> tags = new StringifyArrayList<String>();
                         tags.add("dev");
                         //to get cropped camera image
-                        String s = file.getAbsolutePath();
-                        String s1 = null;
-                        if (s.contains("Crop")) {
-                            s1 = s.replace("Crop", "jpg");
-                            File file1 = new File(s1);
-                            file.renameTo(file1);
+
+                        if (file != null) {
+                            String s = file.getAbsolutePath();
+
+                            if (s.contains("Crop")) {
+                                s1 = s.replace("Crop", "jpg");
+                                File file1 = new File(s1);
+                                file.renameTo(file1);
+                            }
                         }
 
 
@@ -412,8 +411,10 @@ public class Profile extends BaseActivity implements OnMediaPickedListener {
 
                         if (s1 != null) {
                             userCustomData.setAvatarUrl(s1);
-                        } else {
+                        } else if (profileUrl != null) {
                             userCustomData.setAvatarUrl(profileUrl);
+                        } else if (imageUri != null) {
+                            userCustomData.setAvatarUrl(imageUri.toString());
                         }
                         userCustomData.setAge("22");
                         userCustomData.setContactno(phNo);
@@ -458,17 +459,13 @@ public class Profile extends BaseActivity implements OnMediaPickedListener {
         userEmail = emailEt.getText().toString();
         password = passwordEt.getText().toString();
 
-        if(file == null || imageUri == null){
-
+        if (file == null && imageUri == null) {
             ToastUtils.shortToast("Please upload pic");
             return false;
-        }
-
-        else if (TextUtils.isEmpty(status.getText().toString())) {
+        } else if (TextUtils.isEmpty(status.getText().toString())) {
             ToastUtils.shortToast("Status is Mandatory");
             return false;
-        }
-        else if (TextUtils.isEmpty(firstNameEt.getText().toString())) {
+        } else if (TextUtils.isEmpty(firstNameEt.getText().toString())) {
             ToastUtils.shortToast("First Name is Mandatory");
             return false;
         } else if (TextUtils.isEmpty(lastNameEt.getText().toString())) {
@@ -488,6 +485,7 @@ public class Profile extends BaseActivity implements OnMediaPickedListener {
             return false;
         } else if (password.length() < 8) {
             ToastUtils.shortToast("Password should be greate than 8 characters");
+            return false;
         }
         return true;
     }
@@ -553,8 +551,11 @@ public class Profile extends BaseActivity implements OnMediaPickedListener {
     protected void startMainActivity() {
 //        MainActivity.start(BaseAuthActivity.this);
 //        startActivity(new Intent(Profile.this, Intro.class));
+
         appSharedHelper.saveLastOpenActivity(AppHomeActivity.class.getSimpleName());
-        AppHomeActivity.start(Profile.this);
+//        AppHomeActivity.start(Profile.this);
+        RegistrationSuccessActivity.start(Profile.this);
+
         finish();
     }
 

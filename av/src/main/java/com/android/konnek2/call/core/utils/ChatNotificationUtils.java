@@ -65,9 +65,9 @@ public class ChatNotificationUtils {
         qbDialog.setName(dialogName);
 
         if (!TextUtils.isEmpty(currentOccupantsIdsString)) {
-            qbDialog.setOccupantsIds((ArrayList<Integer>) ChatUtils.getOccupantsIdsListFromString(currentOccupantsIdsString));
+            qbDialog.setOccupantsIds(ChatUtils.getOccupantsIdsListFromString(currentOccupantsIdsString));
         } else if (!TextUtils.isEmpty(addedOccupantsIdsString)) {
-            qbDialog.setOccupantsIds((ArrayList<Integer>) ChatUtils.getOccupantsIdsListFromString(addedOccupantsIdsString));
+            qbDialog.setOccupantsIds(ChatUtils.getOccupantsIdsListFromString(addedOccupantsIdsString));
         }
 
         if (!CollectionUtils.isEmpty(qbChatMessage.getAttachments())) {

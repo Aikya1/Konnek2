@@ -81,17 +81,14 @@ public class AppHomeActivity extends AppCompatActivity implements NavigationView
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_home);
-        toolbar = (Toolbar) findViewById(R.id.home_toolbar);
+        toolbar = findViewById(R.id.home_toolbar);
         setSupportActionBar(toolbar);
         initViews();
         imageId = getResources().obtainTypedArray(R.array.home_image); // String  Values  from resource  files
         title = getResources().getStringArray(R.array.home_title);          //  Image  Values  from resource  files
 //        subtitle[6] = AppConstant.SUB_TITLE_ONE;
 //        subtitle[2] = AppConstant.SUB_TITLE_TWO;
-        Log.d("AppHomeActivity", "Port = " + DebugDB.isServerRunning());
-        Log.d("AppHomeActivity", "Port = " + DebugDB.getAddressLog());
-        Log.d("AppHomeActivity", "Port = " + DebugDB.isServerRunning());
-        gridView = (GridView) findViewById(R.id.home_rid);
+        gridView = findViewById(R.id.home_rid);
         appHomeAdapter = new AppHomeAdapter(AppHomeActivity.this, title, subtitle, imageId);
         gridView.setAdapter(appHomeAdapter);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -123,7 +120,6 @@ public class AppHomeActivity extends AppCompatActivity implements NavigationView
 
                     case 4:
                         MyProfileActivity.start(AppHomeActivity.this);
-
                         break;
 
                     case 5:
@@ -174,21 +170,21 @@ public class AppHomeActivity extends AppCompatActivity implements NavigationView
 
         facebookHelper = new FacebookHelper(this);
         firebaseAuthHelper = new FirebaseAuthHelper();
-        progressBar = (ProgressBar) findViewById(R.id.progress_home);
+        progressBar = findViewById(R.id.progress_home);
         getSupportActionBar().setSubtitle(AppConstant.HOME);
         toolbar.setSubtitleTextColor(getResources().getColor(R.color.white));
         toolbar.setNavigationIcon(R.drawable.ic_app_navigation_drawer_icon);
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
+        drawerLayout = findViewById(R.id.drawer);
+        NavigationView navigationView = findViewById(R.id.navigation_view);
         Menu menuNav = navigationView.getMenu();
         MenuItem nav_text_logout = menuNav.findItem(R.id.delete);
         SpannableString s = new SpannableString(nav_text_logout.getTitle());
 //        s.setSpan(new TextAppearanceSpan(this, R.style.TextAppearance44), 0, s.length(), 0);
         nav_text_logout.setTitle(s);
         View header = navigationView.getHeaderView(0);
-        TextView tv_name = (TextView) header.findViewById(R.id.tv_email_navigation);
-        TextView tv_mobile = (TextView) header.findViewById(R.id.tv_mobile_navigation);
-        profileImage = (RoundedImageView) header.findViewById(R.id.navigation_profile_image);
+        TextView tv_name = header.findViewById(R.id.tv_email_navigation);
+        TextView tv_mobile = header.findViewById(R.id.tv_mobile_navigation);
+        profileImage = header.findViewById(R.id.navigation_profile_image);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close);
         drawerLayout.setDrawerListener(toggle);
@@ -214,14 +210,13 @@ public class AppHomeActivity extends AppCompatActivity implements NavigationView
     @Override
     public void onBackPressed() {
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer);
+        DrawerLayout drawer = findViewById(R.id.drawer);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }
     }
-
 
 
     @Override
@@ -268,7 +263,7 @@ public class AppHomeActivity extends AppCompatActivity implements NavigationView
                 drawerLayout.closeDrawers();
                 break;*/
         }
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer);
+        DrawerLayout drawer = findViewById(R.id.drawer);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

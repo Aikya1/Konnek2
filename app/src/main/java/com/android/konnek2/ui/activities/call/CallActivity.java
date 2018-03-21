@@ -129,7 +129,7 @@ public class CallActivity extends BaseLoggableActivity implements
     }
 
     public void initActionBar() {
-        toolbar = (Toolbar) findViewById(R.id.toolbar_call);
+        toolbar = findViewById(R.id.toolbar_call);
         if (toolbar != null) {
             toolbar.setVisibility(View.VISIBLE);
             setSupportActionBar(toolbar);

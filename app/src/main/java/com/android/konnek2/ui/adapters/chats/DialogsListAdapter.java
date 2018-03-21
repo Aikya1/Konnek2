@@ -52,11 +52,11 @@ public class DialogsListAdapter extends BaseListAdapter<DialogWrapper> {
 
             convertView = layoutInflater.inflate(R.layout.item_dialog, null);
             viewHolder = new ViewHolder();
-            viewHolder.contactsLayout = (RelativeLayout) convertView.findViewById(R.id.layout_user_contacts);
-            viewHolder.avatarImageView = (RoundedImageView) convertView.findViewById(R.id.avatar_imageview);
-            viewHolder.nameTextView = (TextView) convertView.findViewById(R.id.name_textview);
-            viewHolder.lastMessageTextView = (TextView) convertView.findViewById(R.id.last_message_textview);
-            viewHolder.unreadMessagesTextView = (TextView) convertView.findViewById(
+            viewHolder.contactsLayout = convertView.findViewById(R.id.layout_user_contacts);
+            viewHolder.avatarImageView = convertView.findViewById(R.id.avatar_imageview);
+            viewHolder.nameTextView = convertView.findViewById(R.id.name_textview);
+            viewHolder.lastMessageTextView = convertView.findViewById(R.id.last_message_textview);
+            viewHolder.unreadMessagesTextView = convertView.findViewById(
                     R.id.unread_messages_textview);
 
             convertView.setTag(viewHolder);

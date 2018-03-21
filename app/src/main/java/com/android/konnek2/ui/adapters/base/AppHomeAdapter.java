@@ -62,10 +62,10 @@ public class AppHomeAdapter extends BaseAdapter {
         if (convertView == null) {
             grid = new View(mContext);
             grid = inflater.inflate(R.layout.item_home_grid, null);
-            TextView textView = (TextView) grid.findViewById(R.id.grid_text);
-            TextView textView2 = (TextView) grid.findViewById(R.id.grid_text2);
-            ImageView imageView = (ImageView) grid.findViewById(R.id.grid_image);
-            LinearLayout grid_home = (LinearLayout) grid.findViewById(R.id.grid_home);
+            TextView textView = grid.findViewById(R.id.grid_text);
+            TextView textView2 = grid.findViewById(R.id.grid_text2);
+            ImageView imageView = grid.findViewById(R.id.grid_image);
+            LinearLayout grid_home = grid.findViewById(R.id.grid_home);
 
             textView.setText(title[position]);
             if (position == 2 || position == 6) {
@@ -83,7 +83,7 @@ public class AppHomeAdapter extends BaseAdapter {
 
             imageView.setImageResource(Imageid.getResourceId(position, 0));
         } else {
-            grid = (View) convertView;
+            grid = convertView;
         }
         return grid;
     }

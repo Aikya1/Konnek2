@@ -30,12 +30,12 @@ public class AppTravelActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_travel);
-        toolbar = (Toolbar) findViewById(R.id.toolbar_travel);
+        toolbar = findViewById(R.id.toolbar_travel);
         setSupportActionBar(toolbar);
         getSupportActionBar().setSubtitle(AppConstant.HOME + AppConstant.GREATER_THAN + AppConstant.M_STORE + AppConstant.TRAVEL);
         toolbar.setNavigationIcon(R.drawable.ic_app_back);
         toolbar.setSubtitleTextColor(getResources().getColor(R.color.white));
-        gridView = (GridView) findViewById(R.id.home_travelgrid);
+        gridView = findViewById(R.id.home_travelgrid);
         travelImage = getResources().obtainTypedArray(R.array.Travel_image); // String  Values  from resource  files
         travelName = getResources().getStringArray(R.array.Travel_name);
         appTravelAdapter = new AppTravelAdapter(AppTravelActivity.this, travelName, travelImage);

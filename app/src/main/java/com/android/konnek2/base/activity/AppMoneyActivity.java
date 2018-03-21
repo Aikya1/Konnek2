@@ -31,12 +31,12 @@ public class AppMoneyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_app_money);
 
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar_money);
+        toolbar = findViewById(R.id.toolbar_money);
         setSupportActionBar(toolbar);
         getSupportActionBar().setSubtitle(AppConstant.HOME + AppConstant.GREATER_THAN + AppConstant.M_STORE+AppConstant.MONEY );
         toolbar.setNavigationIcon(R.drawable.ic_app_back);
         toolbar.setSubtitleTextColor(getResources().getColor(R.color.white));
-        gridView = (GridView) findViewById(R.id.money_grid);
+        gridView = findViewById(R.id.money_grid);
 
         MoneyImage = getResources().obtainTypedArray(R.array.money_image); // String  Values  from resource  files
         MoneylName = getResources().getStringArray(R.array.money_name);          //  Image  Values  from resource  files

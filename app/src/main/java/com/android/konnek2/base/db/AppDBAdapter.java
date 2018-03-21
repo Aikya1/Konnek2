@@ -32,7 +32,7 @@ public class AppDBAdapter {
 
     public AppDBAdapter(Context context) {
 
-        this.context = context;
+        AppDBAdapter.context = context;
         DBHelper = new DatabaseHelper(context);
     }
 

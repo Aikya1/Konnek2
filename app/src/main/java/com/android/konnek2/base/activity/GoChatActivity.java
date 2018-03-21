@@ -35,9 +35,9 @@ public class GoChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_go_chat);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar_gochat);
-        tabViewPager = (ViewPager) findViewById(R.id.viewPager_tab_gochat);
-        tabLayout = (TabLayout) findViewById(R.id.tabLayout_tab_gochat);
+        toolbar = findViewById(R.id.toolbar_gochat);
+        tabViewPager = findViewById(R.id.viewPager_tab_gochat);
+        tabLayout = findViewById(R.id.tabLayout_tab_gochat);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setSubtitle(AppConstant.HOME + AppConstant.GREATER_THAN + AppConstant.GOCHAT);

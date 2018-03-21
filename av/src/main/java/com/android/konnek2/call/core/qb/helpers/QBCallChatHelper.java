@@ -158,7 +158,7 @@ public class QBCallChatHelper extends BaseHelper {
         public void signalingCreated(QBSignaling qbSignaling, boolean createdLocally) {
             if (!createdLocally) {
                 Log.d("AVCALLFUNCATION", " QBCallChatHelper10 QBVideoChatSignalingManagerListenerImpl ");
-                qbRtcClient.addSignaling((QBWebRTCSignaling) qbSignaling);
+                qbRtcClient.addSignaling(qbSignaling);
             }
         }
     }

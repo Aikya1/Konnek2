@@ -1,6 +1,8 @@
 package com.android.konnek2.utils;
 
 
+import android.annotation.SuppressLint;
+
 import com.quickblox.users.model.QBUser;
 import com.quickblox.videochat.webrtc.QBRTCSession;
 
@@ -114,6 +116,7 @@ public class AppConstant {
     public static String CALL_STATUS_DIALED = "call_dialed";
 
 
+    @SuppressLint("SdCardPath")
     public static String DB_FULL_PATH = "/data/data/com.aviv.konnek2/databases/";
     public static String DB_NAME = "groupchatwebrtcDB";
     public static String DATABASE_CALL_NAME = "calllog";

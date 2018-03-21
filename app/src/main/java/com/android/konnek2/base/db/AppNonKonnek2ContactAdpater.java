@@ -60,11 +60,11 @@ public class AppNonKonnek2ContactAdpater extends BaseAdapter {
         rowView = inflater.inflate(R.layout.item_non_konnek2_contacts, null);
         viewHolder = new ViewHolder();
 
-        viewHolder.txtName = (TextView) rowView.findViewById(R.id.textview_non_contact_name);
-        viewHolder.txtNumber = (TextView) rowView.findViewById(R.id.textview_non_contact_number);
-        viewHolder.userImage = (RoundedImageView) rowView.findViewById(R.id.avatar_imageview_non_contact);
-        viewHolder.userOnlineSatus = (ImageView) rowView.findViewById(R.id.image_non_userStatus);
-        viewHolder.ivewInviteFriend = (ImageView) rowView.findViewById(R.id.image_view_non_contacts);
+        viewHolder.txtName = rowView.findViewById(R.id.textview_non_contact_name);
+        viewHolder.txtNumber = rowView.findViewById(R.id.textview_non_contact_number);
+        viewHolder.userImage = rowView.findViewById(R.id.avatar_imageview_non_contact);
+        viewHolder.userOnlineSatus = rowView.findViewById(R.id.image_non_userStatus);
+        viewHolder.ivewInviteFriend = rowView.findViewById(R.id.image_view_non_contacts);
 
         viewHolder.txtName.setText(appCallLogModels.get(position).getContactName());
         viewHolder.txtNumber.setText(appCallLogModels.get(position).getContactNumber());

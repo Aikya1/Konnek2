@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface ContactInterface {
 
-    public void contactUsersList(List<String> usersLists);
-    public void contactChat(String contactGroupDialog);
+    void contactUsersList(List<String> usersLists);
+    void contactChat(String contactGroupDialog);
 }

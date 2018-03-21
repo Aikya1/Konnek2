@@ -114,8 +114,9 @@ public class IncomingCallFragment extends Fragment implements Serializable, View
     }
 
     public void onStop() {
+        super.onStop();
         stopCallNotification();
-        super.onDestroy();
+
     }
 
     private void initButtonsListener() {
@@ -128,17 +129,17 @@ public class IncomingCallFragment extends Fragment implements Serializable, View
 
         appCallLogModel = new AppCallLogModel();
         appCallLogModelArrayList = new ArrayList<AppCallLogModel>();
-        typeIncCall = (TextView) view.findViewById(R.id.type_inc_call);
-        callParticipants = (TextView) view.findViewById(R.id.text_call_participants);
+        typeIncCall = view.findViewById(R.id.type_inc_call);
+        callParticipants = view.findViewById(R.id.text_call_participants);
 
-        avatarImageView = (ImageView) view.findViewById(R.id.avatar_imageview);
-        usersList = (ListView) view.findViewById(R.id.list_users);
+        avatarImageView = view.findViewById(R.id.avatar_imageview);
+        usersList = view.findViewById(R.id.list_users);
 
-        callerName = (TextView) view.findViewById(R.id.calling_to_text_view);
+        callerName = view.findViewById(R.id.calling_to_text_view);
 //        callerName.setLines(1);
 
-        rejectBtn = (ImageButton) view.findViewById(R.id.rejectBtn);
-        takeBtn = (ImageButton) view.findViewById(R.id.takeBtn);
+        rejectBtn = view.findViewById(R.id.rejectBtn);
+        takeBtn = view.findViewById(R.id.takeBtn);
         setOpponentAvatarAndName();
         qmUserCache = new QMUserCacheImpl(getActivity());
         opponentsFromCall = new ArrayList<>();

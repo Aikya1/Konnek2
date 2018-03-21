@@ -52,9 +52,11 @@ public class CoreSharedHelper {
         public static final String COUNTRY_CODE = "countryCode";
 
         public static final String LOGIN_TYPE = "login_type";
-        public static final String FACEBOOK_ID = "facebook_id";
         public static final java.lang.String USER_GENDER = "user_gender";
         public static final String USER_PROFILE_URL = "user_profile_pic";
+        public static final String IS_GDPR = "is_gdpr";
+
+        public static final String SOCIAL_ID = "";
     }
 
     protected final SharedPreferences sharedPreferences;
@@ -156,6 +158,14 @@ public class CoreSharedHelper {
         savePref(Constants.COUNTRY_CODE, countryCode);
     }
 
+    public void saveIsGdpr(boolean value) {
+        savePref(Constants.IS_GDPR, value);
+    }
+
+    public boolean getIsGdpr() {
+        return getPref(Constants.IS_GDPR);
+    }
+
     public void saveLoginType(String loginType) {
         savePref(Constants.LOGIN_TYPE, loginType);
     }
@@ -204,13 +214,14 @@ public class CoreSharedHelper {
         savePref(Constants.USER_FULL_NAME, fullName);
     }
 
-    public void saveFacebookId(String fbId) {
-        savePref(Constants.FACEBOOK_ID, fbId);
+    public void saveSocialId(String gId) {
+        savePref(Constants.SOCIAL_ID, gId);
     }
 
-    public String getFacebookId() {
-        return getPref(Constants.FACEBOOK_ID);
+    public String getSocialId() {
+        return getPref(Constants.SOCIAL_ID);
     }
+
 
     public void saveUserGender(String gender) {
         savePref(Constants.USER_GENDER, gender);

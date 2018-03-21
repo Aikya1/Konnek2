@@ -109,7 +109,8 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toEndOf="@+id/text_ok"
-        app:layout_constraintTop_toBottomOf="@+id/edit_text_message" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_message"
+        android:layout_marginRight="@dimen/margin_20dp" />
 
     <Button
         android:id="@+id/text_ok"

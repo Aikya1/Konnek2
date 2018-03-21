@@ -93,7 +93,7 @@ public class AppKonnek2OnlineContactFragment extends BaseFragment implements Con
 
         GlobalBus.getBus().register(this);
         View view = inflater.inflate(R.layout.fragment_konnek2_online_contact, container, false);
-        listView = (ListView) view.findViewById(R.id.listview_online_contacts);
+        listView = view.findViewById(R.id.listview_online_contacts);
         return view;
     }
 

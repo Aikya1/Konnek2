@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.android.konnek2.App;
 import com.android.konnek2.Preference.PrefManager;
 import com.android.konnek2.R;
+import com.android.konnek2.ui.activities.authorization.LandingActivity;
 import com.android.konnek2.utils.helpers.SharedHelper;
 
 public class Intro extends AppCompatActivity {
@@ -31,10 +32,16 @@ public class Intro extends AppCompatActivity {
     private LinearLayout dotsLayout;
     private TextView[] dots;
     private int[] layouts;
-    private Button btnSkip, btnNext;
+    private Button btnNext;
     private PrefManager prefManager;
     private String phNumber, countryCode;
     protected SharedHelper appSharedHelper;
+
+
+    public static void start(Context context) {
+        Intent intent = new Intent(context, Intro.class);
+        context.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +67,6 @@ public class Intro extends AppCompatActivity {
         setContentView(R.layout.activity_intro);
         viewPager = findViewById(R.id.view_pager);
         dotsLayout = findViewById(R.id.layoutDots);
-        btnSkip = findViewById(R.id.btn_skip);
         btnNext = findViewById(R.id.btn_next);
         // layouts of all sliders
         layouts = new int[]
@@ -68,6 +74,7 @@ public class Intro extends AppCompatActivity {
                         R.layout.welcome_slide_1,
                         R.layout.welcome_slide_2,
                         R.layout.welcome_slide_3,
+                        R.layout.welcome_slide_4,
 
                 };
         // adding bottom dots
@@ -77,24 +84,20 @@ public class Intro extends AppCompatActivity {
         myViewPagerAdapter = new MyViewPagerAdapter();
         viewPager.setAdapter(myViewPagerAdapter);
         viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
-        btnSkip.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                launchHomeScreen();
-            }
-        });
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // checking for last page
                 // if last page home screen will be launched
-                int current = getItem(+1);
+                /*int current = getItem(+1);
                 if (current < layouts.length) {
                     // move to next screen
                     viewPager.setCurrentItem(current);
                 } else {
                     launchHomeScreen();
-                }
+                }*/
+
+                LandingActivity.start(Intro.this);
             }
         });
     }
@@ -123,6 +126,7 @@ public class Intro extends AppCompatActivity {
         prefManager.setFirstTimeLaunch(false);
         Intent intent = new Intent(Intro.this, Profile.class);
         intent.putExtra("phNo", phNumber);
+        intent.putExtra("countryCode", countryCode);
         startActivity(intent);
         finish();
     }

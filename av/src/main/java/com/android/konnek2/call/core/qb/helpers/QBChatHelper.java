@@ -707,7 +707,7 @@ public class QBChatHelper extends BaseThreadPoolHelper {
     }
 
     public QBChatDialog updateDialog(QBChatDialog dialog, File inputFile) throws QBResponseException {
-        QBFile file = QBContent.uploadFileTask(inputFile, true, (String) null).perform();
+        QBFile file = QBContent.uploadFileTask(inputFile, true, null).perform();
         dialog.setPhoto(file.getPublicUrl());
         return updateDialog(dialog, (QBRequestUpdateBuilder) null);
     }

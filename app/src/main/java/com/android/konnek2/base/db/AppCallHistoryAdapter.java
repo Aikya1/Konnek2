@@ -74,14 +74,14 @@ public class AppCallHistoryAdapter extends BaseAdapter {
             qmUsers = new ArrayList<>();
 
             qmUsers = (getOpponents(Integer.parseInt(appcallLogModelArrayList.get(position).getCallOpponentId())));
-            holder.call_UserImage = (RoundedImageView) rowView.findViewById(R.id.image_user);
-            holder.call_Priority = (ImageView) rowView.findViewById(R.id.call_priority);
-            holder.call_status = (ImageView) rowView.findViewById(R.id.call_status);
-            holder.callType = (ImageView) rowView.findViewById(R.id.Image_call_type);
-            holder.call_userName = (TextView) rowView.findViewById(R.id.call_userName);
-            holder.call_LogDate = (TextView) rowView.findViewById(R.id.call_LogDate);
-            holder.call_LogTime = (TextView) rowView.findViewById(R.id.call_LogTime);
-            holder.call_Timer = (TextView) rowView.findViewById(R.id.call_timer);
+            holder.call_UserImage = rowView.findViewById(R.id.image_user);
+            holder.call_Priority = rowView.findViewById(R.id.call_priority);
+            holder.call_status = rowView.findViewById(R.id.call_status);
+            holder.callType = rowView.findViewById(R.id.Image_call_type);
+            holder.call_userName = rowView.findViewById(R.id.call_userName);
+            holder.call_LogDate = rowView.findViewById(R.id.call_LogDate);
+            holder.call_LogTime = rowView.findViewById(R.id.call_LogTime);
+            holder.call_Timer = rowView.findViewById(R.id.call_timer);
 
             holder.call_userName.setTextColor(ContextCompat.getColor(context, R.color.colorPrimary));
             holder.call_LogDate.setTextColor(ContextCompat.getColor(context, R.color.colorPrimary));

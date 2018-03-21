@@ -363,7 +363,7 @@ public class MediaUtils {
                         srcHeight);
             } else {
                 final int srcRectHeight = (int) (srcWidth / dstAspect);
-                final int scrRectTop = (int) (srcHeight - srcRectHeight) / 2;
+                final int scrRectTop = (srcHeight - srcRectHeight) / 2;
                 return new Rect(ConstsCore.ZERO_INT_VALUE, scrRectTop, srcWidth, scrRectTop + srcRectHeight);
             }
         } else {

@@ -32,12 +32,12 @@ public class AppMobileStoreActivity extends AppCompatActivity {
         setContentView(R.layout.activity_app_mobile_store);
 
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar_mstore);
+        toolbar = findViewById(R.id.toolbar_mstore);
         setSupportActionBar(toolbar);
         getSupportActionBar().setSubtitle(AppConstant.HOME + AppConstant.GREATER_THAN + AppConstant.M_STORE);
         toolbar.setNavigationIcon(R.drawable.ic_app_back);
         toolbar.setSubtitleTextColor(getResources().getColor(R.color.white));
-        gridView = (GridView) findViewById(R.id.mobile_store);
+        gridView = findViewById(R.id.mobile_store);
 
         mStoreImage = getResources().obtainTypedArray(R.array.mstore_image); // String  Values  from resource  files
         mStoreName = getResources().getStringArray(R.array.mstore);          //  Image  Values  from resource  files

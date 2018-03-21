@@ -83,12 +83,12 @@ public class AppOnlineContactAdapter extends BaseAdapter {
         rowView = inflater.inflate(R.layout.item_app_online_contacts, null);
         viewHolder = new ViewHolder();
 
-        viewHolder.layoutContactParent = (RelativeLayout) rowView.findViewById(R.id.layout_contact_online_parnent);
-        viewHolder.checkBoxContacts = (CheckBox) rowView.findViewById(R.id.check_box_online_contacts);
-        viewHolder.userImage = (RoundedImageView) rowView.findViewById(R.id.avatar_imageview_online_contact);
-        viewHolder.userOnlineSatus = (ImageView) rowView.findViewById(R.id.image_online_userStatus);
-        viewHolder.txtName = (TextView) rowView.findViewById(R.id.textview_online_contact_name);
-        viewHolder.txtStatus = (TextView) rowView.findViewById(R.id.textview_online_contact_status);
+        viewHolder.layoutContactParent = rowView.findViewById(R.id.layout_contact_online_parnent);
+        viewHolder.checkBoxContacts = rowView.findViewById(R.id.check_box_online_contacts);
+        viewHolder.userImage = rowView.findViewById(R.id.avatar_imageview_online_contact);
+        viewHolder.userOnlineSatus = rowView.findViewById(R.id.image_online_userStatus);
+        viewHolder.txtName = rowView.findViewById(R.id.textview_online_contact_name);
+        viewHolder.txtStatus = rowView.findViewById(R.id.textview_online_contact_status);
         try {
             qmUsersList = getQMUsersFromDialog(onlineDialogList.get(position));
             viewHolder.txtName.setText(onlineDialogList.get(position).getName());

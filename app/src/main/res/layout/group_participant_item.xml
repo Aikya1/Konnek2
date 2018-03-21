@@ -15,7 +15,9 @@
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:layout_marginLeft="5dp"
-        app:oval="true" />
+        app:oval="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="5dp" />
 
     <RelativeLayout
         android:id="@+id/userLayout"
@@ -25,7 +27,10 @@
         android:layout_marginLeft="@dimen/margin_4dp"
         android:layout_toLeftOf="@+id/group_admin_icon"
         android:layout_toRightOf="@id/avatar_imageview"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginStart="@dimen/margin_4dp"
+        android:layout_toStartOf="@+id/group_admin_icon"
+        android:layout_toEndOf="@id/avatar_imageview">
 
         <TextView
             android:id="@+id/name_textview"
@@ -56,6 +61,7 @@
         android:layout_alignParentRight="true"
         android:visibility="gone"
         android:contentDescription="@string/image_description"
-        android:src="@drawable/group_admin_icon" />
+        android:src="@drawable/group_admin_icon"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

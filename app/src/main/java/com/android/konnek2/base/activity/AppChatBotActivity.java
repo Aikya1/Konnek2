@@ -25,13 +25,13 @@ public class AppChatBotActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_chat_bot);
-        toolbar=(Toolbar)findViewById(R.id.toolbar_chatbot);
+        toolbar= findViewById(R.id.toolbar_chatbot);
         setSupportActionBar(toolbar);
         getSupportActionBar().setSubtitle(AppConstant.HOME + AppConstant.GREATER_THAN + AppConstant.SARAI);
         toolbar.setNavigationIcon(R.drawable.ic_app_back);
         toolbar.setSubtitleTextColor(getResources().getColor(R.color.white));
-        webView = (WebView) findViewById(R.id.webview_chatBot);
-        progressBar = (ProgressBar) findViewById(R.id.progress_chatbot);
+        webView = findViewById(R.id.webview_chatBot);
+        progressBar = findViewById(R.id.progress_chatbot);
         startWebView(AppConstant.CHAT_BOT_URL);
     }
 

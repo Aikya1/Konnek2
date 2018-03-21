@@ -56,7 +56,7 @@ public class AppSensorManager implements SensorEventListener {
         } catch (Throwable ignored) {
         }
 
-        powerManager = (PowerManager) context.getSystemService(context.POWER_SERVICE);
+        powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
 // wakeLock = powerManager.newWakeLock(field, context.getLocalClassName());
         wakeLock = powerManager.newWakeLock(field, "SensorMger");
 

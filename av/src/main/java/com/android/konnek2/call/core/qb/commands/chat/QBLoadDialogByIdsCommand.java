@@ -39,7 +39,6 @@ public class QBLoadDialogByIdsCommand extends ServiceCommand {
     public static void start(Context context, List<String> dialogsIds) {
         Intent intent = new Intent(QBServiceConsts.LOAD_CHATS_DIALOGS_BY_IDS_ACTION, null, context, QBService.class);
         Bundle result = new Bundle();
-
         result.putStringArrayList(QBServiceConsts.EXTRA_CHATS_DIALOGS_IDS, (ArrayList<String>) dialogsIds);
         intent.putExtras(result);
         context.startService(intent);

@@ -63,7 +63,7 @@ public class FeedbackActivity extends BaseLoggableActivity {
 
     private String getSelectedFeedbackType() {
         int radioButtonID = feedbackTypesRadioGroup.getCheckedRadioButtonId();
-        RadioButton radioButton = (RadioButton) feedbackTypesRadioGroup.findViewById(radioButtonID);
+        RadioButton radioButton = feedbackTypesRadioGroup.findViewById(radioButtonID);
         return radioButton.getText().toString();
     }
 }

@@ -38,15 +38,15 @@ public class CharityActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_charity);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar_charity);
+        toolbar = findViewById(R.id.toolbar_charity);
         setSupportActionBar(toolbar);
         getSupportActionBar().setSubtitle(AppConstant.HOME+AppConstant.GREATER_THAN+AppConstant.CHARITY);
         toolbar.setNavigationIcon(R.drawable.ic_app_back);
         toolbar.setSubtitleTextColor(getResources().getColor(R.color.white));
-        autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.charity_auto_txt_view);
+        autoCompleteTextView = findViewById(R.id.charity_auto_txt_view);
 
-        charityImageView = (ImageView) findViewById(R.id.charity_image);
-        charityTextview = (TextView) findViewById(R.id.charity_txt);
+        charityImageView = findViewById(R.id.charity_image);
+        charityTextview = findViewById(R.id.charity_txt);
         Resources res = getResources();
         charityDescription = res.getStringArray(R.array.charity_description);
         charityName = res.getStringArray(R.array.charity);

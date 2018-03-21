@@ -142,10 +142,10 @@ public abstract class BaseActivity extends AppCompatActivity implements ActionBa
     @Override
     public void initActionBar() {
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        Title = (TextView) findViewById(R.id.text_title);
-        subTitle = (TextView) findViewById(R.id.text_sub_title);
-        toolbarProgressBar = (ProgressBar) findViewById(R.id.toolbar_progressbar);
+        toolbar = findViewById(R.id.toolbar);
+        Title = findViewById(R.id.text_title);
+        subTitle = findViewById(R.id.text_sub_title);
+        toolbarProgressBar = findViewById(R.id.toolbar_progressbar);
         snackBarView = findViewById(R.id.snackbar_position_coordinatorlayout);
         if (toolbar != null) {
 

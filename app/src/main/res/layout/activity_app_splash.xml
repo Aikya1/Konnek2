@@ -14,6 +14,7 @@
         android:id="@+id/logo_imageview"
         android:layout_width="125dp"
         android:layout_height="125dp"
+        android:contentDescription="@string/image_description"
         android:layout_gravity="center"
         android:layout_marginTop="100dp"
         android:scaleType="fitCenter"
@@ -31,7 +32,7 @@
     android:gravity="center"
     android:text="Next Generation"
     android:textAllCaps="true"
-    android:textSize="20dp"
+    android:textSize="20sp"
     android:layout_below="@+id/logo_imageview"
     android:textColor="@color/white"/>
 
@@ -42,7 +43,7 @@
         android:gravity="center"
         android:text="Communication Platform"
         android:textAllCaps="true"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:layout_below="@+id/first_tv"
         android:textColor="@color/white"/>
 

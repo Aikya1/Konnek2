@@ -1,5 +1,6 @@
 package com.android.konnek2.ui.fragments.call;
 
+import android.annotation.SuppressLint;
 import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.graphics.Rect;
@@ -276,18 +277,18 @@ public class ConversationCallFragment extends Fragment implements Serializable, 
 
     private void initViews(View view) {
 
-        remoteVideoView = (QBRTCSurfaceView) view.findViewById(R.id.remote_video_view);
+        remoteVideoView = view.findViewById(R.id.remote_video_view);
 
-        localVideoView = (QBRTCSurfaceView) view.findViewById(R.id.local_video_view);
+        localVideoView = view.findViewById(R.id.local_video_view);
         localVideoView.setZOrderMediaOverlay(true);
 
-        cameraToggle = (ToggleButton) view.findViewById(R.id.cameraToggle);
+        cameraToggle = view.findViewById(R.id.cameraToggle);
 
-        micToggleVideoCall = (ToggleButton) view.findViewById(R.id.micToggleVideoCall);
+        micToggleVideoCall = view.findViewById(R.id.micToggleVideoCall);
 
-        handUpVideoCall = (ImageButton) view.findViewById(R.id.handUpVideoCall);
+        handUpVideoCall = view.findViewById(R.id.handUpVideoCall);
 
-        avatarAndNameView = (FrameLayout) view.findViewById(R.id.avatar_and_name);
+        avatarAndNameView = view.findViewById(R.id.avatar_and_name);
 
         avatarAndNameView.addView(getActivity().getLayoutInflater().inflate(isVideoCall ?
                         R.layout.view_avatar_and_name_horizontal : R.layout.view_avatar_and_name_vertical,
@@ -295,9 +296,9 @@ public class ConversationCallFragment extends Fragment implements Serializable, 
 
         elementSetVideoButtons = view.findViewById(R.id.element_set_video_buttons);
 
-        avatarImageview = (ImageView) avatarAndNameView.findViewById(R.id.avatar_imageview);
+        avatarImageview = avatarAndNameView.findViewById(R.id.avatar_imageview);
 
-        callingToTextView = (TextView) avatarAndNameView.findViewById(R.id.calling_to_text_view);
+        callingToTextView = avatarAndNameView.findViewById(R.id.calling_to_text_view);
 
         isAllViewsInitialized = true;
 
@@ -679,6 +680,7 @@ public class ConversationCallFragment extends Fragment implements Serializable, 
         ENABLED_FROM_USER
     }
 
+    @SuppressLint("HandlerLeak")
     class FragmentLifeCycleHandler extends Handler {
 
         @Override

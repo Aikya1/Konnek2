@@ -55,8 +55,8 @@ public class IncomingCallImageAdapter extends BaseAdapter {
         View rowView;
 
         rowView = inflater.inflate(R.layout.item_incomingcall_users, null);
-        holder.txtOpponentName = (TextView) rowView.findViewById(R.id.txt_users_name);
-        holder.image_incoming_call = (RoundedImageView) rowView.findViewById(R.id.image_incoming_call);
+        holder.txtOpponentName = rowView.findViewById(R.id.txt_users_name);
+        holder.image_incoming_call = rowView.findViewById(R.id.image_incoming_call);
         if(qmUserList!=null && !qmUserList.isEmpty())
         {
             holder.txtOpponentName.setText(qmUserList.get(position).getFullName());

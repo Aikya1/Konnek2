@@ -56,7 +56,7 @@
         <item>Flight</item>
         <item>Cab</item>
         <item>Hotel</item>
-        <item>Holliday</item>
+        <item>Holiday</item>
 
     </string-array>
 
@@ -151,13 +151,15 @@
         <item>@color/colorPrimary</item>
         <item>@color/colorPrimary</item>
         <item>@color/colorPrimary</item>
+        <item>@color/colorPrimary</item>
 
     </array>
 
     <array name="array_dot_inactive">
-        <item>@color/white</item>
-        <item>@color/white</item>
-        <item>@color/white</item>
+        <item>@color/gray</item>
+        <item>@color/gray</item>
+        <item>@color/gray</item>
+        <item>@color/gray</item>
 
     </array>
 

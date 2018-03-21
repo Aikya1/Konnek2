@@ -6,5 +6,5 @@ package com.android.konnek2.utils.listeners;
 
 public interface CallDurationInterface {
 
-    public void callDuration(String name,String date, String Time);
+    void callDuration(String name, String date, String Time);
 }

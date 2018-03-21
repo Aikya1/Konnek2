@@ -98,7 +98,7 @@ public class OpponentsFromCallAdapter extends RecyclerView.Adapter<OpponentsFrom
     }
 
     public interface OnAdapterEventListener {
-        public void OnBindLastViewHolder(ViewHolder holder, int position);
+        void OnBindLastViewHolder(ViewHolder holder, int position);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -108,8 +108,8 @@ public class OpponentsFromCallAdapter extends RecyclerView.Adapter<OpponentsFrom
 
         public ViewHolder(View itemView) {
             super(itemView);
-            connectionStatus = (TextView) itemView.findViewById(R.id.connectionStatus);
-            opponentView = (RTCGLVideoView) itemView.findViewById(R.id.opponentView);
+            connectionStatus = itemView.findViewById(R.id.connectionStatus);
+            opponentView = itemView.findViewById(R.id.opponentView);
         }
 
         public void setStatus(String status) {

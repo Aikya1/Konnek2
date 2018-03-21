@@ -192,7 +192,7 @@ public class LocalSearchFragment extends BaseLoaderFragment<List<DialogSearchWra
         localSearchAdapter = new LocalSearchAdapter(baseActivity, dialogsList);
         localSearchAdapter.setFriendListHelper(friendListHelper);
         dialogsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        dialogsRecyclerView.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));;
+        dialogsRecyclerView.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
         dialogsRecyclerView.setAdapter(localSearchAdapter);
     }
 

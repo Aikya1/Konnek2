@@ -9,5 +9,5 @@ import android.app.Activity;
 public interface AppIConvertor {
 
 
-    public AppIConvertor initialize(String message,String language, Activity appContext);
+    AppIConvertor initialize(String message, String language, Activity appContext);
 }

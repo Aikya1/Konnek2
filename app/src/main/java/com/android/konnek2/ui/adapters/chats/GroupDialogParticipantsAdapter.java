@@ -189,7 +189,7 @@ public class GroupDialogParticipantsAdapter extends RecyclerView.Adapter<GroupDi
 
         public MyViewHolder(View view) {
             super(view);
-            nameTv = (TextView) view.findViewById(R.id.name_textview);
+            nameTv = view.findViewById(R.id.name_textview);
             statusTv = view.findViewById(R.id.status_textview);
             avatarIv = view.findViewById(R.id.avatar_imageview);
             userLayout = view.findViewById(R.id.userLayout);

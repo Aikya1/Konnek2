@@ -1,5 +1,6 @@
 package com.android.konnek2.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -19,6 +20,7 @@ public class AppPreference {
 
 
 
+    @SuppressLint("CommitPrefEdits")
     public AppPreference(Context context) {
         this.context = context;
 

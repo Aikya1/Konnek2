@@ -54,12 +54,12 @@ public class AppTravelAdapter extends BaseAdapter {
         if (convertView == null) {
             grid = new View(mContext);
             grid = inflater.inflate(R.layout.item_travel, null);
-            TextView textView = (TextView) grid.findViewById(R.id.grid_trveltext);
-            ImageView imageView = (ImageView) grid.findViewById(R.id.grid_trvelimage);
+            TextView textView = grid.findViewById(R.id.grid_trveltext);
+            ImageView imageView = grid.findViewById(R.id.grid_trvelimage);
             textView.setText(travelName[position]);
             imageView.setImageResource(travelImage.getResourceId(position, 0));
         } else {
-            grid = (View) convertView;
+            grid = convertView;
         }
 
 

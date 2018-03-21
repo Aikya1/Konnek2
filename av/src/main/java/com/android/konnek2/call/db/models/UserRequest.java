@@ -4,7 +4,6 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.android.konnek2.call.services.model.QMUser;
 import com.android.konnek2.call.services.model.QMUserColumns;
-;
 
 import java.io.Serializable;
 

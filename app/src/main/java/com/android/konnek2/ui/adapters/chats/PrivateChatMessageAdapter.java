@@ -57,8 +57,8 @@ public class PrivateChatMessageAdapter extends BaseChatMessagesAdapter implement
         boolean friendsRequestMessage = DialogNotification.Type.FRIENDS_REQUEST.equals(
                 chatMessage.getNotificationType());
         boolean friendsInfoRequestMessage = chatMessage.getNotificationType() != null && !friendsRequestMessage;
-        TextView textView = (TextView) holder.itemView.findViewById(R.id.message_textview);
-        TextView timeTextMessageTextView = (TextView) holder.itemView.findViewById(R.id.time_text_message_textview);
+        TextView textView = holder.itemView.findViewById(R.id.message_textview);
+        TextView timeTextMessageTextView = holder.itemView.findViewById(R.id.time_text_message_textview);
 
 
         if (friendsRequestMessage) {
@@ -99,7 +99,7 @@ public class PrivateChatMessageAdapter extends BaseChatMessagesAdapter implement
     @Override
     protected void onBindViewMsgRightHolder(TextMessageHolder holder, CombinationMessage chatMessage, int position) {
         //set the image view resource for the status of the message( delivered sent or failure )
-        ImageView view = (ImageView) holder.itemView.findViewById(R.id.message_status_image_view1);
+        ImageView view = holder.itemView.findViewById(R.id.message_status_image_view1);
         setViewVisibility(holder.avatar, View.GONE);
 
         if (chatMessage.getState() != null) {
@@ -119,7 +119,7 @@ public class PrivateChatMessageAdapter extends BaseChatMessagesAdapter implement
     //also check layout_bubbles_left.xml -- done something there which im not sure about.
     @Override
     protected void onBindViewMsgLeftHolder(TextMessageHolder holder, CombinationMessage chatMessage, int position) {
-        LinearLayout linearLayout = (LinearLayout) holder.itemView.findViewById(R.id.msg_linear_frame_left);
+        LinearLayout linearLayout = holder.itemView.findViewById(R.id.msg_linear_frame_left);
         setViewVisibility(holder.avatar, View.VISIBLE);
         setViewVisibility(linearLayout, View.GONE);
 
@@ -196,7 +196,7 @@ public class PrivateChatMessageAdapter extends BaseChatMessagesAdapter implement
     public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
         View view = holder.itemView;
 
-        TextView headerTextView = (TextView) view.findViewById(R.id.header_date_textview);
+        TextView headerTextView = view.findViewById(R.id.header_date_textview);
         CombinationMessage combinationMessage = getItem(position);
         headerTextView.setText(DateUtils.toTodayYesterdayFullMonthDate(combinationMessage.getCreatedDate()));
     }
