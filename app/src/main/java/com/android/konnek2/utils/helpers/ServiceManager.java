@@ -8,7 +8,6 @@ import com.android.konnek2.App;
 import com.android.konnek2.call.core.models.AppSession;
 import com.android.konnek2.call.core.models.LoginType;
 import com.android.konnek2.call.core.models.UserCustomData;
-import com.android.konnek2.call.core.utils.ConstsCore;
 import com.android.konnek2.call.core.utils.UserFriendUtils;
 import com.android.konnek2.call.core.utils.Utils;
 import com.android.konnek2.call.core.utils.helpers.CoreSharedHelper;
@@ -26,10 +25,6 @@ import com.quickblox.core.server.Performer;
 import com.quickblox.extensions.RxJavaPerformProcessor;
 import com.quickblox.messages.services.QBPushManager;
 import com.quickblox.messages.services.SubscribeService;
-
-import com.quickblox.users.QBUsers;
-import com.quickblox.users.model.QBAddressBookContact;
-import com.quickblox.users.model.QBAddressBookResponse;
 import com.quickblox.users.model.QBUser;
 
 import java.io.File;

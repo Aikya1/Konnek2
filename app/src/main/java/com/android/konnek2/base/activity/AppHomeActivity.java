@@ -13,7 +13,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -24,7 +23,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.amitshekhar.DebugDB;
 import com.android.konnek2.R;
 import com.android.konnek2.call.core.models.AppSession;
 import com.android.konnek2.call.core.utils.UserFriendUtils;
@@ -38,19 +36,12 @@ import com.android.konnek2.ui.adapters.base.AppHomeAdapter;
 import com.android.konnek2.ui.fragments.dialogs.base.TwoButtonsDialogFragment;
 import com.android.konnek2.ui.views.roundedimageview.RoundedImageView;
 import com.android.konnek2.utils.AppConstant;
-import com.android.konnek2.utils.helpers.EmailHelper;
 import com.android.konnek2.utils.helpers.FacebookHelper;
 import com.android.konnek2.utils.helpers.FirebaseAuthHelper;
 import com.android.konnek2.utils.helpers.ServiceManager;
 import com.android.konnek2.utils.image.ImageLoaderUtils;
 import com.android.konnek2.utils.listeners.AppCommon;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.quickblox.users.QBUsers;
-import com.quickblox.users.model.QBAddressBookContact;
-import com.quickblox.users.model.QBAddressBookResponse;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import rx.Subscriber;
 

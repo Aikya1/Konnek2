@@ -19,7 +19,6 @@ import com.android.konnek2.R;
 import com.android.konnek2.call.core.models.InviteFriend;
 import com.android.konnek2.call.core.utils.ConstsCore;
 import com.android.konnek2.utils.DeviceInfoUtils;
-import com.quickblox.users.model.QBAddressBookContact;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -264,60 +263,4 @@ public class EmailHelper {
     }
 
 
-    public static ArrayList<QBAddressBookContact> loadRegisteredQbUsers(Context context) {
-
-        ContentResolver contentResolver = context.getContentResolver();
-        ArrayList<QBAddressBookContact> addressBookContacts = new ArrayList<>();
-
-        Cursor cursor = contentResolver.query(
-                ContactsContract.Contacts.CONTENT_URI,
-                null, null, null, null
-        );
-
-        if ((cursor != null ? cursor.getCount() : 0) > 0) {
-            while (cursor != null && cursor.moveToNext()) {
-                String id = cursor.getString(
-                        cursor.getColumnIndex(ContactsContract.Contacts._ID));
-
-                String name = cursor.getString(cursor.getColumnIndex(
-                        ContactsContract.Contacts.DISPLAY_NAME));
-
-                Uri uri = uri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, Long.parseLong(
-                        id));
-
-
-                if (cursor.getInt(cursor.getColumnIndex(
-                        ContactsContract.Contacts.HAS_PHONE_NUMBER)) > 0) {
-
-                    Cursor pCursor = contentResolver.query(
-                            ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-                            null,
-                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
-                            new String[]{id}, null);
-
-                    while (pCursor.moveToNext()) {
-                        String phoneNo = pCursor.getString(pCursor.getColumnIndex(
-                                ContactsContract.CommonDataKinds.Phone.NUMBER));
-
-                        Log.i("CONTACTS HELPER", "ID + " + id);
-                        Log.i("CONTACTS HELPER", "Name: " + name);
-                        Log.i("CONTACTS HELPER", "Phone Number: " + phoneNo);
-
-                        QBAddressBookContact contact1 = new QBAddressBookContact();
-                        contact1.setPhone(phoneNo);
-                        contact1.setName(name);
-                        addressBookContacts.add(contact1);
-
-                    }
-                    pCursor.close();
-                }
-            }
-        }
-
-        if (cursor != null) {
-            cursor.close();
-        }
-
-        return addressBookContacts;
-    }
 }

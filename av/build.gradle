@@ -12,6 +12,10 @@ android {
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
 //    buildTypes {
 //        release {
 //            minifyEnabled false
@@ -56,12 +60,11 @@ dependencies {
         transitive = true
     }
 
-
-    compile "com.facebook.android:facebook-android-sdk:$rootProject.facebookSdkVersoin"
-
-    compile('com.android.support:cardview-v7:26.0.1') {
+    compile('com.android.support:cardview-v7:27.0.2') {
         force = true
     }
+    compile "com.facebook.android:facebook-android-sdk:$rootProject.facebookSdkVersoin"
+
     compile ("com.quickblox:chat-message-adapter:$rootProject.qbMessageAdapterVersion"){
         exclude module: 'quickblox-android-sdk-chat'
         exclude module: 'quickblox-android-sdk-content'

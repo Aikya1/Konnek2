@@ -11,8 +11,8 @@ import android.widget.TextView;
 
 
 import com.android.konnek2.R;
-import com.android.konnek2.ui.views.RTCGLVideoView;
 import com.quickblox.users.model.QBUser;
+import com.quickblox.videochat.webrtc.view.QBRTCSurfaceView;
 
 import java.util.List;
 
@@ -103,7 +103,7 @@ public class OpponentsFromCallAdapter extends RecyclerView.Adapter<OpponentsFrom
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView connectionStatus;
-        RTCGLVideoView opponentView;
+        QBRTCSurfaceView opponentView;
         private int userId;
 
         public ViewHolder(View itemView) {
@@ -125,7 +125,7 @@ public class OpponentsFromCallAdapter extends RecyclerView.Adapter<OpponentsFrom
             return userId;
         }
 
-        public RTCGLVideoView getOpponentView() {
+        public QBRTCSurfaceView getOpponentView() {
             return opponentView;
         }
 

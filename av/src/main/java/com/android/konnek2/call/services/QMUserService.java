@@ -9,10 +9,7 @@ import com.quickblox.core.request.QBPagedRequestBuilder;
 import com.quickblox.core.server.Performer;
 import com.quickblox.extensions.RxJavaPerformProcessor;
 import com.quickblox.users.QBUsers;
-import com.quickblox.users.model.QBAddressBookContact;
-import com.quickblox.users.model.QBAddressBookResponse;
 import com.quickblox.users.model.QBUser;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
