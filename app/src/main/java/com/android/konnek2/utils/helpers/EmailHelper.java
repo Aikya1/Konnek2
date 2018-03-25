@@ -210,57 +210,54 @@ public class EmailHelper {
 
 
     public static List<InviteFriend> getContactList(Context context) {
+
+        List<InviteFriend> friendList = new ArrayList<>();
+
+        InviteFriend inviteFriend;
+
         ContentResolver contentResolver = context.getContentResolver();
-        List<InviteFriend> friendsContactsList = new ArrayList<InviteFriend>();
+        Cursor cursor = contentResolver.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC");
 
-        Cursor cursor = contentResolver.query(
-                ContactsContract.Contacts.CONTENT_URI,
-                null, null, null, null
-        );
+        if (cursor.getCount() > 0) {
+            while (cursor.moveToNext()) {
 
-        if ((cursor != null ? cursor.getCount() : 0) > 0) {
-            while (cursor != null && cursor.moveToNext()) {
-                String id = cursor.getString(
-                        cursor.getColumnIndex(ContactsContract.Contacts._ID));
+                int hasPhoneNumber = Integer.parseInt(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)));
+                if (hasPhoneNumber > 0) {
+                    String id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
+                    String name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
 
-                String name = cursor.getString(cursor.getColumnIndex(
-                        ContactsContract.Contacts.DISPLAY_NAME));
-
-                Uri uri = uri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, Long.parseLong(
-                        id));
+                    inviteFriend = new InviteFriend();
+                    inviteFriend.setName(name);
+                    inviteFriend.setId(id);
 
 
-                if (cursor.getInt(cursor.getColumnIndex(
-                        ContactsContract.Contacts.HAS_PHONE_NUMBER)) > 0) {
-
-                    Cursor pCursor = contentResolver.query(
+                    Cursor phoneCursor = contentResolver.query(
                             ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                             null,
                             ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
-                            new String[]{id}, null);
-
-                    while (pCursor.moveToNext()) {
-                        String phoneNo = pCursor.getString(pCursor.getColumnIndex(
-                                ContactsContract.CommonDataKinds.Phone.NUMBER));
-
-                        Log.i("CONTACTS HELPER", "ID + " + id);
-                        Log.i("CONTACTS HELPER", "Name: " + name);
-                        Log.i("CONTACTS HELPER", "Phone Number: " + phoneNo);
-
-                        friendsContactsList.add(new InviteFriend(id, name, phoneNo, InviteFriend.VIA_CONTACTS_TYPE,
-                                uri, false));
+                            new String[]{id},
+                            null);
+                    if (phoneCursor.moveToNext()) {
+                        String phoneNumber = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                        inviteFriend.setNumber(phoneNumber);
                     }
-                    pCursor.close();
+
+                    phoneCursor.close();
+
+                   /* Cursor emailCursor = contentResolver.query(
+                            ContactsContract.CommonDataKinds.Email.CONTENT_URI,
+                            null,
+                            ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = ?",
+                            new String[]{id}, null);
+                    while (emailCursor.moveToNext()) {
+                        String emailId = emailCursor.getString(emailCursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA));
+                    }*/
+                    friendList.add(inviteFriend);
                 }
             }
+
         }
 
-        if (cursor != null) {
-            cursor.close();
-        }
-
-        return friendsContactsList;
+        return friendList;
     }
-
-
 }

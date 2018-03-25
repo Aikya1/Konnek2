@@ -11,18 +11,30 @@ public class InviteFriend implements Serializable {
 
     private String id;
     private String name;
-    private String link;
+    private String number;
     private int viaLabelType;
     private Uri uri;
     private boolean selected;
 
-    public InviteFriend(String id, String name, String link, int viaLabelType, Uri uri, boolean selected) {
+    public InviteFriend() {
+
+    }
+
+
+    public InviteFriend(String id, String name, String number, int viaLabelType, Uri uri, boolean selected) {
         this.id = id;
         this.name = name;
-        this.link = link;
+        this.number = number;
         this.viaLabelType = viaLabelType;
         this.uri = uri;
         this.selected = selected;
+    }
+
+    public InviteFriend(String id, String name, String number, Uri uri) {
+        this.id = id;
+        this.name = name;
+        this.number = number;
+        this.uri = uri;
     }
 
     public String getId() {
@@ -41,12 +53,12 @@ public class InviteFriend implements Serializable {
         this.name = name;
     }
 
-    public String getLink() {
-        return link;
+    public String getNumber() {
+        return number;
     }
 
-    public void setLink(String link) {
-        this.link = link;
+    public void setNumber(String link) {
+        this.number = link;
     }
 
     public int getViaLabelType() {

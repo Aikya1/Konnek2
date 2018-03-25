@@ -30,6 +30,7 @@ import com.android.konnek2.call.services.model.QMUser;
 import com.android.konnek2.base.db.AppCallLogModel;
 import com.android.konnek2.base.db.AppNonKonnek2ContactAdpater;
 import com.android.konnek2.ui.fragments.base.BaseFragment;
+import com.android.konnek2.utils.helpers.ServiceManager;
 import com.android.konnek2.utils.listeners.ContactInterface;
 import com.quickblox.core.request.QBPagedRequestBuilder;
 import com.quickblox.core.request.QBRequestGetBuilder;
@@ -55,6 +56,7 @@ public class AppKonnek2NonContactFragment extends BaseFragment implements Contac
     private AppNonKonnek2ContactAdpater appNonKonnek2ContactAdpater;
     private ListView nonKonnek2Listiview;
     private ProgressBar progressBar;
+    private ServiceManager serviceManager;
 
     public AppKonnek2NonContactFragment() {
     }
@@ -66,6 +68,7 @@ public class AppKonnek2NonContactFragment extends BaseFragment implements Contac
         View view = inflater.inflate(R.layout.fragment_konnek2_non_contact, container, false);
         nonKonnek2Listiview = view.findViewById(R.id.listview_non_konnek2_contacts);
         progressBar = view.findViewById(R.id.progress_non_contact);
+        serviceManager = ServiceManager.getInstance();
         return view;
     }
 
@@ -77,8 +80,10 @@ public class AppKonnek2NonContactFragment extends BaseFragment implements Contac
         dataManager = DataManager.getInstance();
         phoneContactModel = new ArrayList<>();
         qbRequestGetBuilder = new QBRequestGetBuilder();
-        new getAllContactsAsyn().execute();
-        searchUsers();
+        loadContacts();
+
+//        new getAllContactsAsyn().execute();
+//        searchUsers();
     }
 
     @Override
@@ -163,7 +168,6 @@ public class AppKonnek2NonContactFragment extends BaseFragment implements Contac
 
         @Override
         protected Object doInBackground(Object... arg0) {
-
             getAllContacts();
             return null;
         }
@@ -172,16 +176,20 @@ public class AppKonnek2NonContactFragment extends BaseFragment implements Contac
         protected void onPostExecute(Object o) {
             super.onPostExecute(o);
             progressBar.setVisibility(View.INVISIBLE);
-            loadContacts();
+//            loadContacts();
 
         }
     }
 
     public void loadContacts() {
         try {
-            appNonKonnek2ContactAdpater = new AppNonKonnek2ContactAdpater(getActivity(), phoneContactModel, this);
-            if (!appNonKonnek2ContactAdpater.isEmpty() && appNonKonnek2ContactAdpater != null) {
-                nonKonnek2Listiview.setAdapter(appNonKonnek2ContactAdpater);
+
+            if (ServiceManager.friendList != null && ServiceManager.friendList.size() != 0) {
+                appNonKonnek2ContactAdpater = new AppNonKonnek2ContactAdpater(getActivity(),
+                        ServiceManager.friendList, this);
+                if (!appNonKonnek2ContactAdpater.isEmpty() && appNonKonnek2ContactAdpater != null) {
+                    nonKonnek2Listiview.setAdapter(appNonKonnek2ContactAdpater);
+                }
             }
         } catch (Exception e) {
             e.getMessage();

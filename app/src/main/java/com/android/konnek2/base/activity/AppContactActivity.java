@@ -120,7 +120,7 @@ public class AppContactActivity extends BaseLoggableActivity {
 //            View view1 = getLayoutInflater().inflate(R.layout.contacts_custom_tab_layout, null);
 //            tabLayout.addTab(tabLayout.newTab().setCustomView(view1));
 
-            tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.verification_tick_icon));
+            tabLayout.addTab(tabLayout.newTab());
             tabLayout.addTab(tabLayout.newTab().setText(AppConstant.TAB_TWO));
             tabLayout.addTab(tabLayout.newTab().setText(AppConstant.TAB_THREE));
 

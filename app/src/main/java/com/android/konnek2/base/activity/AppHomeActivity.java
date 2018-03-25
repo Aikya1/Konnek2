@@ -168,18 +168,10 @@ public class AppHomeActivity extends AppCompatActivity implements NavigationView
 
         /*+++++++++++++++++++++TEST CODE ++++++++++++++++*/
 
-        serviceManager = ServiceManager.getInstance();
-
-
-
-
-        /* serviceManager.signUp(qbUser)
-                                .subscribe(manualLoginObserver);*/
-     /*   serviceManager.uploadAllContacts()
-        .*/;
-
-
-
+        if (serviceManager.friendList.size() == 0) {
+            serviceManager = ServiceManager.getInstance();
+            serviceManager.uploadAllContacts(this);
+        }
     }
 
     public void initViews() {

@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.android.konnek2.App;
 import com.android.konnek2.R;
+import com.android.konnek2.call.core.models.InviteFriend;
 import com.android.konnek2.ui.views.roundedimageview.RoundedImageView;
 import com.android.konnek2.utils.listeners.ContactInterface;
 
@@ -25,13 +26,14 @@ public class AppNonKonnek2ContactAdpater extends BaseAdapter {
 
     private Context context;
     private LayoutInflater inflater = null;
-    ArrayList<AppCallLogModel> appCallLogModels;
+    //    ArrayList<AppCallLogModel> appCallLogModels;
+    ArrayList<InviteFriend> inviteFriendArrayList;
     private ContactInterface contactInterface;
     private String inviteNumber;
 
-    public AppNonKonnek2ContactAdpater(Context context, ArrayList<AppCallLogModel> appCallLogModels, ContactInterface contactInterface) {
+    public AppNonKonnek2ContactAdpater(Context context, ArrayList<InviteFriend> inviteFriendArrayList, ContactInterface contactInterface) {
         this.context = context;
-        this.appCallLogModels = appCallLogModels;
+        this.inviteFriendArrayList = inviteFriendArrayList;
         this.contactInterface = contactInterface;
         inflater = (LayoutInflater) App.getInstance().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -40,12 +42,12 @@ public class AppNonKonnek2ContactAdpater extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return appCallLogModels.isEmpty() ? 0 : appCallLogModels.size();
+        return inviteFriendArrayList.isEmpty() ? 0 : inviteFriendArrayList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return appCallLogModels.get(position);
+        return inviteFriendArrayList.get(position);
     }
 
     @Override
@@ -66,9 +68,9 @@ public class AppNonKonnek2ContactAdpater extends BaseAdapter {
         viewHolder.userOnlineSatus = rowView.findViewById(R.id.image_non_userStatus);
         viewHolder.ivewInviteFriend = rowView.findViewById(R.id.image_view_non_contacts);
 
-        viewHolder.txtName.setText(appCallLogModels.get(position).getContactName());
-        viewHolder.txtNumber.setText(appCallLogModels.get(position).getContactNumber());
-        viewHolder.ivewInviteFriend.setTag(appCallLogModels.get(position).getContactNumber());
+        viewHolder.txtName.setText(inviteFriendArrayList.get(position).getName());
+        viewHolder.txtNumber.setText(inviteFriendArrayList.get(position).getNumber());
+        viewHolder.ivewInviteFriend.setTag(inviteFriendArrayList.get(position).getId());
 
         viewHolder.ivewInviteFriend.setOnClickListener(new View.OnClickListener() {
             @Override
