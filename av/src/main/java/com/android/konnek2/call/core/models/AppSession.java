@@ -31,7 +31,7 @@ public class AppSession implements Serializable {
         save();
     }
 
-    public void updateState(ChatState state){
+    public void updateState(ChatState state) {
         chatState = state;
     }
 
@@ -70,15 +70,15 @@ public class AppSession implements Serializable {
     }
 
     public static boolean isSessionExistOrNotExpired(long expirationTime) {
-            QBSessionManager qbSessionManager = QBSessionManager.getInstance();
-            String token = qbSessionManager.getToken();
-            if (token == null) {
-                Log.d("AppSession", "token == null");
-                return false;
-            }
-            Date tokenExpirationDate = qbSessionManager.getTokenExpirationDate();
-            long tokenLiveOffset = tokenExpirationDate.getTime() - System.currentTimeMillis();
-            return tokenLiveOffset > expirationTime;
+        QBSessionManager qbSessionManager = QBSessionManager.getInstance();
+        String token = qbSessionManager.getToken();
+        if (token == null) {
+            Log.d("AppSession", "token == null");
+            return false;
+        }
+        Date tokenExpirationDate = qbSessionManager.getTokenExpirationDate();
+        long tokenLiveOffset = tokenExpirationDate.getTime() - System.currentTimeMillis();
+        return tokenLiveOffset > expirationTime;
     }
 
     public static AppSession getSession() {
@@ -131,19 +131,19 @@ public class AppSession implements Serializable {
         return loginType;
     }
 
-    private LoginType getLoginTypeBySessionParameters(QBSessionParameters sessionParameters){
+    private LoginType getLoginTypeBySessionParameters(QBSessionParameters sessionParameters) {
         LoginType result = null;
-        if(sessionParameters == null){
+        if (sessionParameters == null) {
             return null;
         }
         String socialProvider = sessionParameters.getSocialProvider();
-        if(socialProvider == null){
+        if (socialProvider == null) {
             result = LoginType.EMAIL;
-        } else if (socialProvider.equals(QBProvider.FACEBOOK)){
+        } else if (socialProvider.equals(QBProvider.FACEBOOK)) {
             result = LoginType.FACEBOOK;
-        } else if (socialProvider.equals(QBProvider.FIREBASE_PHONE)){
+        } else if (socialProvider.equals(QBProvider.FIREBASE_PHONE)) {
             result = LoginType.FIREBASE_PHONE;
-        } else if (socialProvider.equals(QBProvider.TWITTER_DIGITS)){ //for correct migration from TWITTER_DIGITS to FIREBASE_PHONE
+        } else if (socialProvider.equals(QBProvider.TWITTER_DIGITS)) { //for correct migration from TWITTER_DIGITS to FIREBASE_PHONE
             result = LoginType.FIREBASE_PHONE;
         }
 

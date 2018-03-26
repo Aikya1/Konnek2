@@ -36,11 +36,7 @@ public class AppContactActivity extends BaseLoggableActivity {
     private AppContactsSwipeViewAdapter appContactsSwipeViewAdapter;
     public Bundle returnedBundle;
     public QBRequestGetBuilder qbRequestGetBuilder;
-    private List<QBChatDialog> qbDialogsList;
     public List<QBChatDialog> qbPrivateDialogsList;
-    private List<QMUser> qmUsersList;
-    private List<Integer> OpponentsList;
-    private QBUser qbUser;
 
     private int[] tabIcons = {
             R.drawable.konnek2_tab_icon,
@@ -60,9 +56,7 @@ public class AppContactActivity extends BaseLoggableActivity {
         if (!isChatInitializedAndUserLoggedIn()) {
             loginChat();
         }
-
         initViews();
-
     }
 
 
@@ -91,13 +85,9 @@ public class AppContactActivity extends BaseLoggableActivity {
 
     private void initViews() {
 
-        qbUser = AppSession.getSession().getUser();
         returnedBundle = new Bundle();
         qbRequestGetBuilder = new QBRequestGetBuilder();
-        qbDialogsList = new ArrayList<>();
         qbPrivateDialogsList = new ArrayList<>();
-        qmUsersList = new ArrayList<>();
-        OpponentsList = new ArrayList<>();
         TabViewPager = findViewById(R.id.viewPager_tab_contact);
         tabLayout = findViewById(R.id.tabLayout_tab_contact);
         toolbar = findViewById(R.id.toolbar_contact);
@@ -109,16 +99,13 @@ public class AppContactActivity extends BaseLoggableActivity {
 
         title = " " + AppSession.getSession().getUser().getFullName();
         swipeViewer();
-        new getDialogListAsyn().execute();
+//        new getDialogListAsyn().execute();
 
     }
 
     public void swipeViewer() {
 
         try {
-
-//            View view1 = getLayoutInflater().inflate(R.layout.contacts_custom_tab_layout, null);
-//            tabLayout.addTab(tabLayout.newTab().setCustomView(view1));
 
             tabLayout.addTab(tabLayout.newTab());
             tabLayout.addTab(tabLayout.newTab().setText(AppConstant.TAB_TWO));
@@ -139,7 +126,6 @@ public class AppContactActivity extends BaseLoggableActivity {
 
             tabLayout.setVisibility(View.VISIBLE);
             TabViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-
 
             tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                 @Override
@@ -168,46 +154,6 @@ public class AppContactActivity extends BaseLoggableActivity {
 
     private void setupTabIcons() {
         tabLayout.getTabAt(0).setIcon(tabIcons[0]);
-    }
-
-
-    private class getDialogListAsyn extends AsyncTask {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Object doInBackground(Object... arg0) {
-            try {
-                getDialogs(qbRequestGetBuilder, returnedBundle);
-            } catch (QBResponseException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Object o) {
-            super.onPostExecute(o);
-            privateDialogUsersList();
-
-
-        }
-    }
-
-    public List<QBChatDialog> getDialogs(QBRequestGetBuilder qbRequestGetBuilder, Bundle returnedBundle) throws QBResponseException {
-        qbDialogsList = QBRestChatService.getChatDialogs(null, qbRequestGetBuilder).perform();
-        return qbDialogsList;
-    }
-
-    public void privateDialogUsersList() {
-        for (int i = 0; i < qbDialogsList.size(); i++) {
-            if (qbDialogsList.get(i).getType().equals(QBDialogType.PRIVATE)) {
-                qbPrivateDialogsList.add(qbDialogsList.get(i));
-            }
-        }
-        EventBus.getDefault().post(new MessageEvent(qbPrivateDialogsList));
     }
 
 

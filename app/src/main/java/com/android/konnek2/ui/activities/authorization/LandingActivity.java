@@ -220,7 +220,6 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
         }
     }
 
-
     private void handleSignInResult(GoogleSignInResult result) {
         Log.d(TAG, "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
@@ -369,6 +368,7 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
     private void loginUser(QBUser user) {
         AppPreference.putQBUserId("" + user.getId());
         AppPreference.putQbUser("" + user);
+        AppSession.getSession().updateUser(user);
         startMainActivity(user);
         // send analytics data
     }
@@ -390,7 +390,7 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
     private Observer<List<QMUser>> checkIfUserExists = new Observer<List<QMUser>>() {
         @Override
         public void onCompleted() {
-
+            hideProgress();
         }
 
         @Override
@@ -400,7 +400,7 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
 
         @Override
         public void onNext(List<QMUser> userList) {
-            hideProgress();
+
             appSharedHelper.saveFirstAuth(true);
             appSharedHelper.saveSavedRememberMe(true);
             appSharedHelper.saveLoginType(AppConstant.LOGIN_TYPE_MANUAL);
@@ -434,7 +434,6 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
                 Window window = gdprCustomDialog.getWindow();
                 window.setLayout(ViewGroup.LayoutParams.FILL_PARENT,
                         ViewGroup.LayoutParams.WRAP_CONTENT);
-
             }
 
         }

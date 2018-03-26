@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="@dimen/margin_8dp">
 
 
     <RelativeLayout
@@ -26,16 +26,13 @@
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
-                app:border_color="@color/colorPrimary"
-                app:border_width="@dimen/avatar_border_width"
-                app:oval="true"/>
+                app:oval="true" />
 
             <ImageView
                 android:id="@+id/image_non_userStatus"
                 android:layout_width="14dp"
                 android:layout_height="14dp"
-                android:layout_gravity="right|bottom"
-                />
+                android:layout_gravity="right|bottom" />
         </FrameLayout>
 
 
@@ -45,8 +42,11 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_toEndOf="@+id/layout_non_contacts"
             android:layout_toRightOf="@+id/layout_non_contacts"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="@dimen/margin_4dp">
 
             <TextView
                 android:id="@+id/textview_non_contact_name"
@@ -54,9 +54,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="fill"
                 android:maxLines="2"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/black"
                 android:textSize="@dimen/text_size"
-                tools:text="Nabe dsjkd sdldjscljkd dsclk"/>
+                tools:text="Rajeev" />
 
             <TextView
                 android:id="@+id/textview_non_contact_number"
@@ -64,19 +64,22 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:singleLine="true"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/black"
                 android:textSize="@dimen/text_size_small"
-                tools:text="Offline"/>
+                tools:text="Offline" />
         </LinearLayout>
 
         <ImageView
             android:id="@+id/image_view_non_contacts"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/margin_5dp"
             android:layout_marginRight="@dimen/margin_5dp"
-            android:src="@drawable/ic_app_inviate"/>
+            android:contentDescription="@string/image_description"
+            android:src="@drawable/ic_app_inviate" />
     </RelativeLayout>
 
 </RelativeLayout>

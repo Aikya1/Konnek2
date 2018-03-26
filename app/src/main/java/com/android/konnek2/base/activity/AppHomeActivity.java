@@ -90,6 +90,7 @@ public class AppHomeActivity extends AppCompatActivity implements NavigationView
         gridView = findViewById(R.id.home_rid);
         appHomeAdapter = new AppHomeAdapter(AppHomeActivity.this, title, subtitle, imageId);
         gridView.setAdapter(appHomeAdapter);
+        serviceManager = ServiceManager.getInstance();
 
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -165,11 +166,8 @@ public class AppHomeActivity extends AppCompatActivity implements NavigationView
             }
         });
 
-
         /*+++++++++++++++++++++TEST CODE ++++++++++++++++*/
-
-        if (serviceManager.friendList.size() == 0) {
-            serviceManager = ServiceManager.getInstance();
+        if (serviceManager.friendList == null) {
             serviceManager.uploadAllContacts(this);
         }
     }

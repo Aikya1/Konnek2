@@ -202,50 +202,8 @@ public class NewMessageActivity extends BaseLoggableActivity implements SearchVi
     }
 
     private void initRecyclerView() {
-//        List<Friend> friendsList = dataManager.getFriendDataManager().getAllSorted();
-
         showProgress();
-
-
         QBFindUsersCommand.start(this, null, "dev", 1);
-
-
-        /*QBPagedRequestBuilder requestBuilder = new QBPagedRequestBuilder();
-        requestBuilder.setPage(page);
-        requestBuilder.setPerPage(ConstsCore.FL_FRIENDS_PER_PAGE);
-
-
-        QMUserService.getInstance().getUserByTag("dev", requestBuilder, true)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new rx.Observer<List<QMUser>>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.d(TAG, "OnCompleted..");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.d(TAG, "onError.." + e.getMessage());
-                    }
-
-                    @Override
-                    public void onNext(List<QMUser> qbUsers) {
-                        hideProgress();
-                        Log.d(TAG, "onNext..");
-
-
-                        if (qbUsers != null && !qbUsers.isEmpty()) {
-                            checkForExcludeMe(qbUsers);
-                            usersList.clear();
-                            usersList.addAll(qbUsers);
-                            updateContactsList(usersList);
-
-                        }
-                    }
-                });*/
-
-
         friendsAdapter = new FriendsAdapter(NewMessageActivity.this, usersList, false);
         friendsAdapter.setFriendListHelper(friendListHelper);
         friendsRecyclerView.setLayoutManager(new LinearLayoutManager(NewMessageActivity.this));
@@ -351,7 +309,6 @@ public class NewMessageActivity extends BaseLoggableActivity implements SearchVi
     }
 
     private class CreatePrivateChatSuccessAction implements Command {
-
         @Override
         public void execute(Bundle bundle) {
             hideProgress();

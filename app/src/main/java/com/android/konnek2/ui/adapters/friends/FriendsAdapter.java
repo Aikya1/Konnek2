@@ -43,9 +43,6 @@ public class FriendsAdapter extends BaseFilterAdapter<QMUser, BaseClickListenerV
 
     @Override
     public BaseClickListenerViewHolder<QMUser> onCreateViewHolder(ViewGroup parent, int viewType) {
-
-
-
         Log.d("APP.JAVA", "View Type = " + viewType);
         return new ViewHolder(this, layoutInflater.inflate(R.layout.item_friend_1, parent, false));
     }

@@ -186,8 +186,6 @@ public class GlobalSearchFragment extends BaseFragment implements SearchListener
     private void initContactsList() {
 
 //        QBFindUsersCommand.start(getContext(), null, "dev", 100);
-
-        
         QBPagedRequestBuilder requestBuilder = new QBPagedRequestBuilder();
         requestBuilder.setPage(page);
         requestBuilder.setPerPage(ConstsCore.FL_FRIENDS_PER_PAGE);
@@ -210,7 +208,6 @@ public class GlobalSearchFragment extends BaseFragment implements SearchListener
                     @Override
                     public void onNext(List<QMUser> qbUsers) {
                         Log.d(TAG, "onNext..");
-
                         if (qbUsers != null && !qbUsers.isEmpty()) {
                             checkForExcludeMe(qbUsers);
                             usersList.clear();
@@ -394,10 +391,8 @@ public class GlobalSearchFragment extends BaseFragment implements SearchListener
     }
 
     private class SearchTimerTask extends TimerTask {
-
         @Override
         public void run() {
-
             searchUsers();
         }
     }
@@ -412,7 +407,6 @@ public class GlobalSearchFragment extends BaseFragment implements SearchListener
     }
 
     private class FindUserFailAction implements Command {
-
         @Override
         public void execute(Bundle bundle) {
             OneButtonDialogFragment.show(getChildFragmentManager(), R.string.search_users_not_found, true);
@@ -431,14 +425,11 @@ public class GlobalSearchFragment extends BaseFragment implements SearchListener
     }
 
     private class AddFriendSuccessAction implements Command {
-
         @Override
         public void execute(Bundle bundle) {
             int userId = bundle.getInt(QBServiceConsts.EXTRA_FRIEND_ID);
-
             QMUser addedUser = QMUserService.getInstance().getUserCache().get((long) userId);
             globalSearchAdapter.notifyDataSetChanged();
-
             baseActivity.hideProgress();
         }
     }

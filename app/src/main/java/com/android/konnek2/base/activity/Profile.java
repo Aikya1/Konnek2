@@ -544,6 +544,8 @@ public class Profile extends BaseActivity implements OnMediaPickedListener {
     private void performLoginSuccessAction(QBUser user) {
         AppPreference.putQBUserId("" + user.getId());
         AppPreference.putQbUser("" + user);
+
+        AppSession.getSession().updateUser(user);
         startMainActivity(user);
         // send analytics data
     }

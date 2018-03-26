@@ -1,15 +1,12 @@
 package com.android.konnek2.utils.helpers;
 
 import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.android.konnek2.App;
 import com.android.konnek2.call.core.models.AppSession;
@@ -43,13 +40,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import rx.Observable;
+import rx.Observer;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.exceptions.Exceptions;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
-
-import static com.android.konnek2.utils.helpers.EmailHelper.getContactList;
 
 /**
  * Created by pelipets on 1/6/17.
@@ -59,7 +55,7 @@ public class ServiceManager {
 
     public static final String TAG = ServiceManager.class.getSimpleName();
     private static final String TAG_ANDROID = "android";
-    public static ArrayList<InviteFriend> friendList = new ArrayList<>();
+    public static ArrayList<InviteFriend> friendList;
 
 
     private static ServiceManager instance;
@@ -414,35 +410,7 @@ public class ServiceManager {
     /*+========================TEST CODE==========================*/
 
 
-    private void uploadToContactBook(List<InviteFriend> friendList) {
-        ArrayList<QBAddressBookContact> contactsGlobal = new ArrayList<>();
-
-        for (int i = 0; i < friendList.size(); i++) {
-            QBAddressBookContact contact1 = new QBAddressBookContact();
-            contact1.setName(friendList.get(i).getName());
-            contact1.setPhone(friendList.get(i).getNumber());
-            contactsGlobal.add(contact1);
-        }
-
-
-        String UDID = null;
-        boolean force = true;
-
-        try {
-            QBAddressBookResponse resp = QBUsers.uploadAddressBook(contactsGlobal, UDID, force).perform();
-            Log.d(TAG, "Count == =" + resp.getCreatedCount());
-
-
-        } catch (QBResponseException e) {
-            e.printStackTrace();
-        }
-    }
-
-
     public void uploadAllContacts(Context context) {
-        QBPagedRequestBuilder requestBuilder = new QBPagedRequestBuilder();
-        requestBuilder.setPage(1);
-        requestBuilder.setPerPage(100);
 
 //        List<InviteFriend> friendList = getContactList(context);
 
@@ -474,22 +442,24 @@ public class ServiceManager {
         @Override
         protected List<InviteFriend> doInBackground(Void... voids) {
             InviteFriend inviteFriend;
-
+            ArrayList<QBAddressBookContact> contactsGlobal = new ArrayList<>();
+            friendList = new ArrayList<>();
             ContentResolver contentResolver = context.getContentResolver();
             Cursor cursor = contentResolver.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC");
 
             if (cursor.getCount() > 0) {
                 while (cursor.moveToNext()) {
-
                     int hasPhoneNumber = Integer.parseInt(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)));
                     if (hasPhoneNumber > 0) {
                         String id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
                         String name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
 
+                        QBAddressBookContact contact1 = new QBAddressBookContact();
+
                         inviteFriend = new InviteFriend();
                         inviteFriend.setName(name);
                         inviteFriend.setId(id);
-
+                        contact1.setName(name);
 
                         Cursor phoneCursor = contentResolver.query(
                                 ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
@@ -500,6 +470,7 @@ public class ServiceManager {
                         if (phoneCursor.moveToNext()) {
                             String phoneNumber = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
                             inviteFriend.setNumber(phoneNumber);
+                            contact1.setPhone(phoneNumber);
                         }
 
                         phoneCursor.close();
@@ -513,9 +484,10 @@ public class ServiceManager {
                         String emailId = emailCursor.getString(emailCursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA));
                     }*/
                         friendList.add(inviteFriend);
+                        contactsGlobal.add(contact1);
                     }
                 }
-
+                uploadToQbAddressBook(contactsGlobal);
             }
             return friendList;
         }
@@ -529,4 +501,35 @@ public class ServiceManager {
 
         }
     }
+
+    private void uploadToQbAddressBook(ArrayList<QBAddressBookContact> contactsGlobal) {
+        String UDID = null;
+        boolean force = true;
+
+        Performer<QBAddressBookResponse> performer = QBUsers.uploadAddressBook(contactsGlobal, UDID, force);
+        Observable<QBAddressBookResponse> observable = performer.convertTo(RxJavaPerformProcessor.INSTANCE);
+
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<QBAddressBookResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d(TAG, "Error =-= " + e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(QBAddressBookResponse qbAddressBookResponse) {
+                        Log.d(TAG, "Response ==  " + qbAddressBookResponse.toString());
+                    }
+                });
+
+
+    }
+
+
 }

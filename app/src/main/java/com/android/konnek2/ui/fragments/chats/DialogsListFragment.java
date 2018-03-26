@@ -737,7 +737,7 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
         public void execute(Bundle bundle) throws Exception {
             Log.i(TAG, "LoginChatCompositeSuccessAction bundle= " + bundle);
 //            if (dialogsListLoader.isLoadCacheFinished()) {
-                QBLoadDialogsCommand.start(getContext(), true);
+            QBLoadDialogsCommand.start(getContext(), true);
 //            }
         }
     }
