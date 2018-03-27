@@ -107,20 +107,15 @@ public class App extends MultiDexApplication {
 
 
         QBSettings.getInstance().setAccountKey(StringObfuscator.getAccountKey());
-        String chatServerDomain = QBSettings.getInstance().getChatServerDomain();
-        String serverApiDomain = QBSettings.getInstance().getServerApiDomain();
-        String apiEndPoint = QBSettings.getInstance().getApiEndpoint();
-        String chatEndPoint = QBSettings.getInstance().getChatEndpoint();
-
-        Log.d("APP.JAVA", "chat server domain = " + chatServerDomain);
-        Log.d("APP.JAVA", "Api server domain" + serverApiDomain);
-        Log.d("APP.JAVA", "Api End Point = " + apiEndPoint);
-        Log.d("APP JAVA", "Chat End Point" + chatEndPoint);
-
 
         QBSettings.getInstance().setLogLevel(LogLevel.DEBUG);  // Local Level Enabled  by suresh
         initDomains();
         initHTTPConfig();
+
+        boolean notifications = QBSettings.getInstance().isEnablePushNotification();
+
+        Log.d(TAG, "Notifications === " + notifications);
+        QBSettings.getInstance().setEnablePushNotification(true);
 
         QBTcpConfigurationBuilder configurationBuilder = new QBTcpConfigurationBuilder()
                 .setAutojoinEnabled(false)
@@ -156,7 +151,6 @@ public class App extends MultiDexApplication {
         QMAuthService.init();
         QMUserCache userCache = new QMUserCacheImpl(this);
         QMUserService.init(userCache);
-
         ServiceManager.getInstance();
     }
 

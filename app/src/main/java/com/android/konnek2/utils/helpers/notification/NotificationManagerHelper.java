@@ -1,11 +1,13 @@
 package com.android.konnek2.utils.helpers.notification;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
@@ -26,6 +28,9 @@ public class NotificationManagerHelper {
 
     public final static int NOTIFICATION_ID = NotificationManagerHelper.class.hashCode();
     private static final String TAG = NotificationManagerHelper.class.getSimpleName();
+
+    static String channelId = "com.android.konnek2.ANDROID";
+    static CharSequence channelName = "konnek2.ANDROID";
 
     public static void sendChatNotificationEvent(Context context, int userId, String dialogId,
                                                  NotificationEvent notificationEvent) {
@@ -63,8 +68,7 @@ public class NotificationManagerHelper {
         PendingIntent contentIntent =
                 PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
-                .setSmallIcon(getNotificationIcon())
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, channelId)
                 .setContentTitle(notificationEvent.getTitle())
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(notificationEvent.getSubject()))
                 .setContentText(notificationEvent.getBody())
@@ -75,14 +79,27 @@ public class NotificationManagerHelper {
         Notification notification = builder.build();
         notification.flags |= Notification.FLAG_AUTO_CANCEL;
         notification.defaults = Notification.DEFAULT_ALL;
+
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        notificationManager.createNotificationChannel(getNotificationChannel());
+//        }
         notificationManager.notify(NOTIFICATION_ID, notification);
     }
 
-    private static int getNotificationIcon() {
-        boolean whiteIcon = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
-        // TODO need to add other icon
-        return whiteIcon ? R.drawable.ic_launcher : R.drawable.ic_launcher;
+    private static NotificationChannel getNotificationChannel() {
+
+        int importance = NotificationManager.IMPORTANCE_DEFAULT;
+        NotificationChannel notificationChannel = new NotificationChannel(channelId, channelName, importance);
+
+        notificationChannel.enableLights(true);
+
+        notificationChannel.enableVibration(true);
+        notificationChannel.setLightColor(Color.BLUE);
+        notificationChannel.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
+        return notificationChannel;
+
     }
+
 
     public static void clearNotificationEvent(Context context) {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);

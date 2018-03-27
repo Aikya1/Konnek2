@@ -32,10 +32,14 @@ public class FcmPushListenerService extends QBFcmPushListenerService {
         String userId = (String) data.get(ChatNotificationHelper.USER_ID);
         String pushMessage = (String) data.get(ChatNotificationHelper.MESSAGE);
         String dialogId = (String) data.get(ChatNotificationHelper.DIALOG_ID);
+        String pushMessageType = (String) data.get(ChatNotificationHelper.MESSAGE_TYPE);
+
+
         Bundle extras = new Bundle();
         extras.putString(ChatNotificationHelper.USER_ID, userId);
         extras.putString(ChatNotificationHelper.MESSAGE, pushMessage);
         extras.putString(ChatNotificationHelper.DIALOG_ID, dialogId);
+        extras.putString(ChatNotificationHelper.MESSAGE_TYPE, pushMessageType);
 
 
         chatNotificationHelper.parseChatMessage(extras);

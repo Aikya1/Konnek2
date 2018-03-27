@@ -22,9 +22,7 @@ public class ChatMessageReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.v(TAG, "--- onReceive() ---");
-
         String activityOnTop = SystemUtils.getNameActivityOnTopStack();
-
         if (!SystemUtils.isAppRunningNow() && !callActivityName.equals(activityOnTop)) {
             ChatNotificationHelper chatNotificationHelper = new ChatNotificationHelper(context);
 

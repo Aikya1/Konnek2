@@ -210,27 +210,6 @@
         <service
             android:name=".call.core.service.QBService"
             android:icon="@drawable/ic_launcher" />
-        <service
-            android:name=".fcm.FcmPushListenerService"
-            android:permission="">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-        <service
-            android:name="com.quickblox.messages.services.fcm.QBFcmPushListenerService"
-            android:permission="">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-        <service
-            android:name="com.quickblox.messages.services.fcm.QBFcmPushInstanceIDService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
-            </intent-filter>
-        </service>
 
         <receiver
             android:name=".utils.broadcasts.NetworkChangeReceiver"
@@ -257,6 +236,8 @@
                 <action android:name="com.google.android.gms.gcm.ACTION_TASK_READY" />
             </intent-filter>
         </service>
+
+
         <service
             android:name=".service.SessionJobService"
             android:exported="false">
@@ -264,6 +245,29 @@
                 <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
             </intent-filter>
         </service>
+
+
+        <!--NOTIFICATION SERVICES-->
+        <service android:name=".fcm.FcmPushListenerService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <service android:name=".fcm.FirebaseIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+
+        <!--  <service
+                   android:name="com.quickblox.messages.services.fcm.QBFcmPushInstanceIDService"
+                   android:exported="false">
+                   <intent-filter>
+                       <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+                   </intent-filter>
+               </service>-->
+
 
         <provider
             android:name="android.support.v4.content.FileProvider"

@@ -6,7 +6,9 @@ import android.text.TextUtils;
 
 import com.android.konnek2.App;
 import com.android.konnek2.R;
+import com.android.konnek2.call.core.models.AppSession;
 import com.android.konnek2.call.core.models.NotificationEvent;
+import com.android.konnek2.call.core.utils.ConstsCore;
 import com.android.konnek2.utils.SystemUtils;
 import com.android.konnek2.utils.helpers.SharedHelper;
 
@@ -16,6 +18,8 @@ public class ChatNotificationHelper {
     public static final String MESSAGE = "message";
     public static final String DIALOG_ID = "dialog_id";
     public static final String USER_ID = "user_id";
+    public static final String MESSAGE_TYPE = "type";
+
 
     private Context context;
     private SharedHelper appSharedHelper;
@@ -24,6 +28,8 @@ public class ChatNotificationHelper {
 
     private static String message;
     private static boolean isLoginNow;
+    private static String messageType;
+
 
     public ChatNotificationHelper(Context context) {
         this.context = context;
@@ -45,11 +51,23 @@ public class ChatNotificationHelper {
             dialogId = extras.getString(ChatNotificationHelper.DIALOG_ID);
         }
 
-       /* if (SystemUtils.isAppRunningNow()) {
+        if (extras.getString(ChatNotificationHelper.MESSAGE_TYPE) != null) {
+            messageType = extras.getString(ChatNotificationHelper.MESSAGE_TYPE);
+        }
+
+        boolean callPush = TextUtils.equals(messageType, ConstsCore.PUSH_MESSAGE_TYPE_CALL);
+
+
+        /*if (callPush && shouldProceedCall()) {
+            CallService.start(context);
             return;
         }*/
 
-        if (isOwnMessage(userId)){
+        if (SystemUtils.isAppRunningNow()) {
+            return;
+        }
+
+        if (isOwnMessage(userId)) {
 
             return;
         }
@@ -65,7 +83,6 @@ public class ChatNotificationHelper {
         }
 
     }
-
 
 
     public void sendChatNotification(String message, int userId, String dialogId) {
@@ -95,5 +112,9 @@ public class ChatNotificationHelper {
 
     private boolean isOwnMessage(int senderUserId) {
         return appSharedHelper.getUserId() == senderUserId;
+    }
+
+    private boolean shouldProceedCall() {
+        return !SystemUtils.isAppRunningNow() || AppSession.ChatState.BACKGROUND == AppSession.getSession().getChatState();
     }
 }

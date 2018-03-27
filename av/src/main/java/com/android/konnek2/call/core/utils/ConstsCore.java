@@ -9,6 +9,9 @@ public class ConstsCore {
     public static final int USERS_PAGE_NUM = 1;
     public static final int USERS_PER_PAGE = 100;
 
+    public static final String PUSH_MESSAGE_TYPE_CALL = "push_type_call";
+
+
     public static final String CHAT_MUC = "@muc.";
     public static final int CHATS_DIALOGS_PER_PAGE = 50;
     public static final int DIALOG_MESSAGES_PER_PAGE = 50;
