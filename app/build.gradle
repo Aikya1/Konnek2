@@ -139,14 +139,16 @@ dependencies {
     compile "com.android.support:multidex:${rootProject.multiDexVersion}"
     compile "com.android.support:appcompat-v7:${rootProject.supportVersion}"
     compile "com.android.support:design:${rootProject.supportVersion}"
-    compile "com.google.android.gms:play-services-base:${rootProject.googlePlayServicesVersion}"
     compile "com.google.android.gms:play-services-gcm:${rootProject.googlePlayServicesVersion}"
+    compile "com.google.android.gms:play-services-auth:${rootProject.googlePlayServicesVersion}"
+    compile "com.google.firebase:firebase-messaging:${rootProject.googlePlayServicesVersion}"
     compile "com.google.android.gms:play-services-maps:${rootProject.googlePlayServicesVersion}"
     compile "com.google.android.gms:play-services-location:${rootProject.googlePlayServicesVersion}"
     compile "com.google.android.gms:play-services-analytics:${rootProject.googlePlayServicesVersion}"
     compile "com.firebase:firebase-jobdispatcher-with-gcm-dep:${rootProject.firebaseDispatcherVersion}"
     compile "com.google.firebase:firebase-auth:${rootProject.firebaseAuthVersion}"
     compile "com.firebaseui:firebase-ui-auth:${rootProject.firebaseUiAuthVersion}"
+    compile 'com.google.firebase:firebase-core:12.0.0'
     compile "com.nostra13.universalimageloader:universal-image-loader:${rootProject.universalImageLoaderVersion}"
     compile "com.jakewharton:butterknife:${rootProject.butterknifeVersion}"
     debugCompile 'com.amitshekhar.android:debug-db:1.0.2'

@@ -58,7 +58,7 @@ ext {
     // Dependencies versions
     multiDexVersion = '1.0.1'
     supportVersion = '27.0.2'
-    googlePlayServicesVersion = '11.8.0'
+    googlePlayServicesVersion = '12.0.0'
     universalImageLoaderVersion = '1.9.1'
     ormliteAndroidVersion = '5.0'
     ormliteCoreVersion = '5.0'
