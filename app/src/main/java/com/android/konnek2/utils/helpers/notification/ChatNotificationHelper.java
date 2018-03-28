@@ -63,9 +63,9 @@ public class ChatNotificationHelper {
             return;
         }*/
 
-        if (SystemUtils.isAppRunningNow()) {
+        /*if (SystemUtils.isAppRunningNow()) {
             return;
-        }
+        }*/
 
         if (isOwnMessage(userId)) {
 

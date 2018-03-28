@@ -89,8 +89,6 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
     @Bind(R.id.chats_listview)
     ListView dialogsListView;
 
-    @Bind(R.id.empty_list_textview)
-    TextView emptyListTextView;
     @Bind(R.id.fab_dialogs_new_chat)
     FloatingActionButton floatingActionButton;
     private DialogsListAdapter dialogsListAdapter;
@@ -255,7 +253,6 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
     @Override
     public void onCreateContextMenu(ContextMenu menu, View view, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, view, menuInfo);
-
         MenuInflater menuInflater = baseActivity.getMenuInflater();
         AdapterView.AdapterContextMenuInfo adapterContextMenuInfo = (AdapterView.AdapterContextMenuInfo) menuInfo;
         QBChatDialog chatDialog = dialogsListAdapter.getItem(adapterContextMenuInfo.position).getChatDialog();
@@ -394,7 +391,7 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
         QBChatDialog qbChatDialog = dataManager.getQBChatDialogDataManager().getByDialogId(dialogId);
         DialogWrapper dialogWrapper = new DialogWrapper(getContext(), dataManager, qbChatDialog);
         Log.i(TAG, "updateOrAddDialog dialogWrapper= " + dialogWrapper.getTotalCount());
-        if (updateDialogsProcess == State.finished || dialogsListAdapter.getCount() != 0) {
+        if (updateDialogsProcess == State.finished || dialogsListAdapter.getCount() != 0 || updateDialogsProcess == State.stopped) {
             dialogsListAdapter.updateItem(dialogWrapper);
         }
 
@@ -558,7 +555,6 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
 
         baseActivity.updateBroadcastActionList();
     }
-
     private void initChatsDialogs() {
 
         List<DialogWrapper> dialogsList = new ArrayList<>();
@@ -637,6 +633,8 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
         if (!loaderConsumerQueue.isEmpty()) {
             LoaderConsumer consumer = loaderConsumerQueue.poll();
             handler.post(consumer);
+        }else{
+            baseActivity.hideProgress();
         }
     }
 

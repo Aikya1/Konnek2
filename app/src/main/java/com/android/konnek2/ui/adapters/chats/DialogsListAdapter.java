@@ -37,10 +37,15 @@ public class DialogsListAdapter extends BaseListAdapter<DialogWrapper> {
     private static final String TAG = DialogsListAdapter.class.getSimpleName();
 
 
+    public DialogsListAdapter(BaseActivity baseActivity, List<DialogWrapper> objectsList) {
+        super(baseActivity, objectsList);
+    }
+
     public DialogsListAdapter(BaseActivity baseActivity, List<DialogWrapper> objectsList,
                               boolean typeFlag, ContactInterface contactInterface) {
         super(baseActivity, objectsList);
     }
+
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {

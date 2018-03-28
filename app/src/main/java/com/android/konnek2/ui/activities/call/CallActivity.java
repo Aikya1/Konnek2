@@ -468,8 +468,12 @@ public class CallActivity extends BaseLoggableActivity implements
         DataManager dataManager = DataManager.getInstance();
         Friend friend = dataManager.getFriendDataManager().getByUserId(opponentId);
 
+        if (friend != null) {
+            return friend.getUser();
+        } else {
+            return null;
+        }
 
-        return friend.getUser();
     }
 
     private void processCurrentWifiState(Context context) {

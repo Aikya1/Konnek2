@@ -22,7 +22,6 @@ public class FcmPushListenerService extends QBFcmPushListenerService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-
     }
 
     @Override
@@ -32,6 +31,7 @@ public class FcmPushListenerService extends QBFcmPushListenerService {
         String userId = (String) data.get(ChatNotificationHelper.USER_ID);
         String pushMessage = (String) data.get(ChatNotificationHelper.MESSAGE);
         String dialogId = (String) data.get(ChatNotificationHelper.DIALOG_ID);
+
         String pushMessageType = (String) data.get(ChatNotificationHelper.MESSAGE_TYPE);
 
 
@@ -41,7 +41,8 @@ public class FcmPushListenerService extends QBFcmPushListenerService {
         extras.putString(ChatNotificationHelper.DIALOG_ID, dialogId);
         extras.putString(ChatNotificationHelper.MESSAGE_TYPE, pushMessageType);
 
-
         chatNotificationHelper.parseChatMessage(extras);
     }
+
+
 }

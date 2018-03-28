@@ -370,9 +370,11 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
         boolean res2 = qbSession.isValidToken();
 
 
-        if (!QBChatService.getInstance().isLoggedIn()) {
+       /* if (!QBChatService.getInstance().isLoggedIn()) {
             showSnackbar(R.string.error_disconnected, Snackbar.LENGTH_INDEFINITE);
-        }
+        }*/
+
+
     }
 
     @Override

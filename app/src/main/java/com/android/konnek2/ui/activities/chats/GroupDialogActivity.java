@@ -365,9 +365,7 @@ public class GroupDialogActivity extends BaseDialogActivity implements UserListI
             for (int i = 0; i < qbUserList[0].size(); i++) {
 
                 if (qbUserList != null && !qbUserList[0].isEmpty()) {
-
                     if (friendListHelper != null && qbUserList[0].get(i).getLastRequestAt() != null) {
-
                         String offlineStatus = getString(R.string.last_seen, DateUtils.toTodayYesterdayShortDateWithoutYear2(qbUserList[0].get(i).getLastRequestAt().getTime()),
                                 DateUtils.formatDateSimpleTime(qbUserList[0].get(i).getLastRequestAt().getTime()));
                         userOnlineStatus.put("" + qbUserList[0].get(i).getId(),
