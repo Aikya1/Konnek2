@@ -102,7 +102,6 @@ public class AppKonnek2NonContactFragment extends BaseFragment implements Contac
 
 
     public void sendInviteSMS(String selectedFriends) {
-
         Resources resources = getActivity().getResources();
         // code by suresh
         Intent emailIntent = new Intent();
@@ -159,7 +158,6 @@ public class AppKonnek2NonContactFragment extends BaseFragment implements Contac
 
 
     private class getAllContactsAsyn extends AsyncTask {
-
         @Override
         protected void onPreExecute() {
             super.onPreExecute();

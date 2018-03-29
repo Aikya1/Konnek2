@@ -55,11 +55,12 @@ public class AppContactsSwipeViewAdapter extends FragmentStatePagerAdapter {
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        if (position >= 1) {
+        /*if (position >= 1) {
             return "" + contactsTitles[position];
         } else {
             return "";
-        }
+        }*/
+        return "" + contactsTitles[position];
     }
 
 

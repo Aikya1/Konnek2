@@ -6,14 +6,12 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.android.konnek2.R;
-import com.android.konnek2.base.activity.AppSplashActivity;
 import com.android.konnek2.call.core.models.NotificationEvent;
 import com.android.konnek2.call.core.service.QBServiceConsts;
 import com.android.konnek2.call.db.managers.DataManager;
@@ -37,15 +35,18 @@ public class NotificationManagerHelper {
         QBChatDialog chatDialog = DataManager.getInstance().getQBChatDialogDataManager()
                 .getByDialogId(dialogId);
         QMUser user = QMUserService.getInstance().getUserCache().get((long) userId);
+
 //        Intent intent = new Intent(context, SplashActivity.class);
 
 //        Intent intent = new Intent(context, AppSplashActivity.class);
         Intent intent = new Intent(context, MainActivity.class);
-
         intent.putExtra(QBServiceConsts.EXTRA_SHOULD_OPEN_DIALOG, true);
+        intent.putExtra("QMUSER", user);
+
         sendChatNotificationEvent(context, intent, notificationEvent);
         sendNotifyIncomingMessage(context, dialogId);
     }
+
 
     private static void sendNotifyIncomingMessage(Context context, String dialogId) {
         Intent intent = new Intent(QBServiceConsts.UPDATE_CHAT_DIALOG_ACTION);
@@ -56,7 +57,8 @@ public class NotificationManagerHelper {
     public static void sendCommonNotificationEvent(Context context,
                                                    NotificationEvent notificationEvent) {
 
-        Intent intent = new Intent(context, AppSplashActivity.class);
+//        Intent intent = new Intent(context, AppSplashActivity.class);
+        Intent intent = new Intent(context, MainActivity.class);
         sendChatNotificationEvent(context, intent, notificationEvent);
 
     }

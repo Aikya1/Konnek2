@@ -25,12 +25,15 @@ import com.android.konnek2.R;
 import com.android.konnek2.base.db.AppCallLogModel;
 import com.android.konnek2.call.core.core.command.Command;
 import com.android.konnek2.call.core.qb.commands.friend.QBAcceptFriendCommand;
+import com.android.konnek2.call.core.qb.commands.friend.QBAddFriendCommand;
 import com.android.konnek2.call.core.qb.commands.friend.QBRejectFriendCommand;
 import com.android.konnek2.call.core.service.QBService;
 import com.android.konnek2.call.core.service.QBServiceConsts;
 import com.android.konnek2.call.core.utils.OnlineStatusUtils;
 import com.android.konnek2.call.core.utils.UserFriendUtils;
+import com.android.konnek2.call.db.managers.DataManager;
 import com.android.konnek2.call.db.managers.FriendDataManager;
+import com.android.konnek2.call.db.models.Friend;
 import com.android.konnek2.call.services.QMUserService;
 import com.android.konnek2.call.services.model.QMUser;
 import com.android.konnek2.ui.activities.call.CallActivity;
@@ -200,12 +203,17 @@ public class PrivateDialogActivity extends BaseDialogActivity {
     //options. ( Upper layout )
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-//        boolean isFriend = DataManager.getInstance().getFriendDataManager().getByUserId(
-//                opponentUser.getId()) != null;
-//        if (!isFriend && item.getItemId() != android.R.id.home) {
-//            ToastUtils.longToast(R.string.dialog_user_is_not_friend);
-//            return true;
-//        }
+
+       /* boolean isFriend = DataManager.getInstance().getFriendDataManager().getByUserId(
+                opponentUser.getId()) != null;*/
+        if (DataManager.getInstance().getFriendDataManager().getByUserId(opponentUser.getId()) == null) {
+            QMUser user = QMUserService.getInstance().getUserCache().get((long) opponentUser.getId());
+            Friend friend = new Friend();
+            friend.setFriendId(opponentUser.getId());
+            friend.setUser(user);
+            DataManager.getInstance().getFriendDataManager().createOrUpdate(friend);
+        }
+
         switch (item.getItemId()) {
             case R.id.action_audio_call:
                 AppConstant.CALL_TYPES = AppConstant.CALL_AUDIO;
@@ -308,6 +316,7 @@ public class PrivateDialogActivity extends BaseDialogActivity {
             }
             List<QBUser> qbUserList = new ArrayList<>(1);
             qbUserList.add(UserFriendUtils.createQbUser(user));
+
             Log.d("PrivateDialogCALL", "callToUser" + qbUserList.get(0).getId());
             CallActivity.start(PrivateDialogActivity.this, qbUserList, qbConferenceType, null);
             CallHistory();

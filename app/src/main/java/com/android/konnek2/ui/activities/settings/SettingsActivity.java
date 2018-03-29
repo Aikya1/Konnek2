@@ -112,7 +112,7 @@ public class SettingsActivity extends BaseLoggableActivity {
 
     @OnClick(R.id.invite_friends_button)
     void inviteFriends() {
-        InviteFriendsActivity.start(this);
+//        InviteFriendsActivity.start(this);
     }
 
     @OnClick(R.id.give_feedback_button)

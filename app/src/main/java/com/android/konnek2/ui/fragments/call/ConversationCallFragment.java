@@ -1,7 +1,6 @@
 package com.android.konnek2.ui.fragments.call;
 
 import android.annotation.SuppressLint;
-import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -9,6 +8,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.DimenRes;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -37,15 +37,14 @@ import com.android.konnek2.utils.ToastUtils;
 import com.android.konnek2.utils.helpers.SystemPermissionHelper;
 import com.android.konnek2.utils.image.ImageLoaderUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
-
 import com.quickblox.users.model.QBUser;
 import com.quickblox.videochat.webrtc.AppRTCAudioManager;
 import com.quickblox.videochat.webrtc.BaseSession;
 import com.quickblox.videochat.webrtc.QBMediaStreamManager;
 import com.quickblox.videochat.webrtc.QBRTCAudioTrack;
-import com.quickblox.videochat.webrtc.callbacks.QBRTCClientAudioTracksCallback;
 import com.quickblox.videochat.webrtc.QBRTCSession;
 import com.quickblox.videochat.webrtc.QBRTCTypes;
+import com.quickblox.videochat.webrtc.callbacks.QBRTCClientAudioTracksCallback;
 import com.quickblox.videochat.webrtc.callbacks.QBRTCClientVideoTracksCallbacks;
 import com.quickblox.videochat.webrtc.callbacks.QBRTCSessionConnectionCallbacks;
 import com.quickblox.videochat.webrtc.view.QBRTCSurfaceView;
@@ -102,6 +101,10 @@ public class ConversationCallFragment extends Fragment implements Serializable, 
 
     private AppSensorManager appSensorManager;
 
+
+    private ImageButton handUpAudioCall;
+    View parentview, childview;
+
     public static ConversationCallFragment newInstance(List<QBUser> opponents, String callerName,
                                                        QBRTCTypes.QBConferenceType qbConferenceType,
                                                        StartConversationReason reason,
@@ -134,6 +137,10 @@ public class ConversationCallFragment extends Fragment implements Serializable, 
             isVideoCall = QBRTCTypes.QBConferenceType.QB_CONFERENCE_TYPE_VIDEO.equals(qbConferenceType);
         }
 
+
+        handUpAudioCall = view.findViewById(R.id.handUpAudioCall);
+        parentview = view.findViewById(R.id.fragmentOpponents);
+        childview = view.findViewById(R.id.childView);
         systemPermissionHelper = new SystemPermissionHelper(getActivity());
 
         initViews(view);
@@ -156,12 +163,31 @@ public class ConversationCallFragment extends Fragment implements Serializable, 
         ((CallActivity) getActivity()).addVideoTrackCallbacksListener(this);
     }
 
-    private void setUpUiByCallType() {
+    /*private void setUpUiByCallType() {
         if (!isVideoCall) {
             remoteVideoView.setVisibility(View.INVISIBLE);
             cameraToggle.setVisibility(View.GONE);
             cameraToggle.setEnabled(false);
             cameraToggle.setChecked(false);
+        }
+        correctButtonsVisibilityByGrantedPermissions();
+    }*/
+
+
+    /*Code by Anand*/
+    private void setUpUiByCallType() {
+        if (!isVideoCall) {
+            remoteVideoView.setVisibility(View.INVISIBLE);
+            handUpVideoCall.setVisibility(View.INVISIBLE);
+            // cameraToggle.setVisibility(View.GONE);
+            //cameraToggle.setEnabled(false);
+            //cameraToggle.setChecked(false);
+            cameraToggle.setVisibility(View.VISIBLE);
+            cameraToggle.setEnabled(true);
+            cameraToggle.setChecked(true);
+            parentview.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+        } else {
+            handUpAudioCall.setVisibility(View.INVISIBLE);
         }
         correctButtonsVisibilityByGrantedPermissions();
     }
@@ -182,7 +208,11 @@ public class ConversationCallFragment extends Fragment implements Serializable, 
 
     private void displayOpponentAvatar() {
 
-        QMUser opponent = ((CallActivity) getActivity()).getOpponentAsUserFromDB(opponents.get(0).getId());
+        //Need to change the code here. Instead of fetching the opponent user from the local database, fetch from the Server.
+
+//        QMUser opponent = ((CallActivity) getActivity()).getOpponentAsUserFromDB(opponents.get(0).getId());
+
+        QMUser opponent = QMUser.convert(opponents.get(0));
 
         if (StartConversationReason.INCOME_CALL_FOR_ACCEPTION.equals(startConversationReason) && !isVideoCall) {
             avatarAndNameView.setVisibility(View.VISIBLE);

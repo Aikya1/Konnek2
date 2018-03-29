@@ -69,10 +69,18 @@ public class UserFriendUtils {
 
 
     public static QBUser createQbUser(QMUser user) {
+        Gson gson = new Gson();
         QBUser qbUser = new QBUser();
         qbUser.setId(user.getId());
         qbUser.setLogin(user.getLogin());
         qbUser.setFullName(user.getFullName());
+        qbUser.setPhone(user.getPhone());
+        qbUser.setEmail(user.getEmail());
+
+        UserCustomData userCustomData = Utils.customDataToObject(user.getCustomData());
+        String userCustomDataStringToSave = gson.toJson(userCustomData);
+        qbUser.setCustomData(userCustomDataStringToSave);
+
         return qbUser;
     }
 

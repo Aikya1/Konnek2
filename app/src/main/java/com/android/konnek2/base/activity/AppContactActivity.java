@@ -107,7 +107,7 @@ public class AppContactActivity extends BaseLoggableActivity {
 
         try {
 
-            tabLayout.addTab(tabLayout.newTab());
+            tabLayout.addTab(tabLayout.newTab().setText(AppConstant.TAB_CONTACTS_KONNEK2_USERS));
             tabLayout.addTab(tabLayout.newTab().setText(AppConstant.TAB_TWO));
             tabLayout.addTab(tabLayout.newTab().setText(AppConstant.TAB_THREE));
 
@@ -122,7 +122,7 @@ public class AppContactActivity extends BaseLoggableActivity {
             tabLayout.setTabsFromPagerAdapter(appContactsSwipeViewAdapter);
             tabLayout.setupWithViewPager(TabViewPager);
 
-            setupTabIcons();
+//            setupTabIcons();
 
             tabLayout.setVisibility(View.VISIBLE);
             TabViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));

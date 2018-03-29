@@ -546,11 +546,9 @@ public class CallActivity extends BaseLoggableActivity implements
     }
 
     private void addIncomingCallFragment(QBRTCSessionDescription qbRtcSessionDescription) {
-
         if (isInFront) {
             Fragment fragment = new IncomingCallFragment();
             Bundle bundle = new Bundle();
-
             bundle.putSerializable(QBServiceConsts.EXTRA_SESSION_DESCRIPTION, qbRtcSessionDescription);
             bundle.putIntegerArrayList(QBServiceConsts.EXTRA_OPPONENTS, new ArrayList<>(qbRtcSessionDescription.getOpponents()));
             bundle.putSerializable(QBServiceConsts.EXTRA_CONFERENCE_TYPE,

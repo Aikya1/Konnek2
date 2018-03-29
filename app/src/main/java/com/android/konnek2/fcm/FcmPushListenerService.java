@@ -3,6 +3,7 @@ package com.android.konnek2.fcm;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.android.konnek2.utils.ActivityLifecycleHandler;
 import com.android.konnek2.utils.helpers.notification.ChatNotificationHelper;
 import com.google.firebase.messaging.RemoteMessage;
 import com.quickblox.messages.services.fcm.QBFcmPushListenerService;
@@ -28,10 +29,14 @@ public class FcmPushListenerService extends QBFcmPushListenerService {
     protected void sendPushMessage(Map data, String from, String message) {
         super.sendPushMessage(data, from, message);
 
+        //Here the parameter data (map) does not display the Dialog_ID and User_ID in case of 1 - 1 AUDIO CALLS
+        //But it works fine when a text message is sent to the user.
+        //How do I customize the notification message? how can I customize t
+
         String userId = (String) data.get(ChatNotificationHelper.USER_ID);
         String pushMessage = (String) data.get(ChatNotificationHelper.MESSAGE);
         String dialogId = (String) data.get(ChatNotificationHelper.DIALOG_ID);
-
+        String fromUser = from;
         String pushMessageType = (String) data.get(ChatNotificationHelper.MESSAGE_TYPE);
 
 
@@ -40,6 +45,7 @@ public class FcmPushListenerService extends QBFcmPushListenerService {
         extras.putString(ChatNotificationHelper.MESSAGE, pushMessage);
         extras.putString(ChatNotificationHelper.DIALOG_ID, dialogId);
         extras.putString(ChatNotificationHelper.MESSAGE_TYPE, pushMessageType);
+
 
         chatNotificationHelper.parseChatMessage(extras);
     }

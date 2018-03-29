@@ -3,7 +3,6 @@
     android:id="@+id/fragmentOpponents"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/ic_call_background"
     android:keepScreenOn="true">
 
     <com.quickblox.videochat.webrtc.view.QBRTCSurfaceView
@@ -21,6 +20,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="invisible"></FrameLayout>
+
+    <ImageButton
+        android:id="@+id/handUpAudioCall"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_above="@+id/element_set_video_buttons"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/transparent"
+        android:src="@drawable/endcall_60_2x" />
 
     <include
         android:id="@+id/element_set_video_buttons"

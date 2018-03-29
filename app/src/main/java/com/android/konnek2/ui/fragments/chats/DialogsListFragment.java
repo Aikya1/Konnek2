@@ -29,6 +29,7 @@ import com.android.konnek2.call.core.qb.commands.chat.QBDeleteChatCommand;
 import com.android.konnek2.call.core.qb.commands.chat.QBLoadDialogByIdsCommand;
 import com.android.konnek2.call.core.qb.commands.chat.QBLoadDialogsCommand;
 import com.android.konnek2.call.core.qb.commands.chat.QBLoginChatCompositeCommand;
+import com.android.konnek2.call.core.qb.commands.friend.QBAddFriendCommand;
 import com.android.konnek2.call.core.qb.helpers.QBChatHelper;
 import com.android.konnek2.call.core.service.QBService;
 import com.android.konnek2.call.core.service.QBServiceConsts;

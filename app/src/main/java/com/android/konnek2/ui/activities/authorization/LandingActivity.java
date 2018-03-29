@@ -408,7 +408,7 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
             if (userList.size() > 0) {
                 //If the user already exists then send user to home page.
                 QBUser user = userList.get(0);
-                user.setPassword(user.getEmail().toLowerCase() + user.getPhone());
+                user.setPassword(AppConstant.USER_PASSWORD);
 
                 serviceManager.login(user).subscribe(new Subscriber<QBUser>() {
                     @Override

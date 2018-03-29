@@ -447,5 +447,22 @@
     <string name="success_registration">Registration Successfull</string>
     <string name="use_konnek2">You can use Konnek2 now</string>
     <string name="next_gen_app">Next Generation\nCommunication platform</string>
+    <string name="number">( 3 )</string>
+    <string name="time">4:44 PM</string>
+    <string name="speaker">Speaker</string>
+
+    <!--PROFILE-->
+    <string name="female">Female   </string>
+    <string name="male">Male</string>
+    <string name="dob">Date of Birth</string>
+    <string name="houseno">House No</string>
+    <string name="postcode">Post Code</string>
+    <string name="city">City</string>
+    <string name="selectcountry">Country</string>
+    <string name="cp">COMMUNICATIONS PREFERENCES</string>
+    <string name="sms">Sms</string>
+    <string name="iam">In-App-messages</string>
+    <string name="email">Email</string>
+
 
 </resources>

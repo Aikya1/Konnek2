@@ -193,16 +193,12 @@ public class AppKonnek2OnlineContactFragment extends BaseFragment implements Con
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_audio_call:
-
                 AppConstant.CALL_TYPES = AppConstant.CALL_AUDIO;
                 callToUser(contactUsersList, QBRTCTypes.QBConferenceType.QB_CONFERENCE_TYPE_AUDIO);
-
                 break;
             case R.id.switch_camera_toggle:
-
                 AppConstant.CALL_TYPES = AppConstant.CALL_VIDEO;
                 callToUser(contactUsersList, QBRTCTypes.QBConferenceType.QB_CONFERENCE_TYPE_VIDEO);
-
                 break;
             default:
                 super.onOptionsItemSelected(item);
@@ -211,8 +207,6 @@ public class AppKonnek2OnlineContactFragment extends BaseFragment implements Con
     }
 
     public void callToUser(List<String> opponentsList, QBRTCTypes.QBConferenceType qbConferenceType) {
-
-
         try {
 
 //            if (!isChatInitializedAndUserLoggedIn()) {
@@ -245,6 +239,7 @@ public class AppKonnek2OnlineContactFragment extends BaseFragment implements Con
     public void onEvent(MessageEvent event) {
 
         qbPrivateDialogsList = event.qbChatDialogList;
+
         if (qbPrivateDialogsList != null && !qbPrivateDialogsList.isEmpty()) {
             appOnlineContactAdapter = new AppOnlineContactAdapter(getActivity(), qbPrivateDialogsList, this);
             listView.setAdapter(appOnlineContactAdapter);

@@ -133,7 +133,6 @@ public class QBFriendListHelper extends BaseThreadPoolHelper implements Serializ
 
     public void acceptFriend(int userId) throws Exception {
         roster.confirmSubscription(userId);
-
         Log.d("FIRENDREQUEST", "DialogListFragment start   " + userId);
         QBChatMessage chatMessage = ChatNotificationUtils.createPrivateMessageAboutFriendsRequests(context,
                 NotificationType.FRIENDS_ACCEPT);
@@ -175,7 +174,8 @@ public class QBFriendListHelper extends BaseThreadPoolHelper implements Serializ
 
         QBChatMessage chatMessage = ChatNotificationUtils.createPrivateMessageAboutFriendsRequests(context,
                 NotificationType.FRIENDS_REQUEST);
-        sendNotificationToFriend(chatMessage, userId);
+
+//        sendNotificationToFriend(chatMessage, userId);
     }
 
     private synchronized void sendNotificationToFriend(QBChatMessage qbChatMessage, int userId) throws QBResponseException {

@@ -390,7 +390,6 @@ public class Profile extends BaseActivity implements OnMediaPickedListener {
                             }
                         }
 
-
                         //without otp start
 
                        /* if (loginType.equalsIgnoreCase(AppConstant.LOGIN_TYPE_MANUAL)) {
@@ -400,7 +399,8 @@ public class Profile extends BaseActivity implements OnMediaPickedListener {
                         }*/
                         qbUser = new QBUser();
                         qbUser.setLogin(phNo);
-                        qbUser.setPassword(userEmail.toLowerCase() + phNo);
+//                        qbUser.setPassword(userEmail.toLowerCase() + phNo);
+                        qbUser.setPassword(AppConstant.USER_PASSWORD);
                         qbUser.setEmail(userEmail);
                         qbUser.setFullName(firstName + " " + lastName);
                         qbUser.setPhone(phNo);
@@ -517,6 +517,7 @@ public class Profile extends BaseActivity implements OnMediaPickedListener {
             appSharedHelper.saveFirstAuth(true);
             appSharedHelper.saveSavedRememberMe(true);
             final QBUser loginUser = qbUser;
+
             serviceManager.login(qbUser).subscribe(new Subscriber<QBUser>() {
                 @Override
                 public void onCompleted() {

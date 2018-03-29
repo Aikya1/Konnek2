@@ -21,12 +21,14 @@ import com.android.konnek2.call.core.service.QBServiceConsts;
 import com.android.konnek2.call.core.utils.UserFriendUtils;
 import com.android.konnek2.call.core.utils.call.RingtonePlayer;
 import com.android.konnek2.call.services.QMUserCacheImpl;
+import com.android.konnek2.call.services.QMUserService;
 import com.android.konnek2.call.services.model.QMUser;
 import com.android.konnek2.base.db.AppCallLogModel;
 import com.android.konnek2.ui.activities.call.CallActivity;
 import com.android.konnek2.ui.adapters.call.IncomingCallImageAdapter;
 import com.android.konnek2.utils.AppConstant;
 import com.android.konnek2.utils.AppPreference;
+import com.android.konnek2.utils.helpers.SharedHelper;
 import com.android.konnek2.utils.image.ImageLoaderUtils;
 import com.android.konnek2.utils.listeners.AppCommon;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -47,6 +49,7 @@ import static com.android.konnek2.utils.AppConstant.PARTICIPANTS_IN_CALL;
 public class IncomingCallFragment extends Fragment implements Serializable, View.OnClickListener {
 
     public static final String TAG = IncomingCallFragment.class.getSimpleName();
+    protected SharedHelper appSharedHelper;
 
     private static final long CLICK_DELAY = TimeUnit.SECONDS.toMillis(2);
     private TextView typeIncCall;
@@ -76,14 +79,14 @@ public class IncomingCallFragment extends Fragment implements Serializable, View
     private IncomingCallImageAdapter incomingCallImageAdapter;
     private ListView usersList;
     private String opponentCount;
-    private  String currentqbUser;
+    private String currentqbUser;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setRetainInstance(true);
         super.onCreate(savedInstanceState);
-        currentqbUser=getCurrentUser().getFullName();
-        mCurrentUsserId=String.valueOf(getCurrentUser().getId());
+        currentqbUser = getCurrentUser().getFullName();
+        mCurrentUsserId = String.valueOf(getCurrentUser().getId());
         AppPreference.putUserName(currentqbUser);
     }
 
@@ -158,11 +161,19 @@ public class IncomingCallFragment extends Fragment implements Serializable, View
 
     private void setOpponentAvatarAndName() {
 
-        opponent = ((CallActivity) getActivity()).getOpponentAsUserFromDB(sessionDescription.getCallerID());
+        int callerId =  sessionDescription.getCallerID();
+
+        QMUser opponent = QMUserService.getInstance().getUserCache().get((long) callerId);
+
+//        opponent = ((CallActivity) getActivity()).getOpponentAsUserFromDB(sessionDescription.getCallerID());
+
+
         Log.d("HistroyImageTest", " InComingCallFragment  setOpponentAvatarAndName:::" + opponent.getId());
+
         ImageLoader.getInstance().displayImage(opponent.getAvatar(), avatarImageView, ImageLoaderUtils.UIL_USER_AVATAR_DISPLAY_OPTIONS);
-//        callerName.setText(opponent.getFullName());
+        callerName.setText(opponent.getFullName());
         mOpponentName = opponent.getFullName();
+
     }
 
     public void startCallNotification() {
@@ -280,7 +291,7 @@ public class IncomingCallFragment extends Fragment implements Serializable, View
             appCallLogModel.setCallType(callTypes);
             appCallLogModelArrayList.add(appCallLogModel);
             App.appcallLogTableDAO.saveCallLog(appCallLogModelArrayList);
-            ((CallActivity) getActivity()).callDuration(currentqbUser,AppCommon.currentDate(),AppCommon.currentTime());
+            ((CallActivity) getActivity()).callDuration(currentqbUser, AppCommon.currentDate(), AppCommon.currentTime());
         } catch (Exception e) {
             e.getMessage();
         }
@@ -307,12 +318,13 @@ public class IncomingCallFragment extends Fragment implements Serializable, View
             appCallLogModel.setCallType(callTypes);
             appCallLogModelArrayList.add(appCallLogModel);
             App.appcallLogTableDAO.saveCallLog(appCallLogModelArrayList);
-            ((CallActivity) getActivity()).callDuration(currentqbUser,AppCommon.currentDate(),AppCommon.currentTime());
+            ((CallActivity) getActivity()).callDuration(currentqbUser, AppCommon.currentDate(), AppCommon.currentTime());
         } catch (Exception e) {
             e.getMessage();
         }
 
     }
+
     public QBUser getCurrentUser() {
         return QBChatService.getInstance().getUser();
     }

@@ -11,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.android.konnek2.R;
 import com.android.konnek2.call.core.models.AppSession;
@@ -46,13 +47,13 @@ public class MyProfileActivity extends BaseLoggableActivity implements OnMediaPi
     private static String TAG = MyProfileActivity.class.getSimpleName();
 
     @Bind(R.id.photo_imageview)
-    RoundedImageView photoImageView;
-
+    ImageView photoImageView;
+/*
     @Bind(R.id.full_name_textinputlayout)
     TextInputLayout fullNameTextInputLayout;
 
     @Bind(R.id.full_name_edittext)
-    EditText fullNameEditText;
+    EditText fullNameEditText;*/
 
     private QBUser qbUser;
     private boolean isNeedUpdateImage;
@@ -116,14 +117,14 @@ public class MyProfileActivity extends BaseLoggableActivity implements OnMediaPi
         super.onDestroy();
     }
 
-    @OnTextChanged(R.id.full_name_edittext)
+   /* @OnTextChanged(R.id.full_name_edittext)
     void onTextChangedFullName(CharSequence text) {
-        fullNameTextInputLayout.setError(null);
-    }
+//        fullNameTextInputLayout.setError(null);
+    }*/
 
     @OnClick(R.id.change_photo_view)
     void changePhoto(View view) {
-        fullNameTextInputLayout.setError(null);
+//        fullNameTextInputLayout.setError(null);
         mediaPickHelper.pickAnMedia(this, MediaUtils.CAMERA_PHOTO_REQUEST_CODE);
     }
 
@@ -156,11 +157,11 @@ public class MyProfileActivity extends BaseLoggableActivity implements OnMediaPi
         currentFullName = qbUser.getFullName();
         initCustomData();
         loadAvatar();
-        fullNameEditText.setText(currentFullName);
+//        fullNameEditText.setText(currentFullName);
     }
 
     private void initCurrentData() {
-        currentFullName = fullNameEditText.getText().toString();
+//        currentFullName = fullNameEditText.getText().toString();
         initCustomData();
     }
 
@@ -182,7 +183,7 @@ public class MyProfileActivity extends BaseLoggableActivity implements OnMediaPi
     }
 
     private void updateOldData() {
-        oldFullName = fullNameEditText.getText().toString();
+//        oldFullName = fullNameEditText.getText().toString();
         isNeedUpdateImage = false;
     }
 
@@ -233,16 +234,16 @@ public class MyProfileActivity extends BaseLoggableActivity implements OnMediaPi
     }
 
     private void updateUser() {
-        initCurrentData();
+//        initCurrentData();
 
-        if (isDataChanged()) {
-            saveChanges();
+        /*if (isDataChanged()) {
+//            saveChanges();
         } else {
-            fullNameTextInputLayout.setError(getString(R.string.profile_full_name_and_photo_not_changed));
-        }
+//            fullNameTextInputLayout.setError(getString(R.string.profile_full_name_and_photo_not_changed));
+        }*/
     }
 
-    private void saveChanges() {
+   /* private void saveChanges() {
         if (new ValidationUtils(this).isFullNameValid(fullNameTextInputLayout, currentFullName.trim())) {
             showProgress();
 
@@ -285,5 +286,5 @@ public class MyProfileActivity extends BaseLoggableActivity implements OnMediaPi
                 }
             });
         }
-    }
+    }*/
 }

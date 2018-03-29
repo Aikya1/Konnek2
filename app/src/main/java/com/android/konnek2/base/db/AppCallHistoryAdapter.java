@@ -69,7 +69,7 @@ public class AppCallHistoryAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         Holder holder = new Holder();
         View rowView;
-        rowView = inflater.inflate(R.layout.item_call_history, null);
+        rowView = inflater.inflate(R.layout.item_call_history_new, null);
         try {
             qmUsers = new ArrayList<>();
 
@@ -83,10 +83,10 @@ public class AppCallHistoryAdapter extends BaseAdapter {
             holder.call_LogTime = rowView.findViewById(R.id.call_LogTime);
             holder.call_Timer = rowView.findViewById(R.id.call_timer);
 
-            holder.call_userName.setTextColor(ContextCompat.getColor(context, R.color.colorPrimary));
-            holder.call_LogDate.setTextColor(ContextCompat.getColor(context, R.color.colorPrimary));
-            holder.call_LogTime.setTextColor(ContextCompat.getColor(context, R.color.colorPrimary));
-            holder.call_Timer.setTextColor(ContextCompat.getColor(context, R.color.colorPrimary));
+            holder.call_userName.setTextColor(ContextCompat.getColor(context, R.color.black));
+            holder.call_LogDate.setTextColor(ContextCompat.getColor(context, R.color.black));
+            holder.call_LogTime.setTextColor(ContextCompat.getColor(context, R.color.black));
+            holder.call_Timer.setTextColor(ContextCompat.getColor(context, R.color.black));
             holder.call_userName.setTextSize(16);
             holder.call_userName.setTypeface(null, Typeface.BOLD);
 

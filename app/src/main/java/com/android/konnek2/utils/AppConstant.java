@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import com.quickblox.users.model.QBUser;
 import com.quickblox.videochat.webrtc.QBRTCSession;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,6 +16,7 @@ import java.util.List;
 public class AppConstant {
 
 
+    public static final String USER_PASSWORD = "aikya@123";
     public static String APP_NAME = "Konnek2";
 
     public static String LOGIN_TYPE_FIREBASE = "FIREBASE";
@@ -145,7 +147,7 @@ public class AppConstant {
     public static String ONLINE_USER_TIRGGER = "Online_user_trigger";
     public static String PARTICIPANTS_IN_CALL = "Participants in call";
     public static String PREFERENCE_DIALOG_ID = "quickblox_dialog_id";
-    public static List<String> CONTACT_USERS_LIST = null;
+    public static List<String> CONTACT_USERS_LIST = new ArrayList<>();
     public static List<String> CONTACT_QM_USERS_LIST = null;
 
     // BroadcastReceiver

@@ -7,75 +7,157 @@
     android:background="@drawable/selector_list_item"
     android:orientation="horizontal"
     android:padding="6dp">
-
     <RelativeLayout
         android:id="@+id/layout_user_contacts"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="4dp">
-
-
+        android:padding="10dp">
         <com.android.konnek2.ui.views.roundedimageview.RoundedImageView
             android:id="@+id/avatar_imageview"
             style="@style/AvatarImageViewStyle.Common"
-            android:layout_width="@dimen/image_view_small_avatar_layout_width"
-            android:layout_height="@dimen/image_view_small_avatar_layout_height"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
             android:contentDescription="@string/image_description"
             app:border_color="@color/colorPrimary"
             app:oval="true" />
-
-
-
-        <LinearLayout
-            android:id="@+id/layout_contacts"
+        <ImageView
+            android:id="@+id/image_userStatus"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_alignLeft="@+id/avatar_imageview"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/avatar_imageview"
+            android:layout_gravity="right|bottom"
+            android:layout_marginLeft="48dp"
+            android:layout_marginStart="48dp"
+            android:src="@drawable/onlinegreen_20" />
+        <TextView
+            android:id="@+id/name_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
-            android:layout_toLeftOf="@+id/unread_messages_textview"
+            android:layout_below="@+id/image_userStatus"
+            android:layout_gravity="fill"
+            android:layout_marginLeft="19dp"
+            android:layout_marginStart="19dp"
+            android:layout_toEndOf="@+id/avatar_imageview"
             android:layout_toRightOf="@+id/avatar_imageview"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/name_textview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="fill"
-                android:maxLines="2"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_size"
-                tools:text="Nabe dsjkd sdldjscljkd dsclk" />
-
-            <com.rockerhieu.emojicon.EmojiconTextView
-                android:id="@+id/last_message_textview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/name_textview"
-                android:layout_gravity="center_vertical"
-                android:singleLine="true"
-                android:textColor="@color/dark_gray"
-                android:textSize="@dimen/text_size_small"
-                tools:text="1111111 sclk" />
-
-        </LinearLayout>
-
+            android:text="Rahul "
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+        <com.rockerhieu.emojicon.EmojiconTextView
+            android:id="@+id/last_message_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/name_textview"
+            android:layout_alignLeft="@+id/name_textview"
+            android:layout_alignRight="@+id/name_textview"
+            android:layout_alignStart="@+id/name_textview"
+            android:layout_below="@+id/name_textview"
+            android:layout_gravity="center_vertical"
+            android:singleLine="true"
+            android:text="Recently"
+            android:textSize="@dimen/text_size_small" />
+        <TextView
+            android:id="@+id/datetime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Monday"
+            android:layout_alignBottom="@+id/name_textview"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/name_textview"
+            />
+        <!--<TextView
+            android:id="@+id/unread_messages_textview"
+            android:layout_width="30dp"
+            android:layout_height="50dp"
+            android:layout_alignBottom="@+id/imageView8"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/imageView8"
+            android:background="@drawable/onlinegreen_60_3x"
+            android:paddingLeft="2dp"
+            android:text="400"
+            android:textColor="@color/white"
+            android:textSize="10sp" />
+-->
         <TextView
             android:id="@+id/unread_messages_textview"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/circular_textview_drawable"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:text="42"
+            android:layout_alignBottom="@+id/imageView8"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/imageView8"
+            />
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:background="@drawable/badge_unread_messages_counter"
-            android:paddingBottom="1dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="1dp"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/text_size" />
-
+            android:layout_alignTop="@+id/last_message_textview"
+            android:layout_marginLeft="80dp"
+            android:layout_marginStart="80dp"
+            android:layout_toEndOf="@+id/last_message_textview"
+            android:layout_toRightOf="@+id/last_message_textview"
+            android:src="@drawable/mute_20_2x"
+            android:id="@+id/imageView8" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/last_message_textview"
+            android:layout_marginLeft="110dp"
+            android:layout_marginStart="110dp"
+            android:layout_toEndOf="@+id/last_message_textview"
+            android:layout_toRightOf="@+id/last_message_textview"
+            android:src="@drawable/pin_20_2x"
+            android:id="@+id/imageViewpin" />
+        <!-- <LinearLayout
+             android:id="@+id/layout_contacts"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_centerVertical="true"
+             android:layout_marginLeft="100dp"
+             android:orientation="vertical">
+             <TextView
+                 android:id="@+id/name_textview"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_gravity="fill"
+                 android:maxLines="2"
+                 android:textSize="@dimen/text_size"
+                 tools:text="Nabe dsjkd sdldjscljkd dsclk" />
+             <com.rockerhieu.emojicon.EmojiconTextView
+                 android:id="@+id/last_message_textview"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_below="@id/name_textview"
+                 android:layout_gravity="center_vertical"
+                 android:singleLine="true"
+                 android:textSize="@dimen/text_size_small"
+                 tools:text="1111111 sclk" />
+         </LinearLayout>
+ -->
+        <!-- <TextView
+             android:id="@+id/unread_messages_textview"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_alignParentRight="true"
+             android:layout_centerVertical="true"
+             android:background="@drawable/badge_unread_messages_counter"
+             android:paddingBottom="1dp"
+             android:paddingLeft="10dp"
+             android:paddingRight="10dp"
+             android:paddingTop="1dp"
+             android:textColor="@android:color/white"
+             android:textSize="@dimen/text_size" />
+ -->
     </RelativeLayout>
-
 </LinearLayout>
