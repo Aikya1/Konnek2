@@ -252,6 +252,7 @@ public class ConversationCallFragment extends Fragment implements Serializable, 
         micToggleVideoCall.setEnabled(enability);
 
         // inactivate toggle buttons
+
         if (isVideoCall) {
             cameraToggle.setActivated(enability);
         }
@@ -371,7 +372,7 @@ public class ConversationCallFragment extends Fragment implements Serializable, 
             }
         });
 
-        micToggleVideoCall.setOnClickListener(new View.OnClickListener() {
+     /*   micToggleVideoCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (((CallActivity) getActivity()).getCurrentSession() != null) {
@@ -385,6 +386,36 @@ public class ConversationCallFragment extends Fragment implements Serializable, 
                         isAudioEnabled = true;
                     }
                 }
+            }
+        });*/
+
+
+        micToggleVideoCall.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                if(buttonView.isChecked()){
+                    Log.d(TAG, "Mic is off!");
+                    ((CallActivity) getActivity()).getCurrentSession().getMediaStreamManager().setAudioEnabled(false);
+                    isAudioEnabled = false;
+                }else{
+                    Log.d(TAG, "Mic is on!");
+                    ((CallActivity) getActivity()).getCurrentSession().getMediaStreamManager().setAudioEnabled(true);
+                    isAudioEnabled = true;
+                }
+
+            }
+        });
+
+
+        handUpAudioCall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                handUpAudioCall.setEnabled(false);
+                ((CallActivity) getActivity()).hangUpCurrentSession();
+                handUpAudioCall.setEnabled(false);
+                handUpAudioCall.setActivated(false);
+                AppPreference.putDialogId("");
             }
         });
 

@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="200dp"
-              android:background="@drawable/side_nav_bar"
+              android:background="@color/colorPrimary"
               android:orientation="vertical"
               android:paddingBottom="20dp"
               android:paddingTop="20dp">
@@ -16,8 +16,6 @@
         android:layout_marginLeft="@dimen/margin_25dp"
         android:layout_marginTop="@dimen/margin_20dp"
         android:src="@drawable/default_image"
-        app:border_color="@color/white"
-        app:border_width="2dp"
         app:oval="true"/>
 
     <TextView

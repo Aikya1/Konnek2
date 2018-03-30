@@ -65,10 +65,11 @@ public class InviteFriendsAdapter extends BaseListAdapter<InviteFriend> {
         viewHolder.nameTextView.setText(data.getName());
         viewHolder.checkBox.setChecked(data.isSelected());
         viewHolder.checkBox.setTag(data);
+        if (data.getUri() != null) {
+            String uri = data.getUri().toString();
+            displayAvatarImage(uri, viewHolder.avatarImageView);
+        }
 
-        String uri = data.getUri().toString();
-
-        displayAvatarImage(uri, viewHolder.avatarImageView);
         return convertView;
     }
 

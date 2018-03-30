@@ -3,39 +3,35 @@ package com.android.konnek2.ui.adapters.chats;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.RelativeLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.konnek2.R;
 import com.android.konnek2.call.core.models.DialogWrapper;
 import com.android.konnek2.call.core.utils.ConstsCore;
-import com.android.konnek2.call.db.managers.DataManager;
-import com.android.konnek2.call.services.QMUserCacheImpl;
 import com.android.konnek2.call.services.model.QMUser;
 import com.android.konnek2.ui.activities.base.BaseActivity;
 import com.android.konnek2.ui.adapters.base.BaseListAdapter;
 import com.android.konnek2.ui.views.roundedimageview.RoundedImageView;
-import com.android.konnek2.utils.AppConstant;
 import com.android.konnek2.utils.listeners.ContactInterface;
-import com.quickblox.chat.QBChatService;
 import com.quickblox.chat.model.QBChatDialog;
 import com.quickblox.chat.model.QBDialogType;
 
-import com.quickblox.users.model.QBUser;
+import org.jivesoftware.smack.SmackException;
+import org.jivesoftware.smack.XMPPException;
 
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-
-import static com.android.konnek2.utils.AppConstant.CONTACT_USERS_LIST;
 
 
 public class DialogsListAdapter extends BaseListAdapter<DialogWrapper> {
 
     private static final String TAG = DialogsListAdapter.class.getSimpleName();
+    Collection<Integer> onlineUsers = null;
 
+    SimpleDateFormat simpleDateformat = new SimpleDateFormat("E"); //
 
     public DialogsListAdapter(BaseActivity baseActivity, List<DialogWrapper> objectsList) {
         super(baseActivity, objectsList);
@@ -53,14 +49,18 @@ public class DialogsListAdapter extends BaseListAdapter<DialogWrapper> {
         DialogWrapper dialogWrapper = getItem(position);
         final QBChatDialog currentDialog = dialogWrapper.getChatDialog();
 
+
         if (convertView == null) {
 
             convertView = layoutInflater.inflate(R.layout.item_dialog, null);
             viewHolder = new ViewHolder();
-            viewHolder.contactsLayout = convertView.findViewById(R.id.layout_user_contacts);
             viewHolder.avatarImageView = convertView.findViewById(R.id.avatar_imageview);
             viewHolder.nameTextView = convertView.findViewById(R.id.name_textview);
             viewHolder.lastMessageTextView = convertView.findViewById(R.id.last_message_textview);
+            viewHolder.datetimeTextView = convertView.findViewById(R.id.datetime);
+            viewHolder.userStatusImageView = convertView.findViewById(R.id.image_userStatus);
+
+
             viewHolder.unreadMessagesTextView = convertView.findViewById(
                     R.id.unread_messages_textview);
 
@@ -90,7 +90,37 @@ public class DialogsListAdapter extends BaseListAdapter<DialogWrapper> {
             viewHolder.unreadMessagesTextView.setVisibility(View.GONE);
         }
         viewHolder.lastMessageTextView.setText(dialogWrapper.getLastMessage());
+
+        if (dialogWrapper.getOpponentUser().getLastRequestAt() != null) {
+            setUpDateTime(dialogWrapper.getOpponentUser(), viewHolder.datetimeTextView);
+            setUpOnlineStatus(dialogWrapper, viewHolder.userStatusImageView);
+        }
+
+
         return convertView;
+    }
+
+    private void setUpOnlineStatus(DialogWrapper dialogWrapper, ImageView userStatusImageView) {
+
+        try {
+            onlineUsers = dialogWrapper.getChatDialog().requestOnlineUsers();
+            if (!onlineUsers.contains(dialogWrapper.getOpponentUser().getId())) {
+                userStatusImageView.setImageDrawable(context.getResources().getDrawable(R.drawable.offline_20));
+            }
+
+        } catch (XMPPException.XMPPErrorException e) {
+            e.printStackTrace();
+        } catch (SmackException.NotConnectedException e) {
+            e.printStackTrace();
+        } catch (SmackException.NoResponseException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void setUpDateTime(QMUser opponentUser, TextView datetimeTextView) {
+        String day = simpleDateformat.format(opponentUser.getLastRequestAt());
+        datetimeTextView.setText(day);
     }
 
     public void updateItem(DialogWrapper dlgWrapper) {
@@ -136,10 +166,11 @@ public class DialogsListAdapter extends BaseListAdapter<DialogWrapper> {
     private static class ViewHolder {
 
         public RoundedImageView avatarImageView;
-        public RelativeLayout contactsLayout;
         public TextView nameTextView;
         public TextView lastMessageTextView;
         public TextView unreadMessagesTextView;
+        public TextView datetimeTextView;
+        public ImageView userStatusImageView;
 
     }
 }

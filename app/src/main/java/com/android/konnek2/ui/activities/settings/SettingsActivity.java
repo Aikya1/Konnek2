@@ -7,6 +7,7 @@ import android.support.v7.widget.SwitchCompat;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.konnek2.R;
 import com.android.konnek2.call.core.models.AppSession;
@@ -68,7 +69,6 @@ public class SettingsActivity extends BaseLoggableActivity {
     }
 
 
-
     @Override
     protected int getContentResId() {
         return R.layout.activity_settings;
@@ -112,7 +112,8 @@ public class SettingsActivity extends BaseLoggableActivity {
 
     @OnClick(R.id.invite_friends_button)
     void inviteFriends() {
-//        InviteFriendsActivity.start(this);
+        InviteFriendsActivity.start(this);
+//        shareTextUrl();
     }
 
     @OnClick(R.id.give_feedback_button)
@@ -180,9 +181,9 @@ public class SettingsActivity extends BaseLoggableActivity {
     private void fillUI() {
 
         pushNotificationSwitch.setChecked(QBSettings.getInstance().isEnablePushNotification());
-        changePasswordView.setVisibility(
+      /*  changePasswordView.setVisibility(
                 LoginType.EMAIL.equals(AppSession.getSession().getLoginType()) ? View.VISIBLE : View.GONE);
-        fullNameTextView.setText(user.getFullName());
+        fullNameTextView.setText(user.getFullName());*/
 
         showUserAvatar();
     }
@@ -205,5 +206,6 @@ public class SettingsActivity extends BaseLoggableActivity {
 
         updateBroadcastActionList();
     }
+
 
 }

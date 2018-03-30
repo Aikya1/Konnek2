@@ -1,78 +1,89 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout_user_contacts_parent"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@drawable/selector_list_item"
     android:orientation="horizontal"
     android:padding="6dp">
-    <RelativeLayout
-        android:id="@+id/layout_user_contacts"
-        android:layout_width="match_parent"
+
+
+    <com.android.konnek2.ui.views.roundedimageview.RoundedImageView
+        android:id="@+id/avatar_imageview"
+        style="@style/AvatarImageViewStyle.Common"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="10dp">
-        <com.android.konnek2.ui.views.roundedimageview.RoundedImageView
-            android:id="@+id/avatar_imageview"
-            style="@style/AvatarImageViewStyle.Common"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="5dp"
-            android:contentDescription="@string/image_description"
-            app:border_color="@color/colorPrimary"
-            app:oval="true" />
-        <ImageView
-            android:id="@+id/image_userStatus"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_alignLeft="@+id/avatar_imageview"
-            android:layout_alignParentTop="true"
-            android:layout_alignStart="@+id/avatar_imageview"
-            android:layout_gravity="right|bottom"
-            android:layout_marginLeft="48dp"
-            android:layout_marginStart="48dp"
-            android:src="@drawable/onlinegreen_20" />
-        <TextView
-            android:id="@+id/name_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/image_userStatus"
-            android:layout_gravity="fill"
-            android:layout_marginLeft="19dp"
-            android:layout_marginStart="19dp"
-            android:layout_toEndOf="@+id/avatar_imageview"
-            android:layout_toRightOf="@+id/avatar_imageview"
-            android:text="Rahul "
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-        <com.rockerhieu.emojicon.EmojiconTextView
-            android:id="@+id/last_message_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/name_textview"
-            android:layout_alignLeft="@+id/name_textview"
-            android:layout_alignRight="@+id/name_textview"
-            android:layout_alignStart="@+id/name_textview"
-            android:layout_below="@+id/name_textview"
-            android:layout_gravity="center_vertical"
-            android:singleLine="true"
-            android:text="Recently"
-            android:textSize="@dimen/text_size_small" />
-        <TextView
-            android:id="@+id/datetime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Monday"
-            android:layout_alignBottom="@+id/name_textview"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignTop="@+id/name_textview"
-            />
-        <!--<TextView
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:contentDescription="@string/image_description"
+        app:border_color="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:oval="true" />
+
+    <ImageView
+        android:id="@+id/image_userStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:contentDescription="@string/image_description"
+        android:src="@drawable/onlinegreen_20"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline18"
+        app:layout_constraintHorizontal_bias="0.19"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.00" />
+
+    <TextView
+        android:id="@+id/name_textview"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="@string/name"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/guideline18"
+        app:layout_constraintStart_toEndOf="@+id/avatar_imageview"
+        app:layout_constraintTop_toTopOf="@+id/avatar_imageview" />
+
+    <com.rockerhieu.emojicon.EmojiconTextView
+        android:id="@+id/last_message_textview"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:singleLine="true"
+        android:textSize="@dimen/text_size_small"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline18"
+        app:layout_constraintStart_toStartOf="@+id/name_textview"
+        app:layout_constraintTop_toBottomOf="@+id/name_textview"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/datetime"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline18"
+        app:layout_constraintTop_toTopOf="parent" />
+    <!--<TextView
             android:id="@+id/unread_messages_textview"
             android:layout_width="30dp"
             android:layout_height="50dp"
@@ -86,40 +97,50 @@
             android:textColor="@color/white"
             android:textSize="10sp" />
 -->
-        <TextView
-            android:id="@+id/unread_messages_textview"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:background="@drawable/circular_textview_drawable"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:text="42"
-            android:layout_alignBottom="@+id/imageView8"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignTop="@+id/imageView8"
-            />
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/last_message_textview"
-            android:layout_marginLeft="80dp"
-            android:layout_marginStart="80dp"
-            android:layout_toEndOf="@+id/last_message_textview"
-            android:layout_toRightOf="@+id/last_message_textview"
-            android:src="@drawable/mute_20_2x"
-            android:id="@+id/imageView8" />
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/last_message_textview"
-            android:layout_marginLeft="110dp"
-            android:layout_marginStart="110dp"
-            android:layout_toEndOf="@+id/last_message_textview"
-            android:layout_toRightOf="@+id/last_message_textview"
-            android:src="@drawable/pin_20_2x"
-            android:id="@+id/imageViewpin" />
-        <!-- <LinearLayout
+    <TextView
+        android:id="@+id/unread_messages_textview"
+        android:layout_width="0dp"
+        android:layout_height="23dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/circular_textview_drawable"
+        android:gravity="center"
+        android:text="@string/text_42"
+        android:textColor="@color/white"
+        app:layout_constraintBaseline_toBaselineOf="@+id/last_message_textview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/imageViewpin" />
+
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:contentDescription="@string/image_description"
+        android:src="@drawable/mute_20_2x"
+        app:layout_constraintStart_toStartOf="@+id/guideline18"
+        app:layout_constraintTop_toTopOf="@+id/last_message_textview" />
+
+    <ImageView
+        android:id="@+id/imageViewpin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:contentDescription="@string/image_description"
+        android:src="@drawable/pin_20_2x"
+        app:layout_constraintStart_toEndOf="@+id/imageView8"
+        app:layout_constraintTop_toTopOf="@+id/last_message_textview" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline18"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.7" />
+    <!-- <LinearLayout
              android:id="@+id/layout_contacts"
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
@@ -145,7 +166,7 @@
                  tools:text="1111111 sclk" />
          </LinearLayout>
  -->
-        <!-- <TextView
+    <!-- <TextView
              android:id="@+id/unread_messages_textview"
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
@@ -159,5 +180,4 @@
              android:textColor="@android:color/white"
              android:textSize="@dimen/text_size" />
  -->
-    </RelativeLayout>
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

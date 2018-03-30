@@ -81,7 +81,7 @@
                 android:layout_below="@id/divider0"
                 android:padding="@dimen/padding_large"
                 android:text="@string/settings_push_notifications"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/black"
                 android:textSize="@dimen/text_size" />
 
             <include
@@ -95,7 +95,7 @@
                 style="@style/SettingsButtonStyle"
                 android:id="@+id/invite_friends_button"
                 android:layout_below="@id/divider1"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/black"
                 android:text="@string/settings_invite_friends" />
 
             <include
@@ -110,7 +110,7 @@
                 style="@style/SettingsButtonStyle"
                 android:id="@+id/give_feedback_button"
                 android:layout_below="@id/divider2"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/black"
                 android:text="@string/settings_give_feedback" />
 
             <include
@@ -124,6 +124,7 @@
                 android:id="@+id/change_password_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_below="@id/divider3">
 
                 <Button
@@ -142,6 +143,7 @@
 
             <Button
                 style="@style/SettingsButtonStyle"
+                android:visibility="gone"
                 android:id="@+id/logout_button"
                 android:textColor="@color/colorPrimary"
                 android:layout_below="@id/change_password_view"
@@ -159,6 +161,7 @@
                 style="@style/SettingsButtonStyle"
                 android:id="@+id/delete_my_account_button"
                 android:layout_below="@id/divider4"
+                android:visibility="gone"
                 android:text="@string/settings_delete_my_account"
                 android:textColor="@color/text_red"
                 />

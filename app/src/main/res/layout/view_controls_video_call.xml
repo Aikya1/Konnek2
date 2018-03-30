@@ -6,11 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/transparent"
+    android:paddingEnd="20dp"
     android:paddingLeft="30dp"
     android:paddingRight="20dp"
-    tools:layout_editor_absoluteY="25dp"
     android:paddingStart="30dp"
-    android:paddingEnd="20dp">
+    tools:layout_editor_absoluteY="25dp">
 
     <ToggleButton
         android:id="@+id/micToggleVideoCall"
@@ -89,43 +89,7 @@
         app:layout_constraintEnd_toEndOf="@+id/micToggleVideoCall"
         app:layout_constraintStart_toStartOf="@+id/micToggleVideoCall"
         app:layout_constraintTop_toBottomOf="@+id/micToggleVideoCall" />
-    <!-- <ToggleButton
-        android:id="@+id/bluetoothToggle"
-        android:layout_width="@dimen/call_buttons_diameter"
-        android:layout_height="@dimen/call_buttons_diameter"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_toEndOf="@+id/cameraToggle"
-        android:visibility="gone"
-        android:layout_toRightOf="@+id/cameraToggle"
-        android:background="@drawable/bluetooth_voice_call_60_3x"
-        android:checked="true"
-        android:textOff=""
-        android:textOn="" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/cameraToggle"
-        android:text="Bluetooth"
-        android:visibility="gone"
-        android:gravity="center|bottom"
-        android:layout_marginLeft="225dp"
-        android:layout_marginStart="225dp"
-        android:textColor="@color/white"
-        android:id="@+id/bluetoothText"
-        />
-    &lt;!&ndash;<ImageButton
-        android:id="@+id/handUpVideoCall"
-        an-->droid:layout_width="64dp"
-    android:layout_height="64dp"
-    android:background="@drawable/selector_call_end"
-    android:src="@drawable/ic_call_end_sm"
-    android:scaleType="centerCrop"
-    android:layout_marginTop="30dp"
-    android:layout_marginLeft="120dp"
-    android:layout_below="@id/bluetoothText"
-    />-->
+
 
     <ImageButton
         android:id="@+id/handUpVideoCall"

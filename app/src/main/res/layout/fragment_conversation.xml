@@ -20,7 +20,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="invisible"></FrameLayout>
-
     <ImageButton
         android:id="@+id/handUpAudioCall"
         android:layout_width="64dp"
@@ -28,8 +27,8 @@
         android:layout_above="@+id/element_set_video_buttons"
         android:layout_centerHorizontal="true"
         android:background="@drawable/transparent"
-        android:src="@drawable/endcall_60_2x" />
-
+        android:src="@drawable/endcall_60_2x"
+        />
     <include
         android:id="@+id/element_set_video_buttons"
         layout="@layout/view_controls_video_call"

@@ -47,7 +47,7 @@ public class MyProfileActivity extends BaseLoggableActivity implements OnMediaPi
     private static String TAG = MyProfileActivity.class.getSimpleName();
 
     @Bind(R.id.photo_imageview)
-    ImageView photoImageView;
+    RoundedImageView photoImageView;
 /*
     @Bind(R.id.full_name_textinputlayout)
     TextInputLayout fullNameTextInputLayout;
@@ -55,10 +55,19 @@ public class MyProfileActivity extends BaseLoggableActivity implements OnMediaPi
     @Bind(R.id.full_name_edittext)
     EditText fullNameEditText;*/
 
+    @Bind(R.id.etname)
+    EditText etName;
+
+    @Bind(R.id.etstatus)
+    EditText etStatus;
+    @Bind(R.id.email)
+    EditText etEmail;
+
+
     private QBUser qbUser;
     private boolean isNeedUpdateImage;
     private UserCustomData userCustomData;
-    private String  currentFullName;
+    private String currentFullName, currentEmail, userStatus;
     private String oldFullName;
     private MediaPickHelper mediaPickHelper;
     private Uri imageUri;
@@ -78,7 +87,6 @@ public class MyProfileActivity extends BaseLoggableActivity implements OnMediaPi
         super.onCreate(savedInstanceState);
         initFields();
         setUpActionBarWithUpButton();
-
         initData();
         updateOldData();
     }
@@ -155,9 +163,14 @@ public class MyProfileActivity extends BaseLoggableActivity implements OnMediaPi
 
     private void initData() {
         currentFullName = qbUser.getFullName();
+        currentEmail = qbUser.getEmail();
+
+
         initCustomData();
         loadAvatar();
-//        fullNameEditText.setText(currentFullName);
+        etName.setText(currentFullName);
+        etEmail.setText(currentEmail);
+        etStatus.setText(userStatus);
     }
 
     private void initCurrentData() {
@@ -167,16 +180,16 @@ public class MyProfileActivity extends BaseLoggableActivity implements OnMediaPi
 
     private void initCustomData() {
         userCustomData = Utils.customDataToObject(qbUser.getCustomData());
-        if (userCustomData == null)
-        {
+        if (userCustomData == null) {
             userCustomData = new UserCustomData();
+        } else {
+            userStatus = userCustomData.getStatus();
+
         }
     }
 
-    private void loadAvatar()
-    {
-        if (userCustomData != null && !TextUtils.isEmpty(userCustomData.getAvatarUrl()))
-        {
+    private void loadAvatar() {
+        if (userCustomData != null && !TextUtils.isEmpty(userCustomData.getAvatarUrl())) {
             ImageLoader.getInstance().displayImage(userCustomData.getAvatarUrl(),
                     photoImageView, ImageLoaderUtils.UIL_USER_AVATAR_DISPLAY_OPTIONS);
         }

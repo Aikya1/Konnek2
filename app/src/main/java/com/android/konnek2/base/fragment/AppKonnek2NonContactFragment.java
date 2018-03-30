@@ -90,7 +90,12 @@ public class AppKonnek2NonContactFragment extends BaseFragment implements Contac
     public void contactUsersList(List<String> usersLists) {
 
         if (!usersLists.get(0).isEmpty() && usersLists.get(0) != null) {
-            sendInviteSMS(usersLists.get(0));
+//            sendInviteSMS(usersLists.get(0));
+
+
+            shareTextUrl();
+
+
         }
 
     }
@@ -277,5 +282,19 @@ public class AppKonnek2NonContactFragment extends BaseFragment implements Contac
             }
 
         }
+    }
+
+
+    /*TEST CODE ====== to Share app */
+    public void shareTextUrl() {
+        Intent share = new Intent(android.content.Intent.ACTION_SEND);
+        share.setType("text/plain");
+        share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+        // Add data to the intent, the receiving app will decide
+        // what to do with it.
+        share.putExtra(Intent.EXTRA_SUBJECT, "Konnek2");
+        share.putExtra(Intent.EXTRA_TEXT, "http://www.codeofaninja.com");
+        startActivity(Intent.createChooser(share, "Share App"));
+
     }
 }
