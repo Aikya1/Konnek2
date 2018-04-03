@@ -27,7 +27,9 @@ public class AppCallHistoryActivity extends AppCompatActivity {
     private QBUser currentUser;
     private String currentUserName;
     Toolbar toolbar;
+    private String random = "sadasdasdas";
 
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
