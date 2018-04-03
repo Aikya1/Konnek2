@@ -66,6 +66,8 @@ import java.util.Map;
 public class ConversationCallFragment extends Fragment implements Serializable, QBRTCClientVideoTracksCallbacks<QBRTCSession>,
         QBRTCSessionConnectionCallbacks, CallActivity.QBRTCSessionUserCallback, QBRTCClientAudioTracksCallback<QBRTCSession> {
 
+
+//    khgjh
     private static final long TOGGLE_CAMERA_DELAY = 1000;
     private static final long LOCAL_TRACk_INITIALIZE_DELAY = 500;
 
