@@ -7,7 +7,7 @@
     <include layout="@layout/toolbar" />
 
 
-    <com.android.konnek2.ui.views.TouchImageView
+    <com.aikya.konnek2.ui.views.TouchImageView
         android:id="@+id/image_touchimageview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

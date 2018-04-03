@@ -24,7 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="230dp"
                 android:background="#EBEBEB">
-                <!-- <com.android.konnek2.ui.views.roundedimageview.RoundedImageView
+            <!--    <!RoundedImageViewView
                       android:id="@+id/photo_imageview"
                       style="@style/AvatarImageViewStyle.Common"
                       android:layout_width="125dp"
@@ -34,8 +34,8 @@
                       android:contentDescription="@string/image_description"
                       app:oval="true"
                       android:layout_gravity="center"/>
-          -->
-                <com.android.konnek2.ui.views.roundedimageview.RoundedImageView
+          &ndash;&gt;-->
+                <com.aikya.konnek2.ui.views.roundedimageview.RoundedImageView
                     android:id="@+id/photo_imageview"
                     style="@style/AvatarImageViewStyle.Common"
                     android:layout_width="145dp"

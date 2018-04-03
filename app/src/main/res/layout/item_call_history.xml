@@ -11,7 +11,7 @@
         >
 
 
-        <com.android.konnek2.ui.views.roundedimageview.RoundedImageView
+        <com.aikya.konnek2.ui.views.roundedimageview.RoundedImageView
             android:id="@+id/image_user"
             style="@style/AvatarImageViewStyle.Common"
             android:layout_width="@dimen/image_view_small_avatar_layout_width"

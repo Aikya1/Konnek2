@@ -7,7 +7,7 @@
               android:paddingBottom="20dp"
               android:paddingTop="20dp">
 
-    <com.android.konnek2.ui.views.roundedimageview.RoundedImageView
+    <com.aikya.konnek2.ui.views.roundedimageview.RoundedImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/navigation_profile_image"
         android:layout_width="85dp"

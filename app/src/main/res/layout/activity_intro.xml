@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_gravity="bottom"
     android:background="@color/white"
-    tools:context="com.android.konnek2.base.activity.Intro">
+    tools:context="com.android.konnek2.com.aikya.konnek2.base.activity.Intro">
 
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager"

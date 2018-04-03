@@ -15,7 +15,7 @@
         android:layout_marginStart="@dimen/margin_25dp">
 
 
-        <com.android.konnek2.ui.views.roundedimageview.RoundedImageView
+        <com.aikya.konnek2.ui.views.roundedimageview.RoundedImageView
             android:id="@+id/image_incoming_call"
             style="@style/AvatarImageViewStyle.Common"
             android:layout_width="@dimen/image_view_small_avatar_layout_width_group"

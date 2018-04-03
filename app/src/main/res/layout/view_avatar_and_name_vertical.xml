@@ -7,7 +7,7 @@
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
-    <com.android.konnek2.ui.views.roundedimageview.RoundedImageView
+    <com.aikya.konnek2.ui.views.roundedimageview.RoundedImageView
         android:id="@+id/avatar_imageview"
         style="@style/AvatarImageViewStyle.Common"
         android:layout_width="@dimen/call_opponent_avatar_dimention"

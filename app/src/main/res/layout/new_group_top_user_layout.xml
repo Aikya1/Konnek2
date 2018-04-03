@@ -4,7 +4,7 @@
     android:id="@+id/linearLayout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    tools:context=".ui.activities.chats.NewGroupDialogActivity">
+    tools:context="com.aikya.konnek2.ui.activities.chats.NewGroupDialogActivity">
 
     <!--<HorizontalScrollView
         android:id="@+id/scrollView1"
@@ -46,7 +46,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <com.android.konnek2.ui.views.roundedimageview.RoundedImageView
+    <com.aikya.konnek2.ui.views.roundedimageview.RoundedImageView
         android:id="@+id/userProfileIv"
         android:layout_width="70dp"
         android:layout_height="70dp"

@@ -8,7 +8,7 @@
     android:orientation="horizontal"
     android:padding="10dp">
 
-    <com.android.konnek2.ui.views.roundedimageview.RoundedImageView
+    <com.aikya.konnek2.ui.views.roundedimageview.RoundedImageView
         android:id="@+id/avatar_imageview"
         style="@style/AvatarImageViewStyle.Common"
         android:layout_width="@dimen/image_view_big_avatar_layout_width"

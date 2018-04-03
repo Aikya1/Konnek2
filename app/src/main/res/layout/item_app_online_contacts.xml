@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-            <com.android.konnek2.ui.views.roundedimageview.RoundedImageView
+            <com.aikya.konnek2.ui.views.roundedimageview.RoundedImageView
                 android:id="@+id/avatar_imageview_online_contact"
                 style="@style/AvatarImageViewStyle.Common"
                 android:layout_width="@dimen/image_view_small_avatar_layout_width"

@@ -72,7 +72,7 @@
             android:orientation="horizontal">
 
 
-            <com.android.konnek2.ui.views.roundedimageview.RoundedImageView
+            <com.aikya.konnek2.ui.views.roundedimageview.RoundedImageView
                 style="@style/AvatarImageViewStyle.Common"
                 android:id="@+id/avatar_imageview"
                 app:border_color="@color/dark_gray"

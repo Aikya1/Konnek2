@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     tools:layout_editor_absoluteY="25dp">
 
-    <com.android.konnek2.ui.views.roundedimageview.RoundedImageView
+    <com.aikya.konnek2.ui.views.roundedimageview.RoundedImageView
         android:id="@+id/image_user"
         style="@style/AvatarImageViewStyle.Common"
         android:layout_width="64dp"

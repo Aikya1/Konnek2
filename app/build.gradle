@@ -22,9 +22,10 @@ android {
     compileSdkVersion rootProject.compileSdkVersion
     buildToolsVersion rootProject.buildToolsVersion
     defaultConfig {
-        applicationId "com.android.konnek2"
+        applicationId "com.aikya.konnek2"
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
+        versionCode rootProject.versionCode
         versionName rootProject.versionName
         multiDexEnabled = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -36,12 +37,12 @@ android {
 
     }
     signingConfigs {
-        debug {
-            keyAlias 'MyKonnek2Key'
-            keyPassword 'aikya@123'
-            storeFile file('/home/rajeev/AndroidKeystores/Konnek2NewKey.jks')
-            storePassword 'aikya@123'
-        }
+        /* debug {
+             keyAlias 'MyKonnek2Key'
+             keyPassword 'aikya@123'
+             storeFile file('/home/rajeev/AndroidKeystores/Konnek2NewKey.jks')
+             storePassword 'aikya@123'
+         }*/
         /*debug {
             storeFile file("/home/rajeev/AndroidKeystores/Konnek2.jks")
             storePassword "aikya@123"
@@ -49,10 +50,10 @@ android {
             keyPassword "aikya@123"
         }*/
         release {
-//            storeFile file(property('prodStoreFile'))
-//            storePassword property('prodStorePassword')
-//            keyAlias property('prodKeyAlias')
-//            keyPassword property('prodKeyPassword')
+            keyAlias 'Konnek2Release'
+            keyPassword 'aikya@123'
+            storeFile file('/home/rajeev/AndroidKeystores/Konnek2ReleaseKey.jks')
+            storePassword 'aikya@123'
         }
         /* debug {
             keyAlias 'MyKonnek2Key'

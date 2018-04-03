@@ -29,7 +29,7 @@
                 android:layout_margin="@dimen/padding_large">
 
 
-                <com.android.konnek2.ui.views.roundedimageview.RoundedImageView
+                <com.aikya.konnek2.ui.views.roundedimageview.RoundedImageView
                     style="@style/AvatarImageViewStyle.Common"
                     android:id="@+id/avatar_imageview"
                     android:layout_alignParentLeft="true"

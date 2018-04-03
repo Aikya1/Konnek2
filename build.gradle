@@ -2,6 +2,7 @@ buildscript {
     repositories {
         jcenter()
         maven { url 'https://maven.fabric.io/public' }
+        google()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.0.1'
@@ -32,6 +33,7 @@ allprojects {
         maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
 
 
+        google()
     }
 }
 
@@ -40,8 +42,8 @@ ext {
     buildToolsVersion = '26.0.2'
     minSdkVersion = 16
     targetSdkVersion = 26
-    versionName = '2.5'
-    versionCode = 250
+    versionName = '1.0'
+    versionCode = 4
 
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
