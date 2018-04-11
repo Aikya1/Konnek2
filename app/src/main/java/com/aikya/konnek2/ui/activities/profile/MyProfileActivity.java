@@ -61,19 +61,9 @@ public class MyProfileActivity extends BaseLoggableActivity implements OnMediaPi
 
     private static String TAG = MyProfileActivity.class.getSimpleName();
 
- /*   test master oriogin mohita*/
 
-/*efhejfheh*/
-
-
-
-
-
-
-
-    /*
-    *
-    * bla bla bla bla bla bla bla
+    /* Test
+    * test from android studio..
     * */
 
     @Bind(com.aikya.konnek2.R.id.photo_imageview)
