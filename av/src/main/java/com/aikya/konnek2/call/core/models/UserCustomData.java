@@ -31,12 +31,16 @@ public class UserCustomData implements Serializable {
     public static String TAG_prefLanguage1 = "prefLanguage1";
     public static String TAG_prefEmail = "prefEmail";
     public static String TAG_prefInApp = "prefInApp";
+    public static String TAG_prefsms = "prefSms";
     public static String TAG_deviceUdid = "deviceUdid";
     public static String TAG_prefLanguage3 = "prefLanguage3";
     public static String TAG_firstName = "firstname";
     public static String TAG_lastName = "lastname";
-    public static String TAG_contactNo = "contactNo";
+    public static String TAG_contactNo = "contactno";
     public static String TAG_age = "age";
+    public static String TAG_gender = "gender";
+    public static String TAG_dob = "dob";
+    public static String TAG_postalcode = "postalcode";
     public static String FACEBOOK_ID = "facebook_id";
 
 
@@ -232,7 +236,33 @@ public class UserCustomData implements Serializable {
     private String countryCode;
     private String signUpType;
     private String addressLine1;
+    private String dob;
+    private String postalcode;
+    private String prefSms;
 
+    public String getPrefSms() {
+        return prefSms;
+    }
+
+    public void setPrefSms(String prefSms) {
+        this.prefSms = prefSms;
+    }
+
+    public String getPostalcode() {
+        return postalcode;
+    }
+
+    public void setPostalcode(String postalcode) {
+        this.postalcode = postalcode;
+    }
+
+    public String getDob() {
+        return dob;
+    }
+
+    public void setDob(String dob) {
+        this.dob = dob;
+    }
 
     public String getFacebookId() {
         return facebookId;

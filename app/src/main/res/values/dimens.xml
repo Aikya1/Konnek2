@@ -160,4 +160,7 @@
     <dimen name="layout_height_30dp">30dp</dimen>
     <dimen name="tab_icon_size">135dp</dimen>
 
+    <!--mohita-->
+    <dimen name="standard_content_size">15sp</dimen>
+
 </resources>

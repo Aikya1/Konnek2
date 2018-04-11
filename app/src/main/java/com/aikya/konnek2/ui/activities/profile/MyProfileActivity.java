@@ -2,36 +2,60 @@ package com.aikya.konnek2.ui.activities.profile;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
+import com.aikya.konnek2.R;
 import com.aikya.konnek2.call.core.models.AppSession;
 import com.aikya.konnek2.call.core.models.UserCustomData;
 import com.aikya.konnek2.call.core.utils.Utils;
 import com.aikya.konnek2.call.db.utils.ErrorUtils;
+import com.aikya.konnek2.call.services.model.QMUser;
 import com.aikya.konnek2.ui.activities.base.BaseLoggableActivity;
 import com.aikya.konnek2.ui.views.roundedimageview.RoundedImageView;
 import com.aikya.konnek2.utils.MediaUtils;
 import com.aikya.konnek2.utils.ToastUtils;
+import com.aikya.konnek2.utils.ValidationUtils;
+import com.aikya.konnek2.utils.helpers.ServiceManager;
 import com.aikya.konnek2.utils.listeners.OnMediaPickedListener;
 import com.aikya.konnek2.call.db.models.Attachment;
 import com.aikya.konnek2.utils.helpers.MediaPickHelper;
 import com.aikya.konnek2.utils.image.ImageLoaderUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import com.quickblox.core.QBEntityCallback;
+import com.quickblox.core.exception.QBResponseException;
+import com.quickblox.users.QBUsers;
 import com.quickblox.users.model.QBUser;
 import com.soundcloud.android.crop.Crop;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import rx.Observable;
+import rx.Subscriber;
+
+import static android.support.v4.graphics.TypefaceCompatUtil.getTempFile;
 
 public class MyProfileActivity extends BaseLoggableActivity implements OnMediaPickedListener {
 
@@ -39,21 +63,34 @@ public class MyProfileActivity extends BaseLoggableActivity implements OnMediaPi
 
     @Bind(com.aikya.konnek2.R.id.photo_imageview)
     RoundedImageView photoImageView;
-/*
-    @Bind(R.id.full_name_textinputlayout)
-    TextInputLayout fullNameTextInputLayout;
-
-    @Bind(R.id.full_name_edittext)
-    EditText fullNameEditText;*/
-
-    @Bind(com.aikya.konnek2.R.id.etname)
+    @Bind(R.id.etname)
     EditText etName;
-
-    @Bind(com.aikya.konnek2.R.id.etstatus)
+    @Bind(R.id.etstatus)
     EditText etStatus;
-    @Bind(com.aikya.konnek2.R.id.email)
+    @Bind(R.id.email)
     EditText etEmail;
-
+    @Bind(R.id.contactno)
+    EditText contactno;
+    @Bind(R.id.camera_image)
+    ImageView camera_image;
+    @Bind(R.id.rgGender)
+    RadioGroup rgGender;
+    @Bind(R.id.dob)
+    EditText dob;
+    @Bind(R.id.house)
+    EditText house;
+    @Bind(R.id.city)
+    EditText city;
+    @Bind(R.id.country)
+    EditText country;
+    @Bind(R.id.postcode)
+    EditText postcode;
+    @Bind(R.id.checkBox1)
+    CheckBox checkBox1;
+    @Bind(R.id.checkBox2)
+    CheckBox checkBox2;
+    @Bind(R.id.checkBox3)
+    CheckBox checkBox3;
 
     private QBUser qbUser;
     private boolean isNeedUpdateImage;
@@ -70,7 +107,7 @@ public class MyProfileActivity extends BaseLoggableActivity implements OnMediaPi
 
     @Override
     protected int getContentResId() {
-        return com.aikya.konnek2.R.layout.activity_my_profile;
+        return R.layout.activity_my_profile_2;
     }
 
     @Override
@@ -87,6 +124,11 @@ public class MyProfileActivity extends BaseLoggableActivity implements OnMediaPi
         if (requestCode == Crop.REQUEST_CROP) {
             handleCrop(resultCode, data);
         }
+        switch (requestCode) {
+            case MediaUtils.CAMERA_PHOTO_REQUEST_CODE:
+
+                break;
+        }
         super.onActivityResult(requestCode, resultCode, data);
     }
 
@@ -102,7 +144,8 @@ public class MyProfileActivity extends BaseLoggableActivity implements OnMediaPi
         switch (item.getItemId()) {
             case com.aikya.konnek2.R.id.action_done:
                 if (checkNetworkAvailableWithError()) {
-                    updateUser();
+//                    updateUser();
+                    saveChanges();
                 }
                 break;
             default:
@@ -116,15 +159,17 @@ public class MyProfileActivity extends BaseLoggableActivity implements OnMediaPi
         super.onDestroy();
     }
 
-   /* @OnTextChanged(R.id.full_name_edittext)
-    void onTextChangedFullName(CharSequence text) {
-//        fullNameTextInputLayout.setError(null);
-    }*/
 
-    @OnClick(com.aikya.konnek2.R.id.change_photo_view)
+    @OnClick(R.id.camera_image)
     void changePhoto(View view) {
 //        fullNameTextInputLayout.setError(null);
         mediaPickHelper.pickAnMedia(this, MediaUtils.CAMERA_PHOTO_REQUEST_CODE);
+
+//        Intent chooseImageIntent = mediaPickHelper.getPickImageChooserIntent(this);
+//        startActivityForResult(chooseImageIntent, MediaUtils.CAMERA_PHOTO_REQUEST_CODE);
+
+//        mediaPickHelper.pickImageChooser(this,MediaUtils.CAMERA_PHOTO_REQUEST_CODE);
+
     }
 
     @Override
@@ -153,15 +198,40 @@ public class MyProfileActivity extends BaseLoggableActivity implements OnMediaPi
     }
 
     private void initData() {
-        currentFullName = qbUser.getFullName();
-        currentEmail = qbUser.getEmail();
+        try {
+            currentFullName = qbUser.getFullName();
+            currentEmail = qbUser.getEmail();
 
+            initCustomData();
+            loadAvatar();
+            etName.setText(currentFullName);
+            etEmail.setText(currentEmail);
+            etStatus.setText(userStatus);
+            contactno.setText(qbUser.getPhone());
+//            contactno.setEnabled(false);
+            if (userCustomData.getGender().equals("Female")) {
+                rgGender.check(R.id.rgFemale);
+            } else if (userCustomData.getGender().equals("Male")) {
+                rgGender.check(R.id.rgMale);
+            }
+            dob.setText(userCustomData.getDob());
+            house.setText(userCustomData.getAddressLine1());
+            city.setText(userCustomData.getCity());
+            country.setText(userCustomData.getCountry());
+            postcode.setText(userCustomData.getPostalcode());
+            if (userCustomData.getPrefEmail().equals("true")) {
+                checkBox1.setChecked(true);
+            }
+            if (userCustomData.getPrefInApp().equals("true")) {
+                checkBox3.setChecked(true);
+            }
+            if (userCustomData.getPrefSms().equals("true")) {
+                checkBox2.setChecked(true);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        initCustomData();
-        loadAvatar();
-        etName.setText(currentFullName);
-        etEmail.setText(currentEmail);
-        etStatus.setText(userStatus);
     }
 
     private void initCurrentData() {
@@ -218,13 +288,28 @@ public class MyProfileActivity extends BaseLoggableActivity implements OnMediaPi
     private QBUser createUserForUpdating() {
         QBUser newUser = new QBUser();
         newUser.setId(qbUser.getId());
-        newUser.setPassword(qbUser.getPassword());
-        newUser.setOldPassword(qbUser.getOldPassword());
-        qbUser.setFullName(currentFullName);
+//        newUser.setPassword(qbUser.getPassword());
+//        newUser.setOldPassword(qbUser.getOldPassword());
         newUser.setFullName(currentFullName);
         newUser.setFacebookId(qbUser.getFacebookId());
-        newUser.setTwitterId(qbUser.getTwitterId());
-        newUser.setTwitterDigitsId(qbUser.getTwitterDigitsId());
+
+        RadioButton gender = findViewById(rgGender.getCheckedRadioButtonId());
+        userCustomData.setGender(gender.getText().toString());
+        userCustomData.setDob(dob.getText().toString());
+        userCustomData.setAddressLine1(house.getText().toString());
+        userCustomData.setCity(city.getText().toString());
+        userCustomData.setCountry(country.getText().toString());
+//        userCustomData.setContactno(contactno.getText().toString());
+        userCustomData.setPostalcode(postcode.getText().toString());
+        if (checkBox1.isChecked()) {
+            userCustomData.setPrefEmail("true");
+        }
+        if (checkBox2.isChecked()) {
+            userCustomData.setPrefSms("true");
+        }
+        if (checkBox3.isChecked()) {
+            userCustomData.setPrefInApp("true");
+        }
         newUser.setCustomData(Utils.customDataToString(userCustomData));
         return newUser;
     }
@@ -237,58 +322,108 @@ public class MyProfileActivity extends BaseLoggableActivity implements OnMediaPi
         return !TextUtils.isEmpty(currentFullName.trim());
     }
 
-    private void updateUser() {
-//        initCurrentData();
 
-        /*if (isDataChanged()) {
-//            saveChanges();
+    private void updateUser() {
+        QBUser user = createUserForUpdating();
+
+       /*initCurrentData();
+
+        if (isDataChanged()) {
+           saveChanges();
         } else {
-//            fullNameTextInputLayout.setError(getString(R.string.profile_full_name_and_photo_not_changed));
+           etName.setError(getString(R.string.profile_full_name_and_photo_not_changed));
         }*/
     }
 
-   /* private void saveChanges() {
-        if (new ValidationUtils(this).isFullNameValid(fullNameTextInputLayout, currentFullName.trim())) {
-            showProgress();
+    /*private void saveChanges() {
+//        if (new ValidationUtils(this).isFullNameValid(etName, currentFullName.trim())) {
+        showProgress();
 
-            QBUser newUser = createUserForUpdating();
-            File file = null;
-            if (isNeedUpdateImage && imageUri != null) {
-                file = MediaUtils.getCreatedFileFromUri(imageUri);
-            }
-
-            Observable<QMUser> qmUserObservable;
-
-            if (file != null) {
-                qmUserObservable = ServiceManager.getInstance().updateUser(newUser, file);
-            } else {
-                qmUserObservable = ServiceManager.getInstance().updateUser(newUser);
-            }
-
-            qmUserObservable.subscribe(new Subscriber<QMUser>() {
-                @Override
-                public void onCompleted() {
-
-                }
-
-                @Override
-                public void onError(Throwable e) {
-                    hideProgress();
-
-                    if (e != null) {
-                        ToastUtils.longToast(e.getMessage());
-                    }
-
-                    resetUserData();
-                }
-
-                @Override
-                public void onNext(QMUser qmUser) {
-                    hideProgress();
-                    AppSession.getSession().updateUser(qmUser);
-                    updateOldData();
-                }
-            });
+        QBUser newUser = createUserForUpdating();
+        File file = null;
+        if (isNeedUpdateImage && imageUri != null) {
+            file = MediaUtils.getCreatedFileFromUri(imageUri);
         }
+
+        Observable<QMUser> qmUserObservable;
+
+        if (file != null) {
+            qmUserObservable = ServiceManager.getInstance().updateUser(newUser, file);
+        } else {
+            qmUserObservable = ServiceManager.getInstance().updateUser(newUser);
+        }
+
+        qmUserObservable.subscribe(new Subscriber<QMUser>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                hideProgress();
+
+                if (e != null) {
+                    ToastUtils.longToast(e.getMessage());
+                }
+
+                resetUserData();
+            }
+
+            @Override
+            public void onNext(QMUser qmUser) {
+                hideProgress();
+                AppSession.getSession().updateUser(qmUser);
+                updateOldData();
+
+            }
+        });
+//        }
     }*/
+
+    private void saveChanges() {
+//        if (new ValidationUtils(this).isFullNameValid(etName, currentFullName.trim())) {
+        showProgress();
+
+        QBUser newUser = createUserForUpdating();
+        File file = null;
+        if (isNeedUpdateImage && imageUri != null) {
+            file = MediaUtils.getCreatedFileFromUri(imageUri);
+        }
+
+        Observable<QMUser> qmUserObservable;
+
+        if (file != null) {
+            qmUserObservable = ServiceManager.getInstance().updateUser(newUser, file);
+        } else {
+            qmUserObservable = ServiceManager.getInstance().updateUser(newUser);
+        }
+
+        qmUserObservable.subscribe(new Subscriber<QMUser>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                hideProgress();
+
+                if (e != null) {
+                    ToastUtils.longToast(e.getMessage());
+                }
+
+                resetUserData();
+            }
+
+            @Override
+            public void onNext(QMUser qmUser) {
+                hideProgress();
+                AppSession.getSession().updateUser(qmUser);
+                updateOldData();
+
+            }
+        });
+//        }
+    }
 }

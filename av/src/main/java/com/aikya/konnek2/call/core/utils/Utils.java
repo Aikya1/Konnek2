@@ -137,6 +137,15 @@ public class Utils {
         setJsonValue(jsonObject, UserCustomData.FACEBOOK_ID, userCustomData.getFacebookId());
         setJsonValue(jsonObject, UserCustomData.TAG_isEuropean, userCustomData.getIsEuropean());
 
+        setJsonValue(jsonObject, UserCustomData.TAG_gender, userCustomData.getGender());
+        setJsonValue(jsonObject, UserCustomData.TAG_dob, userCustomData.getDob());
+        setJsonValue(jsonObject, UserCustomData.TAG_addressLine1, userCustomData.getAddressLine1());
+        setJsonValue(jsonObject, UserCustomData.TAG_CITY, userCustomData.getCity());
+        setJsonValue(jsonObject, UserCustomData.TAG_COUNTRY, userCustomData.getCountry());
+        setJsonValue(jsonObject, UserCustomData.TAG_postalcode, userCustomData.getPostalcode());
+        setJsonValue(jsonObject, UserCustomData.TAG_prefInApp, userCustomData.getPrefInApp());
+        setJsonValue(jsonObject, UserCustomData.TAG_prefsms, userCustomData.getPrefSms());
+
 
         return jsonObject.toString();
     }

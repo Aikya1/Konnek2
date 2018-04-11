@@ -320,6 +320,68 @@ public class ServiceManager {
         return result;
     }
 
+
+    //mohita
+    /*public Observable<QBUser> updateUser2(final QBUser user, final File file) {
+
+        Observable<QBUser> result = null;
+
+        Performer<QBFile> performer = QBContent.uploadFileTask(file, true, null);
+        final Observable<QBFile> observable = performer.convertTo(RxJavaPerformProcessor.INSTANCE);
+
+        result = observable
+                .subscribeOn(Schedulers.io())
+
+                .flatMap(new Func1<QBFile, Observable<QBUser>>() {
+                    @Override
+                    public Observable<QBUser> call(QBFile qbFile) {
+                        QBUser newUser = new QBUser();
+
+                        newUser.setId(user.getId());
+                        newUser.setPassword(user.getPassword());
+                        newUser.setFileId(qbFile.getId());
+                        newUser.setFullName(user.getFullName());
+
+                        UserCustomData userCustomData = getUserCustomData(user);
+                        userCustomData.setAvatarUrl(qbFile.getPublicUrl());
+                        newUser.setCustomData(Utils.customDataToString(userCustomData));
+
+                        return updateUser2(newUser);
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread());
+
+        return result;
+    }
+
+    public Observable<QBUser> updateUser2(QBUser inputUser) {
+        Observable<QBUser> result = null;
+        final String password = inputUser.getPassword();
+
+        *//*UserCustomData userCustomDataNew = getUserCustomData(inputUser);
+        inputUser.setCustomData(Utils.customDataToString(userCustomDataNew));
+
+        inputUser.setPassword(null);
+        inputUser.setOldPassword(null);*//*
+
+        result = QMUserService.getInstance().updateUser2(inputUser)
+                .subscribeOn(Schedulers.io())
+                .map(new Func1<QMUser, QMUser>() {
+                    @Override
+                    public QMUser call(QMUser qmUser) {
+                        if (LoginType.EMAIL.equals(AppSession.getSession().getLoginType())) {
+                            qmUser.setPassword(password);
+                        } else {
+                            qmUser.setPassword(QBSessionManager.getInstance().getToken());
+                        }
+                        return qmUser;
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread());
+
+        return result;
+    }*/
+
     public QBUser updateUserSync(QBUser inputUser) throws QBResponseException {
         QBUser user;
         String password = inputUser.getPassword();

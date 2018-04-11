@@ -187,13 +187,13 @@
 
 
     <!-- Profile -->
-    <string name="profile_title">Edit</string>
+    <string name="profile_title">My Profile</string>
     <string name="profile_full_name">Full Name</string>
     <string name="profile_change_photo">Change photo</string>
     <string name="profile_full_name_not_entered">Please enter Full Name</string>
     <string name="profile_full_name_not_changed">Full Name must be different</string>
     <string name="profile_full_name_and_photo_not_changed">Full Name or Photo must be changed</string>
-
+    <string name="pick_image_intent_text">Select from</string>
 
     <!-- Feedback -->
     <string name="feedback_title">Feedback Description</string>

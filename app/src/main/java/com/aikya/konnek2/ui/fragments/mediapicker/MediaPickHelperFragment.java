@@ -1,14 +1,22 @@
 package com.aikya.konnek2.ui.fragments.mediapicker;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.util.Pair;
+import android.util.Log;
 
 
+import com.aikya.konnek2.R;
 import com.aikya.konnek2.tasks.GetFilepathFromUriTask;
 import com.aikya.konnek2.ui.activities.base.BaseActivity;
 import com.aikya.konnek2.utils.listeners.OnMediaPickedListener;
@@ -16,6 +24,10 @@ import com.aikya.konnek2.call.core.utils.ConstsCore;
 import com.aikya.konnek2.call.db.models.Attachment;
 import com.aikya.konnek2.utils.MediaUtils;
 import com.quickblox.ui.kit.chatmessage.adapter.utils.LocationUtils;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MediaPickHelperFragment extends Fragment {
@@ -60,6 +72,44 @@ public class MediaPickHelperFragment extends Fragment {
         if (fragment != null) {
             fm.beginTransaction().remove(fragment).commitAllowingStateLoss();
         }
+    }
+
+    public Intent showPickImageChooserIntent(Context context) {
+        Intent chooserIntent = null;
+        List<Intent> intentList = new ArrayList();
+        PackageManager packageManager = context.getPackageManager();
+
+        Intent pickIntent = new Intent(Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        takePhotoIntent.putExtra("return-data", true);
+        File photoFile = MediaUtils.getTemporaryCameraFilePhoto();
+        if (photoFile != null) {
+            Uri photoURI = MediaUtils.getValidUri(photoFile,context);
+            takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+        }
+        intentList = addIntentsToList(context, intentList, pickIntent);
+        intentList = addIntentsToList(context, intentList, takePhotoIntent);
+
+        if (intentList.size() > 0) {
+            chooserIntent = Intent.createChooser(intentList.remove(intentList.size() - 1),
+                    context.getString(R.string.pick_image_intent_text));
+            chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, intentList.toArray(new Parcelable[]{}));
+        }
+
+        return chooserIntent;
+    }
+
+    private static List<Intent> addIntentsToList(Context context, List<Intent> list, Intent intent) {
+        List<ResolveInfo> resInfo = context.getPackageManager().queryIntentActivities(intent, 0);
+        for (ResolveInfo resolveInfo : resInfo) {
+            String packageName = resolveInfo.activityInfo.packageName;
+            Intent targetedIntent = new Intent(intent);
+            targetedIntent.setPackage(packageName);
+            list.add(targetedIntent);
+            Log.d("Media", "Intent: " + intent.getAction() + " package: " + packageName);
+        }
+        return list;
     }
 
     @Override

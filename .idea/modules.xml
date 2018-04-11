@@ -3,10 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/av/av.iml" filepath="$PROJECT_DIR$/av/av.iml" />
-      <module fileurl="file://$PROJECT_DIR$/av/av.iml" filepath="$PROJECT_DIR$/av/av.iml" />
-      <module fileurl="file://$PROJECT_DIR$/konnek.iml" filepath="$PROJECT_DIR$/konnek.iml" />
       <module fileurl="file://$PROJECT_DIR$/konnek.iml" filepath="$PROJECT_DIR$/konnek.iml" />
     </modules>
   </component>

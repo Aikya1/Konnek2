@@ -139,6 +139,25 @@ public class QMUserService extends QMBaseService {
         return result;
     }
 
+//mohita
+    public Observable<QBUser> updateUser2(final QBUser user) {
+        Observable<QBUser> result = null;
+
+        Performer<QBUser> performer = QBUsers.updateUser(user);
+        final Observable<QBUser> observable = performer.convertTo(RxJavaPerformProcessor.INSTANCE);
+
+        result = observable.map(new Func1<QBUser, QMUser>() {
+            @Override
+            public QMUser call(QBUser qbUser) {
+                QMUser result = QMUser.convert(qbUser);
+                userCache.update(result);
+                return result;
+            }
+        });
+
+        return result;
+    }
+
     public QMUser updateUserSync(final QMUser user) throws QBResponseException {
         QMUser result = null;
 
