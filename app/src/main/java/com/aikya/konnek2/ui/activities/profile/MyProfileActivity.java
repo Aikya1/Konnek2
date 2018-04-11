@@ -61,6 +61,8 @@ public class MyProfileActivity extends BaseLoggableActivity implements OnMediaPi
 
     private static String TAG = MyProfileActivity.class.getSimpleName();
 
+
+    /*asdasdasdasd*/
 /*last try mohita*/
     /*last try mohita 2*/
 
