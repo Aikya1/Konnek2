@@ -135,7 +135,7 @@ public class QBService extends Service {
         registerAcceptFriendCommand();
         registerRemoveFriendCommand();
         registerRejectFriendCommand();
-        registerImportFriendsCommand();
+//        registerImportFriendsCommand();
 
         // other commands
         registerGetFileCommand();
