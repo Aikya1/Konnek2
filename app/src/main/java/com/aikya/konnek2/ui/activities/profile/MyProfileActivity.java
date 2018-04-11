@@ -61,13 +61,8 @@ public class MyProfileActivity extends BaseLoggableActivity implements OnMediaPi
 
     private static String TAG = MyProfileActivity.class.getSimpleName();
 
-    /*asjkdhaskdghasdhoas*/
-    /*ashdiashdioh8q3i234oois*/
-    /*ashdashdkjhas7893892380082389238923*/
 
-    /*asdasdi33RAJEEV*/
-
-    /*mohitadsddeqwfe 2fhygrhhjjkk*/
+    /*New Comment..Testing..*/
 
     @Bind(com.aikya.konnek2.R.id.photo_imageview)
     RoundedImageView photoImageView;
