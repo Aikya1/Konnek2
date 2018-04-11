@@ -63,6 +63,8 @@ public class MyProfileActivity extends BaseLoggableActivity implements OnMediaPi
 
  /*   test master oriogin mohita*/
 
+/*efhejfheh*/
+
     @Bind(com.aikya.konnek2.R.id.photo_imageview)
     RoundedImageView photoImageView;
     @Bind(R.id.etname)
