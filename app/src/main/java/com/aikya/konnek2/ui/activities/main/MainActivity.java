@@ -43,11 +43,6 @@ public class MainActivity extends BaseLoggableActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    private FacebookHelper facebookHelper;
-
-    private ImportFriendsSuccessAction importFriendsSuccessAction;
-    private ImportFriendsFailAction importFriendsFailAction;
-
     public static void start(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -138,11 +133,21 @@ public class MainActivity extends BaseLoggableActivity {
 
     private void initFields() {
 
-        Log.d(TAG, "initFields()");
-        title = " " + AppSession.getSession().getUser().getFullName();
-        importFriendsSuccessAction = new ImportFriendsSuccessAction();
-        importFriendsFailAction = new ImportFriendsFailAction();
-        facebookHelper = new FacebookHelper(MainActivity.this);
+        AppSession session = AppSession.getSession();
+        QBUser user = session.getUser();
+        String fullName = AppSession.getSession().getUser().getFullName();
+
+        UserCustomData userCustomData = Utils.customDataToObject(user.getCustomData());
+        String phNo = userCustomData.getContactno();
+
+        if (fullName != null && !fullName.equalsIgnoreCase("null")) {
+            title = " " + fullName;
+        } else {
+            title = " " + phNo;
+        }
+
+//        importFriendsSuccessAction = new ImportFriendsSuccessAction();
+//        importFriendsFailAction = new ImportFriendsFailAction();
 
     }
 
@@ -150,7 +155,6 @@ public class MainActivity extends BaseLoggableActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        facebookHelper.onActivityResult(requestCode, resultCode, data);
         if (SettingsActivity.REQUEST_CODE_LOGOUT == requestCode && RESULT_OK == resultCode) {
             startLandingScreen();
         }
@@ -181,15 +185,21 @@ public class MainActivity extends BaseLoggableActivity {
 
     @Override
     protected void onResume() {
-        actualizeCurrentTitle();
+//        actualizeCurrentTitle();
         super.onResume();
 
-        addActions();
+//        addActions();
     }
 
     private void actualizeCurrentTitle() {
-        if (AppSession.getSession().getUser().getFullName() != null) {
+
+        String fullName = AppSession.getSession().getUser().getFullName();
+        String phNumber = AppSession.getSession().getUser().getPhone();
+
+        if (!TextUtils.isEmpty(fullName) || fullName != null) {
             title = " " + AppSession.getSession().getUser().getFullName();
+        } else {
+            title = " " + phNumber;
         }
     }
 
@@ -219,7 +229,7 @@ public class MainActivity extends BaseLoggableActivity {
     @Override
     protected void performLoginChatSuccessAction(Bundle bundle) {
         super.performLoginChatSuccessAction(bundle);
-        actualizeCurrentTitle();
+//        actualizeCurrentTitle();
     }
 
     private void addDialogsAction() {
@@ -231,15 +241,15 @@ public class MainActivity extends BaseLoggableActivity {
     }
 
     private void addActions() {
-        addAction(QBServiceConsts.IMPORT_FRIENDS_SUCCESS_ACTION, importFriendsSuccessAction);
-        addAction(QBServiceConsts.IMPORT_FRIENDS_FAIL_ACTION, importFriendsFailAction);
+//        addAction(QBServiceConsts.IMPORT_FRIENDS_SUCCESS_ACTION, importFriendsSuccessAction);
+//        addAction(QBServiceConsts.IMPORT_FRIENDS_FAIL_ACTION, importFriendsFailAction);
 
         updateBroadcastActionList();
     }
 
     private void removeActions() {
-        removeAction(QBServiceConsts.IMPORT_FRIENDS_SUCCESS_ACTION);
-        removeAction(QBServiceConsts.IMPORT_FRIENDS_FAIL_ACTION);
+//        removeAction(QBServiceConsts.IMPORT_FRIENDS_SUCCESS_ACTION);
+//        removeAction(QBServiceConsts.IMPORT_FRIENDS_FAIL_ACTION);
 
         updateBroadcastActionList();
     }
@@ -268,21 +278,21 @@ public class MainActivity extends BaseLoggableActivity {
                 });
     }
 
-    private void performImportFriendsSuccessAction() {
+  /*  private void performImportFriendsSuccessAction() {
         appSharedHelper.saveUsersImportInitialized(true);
         hideProgress();
-    }
+    }*/
 
-    private void performImportFriendsFailAction(Bundle bundle) {
+   /* private void performImportFriendsFailAction(Bundle bundle) {
         performImportFriendsSuccessAction();
-    }
+    }*/
 
     private void launchDialogsListFragment() {
         setCurrentFragment(DialogsListFragment.newInstance(), true);
 //        setCurrentFragment(SearchFragment.newInstance(), true);
     }
 
-    private void startImportFriends() {
+   /* private void startImportFriends() {
         ImportFriendsHelper importFriendsHelper = new ImportFriendsHelper(MainActivity.this);
 
         if (facebookHelper.isSessionOpened()) {
@@ -292,7 +302,7 @@ public class MainActivity extends BaseLoggableActivity {
         }
 
         hideProgress();
-    }
+    }*/
 
 //    @Override
 //    public void globalSearchTrigger() {
@@ -303,7 +313,7 @@ public class MainActivity extends BaseLoggableActivity {
 //    }
 
 
-    private class ImportFriendsSuccessAction implements Command {
+    /*private class ImportFriendsSuccessAction implements Command {
 
         @Override
         public void execute(Bundle bundle) {
@@ -317,7 +327,7 @@ public class MainActivity extends BaseLoggableActivity {
         public void execute(Bundle bundle) {
             performImportFriendsFailAction(bundle);
         }
-    }
+    }*/
 
 
 }

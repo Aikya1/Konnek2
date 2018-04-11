@@ -13,10 +13,9 @@ import static com.aikya.konnek2.call.core.utils.helpers.CoreSharedHelper.Constan
 
 
 public class CoreSharedHelper {
-
     public class Constants {
 
-        public static final String NAME = "Q-municate";
+        public static final String NAME = "Konnek2";
         public static final String IMPORT_INITIALIZED = "import_initialized";
         public static final String FIRST_AUTH = "first_auth";
         public static final String FB_TOKEN = "fb_token";
@@ -57,6 +56,9 @@ public class CoreSharedHelper {
         public static final String IS_GDPR = "is_gdpr";
 
         public static final String SOCIAL_ID = "";
+        public static final String USER_CREATED_AT = "user_created_at";
+        public static final String USER_TAGS = "user_tags";
+        public static final String USER_LOGIN = "user_login";
     }
 
     protected final SharedPreferences sharedPreferences;
@@ -190,12 +192,37 @@ public class CoreSharedHelper {
         savePref(Constants.USER_ID, id);
     }
 
+    public void saveUserLogin(String login) {
+        savePref(Constants.USER_LOGIN, login);
+    }
+
+    public String getUserLogin() {
+        return getPref(Constants.USER_LOGIN);
+    }
+
     public String getUserEmail() {
         return getPref(Constants.USER_EMAIL, null);
     }
 
     public void saveUserEmail(String email) {
         savePref(Constants.USER_EMAIL, email);
+    }
+
+    public void saveCreatedAt(Long createdAt) {
+        savePref(Constants.USER_CREATED_AT, createdAt);
+    }
+
+
+    public Long getCreatedAt() {
+        return getPref(Constants.USER_CREATED_AT);
+    }
+
+    public void saveTags(String tags) {
+        savePref(Constants.USER_TAGS, tags);
+    }
+
+    public String getTags() {
+        return getPref(Constants.USER_TAGS);
     }
 
     public String getUserPassword() {

@@ -5,24 +5,22 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
-import android.os.Handler;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Base64;
 import android.util.Log;
 import android.view.WindowManager;
 
 import com.aikya.konnek2.App;
-import com.aikya.konnek2.call.core.models.AppSession;
+import com.aikya.konnek2.R;
+import com.aikya.konnek2.call.core.service.QBServiceConsts;
 import com.aikya.konnek2.call.core.utils.helpers.CoreSharedHelper;
 import com.aikya.konnek2.ui.activities.authorization.LandingActivity;
 import com.aikya.konnek2.ui.activities.base.BaseActivity;
-import com.aikya.konnek2.R;
-import com.aikya.konnek2.call.core.service.QBServiceConsts;
 import com.aikya.konnek2.utils.AppConstant;
 import com.aikya.konnek2.utils.helpers.ServiceManager;
 import com.quickblox.auth.model.QBProvider;
 import com.quickblox.auth.session.QBSessionManager;
-
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -66,7 +64,7 @@ public class AppSplashActivity extends BaseActivity {
             return;
         }
         appInitialized = true;
-        AppSession.load();
+//        AppSession.load();
         processPushIntent();
 
 

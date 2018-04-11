@@ -30,7 +30,7 @@
         android:title="@string/action_create_shortcut" />
 
     <item
-        android:id="@+id/action_clear_chat"
+        android:id="@+id/delete_chat_history_button"
         android:title="@string/action_clear_chat" />
 
     <item

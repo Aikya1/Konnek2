@@ -196,23 +196,15 @@ public abstract class BaseAuthActivity extends BaseActivity {
     }
 
     protected void startMainActivity(QBUser user) {
-        AppSession.getSession().updateUser(user);
         startMainActivity();
     }
 
     protected void startMainActivity() {
-//        MainActivity.start(BaseAuthActivity.this);
-
-//        startActivity(new Intent(BaseAuthActivity.this, Intro.class));
-
         Intent intent = new Intent(BaseAuthActivity.this, Intro.class);
         intent.putExtra("phNo", phNo);
         intent.putExtra("countryCode", countryCode);
-
         appSharedHelper.saveLastOpenActivity(Intro.class.getName());
-
         startActivity(intent);
-//        AppHomeActivity.start(BaseAuthActivity.this);
         finish();
     }
 

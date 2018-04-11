@@ -119,7 +119,7 @@
                 android:textSize="12sp"/>
 
             <ImageView
-                android:id="@+id/Image_call_type"
+                android:id="@+id/send_message_button"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_alignParentRight="true"

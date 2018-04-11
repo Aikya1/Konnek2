@@ -4,34 +4,34 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.aikya.konnek2.R;
 import com.aikya.konnek2.call.core.core.command.Command;
+import com.aikya.konnek2.call.core.qb.commands.chat.QBCreatePrivateChatCommand;
 import com.aikya.konnek2.call.core.qb.commands.chat.QBDeleteChatCommand;
 import com.aikya.konnek2.call.core.qb.commands.friend.QBRemoveFriendCommand;
+import com.aikya.konnek2.call.core.service.QBService;
+import com.aikya.konnek2.call.core.service.QBServiceConsts;
+import com.aikya.konnek2.call.core.utils.OnlineStatusUtils;
 import com.aikya.konnek2.call.core.utils.UserFriendUtils;
+import com.aikya.konnek2.call.db.managers.DataManager;
 import com.aikya.konnek2.call.db.models.DialogOccupant;
 import com.aikya.konnek2.call.db.utils.DialogTransformUtils;
 import com.aikya.konnek2.call.services.QMUserCacheImpl;
 import com.aikya.konnek2.call.services.QMUserService;
 import com.aikya.konnek2.call.services.model.QMUser;
 import com.aikya.konnek2.ui.activities.base.BaseLoggableActivity;
+import com.aikya.konnek2.ui.activities.call.CallActivity;
 import com.aikya.konnek2.ui.activities.chats.PrivateDialogActivity;
 import com.aikya.konnek2.ui.fragments.dialogs.base.TwoButtonsDialogFragment;
-import com.aikya.konnek2.call.core.qb.commands.chat.QBCreatePrivateChatCommand;
-import com.aikya.konnek2.call.core.service.QBService;
-import com.aikya.konnek2.call.core.service.QBServiceConsts;
-import com.aikya.konnek2.call.core.utils.OnlineStatusUtils;
-import com.aikya.konnek2.call.db.managers.DataManager;
-import com.aikya.konnek2.ui.activities.call.CallActivity;
-import com.aikya.konnek2.ui.views.roundedimageview.RoundedImageView;
 import com.aikya.konnek2.utils.DateUtils;
 import com.aikya.konnek2.utils.ToastUtils;
 import com.aikya.konnek2.utils.image.ImageLoaderUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.quickblox.chat.model.QBChatDialog;
-
 import com.quickblox.users.model.QBUser;
 import com.quickblox.videochat.webrtc.QBRTCTypes;
 
@@ -47,7 +47,7 @@ import butterknife.OnClick;
 public class UserProfileActivity extends BaseLoggableActivity {
 
     @Bind(com.aikya.konnek2.R.id.avatar_imageview)
-    RoundedImageView avatarImageView;
+    ImageView avatarImageView;
 
     @Bind(com.aikya.konnek2.R.id.name_textview)
     TextView nameTextView;
@@ -55,11 +55,11 @@ public class UserProfileActivity extends BaseLoggableActivity {
     @Bind(com.aikya.konnek2.R.id.timestamp_textview)
     TextView timestampTextView;
 
-    @Bind(com.aikya.konnek2.R.id.phone_view)
+    /*@Bind(com.aikya.konnek2.R.id.phone_view)
     View phoneView;
 
-    @Bind(com.aikya.konnek2.R.id.phone_textview)
-    TextView phoneTextView;
+    @Bind(com.aikya.konnek2.R.id.name_textview)
+    TextView phoneTextView;*/
 
     private DataManager dataManager;
     private int userId;
@@ -75,7 +75,8 @@ public class UserProfileActivity extends BaseLoggableActivity {
 
     @Override
     protected int getContentResId() {
-        return com.aikya.konnek2.R.layout.activity_user_profile;
+//        return com.aikya.konnek2.R.layout.activity_user_profile;
+        return  R.layout.activity_view_contact;
     }
 
     @Override
@@ -100,7 +101,7 @@ public class UserProfileActivity extends BaseLoggableActivity {
     private void initUIWithUsersData() {
         loadAvatar();
         setName();
-        setPhone();
+//        setPhone();
     }
 
     @Override
@@ -152,13 +153,13 @@ public class UserProfileActivity extends BaseLoggableActivity {
         }
     }
 
-    @OnClick(com.aikya.konnek2.R.id.remove_contact_and_chat_history_button)
+    /*@OnClick(com.aikya.konnek2.R.id.remove_contact_and_chat_history_button)
     void removeContactAndChatHistory(View view) {
         if (checkNetworkAvailableWithError()) {
             removeContactAndChatHistory = true;
             showRemoveContactAndChatHistoryDialog();
         }
-    }
+    }*/
 
     @Override
     public void notifyChangedUserStatus(int userId, boolean online) {
@@ -231,14 +232,14 @@ public class UserProfileActivity extends BaseLoggableActivity {
         nameTextView.setText(user.getFullName());
     }
 
-    private void setPhone() {
+    /*private void setPhone() {
         if (user.getPhone() != null) {
             phoneView.setVisibility(View.VISIBLE);
         } else {
             phoneView.setVisibility(View.GONE);
         }
         phoneTextView.setText(user.getPhone());
-    }
+    }*/
 
     private void loadAvatar() {
         String url = user.getAvatar();

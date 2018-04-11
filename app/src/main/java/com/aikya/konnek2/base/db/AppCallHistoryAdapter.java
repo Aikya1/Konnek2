@@ -77,7 +77,7 @@ public class AppCallHistoryAdapter extends BaseAdapter {
             holder.call_UserImage = rowView.findViewById(R.id.image_user);
             holder.call_Priority = rowView.findViewById(R.id.call_priority);
             holder.call_status = rowView.findViewById(R.id.call_status);
-            holder.callType = rowView.findViewById(R.id.Image_call_type);
+            holder.callType = rowView.findViewById(R.id.send_message_button);
             holder.call_userName = rowView.findViewById(R.id.call_userName);
             holder.call_LogDate = rowView.findViewById(R.id.call_LogDate);
             holder.call_LogTime = rowView.findViewById(R.id.call_LogTime);

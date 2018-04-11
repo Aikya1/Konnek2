@@ -105,6 +105,7 @@
         android:drawableEnd="@drawable/show_pw_block_29_3x"
         android:drawableLeft="@drawable/password_1024_84x84"
         android:drawablePadding="20dp"
+        android:visibility="gone"
         android:drawableRight="@drawable/show_pw_block_29_3x"
         android:drawableStart="@drawable/password_1024_84x84"
         android:hint="@string/password"

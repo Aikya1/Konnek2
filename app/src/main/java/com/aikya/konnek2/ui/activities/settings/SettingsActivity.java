@@ -39,7 +39,7 @@ public class SettingsActivity extends BaseLoggableActivity {
 
     public static final int REQUEST_CODE_LOGOUT = 300;
 
-    @Bind(R.id.avatar_imageview)
+  /*  @Bind(R.id.avatar_imageview)
     RoundedImageView avatarImageView;
 
     @Bind(R.id.full_name_edittext)
@@ -49,7 +49,7 @@ public class SettingsActivity extends BaseLoggableActivity {
     SwitchCompat pushNotificationSwitch;
 
     @Bind(R.id.change_password_view)
-    RelativeLayout changePasswordView;
+    RelativeLayout changePasswordView;*/
 
     private QMUser user;
     private FacebookHelper facebookHelper;
@@ -98,7 +98,7 @@ public class SettingsActivity extends BaseLoggableActivity {
         removeActions();
     }
 
-    @OnClick(R.id.edit_profile_imagebutton)
+ /*   @OnClick(R.id.edit_profile_imagebutton)
     void editProfile() {
         MyProfileActivity.start(this);
     }
@@ -161,13 +161,13 @@ public class SettingsActivity extends BaseLoggableActivity {
                             });
         }
 
-    }
+    }*/
 
 
-    @OnClick(R.id.delete_my_account_button)
+/*    @OnClick(R.id.delete_my_account_button)
     void deleteAccount() {
         ToastUtils.longToast(R.string.coming_soon);
-    }
+    }*/
 
     private void initFields() {
         title = getString(R.string.settings_title);
@@ -178,20 +178,20 @@ public class SettingsActivity extends BaseLoggableActivity {
 
     private void fillUI() {
 
-        pushNotificationSwitch.setChecked(QBSettings.getInstance().isEnablePushNotification());
+//        pushNotificationSwitch.setChecked(QBSettings.getInstance().isEnablePushNotification());
       /*  changePasswordView.setVisibility(
                 LoginType.EMAIL.equals(AppSession.getSession().getLoginType()) ? View.VISIBLE : View.GONE);
         fullNameTextView.setText(user.getFullName());*/
 
-        showUserAvatar();
+//        showUserAvatar();
     }
 
-    private void showUserAvatar() {
+  /*  private void showUserAvatar() {
         ImageLoader.getInstance().displayImage(
                 user.getAvatar(),
                 avatarImageView,
                 ImageLoaderUtils.UIL_USER_AVATAR_DISPLAY_OPTIONS);
-    }
+    }*/
 
     private void addActions() {
         addAction(QBServiceConsts.LOGOUT_FAIL_ACTION, failAction);

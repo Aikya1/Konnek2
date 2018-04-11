@@ -298,13 +298,13 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
     @OnClick(R.id.btnsignups)
     void phoneNumberConnect(View view) {
         if (checkNetworkAvailableWithError()) {
-            if (phoneeval() && checkeval()) {
+//            if (phoneeval() && checkeval()) {
                 showProgress();
                 countryCode = countryCodePicker.getDefaultCountryCodeWithPlus();
                 phNumber = etphoneno.getText().toString();
                 serviceManager.checkIfUserExist(phNumber)
                         .subscribe(checkIfUserExists);
-            }
+//            }
         }
     }
 
@@ -368,20 +368,15 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
     private void loginUser(QBUser user) {
         AppPreference.putQBUserId("" + user.getId());
         AppPreference.putQbUser("" + user);
-        AppSession.getSession().updateUser(user);
         startMainActivity(user);
-        // send analytics data
     }
 
 
     protected void startMainActivity(QBUser user) {
-        AppSession.getSession().updateUser(user);
         startMainActivity();
     }
 
     protected void startMainActivity() {
-//        MainActivity.start(BaseAuthActivity.this);
-//        startActivity(new Intent(Profile.this, Intro.class));
         appSharedHelper.saveLastOpenActivity(AppHomeActivity.class.getSimpleName());
         AppHomeActivity.start(LandingActivity.this);
         finish();

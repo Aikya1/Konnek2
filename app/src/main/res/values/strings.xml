@@ -464,6 +464,12 @@
     <string name="iam">In-App-messages</string>
     <string name="email">Email</string>
     <string name="text_42">42</string>
-
+    <string name="status_text">Yes I am here...</string>
+    <string name="accounts_text">Accounts</string>
+    <string name="chats_text">Chats</string>
+    <string name="notifications_text">Notifications</string>
+    <string name="data_usage_text">Data Usage</string>
+    <string name="contacts_text">Contacts</string>
+    <string name="help_text">Help</string>
 
 </resources>

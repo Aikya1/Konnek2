@@ -44,6 +44,7 @@ import com.quickblox.users.model.QBUser;
 import com.soundcloud.android.crop.Crop;
 
 import java.io.File;
+import java.util.Date;
 
 import rx.Observable;
 import rx.Observer;
@@ -108,7 +109,6 @@ public class Profile extends BaseActivity implements OnMediaPickedListener {
         viewPager = findViewById(com.aikya.konnek2.R.id.view_pager);
         dotsLayout = findViewById(com.aikya.konnek2.R.id.layoutProfileDots);
         profilebtnNext = findViewById(com.aikya.konnek2.R.id.btn_profile_next);
-        qbUser = AppSession.getSession().getUser();
         mediaPickHelper = new MediaPickHelper();
         // layouts of all profile sliders
         layouts = new int[]{
@@ -388,31 +388,20 @@ public class Profile extends BaseActivity implements OnMediaPickedListener {
                                 file.renameTo(file1);
                             }
                         }
-
-                        //without otp start
-
-                       /* if (loginType.equalsIgnoreCase(AppConstant.LOGIN_TYPE_MANUAL)) {
-                            qbUser = new QBUser();
-                        } else {
-                            qbUser = AppSession.getSession().getUser();
-                        }*/
                         qbUser = new QBUser();
                         qbUser.setLogin(phNo);
-//                        qbUser.setPassword(userEmail.toLowerCase() + phNo);
                         qbUser.setPassword(AppConstant.USER_PASSWORD);
                         qbUser.setEmail(userEmail);
                         qbUser.setFullName(firstName + " " + lastName);
                         qbUser.setPhone(phNo);
-
+                        qbUser.setCreatedAt(new Date());
 
                         userCustomData = new UserCustomData();
                         userCustomData.setFirstName(firstName);
-
                         if (facebookId != null) {
                             userCustomData.setFacebookId(facebookId);
                         }
                         userCustomData.setLastName(lastName);
-
                         if (s1 != null) {
                             userCustomData.setAvatarUrl(s1);
                         } else if (profileUrl != null) {
@@ -431,20 +420,11 @@ public class Profile extends BaseActivity implements OnMediaPickedListener {
                         Gson gson = new Gson();
                         String userCustomDataStringToSave = gson.toJson(userCustomData);
                         qbUser.setCustomData(userCustomDataStringToSave);
-
-                        String userCustomDataStringToParse = qbUser.getCustomData();
-                        UserCustomData userCustomDataObject = gson.fromJson(userCustomDataStringToParse, UserCustomData.class);
                         qbUser.setTags(tags);
 
 
-//                        if (loginType.equalsIgnoreCase(AppConstant.LOGIN_TYPE_MANUAL)) {
                         serviceManager.signUp(qbUser)
                                 .subscribe(manualLoginObserver);
-                        /*} else {
-
-                            serviceManager.updateUser(qbUser)
-                                    .subscribe(updateUserObserver);
-                        }*/
                     }
                 }
             });
@@ -464,7 +444,7 @@ public class Profile extends BaseActivity implements OnMediaPickedListener {
         userEmail = emailEt.getText().toString();
         password = passwordEt.getText().toString();
 
-        if (file == null && imageUri == null) {
+        /*if (file == null && imageUri == null) {
             ToastUtils.shortToast("Please upload pic");
             return false;
         } else if (TextUtils.isEmpty(status.getText().toString())) {
@@ -482,16 +462,17 @@ public class Profile extends BaseActivity implements OnMediaPickedListener {
         } else if (!EmailPhoneValidationUtils.isValidEmail(userEmail)) {
             ToastUtils.shortToast("Email is empty/not valid");
             return false;
-        } else if (!EmailPhoneValidationUtils.isValidPhone(phNo) || TextUtils.isEmpty(phNo)) {
+        } else */
+        if (!EmailPhoneValidationUtils.isValidPhone(phNo) || TextUtils.isEmpty(phNo)) {
             ToastUtils.shortToast("Phone No is empty/not valid");
             return false;
-        } else if (TextUtils.isEmpty(password)) {
+        } /*else if (TextUtils.isEmpty(password)) {
             ToastUtils.shortToast("Password can't be empty.");
             return false;
         } else if (password.length() < 8) {
             ToastUtils.shortToast("Password should be greate than 8 characters");
             return false;
-        }
+        }*/
         return true;
     }
 
@@ -544,10 +525,7 @@ public class Profile extends BaseActivity implements OnMediaPickedListener {
     private void performLoginSuccessAction(QBUser user) {
         AppPreference.putQBUserId("" + user.getId());
         AppPreference.putQbUser("" + user);
-
-        AppSession.getSession().updateUser(user);
         startMainActivity(user);
-        // send analytics data
     }
 
 

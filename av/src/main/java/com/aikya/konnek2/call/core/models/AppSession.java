@@ -8,6 +8,7 @@ import com.quickblox.auth.model.QBProvider;
 import com.quickblox.auth.session.QBSessionManager;
 import com.quickblox.auth.session.QBSessionParameters;
 
+import com.quickblox.core.helper.StringifyArrayList;
 import com.quickblox.users.model.QBUser;
 
 import java.io.Serializable;
@@ -53,9 +54,16 @@ public class AppSession implements Serializable {
 
         int userId = CoreSharedHelper.getInstance().getUserId();
         String userFullName = CoreSharedHelper.getInstance().getUserFullName();
+        StringifyArrayList tags = new StringifyArrayList();
+        tags.add("dev");
 
         QBUser qbUser = new QBUser();
         qbUser.setId(userId);
+
+        qbUser.setTags(tags);
+        qbUser.setCreatedAt(new Date(CoreSharedHelper.getInstance().getCreatedAt()));
+        qbUser.setPhone(CoreSharedHelper.getInstance().getUserPhoneNumber());
+
         qbUser.setEmail(CoreSharedHelper.getInstance().getUserEmail());
         qbUser.setPassword(CoreSharedHelper.getInstance().getUserPassword());
         qbUser.setFullName(userFullName);
@@ -109,7 +117,12 @@ public class AppSession implements Serializable {
     }
 
     private void saveUser(QBUser user) {
+
+        coreSharedHelper.saveTags("dev");
+        coreSharedHelper.saveUserLogin(user.getLogin());
+        coreSharedHelper.saveUserPhoneNumber(user.getPhone());
         coreSharedHelper.saveUserId(user.getId());
+        coreSharedHelper.saveCreatedAt(user.getCreatedAt().getTime());
         coreSharedHelper.saveUserEmail(user.getEmail());
         coreSharedHelper.saveUserPassword(user.getPassword());
         coreSharedHelper.saveUserFullName(user.getFullName());

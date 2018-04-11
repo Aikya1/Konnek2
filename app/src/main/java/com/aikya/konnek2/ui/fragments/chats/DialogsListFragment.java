@@ -495,13 +495,13 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
 
     private void addChat() {
 //        boolean hasFriends = !dataManager.getFriendDataManager().getAll().isEmpty();
-        if (isFriendsLoading()) {
-            ToastUtils.longToast(R.string.chat_service_is_initializing);
-        } /*else if (!hasFriends) {
-            ToastUtils.longToast(R.string.new_message_no_friends_for_new_message);
-        }*/ else {
-            NewMessageActivity.startForResult(this, CREATE_DIALOG);
-        }
+//        if (isFriendsLoading()) {
+//            ToastUtils.longToast(R.string.chat_service_is_initializing);
+//        } /*else if (!hasFriends) {
+//        ToastUtils.longToast(R.string.new_message_no_friends_for_new_message);
+//        }*/ else {
+        NewMessageActivity.startForResult(this, CREATE_DIALOG);
+//        }
     }
 
     private boolean isFriendsLoading() {
@@ -554,6 +554,7 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
 
         baseActivity.updateBroadcastActionList();
     }
+
     private void initChatsDialogs() {
 
         List<DialogWrapper> dialogsList = new ArrayList<>();
@@ -632,7 +633,7 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
         if (!loaderConsumerQueue.isEmpty()) {
             LoaderConsumer consumer = loaderConsumerQueue.poll();
             handler.post(consumer);
-        }else{
+        } else {
             baseActivity.hideProgress();
         }
     }

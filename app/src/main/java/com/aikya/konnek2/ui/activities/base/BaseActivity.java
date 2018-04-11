@@ -306,7 +306,7 @@ public abstract class BaseActivity extends AppCompatActivity implements ActionBa
     protected void onPause() {
         super.onPause();
         unregisterBroadcastReceivers();
-        removeActions();
+//        removeActions();
         unregisterConnectionListener();
         hideSnackBar(R.string.error_disconnected);
     }
@@ -322,7 +322,7 @@ public abstract class BaseActivity extends AppCompatActivity implements ActionBa
         Log.d("BaseActivity", "onResume");
         registerBroadcastReceivers();
         registerConnectionListener();
-        addActions();
+//        addActions();
         NotificationManagerHelper.clearNotificationEvent(this);
         checkShowingConnectionError();
     }
@@ -792,6 +792,8 @@ public abstract class BaseActivity extends AppCompatActivity implements ActionBa
 
     protected void performLoadChatsSuccessAction(Bundle bundle) {
         // hideSnackBar();
+
+        Log.d(TAG, "BUndle == " + bundle.toString());
         isDialogLoading = false;
     }
 

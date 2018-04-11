@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <TextView
+        android:id="@+id/name_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:paddingTop="10dp"
+        android:text="111111111111"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_size" />
+
+    <ImageView
+        android:id="@+id/video_call_button"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_alignEnd="@+id/view2"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/view2"
+        android:paddingTop="10dp"
+        android:src="@drawable/video_call_icon_blue_20_2x" />
+
+    <ImageView
+        android:id="@+id/audio_call_button"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="18dp"
+        android:layout_marginRight="18dp"
+        android:layout_toLeftOf="@+id/video_call_button"
+        android:layout_toStartOf="@+id/video_call_button"
+        android:paddingTop="10dp"
+        android:src="@drawable/ic_call_audiocall" />
+
+    <ImageView
+        android:id="@+id/send_message_button"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginEnd="18dp"
+        android:layout_marginRight="18dp"
+        android:layout_toLeftOf="@+id/audio_call_button"
+        android:layout_toStartOf="@+id/audio_call_button"
+        android:paddingTop="10dp"
+        android:src="@drawable/message_icon_blue_20_2x" />
+
+    <TextView
+        android:id="@+id/timestamp_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/name_textview"
+        android:paddingLeft="20dp"
+        android:paddingStart="20dp"
+        android:text="@string/user_profile_mobile"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_size_small" />
+
+    <View
+        android:id="@+id/view1"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_below="@+id/timestamp_textview"
+        android:layout_marginTop="10dp"
+        android:background="@color/light_gray" />
+
+    <TextView
+        android:id="@+id/action_mute_notifications"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/view1"
+        android:paddingLeft="20dp"
+        android:paddingTop="10dp"
+        android:text="Mute Notifications"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_size_small" />
+
+    <Switch
+        android:id="@+id/simpleSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/view2"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="18dp"
+        android:layout_marginRight="18dp"
+        android:checked="true"
+        android:paddingTop="10dp" />
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/action_mute_notifications"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/light_gray" />
+
+    <TextView
+        android:id="@+id/action_cus_notifications"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/view2"
+        android:paddingLeft="20dp"
+        android:paddingTop="10dp"
+        android:text="Custom Notifications"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_size_small" />
+
+    <View
+        android:id="@+id/view3"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/action_cus_notifications"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/light_gray" />
+
+    <TextView
+        android:id="@+id/groups_common"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/view3"
+        android:paddingLeft="20dp"
+        android:paddingTop="10dp"
+        android:text="Groups in Common"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_size_small" />
+
+    <View
+        android:id="@+id/view4"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_below="@+id/groups_common"
+        android:layout_marginTop="10dp"
+        android:background="@color/light_gray" />
+
+    <TextView
+        android:id="@+id/wallpaper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/view4"
+        android:paddingLeft="20dp"
+        android:paddingTop="10dp"
+        android:text="Wallpaper"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_size_small" />
+
+    <View
+        android:id="@+id/view5"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/wallpaper"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/light_gray" />
+
+    <TextView
+        android:id="@+id/emaichat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/view5"
+        android:paddingLeft="20dp"
+        android:paddingTop="10dp"
+        android:text="Email Chat"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_size_small" />
+
+    <View
+        android:id="@+id/view6"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/emaichat"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/light_gray" />
+
+    <TextView
+        android:id="@+id/sharecontact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/view6"
+        android:paddingLeft="20dp"
+        android:paddingTop="10dp"
+        android:text="Share Contact"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_size_small" />
+
+    <View
+        android:id="@+id/view7"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_below="@+id/sharecontact"
+        android:layout_marginTop="10dp"
+        android:background="@color/light_gray" />
+
+    <TextView
+        android:id="@+id/delete_chat_history_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/view7"
+        android:paddingLeft="20dp"
+        android:paddingTop="10dp"
+        android:text="Clear Chat"
+        android:textColor="@color/red"
+        android:textSize="@dimen/text_size_small" />
+
+    <View
+        android:id="@+id/view8"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/delete_chat_history_button"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/light_gray" />
+
+    <TextView
+        android:id="@+id/a"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/view8"
+        android:paddingLeft="20dp"
+        android:paddingTop="10dp"
+        android:text="Block"
+        android:textColor="@color/red"
+        android:textSize="@dimen/text_size_small" />
+</RelativeLayout>
