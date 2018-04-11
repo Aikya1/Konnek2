@@ -63,6 +63,7 @@ public class MyProfileActivity extends BaseLoggableActivity implements OnMediaPi
 
 
     /*asdasdasdasd*/
+/*last try mohita*/
 
     @Bind(com.aikya.konnek2.R.id.photo_imageview)
     RoundedImageView photoImageView;
