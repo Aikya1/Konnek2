@@ -42,7 +42,7 @@ public class UserCustomData implements Serializable {
     public static String TAG_dob = "dob";
     public static String TAG_postalcode = "postalcode";
     public static String FACEBOOK_ID = "facebook_id";
-
+    public static String TAG_Errormessage = "error";
 
 
     /*  public static String TAG_LANGUAGE_1 = "language_1";
@@ -60,6 +60,27 @@ public class UserCustomData implements Serializable {
     private String contactno;
     private String gender;
     private String facebookId;
+    private String deviceUDid;
+    private String isEuropean;
+    private String deviceToken;
+    private String prefLanguage;
+    private String prefLanguage1;
+    private String prefLanguage3;
+    private String prefInApp;
+    private String prefEmail;
+    private String city;
+    private String country;
+    private String status;
+    private String avatarUrl;
+    private String countryCode;
+    private String signUpType;
+    private String addressLine1;
+    private String dob;
+    private String postalcode;
+    private String prefSms;
+
+
+
 
     public String getAge() {
         return age;
@@ -221,24 +242,7 @@ public class UserCustomData implements Serializable {
         this.addressLine1 = addressLine1;
     }
 
-    private String deviceUDid;
-    private String isEuropean;
-    private String deviceToken;
-    private String prefLanguage;
-    private String prefLanguage1;
-    private String prefLanguage3;
-    private String prefInApp;
-    private String prefEmail;
-    private String city;
-    private String country;
-    private String status;
-    private String avatarUrl;
-    private String countryCode;
-    private String signUpType;
-    private String addressLine1;
-    private String dob;
-    private String postalcode;
-    private String prefSms;
+
 
     public String getPrefSms() {
         return prefSms;

@@ -238,9 +238,9 @@ public class CallActivity extends BaseLoggableActivity implements
         isInFront = false;
         super.onPause();
 
-        if (isNeedInitCallFragment()) {
+        /*if (isNeedInitCallFragment()) {
             initIncomingCallFragment();
-        }
+        }*/
 //        appSharedHelper.saveLastOpenActivity(getClass().getName());
     }
 
@@ -248,6 +248,9 @@ public class CallActivity extends BaseLoggableActivity implements
     protected void onResume() {
         isInFront = true;
         super.onResume();
+        if (isNeedInitCallFragment()) {
+            initIncomingCallFragment();
+        }
     }
 
     private boolean isNeedInitCallFragment() {

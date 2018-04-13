@@ -1,5 +1,6 @@
 package com.aikya.konnek2.ui.activities.profile;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -16,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -47,8 +49,11 @@ import com.soundcloud.android.crop.Crop;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -63,7 +68,7 @@ public class MyProfileActivity extends BaseLoggableActivity implements OnMediaPi
 
 
     /*asdasdasdasd*/
-/*last try mohita*/
+    /*last try mohita*/
     /*last try mohita 2*/
 
     @Bind(com.aikya.konnek2.R.id.photo_imageview)
@@ -104,6 +109,7 @@ public class MyProfileActivity extends BaseLoggableActivity implements OnMediaPi
     private String oldFullName;
     private MediaPickHelper mediaPickHelper;
     private Uri imageUri;
+    private Calendar myCalendar;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, MyProfileActivity.class);
@@ -122,6 +128,11 @@ public class MyProfileActivity extends BaseLoggableActivity implements OnMediaPi
         setUpActionBarWithUpButton();
         initData();
         updateOldData();
+        dob.setOnClickListener(view -> {
+            new DatePickerDialog(MyProfileActivity.this, date, myCalendar
+                    .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                    myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+        });
     }
 
     @Override
@@ -129,11 +140,7 @@ public class MyProfileActivity extends BaseLoggableActivity implements OnMediaPi
         if (requestCode == Crop.REQUEST_CROP) {
             handleCrop(resultCode, data);
         }
-        switch (requestCode) {
-            case MediaUtils.CAMERA_PHOTO_REQUEST_CODE:
 
-                break;
-        }
         super.onActivityResult(requestCode, resultCode, data);
     }
 
@@ -149,8 +156,13 @@ public class MyProfileActivity extends BaseLoggableActivity implements OnMediaPi
         switch (item.getItemId()) {
             case com.aikya.konnek2.R.id.action_done:
                 if (checkNetworkAvailableWithError()) {
-//                    updateUser();
-                    saveChanges();
+                    QBUser qbuser = createUserForUpdating();
+                    if (qbuser.getFullName() == null) {
+                        ToastUtils.longToast(getResources().getString(R.string.fullname_empty));
+                    } else {
+                        saveChanges(qbuser);
+                    }
+
                 }
                 break;
             default:
@@ -200,6 +212,8 @@ public class MyProfileActivity extends BaseLoggableActivity implements OnMediaPi
         title = getString(com.aikya.konnek2.R.string.profile_title);
         mediaPickHelper = new MediaPickHelper();
         qbUser = AppSession.getSession().getUser();
+        myCalendar = Calendar.getInstance();
+
     }
 
     private void initData() {
@@ -213,7 +227,8 @@ public class MyProfileActivity extends BaseLoggableActivity implements OnMediaPi
             etEmail.setText(currentEmail);
             etStatus.setText(userStatus);
             contactno.setText(qbUser.getPhone());
-//            contactno.setEnabled(false);
+            contactno.setEnabled(false);
+           etEmail.setEnabled(false);
             if (userCustomData.getGender().equals("Female")) {
                 rgGender.check(R.id.rgFemale);
             } else if (userCustomData.getGender().equals("Male")) {
@@ -237,6 +252,26 @@ public class MyProfileActivity extends BaseLoggableActivity implements OnMediaPi
             e.printStackTrace();
         }
 
+    }
+
+    DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+
+        @Override
+        public void onDateSet(DatePicker view, int year, int monthOfYear,
+                              int dayOfMonth) {
+            myCalendar.set(Calendar.YEAR, year);
+            myCalendar.set(Calendar.MONTH, monthOfYear);
+            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            updateLabel();
+        }
+
+    };
+
+    private void updateLabel() {
+        String myFormat = "dd/MM/yyyy"; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat);
+
+        dob.setText(sdf.format(myCalendar.getTime()));
     }
 
     private void initCurrentData() {
@@ -293,18 +328,22 @@ public class MyProfileActivity extends BaseLoggableActivity implements OnMediaPi
     private QBUser createUserForUpdating() {
         QBUser newUser = new QBUser();
         newUser.setId(qbUser.getId());
-//        newUser.setPassword(qbUser.getPassword());
-//        newUser.setOldPassword(qbUser.getOldPassword());
-        newUser.setFullName(currentFullName);
+        if (!etName.getText().toString().isEmpty()) {
+            newUser.setFullName(etName.getText().toString());
+        } else {
+            return newUser;
+        }
+
         newUser.setFacebookId(qbUser.getFacebookId());
 
         RadioButton gender = findViewById(rgGender.getCheckedRadioButtonId());
-        userCustomData.setGender(gender.getText().toString());
+        if (gender != null)
+            userCustomData.setGender(gender.getText().toString());
         userCustomData.setDob(dob.getText().toString());
         userCustomData.setAddressLine1(house.getText().toString());
         userCustomData.setCity(city.getText().toString());
         userCustomData.setCountry(country.getText().toString());
-//        userCustomData.setContactno(contactno.getText().toString());
+        userCustomData.setStatus(etStatus.getText().toString());
         userCustomData.setPostalcode(postcode.getText().toString());
         if (checkBox1.isChecked()) {
             userCustomData.setPrefEmail("true");
@@ -328,23 +367,11 @@ public class MyProfileActivity extends BaseLoggableActivity implements OnMediaPi
     }
 
 
-    private void updateUser() {
-        QBUser user = createUserForUpdating();
-
-       /*initCurrentData();
-
-        if (isDataChanged()) {
-           saveChanges();
-        } else {
-           etName.setError(getString(R.string.profile_full_name_and_photo_not_changed));
-        }*/
-    }
-
-    /*private void saveChanges() {
+    private void saveChanges(QBUser updateUser) {
 //        if (new ValidationUtils(this).isFullNameValid(etName, currentFullName.trim())) {
         showProgress();
 
-        QBUser newUser = createUserForUpdating();
+//        QBUser newUser = createUserForUpdating();
         File file = null;
         if (isNeedUpdateImage && imageUri != null) {
             file = MediaUtils.getCreatedFileFromUri(imageUri);
@@ -353,61 +380,16 @@ public class MyProfileActivity extends BaseLoggableActivity implements OnMediaPi
         Observable<QMUser> qmUserObservable;
 
         if (file != null) {
-            qmUserObservable = ServiceManager.getInstance().updateUser(newUser, file);
+            qmUserObservable = ServiceManager.getInstance().updateUser(updateUser, file);
         } else {
-            qmUserObservable = ServiceManager.getInstance().updateUser(newUser);
+            qmUserObservable = ServiceManager.getInstance().updateUser(updateUser);
         }
 
         qmUserObservable.subscribe(new Subscriber<QMUser>() {
             @Override
             public void onCompleted() {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                hideProgress();
-
-                if (e != null) {
-                    ToastUtils.longToast(e.getMessage());
-                }
-
-                resetUserData();
-            }
-
-            @Override
-            public void onNext(QMUser qmUser) {
-                hideProgress();
-                AppSession.getSession().updateUser(qmUser);
-                updateOldData();
-
-            }
-        });
-//        }
-    }*/
-
-    private void saveChanges() {
-//        if (new ValidationUtils(this).isFullNameValid(etName, currentFullName.trim())) {
-        showProgress();
-
-        QBUser newUser = createUserForUpdating();
-        File file = null;
-        if (isNeedUpdateImage && imageUri != null) {
-            file = MediaUtils.getCreatedFileFromUri(imageUri);
-        }
-
-        Observable<QMUser> qmUserObservable;
-
-        if (file != null) {
-            qmUserObservable = ServiceManager.getInstance().updateUser(newUser, file);
-        } else {
-            qmUserObservable = ServiceManager.getInstance().updateUser(newUser);
-        }
-
-        qmUserObservable.subscribe(new Subscriber<QMUser>() {
-            @Override
-            public void onCompleted() {
-
+                ToastUtils.longToast(getResources().getString(R.string.profile_updated));
+                finish();
             }
 
             @Override

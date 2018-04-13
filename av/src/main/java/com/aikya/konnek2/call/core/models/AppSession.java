@@ -52,27 +52,28 @@ public class AppSession implements Serializable {
 
     public static AppSession load() {
 
-        int userId = CoreSharedHelper.getInstance().getUserId();
-        String userFullName = CoreSharedHelper.getInstance().getUserFullName();
-        StringifyArrayList tags = new StringifyArrayList();
-        tags.add("dev");
+            int userId = CoreSharedHelper.getInstance().getUserId();
+            String userFullName = CoreSharedHelper.getInstance().getUserFullName();
+            StringifyArrayList tags = new StringifyArrayList();
+            tags.add("dev");
 
-        QBUser qbUser = new QBUser();
-        qbUser.setId(userId);
+            QBUser qbUser = new QBUser();
+            qbUser.setId(userId);
 
-        qbUser.setTags(tags);
-        qbUser.setCreatedAt(new Date(CoreSharedHelper.getInstance().getCreatedAt()));
-        qbUser.setPhone(CoreSharedHelper.getInstance().getUserPhoneNumber());
+            qbUser.setTags(tags);
 
-        qbUser.setEmail(CoreSharedHelper.getInstance().getUserEmail());
-        qbUser.setPassword(CoreSharedHelper.getInstance().getUserPassword());
-        qbUser.setFullName(userFullName);
-        qbUser.setFacebookId(CoreSharedHelper.getInstance().getFBId());
-        qbUser.setTwitterId(CoreSharedHelper.getInstance().getTwitterId());
-        qbUser.setTwitterDigitsId(CoreSharedHelper.getInstance().getTwitterDigitsId());
-        qbUser.setCustomData(CoreSharedHelper.getInstance().getUserCustomData());
+            qbUser.setCreatedAt(new Date(CoreSharedHelper.getInstance().getCreatedAt()));
+            qbUser.setPhone(CoreSharedHelper.getInstance().getUserPhoneNumber());
 
-        activeSession = new AppSession(qbUser);
+            qbUser.setEmail(CoreSharedHelper.getInstance().getUserEmail());
+            qbUser.setPassword(CoreSharedHelper.getInstance().getUserPassword());
+            qbUser.setFullName(userFullName);
+            qbUser.setFacebookId(CoreSharedHelper.getInstance().getFBId());
+            qbUser.setTwitterId(CoreSharedHelper.getInstance().getTwitterId());
+            qbUser.setTwitterDigitsId(CoreSharedHelper.getInstance().getTwitterDigitsId());
+            qbUser.setCustomData(CoreSharedHelper.getInstance().getUserCustomData());
+
+            activeSession = new AppSession(qbUser);
 
         return activeSession;
     }

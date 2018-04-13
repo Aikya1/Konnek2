@@ -466,7 +466,7 @@ public class QBService extends Service {
                 startAsync(command, intent);
             }
         }
-        return START_NOT_STICKY;
+        return START_STICKY;
     }
 
     @Override

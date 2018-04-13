@@ -194,6 +194,8 @@
     <string name="profile_full_name_not_changed">Full Name must be different</string>
     <string name="profile_full_name_and_photo_not_changed">Full Name or Photo must be changed</string>
     <string name="pick_image_intent_text">Select from</string>
+    <string name="profile_updated">Successfully updated profile</string>
+    <string name="fullname_empty">Name cannot be empty</string>
 
     <!-- Feedback -->
     <string name="feedback_title">Feedback Description</string>
@@ -395,7 +397,7 @@
     <string name="mobile">Mobile</string>
     <string name="name">Pooja</string>
     <string name="image_description">Close</string>
-    <string name="next">Next</string>
+    <string name="next">Save</string>
     <string name="new_group_title_1">Add Group name and icon</string>
     <string name="action_group_details">Group conctact info</string>
     <string name="action_export_group_chat">Export group chat</string>

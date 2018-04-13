@@ -28,6 +28,7 @@ import com.aikya.konnek2.call.core.utils.UserFriendUtils;
 import com.aikya.konnek2.call.db.utils.ErrorUtils;
 import com.aikya.konnek2.call.services.model.QMUser;
 import com.aikya.konnek2.ui.activities.authorization.LandingActivity;
+import com.aikya.konnek2.ui.activities.catchup.CatchUpActivity;
 import com.aikya.konnek2.ui.activities.main.MainActivity;
 import com.aikya.konnek2.ui.activities.settings.SettingsActivity;
 import com.aikya.konnek2.utils.helpers.FacebookHelper;
@@ -117,7 +118,8 @@ public class AppHomeActivity extends AppCompatActivity implements NavigationView
 
 
                     case 3:
-                        AppCommon.displayToast("Catch Up");
+                        Intent goToCatchup = new Intent(getApplicationContext(), CatchUpActivity.class);
+                        startActivity(goToCatchup);
                         break;
 
                     case 4:

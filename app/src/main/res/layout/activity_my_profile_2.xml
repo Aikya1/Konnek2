@@ -141,6 +141,7 @@
                 android:inputType="phone"
                 android:paddingLeft="20dp"
                 android:textSize="@dimen/standard_content_size"
+                android:textColor="@color/black"
                 android:paddingRight="20dp" />
 
             <View
@@ -258,6 +259,7 @@
             android:textSize="@dimen/standard_content_size"
             android:inputType="date"
             android:paddingLeft="20dp"
+            android:focusable="false"
             android:paddingRight="20dp" />
 
             <View

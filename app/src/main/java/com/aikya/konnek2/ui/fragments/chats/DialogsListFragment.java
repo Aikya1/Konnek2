@@ -476,6 +476,8 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
             if (dialogsListLoader.isLoadCacheFinished()) {
                 QBLoadDialogsCommand.start(getContext(), true);
             }
+        }else{
+            baseActivity.hideProgress();
         }
     }
 
