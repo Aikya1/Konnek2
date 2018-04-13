@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/toolbar_view"
+        layout="@layout/toolbar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar_view"
+        android:orientation="vertical">
+
+        <fragment
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/catch_tv1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Share Location"
+                android:textColor="@color/black"
+                android:textSize="@dimen/standard_content_size" />
+
+            <Switch
+                android:id="@+id/shareLoc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:backgroundTint="@color/colorPrimary" />
+
+            <TextView
+                android:id="@+id/catch_tv2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/catch_tv1"
+                android:layout_marginTop="20dp"
+                android:text="Set your distance"
+                android:textColor="@color/black"
+                android:textSize="@dimen/standard_content_size" />
+
+            <TextView
+                android:id="@+id/catch_miles"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/catch_tv1"
+                android:layout_marginTop="20dp"
+                android:text="0.5 miles"
+                android:textColor="@color/dark_gray"
+                android:textSize="@dimen/standard_content_size" />
+
+            <SeekBar
+                android:id="@+id/mile_seek"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/catch_tv2"
+                android:layout_marginTop="10dp"
+                android:thumbTint="@color/colorPrimary"
+                android:max="100"
+                android:progressTint="@color/colorPrimary"
+                android:progressBackgroundTint="@color/dark_gray"
+                android:progress="0"
+                android:scrollbarSize="20dp"
+                />
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/mile_seek"
+                android:layout_marginTop="20dp"/>
+
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+</RelativeLayout>
