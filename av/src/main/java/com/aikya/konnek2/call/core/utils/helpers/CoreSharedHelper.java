@@ -208,12 +208,12 @@ public class CoreSharedHelper {
         savePref(Constants.USER_EMAIL, email);
     }
 
-    public void saveCreatedAt(Long createdAt) {
+    public void saveCreatedAt(long createdAt) {
         savePref(Constants.USER_CREATED_AT, createdAt);
     }
 
 
-    public Long getCreatedAt() {
+    public long getCreatedAt() {
         return getPref(Constants.USER_CREATED_AT);
     }
 

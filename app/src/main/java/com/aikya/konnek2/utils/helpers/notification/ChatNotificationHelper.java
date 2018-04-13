@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import com.aikya.konnek2.App;
 import com.aikya.konnek2.R;
 import com.aikya.konnek2.call.core.models.AppSession;
+import com.aikya.konnek2.service.CallService;
 import com.aikya.konnek2.utils.helpers.SharedHelper;
 import com.aikya.konnek2.call.core.models.NotificationEvent;
 import com.aikya.konnek2.call.core.utils.ConstsCore;
@@ -58,14 +59,15 @@ public class ChatNotificationHelper {
         boolean callPush = TextUtils.equals(messageType, ConstsCore.PUSH_MESSAGE_TYPE_CALL);
 
 
-       /* if (callPush && shouldProceedCall()) {
+        if (callPush && shouldProceedCall()) {
             CallService.start(context);
             return;
-        }*/
+        }
 
-        /*if (SystemUtils.isAppRunningNow()) {
+        if (SystemUtils.isAppRunningNow()) {
             return;
-        }*/
+        }
+
 
         if (isOwnMessage(userId)) {
 

@@ -67,7 +67,7 @@ public class ConversationCallFragment extends Fragment implements Serializable, 
         QBRTCSessionConnectionCallbacks, CallActivity.QBRTCSessionUserCallback, QBRTCClientAudioTracksCallback<QBRTCSession> {
 
 
-//    khgjh
+    //    khgjh
     private static final long TOGGLE_CAMERA_DELAY = 1000;
     private static final long LOCAL_TRACk_INITIALIZE_DELAY = 500;
 
@@ -164,6 +164,8 @@ public class ConversationCallFragment extends Fragment implements Serializable, 
 
     private void initSessionListener() {
         ((CallActivity) getActivity()).addVideoTrackCallbacksListener(this);
+        ((CallActivity) getActivity()).addAudioTrackCallbacksListener(this);
+
     }
 
     /*private void setUpUiByCallType() {
@@ -294,7 +296,6 @@ public class ConversationCallFragment extends Fragment implements Serializable, 
             if (!qbFriendListHelper.isUserOnline(qbUser.getId())) {
                 String callMsg = getString(R.string.dlg_offline_call,
                         AppSession.getSession().getUser().getFullName());
-
                 QBSendPushCommand.start(getActivity(), callMsg, qbUser.getId());
             }
         }
@@ -398,11 +399,11 @@ public class ConversationCallFragment extends Fragment implements Serializable, 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-                if(buttonView.isChecked()){
+                if (buttonView.isChecked()) {
                     Log.d(TAG, "Mic is off!");
                     ((CallActivity) getActivity()).getCurrentSession().getMediaStreamManager().setAudioEnabled(false);
                     isAudioEnabled = false;
-                }else{
+                } else {
                     Log.d(TAG, "Mic is on!");
                     ((CallActivity) getActivity()).getCurrentSession().getMediaStreamManager().setAudioEnabled(true);
                     isAudioEnabled = true;
@@ -673,17 +674,17 @@ public class ConversationCallFragment extends Fragment implements Serializable, 
     @Override
     public void onStartConnectToUser(QBRTCSession qbrtcSession, Integer userId) {
 //        setStatusForOpponent(userId, getString(R.string.checking));
-        Log.d(TAG,"onStartConnectToUser");
+        Log.d(TAG, "onStartConnectToUser");
     }
 
     @Override
     public void onStateChanged(QBRTCSession qbrtcSession, BaseSession.QBRTCSessionState qbrtcSessionState) {
-        Log.d(TAG,"onStateChanged");
+        Log.d(TAG, "onStateChanged");
     }
 
     @Override
     public void onConnectedToUser(QBRTCSession qbrtcSession, final Integer userId) {
-        Log.d(TAG,"onConnectedToUser");
+        Log.d(TAG, "onConnectedToUser");
         actionsByConnectedToUser();
     }
 
@@ -691,60 +692,60 @@ public class ConversationCallFragment extends Fragment implements Serializable, 
     @Override
     public void onConnectionClosedForUser(QBRTCSession qbrtcSession, Integer integer) {
 //        setStatusForOpponent(integer, getString(R.string.closed));
-        Log.d(TAG,"onConnectionClosedForUser");
+        Log.d(TAG, "onConnectionClosedForUser");
     }
 
     @Override
     public void onDisconnectedFromUser(QBRTCSession qbrtcSession, Integer integer) {
 //        setStatusForOpponent(integer, getString(R.string.disconnected));
-        Log.d(TAG,"onDisconnectedFromUser");
+        Log.d(TAG, "onDisconnectedFromUser");
     }
 
     @Override
     public void onDisconnectedTimeoutFromUser(QBRTCSession qbrtcSession, Integer integer) {
 //        setStatusForOpponent(integer, getString(R.string.time_out));
-        Log.d(TAG,"onDisconnectedTimeoutFromUser");
+        Log.d(TAG, "onDisconnectedTimeoutFromUser");
     }
 
     @Override
     public void onConnectionFailedWithUser(QBRTCSession qbrtcSession, Integer integer) {
 //        setStatusForOpponent(integer, getString(R.string.failed));
-        Log.d(TAG,"onConnectionFailedWithUser");
+        Log.d(TAG, "onConnectionFailedWithUser");
     }
 
     @Override
     public void onUserNotAnswer(QBRTCSession session, Integer userId) {
 //        setStatusForOpponent(userId, getString(R.string.call_no_answer));
-        Log.d(TAG,"onUserNotAnswer");
+        Log.d(TAG, "onUserNotAnswer");
     }
 
     @Override
     public void onCallRejectByUser(QBRTCSession session, Integer userId, Map<String, String> userInfo) {
 //        setStatusForOpponent(userId, getString(R.string.call_rejected));
-        Log.d(TAG,"onCallRejectByUser");
+        Log.d(TAG, "onCallRejectByUser");
     }
 
     @Override
     public void onCallAcceptByUser(QBRTCSession session, Integer userId, Map<String, String> userInfo) {
 //        setStatusForOpponent(userId, getString(R.string.call_accepted));
-        Log.d(TAG,"onCallAcceptByUser");
+        Log.d(TAG, "onCallAcceptByUser");
     }
 
     @Override
     public void onReceiveHangUpFromUser(QBRTCSession session, Integer userId) {
 //        setStatusForOpponent(userId, getString(R.string.call_hung_up));
-        Log.d(TAG,"onReceiveHangUpFromUser");
+        Log.d(TAG, "onReceiveHangUpFromUser");
     }
 
     @Override
     public void onLocalAudioTrackReceive(QBRTCSession qbrtcSession, QBRTCAudioTrack qbrtcAudioTrack) {
-        Log.d(TAG,"OnLocalAudioTrackReceive");
+        Log.d(TAG, "OnLocalAudioTrackReceive");
 
     }
 
     @Override
     public void onRemoteAudioTrackReceive(QBRTCSession qbrtcSession, QBRTCAudioTrack qbrtcAudioTrack, Integer integer) {
-        Log.d(TAG,"OnLocalAudioTrackReceive");
+        Log.d(TAG, "OnLocalAudioTrackReceive");
 
     }
 

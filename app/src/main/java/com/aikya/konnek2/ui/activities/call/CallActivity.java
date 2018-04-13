@@ -56,6 +56,7 @@ import com.quickblox.videochat.webrtc.QBRTCSession;
 import com.quickblox.videochat.webrtc.QBRTCSessionDescription;
 import com.quickblox.videochat.webrtc.QBRTCTypes;
 import com.quickblox.videochat.webrtc.QBSignalingSpec;
+import com.quickblox.videochat.webrtc.callbacks.QBRTCClientAudioTracksCallback;
 import com.quickblox.videochat.webrtc.callbacks.QBRTCClientSessionCallbacks;
 import com.quickblox.videochat.webrtc.callbacks.QBRTCClientVideoTracksCallbacks;
 import com.quickblox.videochat.webrtc.callbacks.QBRTCSessionConnectionCallbacks;
@@ -289,7 +290,7 @@ public class CallActivity extends BaseLoggableActivity implements
         baseActivity.updateBroadcastActionList();*/
 
 //        addAction(ConstsCore.PI);
-
+        addAction(QBServiceConsts.LOGIN_CHAT_COMPOSITE_SUCCESS_ACTION, new LoginChatCompositeSuccessAction());
         addAction(QBServiceConsts.SEND_PUSH_MESSAGES_SUCCESS_ACTION, notificationCommandSuccess);
         addAction(QBServiceConsts.SEND_PUSH_MESSAGES_FAIL_ACTION, notificationCommandFailed);
 
@@ -785,6 +786,12 @@ public class CallActivity extends BaseLoggableActivity implements
 
         if (getCurrentSession() != null) {
             getCurrentSession().addVideoTrackCallbacksListener(videoTracksCallbacks);
+        }
+    }
+
+    public void addAudioTrackCallbacksListener(QBRTCClientAudioTracksCallback audioTracksCallback) {
+        if (getCurrentSession() != null) {
+            getCurrentSession().addAudioTrackCallbacksListener(audioTracksCallback);
         }
     }
 

@@ -61,7 +61,12 @@ public class AppSession implements Serializable {
         qbUser.setId(userId);
 
         qbUser.setTags(tags);
-        qbUser.setCreatedAt(new Date(CoreSharedHelper.getInstance().getCreatedAt()));
+
+//        long date = CoreSharedHelper.getInstance().getCreatedAt();
+
+//        qbUser.setCreatedAt(new Date(CoreSharedHelper.getInstance().getCreatedAt()));
+
+
         qbUser.setPhone(CoreSharedHelper.getInstance().getUserPhoneNumber());
 
         qbUser.setEmail(CoreSharedHelper.getInstance().getUserEmail());
@@ -122,7 +127,7 @@ public class AppSession implements Serializable {
         coreSharedHelper.saveUserLogin(user.getLogin());
         coreSharedHelper.saveUserPhoneNumber(user.getPhone());
         coreSharedHelper.saveUserId(user.getId());
-        coreSharedHelper.saveCreatedAt(user.getCreatedAt().getTime());
+//        coreSharedHelper.saveCreatedAt(user.getCreatedAt().getTime());
         coreSharedHelper.saveUserEmail(user.getEmail());
         coreSharedHelper.saveUserPassword(user.getPassword());
         coreSharedHelper.saveUserFullName(user.getFullName());

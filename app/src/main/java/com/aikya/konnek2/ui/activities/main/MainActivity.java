@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.aikya.konnek2.R;
+import com.aikya.konnek2.base.activity.AppHomeActivity;
 import com.aikya.konnek2.call.core.core.command.Command;
 import com.aikya.konnek2.call.core.models.AppSession;
 import com.aikya.konnek2.call.core.models.UserCustomData;
@@ -20,12 +21,10 @@ import com.aikya.konnek2.call.core.utils.helpers.CoreSharedHelper;
 import com.aikya.konnek2.call.db.managers.DataManager;
 import com.aikya.konnek2.call.services.QMUserService;
 import com.aikya.konnek2.call.services.model.QMUser;
-import com.aikya.konnek2.base.activity.AppHomeActivity;
 import com.aikya.konnek2.ui.activities.base.BaseLoggableActivity;
 import com.aikya.konnek2.ui.activities.settings.SettingsActivity;
 import com.aikya.konnek2.ui.fragments.chats.DialogsListFragment;
 import com.aikya.konnek2.utils.MediaUtils;
-import com.aikya.konnek2.utils.helpers.FacebookHelper;
 import com.aikya.konnek2.utils.helpers.ImportFriendsHelper;
 import com.aikya.konnek2.utils.helpers.ServiceManager;
 import com.aikya.konnek2.utils.image.ImageLoaderUtils;
@@ -42,6 +41,9 @@ import rx.Subscriber;
 public class MainActivity extends BaseLoggableActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
+
+//    private ImportFriendsSuccessAction importFriendsSuccessAction;
+//    private ImportFriendsFailAction importFriendsFailAction;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
@@ -133,6 +135,9 @@ public class MainActivity extends BaseLoggableActivity {
 
     private void initFields() {
 
+//        importFriendsSuccessAction = new ImportFriendsSuccessAction();
+//        importFriendsFailAction = new ImportFriendsFailAction();
+
         AppSession session = AppSession.getSession();
         QBUser user = session.getUser();
         String fullName = AppSession.getSession().getUser().getFullName();
@@ -188,7 +193,7 @@ public class MainActivity extends BaseLoggableActivity {
 //        actualizeCurrentTitle();
         super.onResume();
 
-//        addActions();
+        addActions();
     }
 
     private void actualizeCurrentTitle() {
@@ -233,10 +238,12 @@ public class MainActivity extends BaseLoggableActivity {
     }
 
     private void addDialogsAction() {
+        addAction(QBServiceConsts.LOGIN_CHAT_COMPOSITE_SUCCESS_ACTION, new LoginChatCompositeSuccessAction());
         addAction(QBServiceConsts.LOAD_CHATS_DIALOGS_SUCCESS_ACTION, new LoadChatsSuccessAction());
     }
 
     private void removeDialogsAction() {
+        removeAction(QBServiceConsts.LOGIN_CHAT_COMPOSITE_SUCCESS_ACTION);
         removeAction(QBServiceConsts.LOAD_CHATS_DIALOGS_SUCCESS_ACTION);
     }
 
@@ -244,7 +251,7 @@ public class MainActivity extends BaseLoggableActivity {
 //        addAction(QBServiceConsts.IMPORT_FRIENDS_SUCCESS_ACTION, importFriendsSuccessAction);
 //        addAction(QBServiceConsts.IMPORT_FRIENDS_FAIL_ACTION, importFriendsFailAction);
 
-        updateBroadcastActionList();
+//        updateBroadcastActionList();
     }
 
     private void removeActions() {
@@ -278,31 +285,31 @@ public class MainActivity extends BaseLoggableActivity {
                 });
     }
 
-  /*  private void performImportFriendsSuccessAction() {
+    private void performImportFriendsSuccessAction() {
         appSharedHelper.saveUsersImportInitialized(true);
         hideProgress();
-    }*/
+    }
 
-   /* private void performImportFriendsFailAction(Bundle bundle) {
+    private void performImportFriendsFailAction(Bundle bundle) {
         performImportFriendsSuccessAction();
-    }*/
+    }
 
     private void launchDialogsListFragment() {
         setCurrentFragment(DialogsListFragment.newInstance(), true);
 //        setCurrentFragment(SearchFragment.newInstance(), true);
     }
 
-   /* private void startImportFriends() {
+    private void startImportFriends() {
         ImportFriendsHelper importFriendsHelper = new ImportFriendsHelper(MainActivity.this);
 
-        if (facebookHelper.isSessionOpened()) {
+        /*if (facebookHelper.isSessionOpened()) {
             importFriendsHelper.startGetFriendsListTask(true);
         } else {
             importFriendsHelper.startGetFriendsListTask(false);
-        }
+        }*/
 
         hideProgress();
-    }*/
+    }
 
 //    @Override
 //    public void globalSearchTrigger() {
@@ -313,7 +320,7 @@ public class MainActivity extends BaseLoggableActivity {
 //    }
 
 
-    /*private class ImportFriendsSuccessAction implements Command {
+    private class ImportFriendsSuccessAction implements Command {
 
         @Override
         public void execute(Bundle bundle) {
@@ -327,7 +334,7 @@ public class MainActivity extends BaseLoggableActivity {
         public void execute(Bundle bundle) {
             performImportFriendsFailAction(bundle);
         }
-    }*/
+    }
 
 
 }

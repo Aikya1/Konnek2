@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.aikya.konnek2.call.core.core.command.ServiceCommand;
+import com.aikya.konnek2.call.core.models.CallPushParams;
 import com.aikya.konnek2.call.core.qb.helpers.QBCallChatHelper;
 import com.aikya.konnek2.call.core.service.QBService;
 import com.aikya.konnek2.call.core.service.QBServiceConsts;
@@ -18,7 +19,7 @@ public class QBInitCallChatCommand extends ServiceCommand {
     private QBCallChatHelper qbCallChatHelper;
 
     public QBInitCallChatCommand(Context context, QBCallChatHelper qbCallChatHelper, String successAction,
-            String failAction) {
+                                 String failAction) {
         super(context, successAction, failAction);
         this.qbCallChatHelper = qbCallChatHelper;
     }
@@ -28,6 +29,16 @@ public class QBInitCallChatCommand extends ServiceCommand {
         intent.putExtra(QBServiceConsts.EXTRA_CALL_ACTIVITY, callClass);
         context.startService(intent);
     }
+
+    public static void start(Context context, Class<? extends Activity> callClass, CallPushParams callPushParams) {
+        Intent intent = new Intent(QBServiceConsts.INIT_CALL_CHAT_ACTION, null, context, QBService.class);
+        intent.putExtra(QBServiceConsts.EXTRA_CALL_ACTIVITY, callClass);
+        if (callPushParams != null) {
+            intent.putExtra(QBServiceConsts.EXTRA_PUSH_CALL, callPushParams);
+        }
+        context.startService(intent);
+    }
+
 
     @Override
     public Bundle perform(Bundle extras) throws Exception {
@@ -39,6 +50,7 @@ public class QBInitCallChatCommand extends ServiceCommand {
             Log.d("test_crash_1", "+++ perform 2 +++");
             qbCallChatHelper.initActivityClass((Class<? extends Activity>) extras.getSerializable(
                     QBServiceConsts.EXTRA_CALL_ACTIVITY));
+            qbCallChatHelper.setCallPushParams((CallPushParams) extras.getSerializable(QBServiceConsts.EXTRA_PUSH_CALL));
         }
         return extras;
     }
