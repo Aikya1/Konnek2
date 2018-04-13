@@ -406,7 +406,10 @@ public class MyProfileActivity extends BaseLoggableActivity implements OnMediaPi
             @Override
             public void onNext(QMUser qmUser) {
                 hideProgress();
+
+
                 AppSession.getSession().updateUser(qmUser);
+
                 updateOldData();
 
             }

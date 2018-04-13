@@ -53,6 +53,6 @@ public class QBSendPushCommand extends ServiceCommand {
             /* ignore message = "No one can receive the message" */
         }
 
-        return params;
+        return null;
     }
 }

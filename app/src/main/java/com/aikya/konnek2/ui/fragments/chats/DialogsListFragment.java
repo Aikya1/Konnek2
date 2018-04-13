@@ -743,7 +743,6 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
     }
 
     private class LoadChatsFailedAction implements Command {
-
         @Override
         public void execute(Bundle bundle) throws Exception {
             updateDialogsProcess = State.finished;

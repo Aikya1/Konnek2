@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import com.aikya.konnek2.call.core.models.CallPushParams;
 import com.aikya.konnek2.call.core.utils.UserFriendUtils;
 import com.aikya.konnek2.call.core.utils.helpers.CoreSharedHelper;
 import com.aikya.konnek2.call.services.QMUserService;
@@ -13,6 +14,7 @@ import com.aikya.konnek2.call.core.models.StartConversationReason;
 import com.aikya.konnek2.call.core.service.QBServiceConsts;
 import com.quickblox.chat.QBChatService;
 import com.quickblox.chat.QBSignaling;
+import com.quickblox.chat.QBWebRTCSignaling;
 import com.quickblox.chat.listeners.QBVideoChatSignalingManagerListener;
 
 import com.quickblox.users.model.QBUser;
@@ -38,6 +40,9 @@ public class QBCallChatHelper extends BaseHelper {
     private static final int DISCONNECT_TIME = 30;
     private static final int ANSWER_TIME_INTERVAL = 60;
 
+    private CallPushParams callPushParams;
+
+
     private QBRTCClient qbRtcClient;
     private Class<? extends Activity> activityClass;
 
@@ -59,7 +64,13 @@ public class QBCallChatHelper extends BaseHelper {
 
         qbRtcClient.addSessionCallbacksListener(new QBRTCClientSessionCallbacksImpl());
 
+
         setUpCallClient();
+    }
+
+
+    public void setCallPushParams(CallPushParams callPushParams) {
+        this.callPushParams = callPushParams;
     }
 
     public void initActivityClass(Class<? extends Activity> activityClass) {
@@ -132,6 +143,7 @@ public class QBCallChatHelper extends BaseHelper {
                     StartConversationReason.INCOME_CALL_FOR_ACCEPTION);
             intent.putExtra(QBServiceConsts.EXTRA_CONFERENCE_TYPE, qbRtcSession.getConferenceType());
             intent.putExtra(QBServiceConsts.EXTRA_SESSION_DESCRIPTION, qbRtcSession.getSessionDescription());
+            intent.putExtra(QBServiceConsts.EXTRA_PUSH_CALL, callPushParams);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.getApplicationContext().startActivity(intent);
         } else {
@@ -157,7 +169,7 @@ public class QBCallChatHelper extends BaseHelper {
         public void signalingCreated(QBSignaling qbSignaling, boolean createdLocally) {
             if (!createdLocally) {
                 Log.d("AVCALLFUNCATION", " QBCallChatHelper10 QBVideoChatSignalingManagerListenerImpl ");
-                qbRtcClient.addSignaling(qbSignaling);
+                qbRtcClient.addSignaling((QBWebRTCSignaling) qbSignaling);
             }
         }
     }

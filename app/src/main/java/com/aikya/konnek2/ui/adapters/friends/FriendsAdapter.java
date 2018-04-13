@@ -71,10 +71,10 @@ public class FriendsAdapter extends BaseFilterAdapter<QMUser, BaseClickListenerV
             viewHolder.nameTextView.setVisibility(View.VISIBLE);
 
             if (user.getFullName() != null) {
-                viewHolder.nameTextView.setText(user.getPhone());
+                viewHolder.nameTextView.setText(user.getFullName());
 
             } else {
-                viewHolder.nameTextView.setText(user.getFullName());
+                viewHolder.nameTextView.setText(user.getPhone());
             }
 
 

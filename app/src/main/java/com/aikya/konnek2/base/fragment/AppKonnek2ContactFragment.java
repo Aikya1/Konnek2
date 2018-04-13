@@ -113,7 +113,7 @@ public class AppKonnek2ContactFragment extends BaseFragment {
     /*================+++TEST CODE+++==================*/
     private void getRegisteredUsersFromQBAddressBook() {
         baseActivity.showProgress();
-        String UDID = null;
+        String UDID = "";
         boolean isCompact = false;
         Performer<ArrayList<QBUser>> performer = QBUsers.getRegisteredUsersFromAddressBook(UDID, isCompact);
         Observable<ArrayList<QBUser>> observable = performer.convertTo(RxJavaPerformProcessor.INSTANCE);

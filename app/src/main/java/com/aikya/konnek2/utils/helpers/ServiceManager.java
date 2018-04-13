@@ -4,6 +4,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.util.Log;
@@ -24,6 +25,7 @@ import com.quickblox.auth.model.QBProvider;
 import com.quickblox.auth.session.QBSessionManager;
 import com.quickblox.content.QBContent;
 import com.quickblox.content.model.QBFile;
+import com.quickblox.core.QBEntityCallback;
 import com.quickblox.core.exception.QBResponseException;
 import com.quickblox.core.request.QBPagedRequestBuilder;
 import com.quickblox.core.server.Performer;
@@ -36,6 +38,7 @@ import com.quickblox.users.model.QBAddressBookResponse;
 import com.quickblox.users.model.QBUser;
 
 import java.io.File;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -520,7 +523,7 @@ public class ServiceManager {
 
                         inviteFriend = new InviteFriend();
                         inviteFriend.setName(name);
-                        inviteFriend.setId(id);
+//                        inviteFriend.setId(id);
                         contact1.setName(name);
 
                         Cursor phoneCursor = contentResolver.query(
@@ -565,8 +568,8 @@ public class ServiceManager {
     }
 
     private void uploadToQbAddressBook(ArrayList<QBAddressBookContact> contactsGlobal) {
-        String UDID = null;
-        boolean force = true;
+        String UDID = "";
+        boolean force = false;
 
         Performer<QBAddressBookResponse> performer = QBUsers.uploadAddressBook(contactsGlobal, UDID, force);
         Observable<QBAddressBookResponse> observable = performer.convertTo(RxJavaPerformProcessor.INSTANCE);

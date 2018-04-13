@@ -24,11 +24,12 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.aikya.konnek2.call.core.models.AppSession;
+import com.aikya.konnek2.call.core.service.QBServiceConsts;
 import com.aikya.konnek2.call.core.utils.UserFriendUtils;
 import com.aikya.konnek2.call.db.utils.ErrorUtils;
 import com.aikya.konnek2.call.services.model.QMUser;
 import com.aikya.konnek2.ui.activities.authorization.LandingActivity;
-import com.aikya.konnek2.ui.activities.catchup.CatchUpActivity;
+import com.aikya.konnek2.ui.activities.base.BaseLoggableActivity;
 import com.aikya.konnek2.ui.activities.main.MainActivity;
 import com.aikya.konnek2.ui.activities.settings.SettingsActivity;
 import com.aikya.konnek2.utils.helpers.FacebookHelper;
@@ -47,7 +48,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import rx.Subscriber;
 
 
-public class AppHomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class AppHomeActivity extends BaseLoggableActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     GridView gridView;
     Toolbar toolbar;
@@ -78,6 +79,41 @@ public class AppHomeActivity extends AppCompatActivity implements NavigationView
 
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        addActions();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        removeActions();
+    }
+
+    private void addActions() {
+
+        addAction(QBServiceConsts.LOGIN_REST_SUCCESS_ACTION, successAction);
+        addAction(QBServiceConsts.LOGIN_CHAT_COMPOSITE_SUCCESS_ACTION, new LoginChatCompositeSuccessAction());
+        addAction(QBServiceConsts.LOGIN_CHAT_COMPOSITE_FAIL_ACTION, new LoginChatCompositeFailAction());
+        updateBroadcastActionList();
+    }
+
+    private void removeActions() {
+
+        removeAction(QBServiceConsts.LOGIN_CHAT_COMPOSITE_SUCCESS_ACTION);
+        removeAction(QBServiceConsts.LOGIN_CHAT_COMPOSITE_FAIL_ACTION);
+        removeAction(QBServiceConsts.LOGIN_CHAT_SUCCESS_ACTION);
+        removeAction(QBServiceConsts.LOGIN_CHAT_FAIL_ACTION);
+        updateBroadcastActionList();
+    }
+
+    @Override
+    protected int getContentResId() {
+        return R.layout.activity_app_home;
+    }
+
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_home);
@@ -88,6 +124,7 @@ public class AppHomeActivity extends AppCompatActivity implements NavigationView
         title = getResources().getStringArray(R.array.home_title);          //  Image  Values  from resource  files
 //        subtitle[6] = AppConstant.SUB_TITLE_ONE;
 //        subtitle[2] = AppConstant.SUB_TITLE_TWO;
+
         gridView = findViewById(R.id.home_rid);
         appHomeAdapter = new AppHomeAdapter(AppHomeActivity.this, title, subtitle, imageId);
         gridView.setAdapter(appHomeAdapter);
@@ -170,8 +207,13 @@ public class AppHomeActivity extends AppCompatActivity implements NavigationView
 
         /*+++++++++++++++++++++TEST CODE ++++++++++++++++*/
         if (serviceManager.friendList == null) {
-        serviceManager.uploadAllContacts(this);
+            serviceManager.uploadAllContacts(this);
         }
+    }
+
+    @Override
+    protected void performLoginChatSuccessAction(Bundle bundle) {
+        super.performLoginChatSuccessAction(bundle);
     }
 
     public void initViews() {

@@ -24,7 +24,7 @@
         android:id="@+id/fab_dialogs_new_chat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:backgroundTint="@color/colorPrimary"
+        app:backgroundTint="@color/accent"
         style="@style/FabStyle"
         android:src="@drawable/new_chat_fab" />
 </android.support.design.widget.CoordinatorLayout>

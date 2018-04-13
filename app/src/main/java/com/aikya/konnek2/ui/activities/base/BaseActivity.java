@@ -306,7 +306,7 @@ public abstract class BaseActivity extends AppCompatActivity implements ActionBa
     protected void onPause() {
         super.onPause();
         unregisterBroadcastReceivers();
-       removeActions();
+        removeActions();
         unregisterConnectionListener();
         hideSnackBar(R.string.error_disconnected);
     }
@@ -633,7 +633,6 @@ public abstract class BaseActivity extends AppCompatActivity implements ActionBa
         }
         localBroadcastManager.registerReceiver(broadcastReceiver, intentFilter);
     }
-
 
     public void onReceiveChatMessageAction(Bundle extras) {
         if (needShowReceivedNotification()) {
