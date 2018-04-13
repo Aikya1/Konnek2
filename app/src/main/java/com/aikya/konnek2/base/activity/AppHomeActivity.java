@@ -29,6 +29,8 @@ import com.aikya.konnek2.call.core.utils.UserFriendUtils;
 import com.aikya.konnek2.call.db.utils.ErrorUtils;
 import com.aikya.konnek2.call.services.model.QMUser;
 import com.aikya.konnek2.ui.activities.authorization.LandingActivity;
+import com.aikya.konnek2.ui.activities.catchup.CatchUpActivity;
+import com.aikya.konnek2.ui.activities.base.BaseLoggableActivity;
 import com.aikya.konnek2.ui.activities.base.BaseLoggableActivity;
 import com.aikya.konnek2.ui.activities.main.MainActivity;
 import com.aikya.konnek2.ui.activities.settings.SettingsActivity;
