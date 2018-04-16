@@ -35,6 +35,7 @@ public class SystemPermissionHelper {
     public static final int PERMISSIONS_FOR_AUDIO_RECORD_REQUEST = 20;
     public static final int PERMISSIONS_FOR_VIDEO_RECORD_REQUEST = 21;
     public static final int PERMISSIONS_FOR_READ_CONTACT_REQUEST = 47;
+    public static final int LOCATION_PERMISSION_REQUEST_CODE = 48;
 
     private Activity activity;
     private Fragment fragment;
@@ -148,6 +149,10 @@ public class SystemPermissionHelper {
         return isAllPermissionGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO);
     }
 
+    public boolean isAllLocationPermissionGranted() {
+        return isAllPermissionGranted(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION);
+    }
+
     public void requestPermissionsForCallByType(QBRTCTypes.QBConferenceType qbConferenceType) {
         if (QBRTCTypes.QBConferenceType.QB_CONFERENCE_TYPE_AUDIO.equals(qbConferenceType)) {
             checkAndRequestPermissions(PERMISSIONS_FOR_CALL_REQUEST, Manifest.permission.RECORD_AUDIO);
@@ -158,6 +163,10 @@ public class SystemPermissionHelper {
 
     public void requestAllPermissionForAudioRecord() {
         checkAndRequestPermissions(PERMISSIONS_FOR_AUDIO_RECORD_REQUEST, Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+    }
+
+    public void requestAllPermissionForLocation() {
+        checkAndRequestPermissions(LOCATION_PERMISSION_REQUEST_CODE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION);
     }
 
     public void requestPermissionsTakePhoto() {
