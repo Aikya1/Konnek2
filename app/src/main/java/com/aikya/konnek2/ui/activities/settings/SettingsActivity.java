@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
+import android.text.TextUtils;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -28,6 +29,8 @@ import com.aikya.konnek2.utils.helpers.ServiceManager;
 import com.aikya.konnek2.utils.image.ImageLoaderUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.quickblox.auth.session.QBSettings;
+import com.quickblox.users.QBUsers;
+import com.quickblox.users.model.QBUser;
 
 
 import butterknife.Bind;
@@ -54,6 +57,11 @@ public class SettingsActivity extends BaseLoggableActivity {
     private QMUser user;
     private FacebookHelper facebookHelper;
     private FirebaseAuthHelper firebaseAuthHelper;
+
+    @Bind(R.id.nameTv)
+    TextView nameTv;
+    @Bind(R.id.statusTv)
+    TextView statusTv;
 
 //    public static void startForResult(Fragment fragment) {
 //        Intent intent = new Intent(fragment.getActivity(), SettingsActivity.class);
@@ -177,6 +185,15 @@ public class SettingsActivity extends BaseLoggableActivity {
     }
 
     private void fillUI() {
+
+        QBUser qbUser = AppSession.getSession().getUser();
+
+        nameTv.setText(qbUser.getLogin());
+        if (qbUser.getEmail() != null && TextUtils.isEmpty(qbUser.getEmail())) {
+            statusTv.setText(qbUser.getEmail());
+        } else {
+            statusTv.setText(qbUser.getFullName());
+        }
 
 //        pushNotificationSwitch.setChecked(QBSettings.getInstance().isEnablePushNotification());
       /*  changePasswordView.setVisibility(

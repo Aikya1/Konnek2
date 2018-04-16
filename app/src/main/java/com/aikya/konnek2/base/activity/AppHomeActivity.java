@@ -83,30 +83,11 @@ public class AppHomeActivity extends BaseLoggableActivity implements NavigationV
     @Override
     protected void onResume() {
         super.onResume();
-        addActions();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        removeActions();
-    }
-
-    private void addActions() {
-
-        addAction(QBServiceConsts.LOGIN_REST_SUCCESS_ACTION, successAction);
-        addAction(QBServiceConsts.LOGIN_CHAT_COMPOSITE_SUCCESS_ACTION, new LoginChatCompositeSuccessAction());
-        addAction(QBServiceConsts.LOGIN_CHAT_COMPOSITE_FAIL_ACTION, new LoginChatCompositeFailAction());
-        updateBroadcastActionList();
-    }
-
-    private void removeActions() {
-
-        removeAction(QBServiceConsts.LOGIN_CHAT_COMPOSITE_SUCCESS_ACTION);
-        removeAction(QBServiceConsts.LOGIN_CHAT_COMPOSITE_FAIL_ACTION);
-        removeAction(QBServiceConsts.LOGIN_CHAT_SUCCESS_ACTION);
-        removeAction(QBServiceConsts.LOGIN_CHAT_FAIL_ACTION);
-        updateBroadcastActionList();
     }
 
     @Override
@@ -157,8 +138,8 @@ public class AppHomeActivity extends BaseLoggableActivity implements NavigationV
 
 
                     case 3:
-                        Intent goToCatchup = new Intent(getApplicationContext(), CatchUpActivity.class);
-                        startActivity(goToCatchup);
+                        /*Intent goToCatchup = new Intent(getApplicationContext(), CatchUpActivity.class);
+                        startActivity(goToCatchup);*/
                         break;
 
                     case 4:
@@ -207,10 +188,27 @@ public class AppHomeActivity extends BaseLoggableActivity implements NavigationV
             }
         });
 
+        if (!isChatInitializedAndUserLoggedIn()) {
+            loginChat();
+        }
+
+        addDialogsAction();
+
         /*+++++++++++++++++++++TEST CODE ++++++++++++++++*/
         if (serviceManager.friendList == null) {
             serviceManager.uploadAllContacts(this);
         }
+
+    }
+
+    private void addDialogsAction() {
+        addAction(QBServiceConsts.LOGIN_CHAT_COMPOSITE_SUCCESS_ACTION, new LoginChatCompositeSuccessAction());
+        addAction(QBServiceConsts.LOAD_CHATS_DIALOGS_SUCCESS_ACTION, new LoadChatsSuccessAction());
+    }
+
+    private void removeDialogsAction() {
+        removeAction(QBServiceConsts.LOGIN_CHAT_COMPOSITE_SUCCESS_ACTION);
+        removeAction(QBServiceConsts.LOAD_CHATS_DIALOGS_SUCCESS_ACTION);
     }
 
     @Override
@@ -321,7 +319,7 @@ public class AppHomeActivity extends BaseLoggableActivity implements NavigationV
         return true;
     }
 
-    public void logout() {
+   /* public void logout() {
         if (AppCommon.checkAvailability(AppHomeActivity.this)) {
             TwoButtonsDialogFragment
                     .show(getSupportFragmentManager(), R.string.dlg_logout, R.string.dlg_confirm,
@@ -359,8 +357,7 @@ public class AppHomeActivity extends BaseLoggableActivity implements NavigationV
                                 }
                             });
         }
-
-    }
+    }*/
 
     private void showUserAvatar() {
         ImageLoader.getInstance().displayImage(

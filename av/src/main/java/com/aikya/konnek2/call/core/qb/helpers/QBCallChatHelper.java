@@ -40,14 +40,12 @@ public class QBCallChatHelper extends BaseHelper {
     private static final int DISCONNECT_TIME = 30;
     private static final int ANSWER_TIME_INTERVAL = 60;
 
-    private CallPushParams callPushParams;
-
-
     private QBRTCClient qbRtcClient;
     private Class<? extends Activity> activityClass;
 
     private QBRTCSession currentQbRtcSession;
     private QBRTCClientSessionCallbacks qbRtcClientSessionCallbacks;
+    private CallPushParams callPushParams;
 
     public QBCallChatHelper(Context context) {
         super(context);
@@ -68,17 +66,17 @@ public class QBCallChatHelper extends BaseHelper {
         setUpCallClient();
     }
 
-
-    public void setCallPushParams(CallPushParams callPushParams) {
-        this.callPushParams = callPushParams;
-    }
-
     public void initActivityClass(Class<? extends Activity> activityClass) {
 
         Log.d("AVCALLFUNCATION", " QBCallChatHelper1 initActivityClass ");
         this.activityClass = activityClass;
         Log.d("test_crash_1", "initActivityClass(), activityClass = " + activityClass);
     }
+
+    public void setCallPushParams(CallPushParams callPushParams) {
+        this.callPushParams = callPushParams;
+    }
+
 
     public QBRTCSession getCurrentRtcSession() {
 

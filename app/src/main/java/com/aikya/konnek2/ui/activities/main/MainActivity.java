@@ -76,9 +76,7 @@ public class MainActivity extends BaseLoggableActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initFields();
-
 //        loginUser();
-
         setUpActionBarWithUpButton();
         if (!isChatInitializedAndUserLoggedIn()) {
             loginChat();
@@ -185,15 +183,13 @@ public class MainActivity extends BaseLoggableActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-
     }
 
     @Override
     protected void onResume() {
 //        actualizeCurrentTitle();
         super.onResume();
-
-        addActions();
+//        addActions();
     }
 
     private void actualizeCurrentTitle() {
@@ -211,7 +207,7 @@ public class MainActivity extends BaseLoggableActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        removeActions();
+//        removeActions();
     }
 
     @Override
@@ -258,7 +254,7 @@ public class MainActivity extends BaseLoggableActivity {
 //        removeAction(QBServiceConsts.IMPORT_FRIENDS_SUCCESS_ACTION);
 //        removeAction(QBServiceConsts.IMPORT_FRIENDS_FAIL_ACTION);
 
-        updateBroadcastActionList();
+//        updateBroadcastActionList();
     }
 
     private void checkVisibilityUserIcon() {

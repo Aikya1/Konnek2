@@ -78,7 +78,7 @@ import butterknife.OnClick;
 import butterknife.OnItemClick;
 
 
-public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>> implements ContactInterface {
+public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>> implements ContactInterface{
 
     public static final int PICK_DIALOG = 100;
     public static final int CREATE_DIALOG = 200;
@@ -90,6 +90,7 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
 
     @Bind(R.id.fab_dialogs_new_chat)
     FloatingActionButton floatingActionButton;
+
     private DialogsListAdapter dialogsListAdapter;
     private DataManager dataManager;
     private QBUser qbUser;
@@ -151,6 +152,7 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
         }
     }
 
+
     //    private AppRefreshDialogList appRefreshDialogList;
     enum State {
 
@@ -181,7 +183,6 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
 //        progress.getIndeterminateDrawable().setColorFilter(Color.parseColor("#FFFFFF"), android.graphics.PorterDuff.Mode.SRC_ATOP);
         setHasOptionsMenu(true);
         registerForContextMenu(dialogsListView);
-
 
         dialogsListView.setAdapter(dialogsListAdapter);
 
@@ -454,7 +455,7 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
 
     @Override
     public void onLoadFinished(Loader<List<DialogWrapper>> loader, List<DialogWrapper> dialogsList) {
-        if (dialogsList.size() > 0) {
+        /*if (dialogsList.size() > 0) {
             updateDialogsProcess = State.started;
             if (dialogsListLoader.isLoadCacheFinished()) {
                 //clear queue after loading all dialogs from cache before updating all dialogs from REST
@@ -476,8 +477,33 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
             if (dialogsListLoader.isLoadCacheFinished()) {
                 QBLoadDialogsCommand.start(getContext(), true);
             }
-        }else{
+        } else {
             baseActivity.hideProgress();
+        }*/
+
+        updateDialogsProcess = State.started;
+        Log.d(TAG, "onLoadFinished!!! dialogsListLoader.isLoadCacheFinished() " + dialogsListLoader.isLoadCacheFinished());
+        if (dialogsListLoader.isLoadCacheFinished()){
+            //clear queue after loading all dialogs from cache before updating all dialogs from REST
+            loaderConsumerQueue.clear();
+        }else {
+            updateDialogsListFromQueue();
+        }
+
+        updateDialogsAdapter(dialogsList);
+
+        checkEmptyList(dialogsListAdapter.getCount());
+
+        if (!baseActivity.isDialogLoading()) {
+//            baseActivity.hideSnackBar(R.string.dialog_loading_dialogs);
+            baseActivity.hideProgress();
+        }
+
+//        startForResult load dialogs from REST when finished loading from cache
+        if (dialogsListLoader.isLoadCacheFinished()) {
+            if (!QBLoginChatCompositeCommand.isRunning()) {
+                QBLoadDialogsCommand.start(getContext(), true);
+            }
         }
     }
 
@@ -632,11 +658,15 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
     }
 
     private void updateDialogsListFromQueue() {
-        if (!loaderConsumerQueue.isEmpty()) {
+        /*if (!loaderConsumerQueue.isEmpty()) {
             LoaderConsumer consumer = loaderConsumerQueue.poll();
             handler.post(consumer);
         } else {
             baseActivity.hideProgress();
+        }*/
+        if(!loaderConsumerQueue.isEmpty()) {
+            LoaderConsumer consumer = loaderConsumerQueue.poll();
+            handler.post(consumer);
         }
     }
 
@@ -736,15 +766,16 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
         @Override
         public void execute(Bundle bundle) throws Exception {
             Log.i(TAG, "LoginChatCompositeSuccessAction bundle= " + bundle);
-//            if (dialogsListLoader.isLoadCacheFinished()) {
+            if (dialogsListLoader.isLoadCacheFinished()) {
             QBLoadDialogsCommand.start(getContext(), true);
-//            }
+            }
         }
     }
 
     private class LoadChatsFailedAction implements Command {
         @Override
         public void execute(Bundle bundle) throws Exception {
+            Log.d(TAG, "LoadChatsFailedAction bundle= " + bundle);
             updateDialogsProcess = State.finished;
         }
     }
@@ -753,8 +784,8 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
 
         @Override
         public void execute(Bundle bundle) {
-
             baseActivity.hideProgress();
+            Log.d(TAG, "UpdateDialogSuccessAction action UpdateDialogSuccessAction bundle= " + bundle);
             if (bundle != null) {
                 updateDialogIds((String) bundle.get(QBServiceConsts.EXTRA_DIALOG_ID));
             }

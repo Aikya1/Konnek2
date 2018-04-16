@@ -19,6 +19,7 @@ import com.aikya.konnek2.call.core.qb.commands.push.QBPushCallCompositeCommand;
 import com.aikya.konnek2.call.core.service.QBServiceConsts;
 import com.aikya.konnek2.call.db.utils.ErrorUtils;
 import com.aikya.konnek2.ui.activities.call.CallActivity;
+import com.aikya.konnek2.utils.SystemUtils;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -97,7 +98,7 @@ public class CallService extends Service {
 
     private void initCallParams() {
         callPushParams = new CallPushParams();
-//        callPushParams.setIsNewTask(!SystemUtils.isAppRunning());
+        callPushParams.setIsNewTask(!SystemUtils.isAppRunning());
         callPushParams.setPushCall(true);
     }
 

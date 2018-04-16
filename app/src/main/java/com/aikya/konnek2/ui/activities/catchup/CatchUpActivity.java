@@ -12,12 +12,14 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class CatchUpActivity extends BaseLoggableActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    @Bind(R.id.map)
     SupportMapFragment mapFragment;
+
+
     @Override
     protected int getContentResId() {
         return R.layout.activity_catchup;
@@ -26,7 +28,10 @@ public class CatchUpActivity extends BaseLoggableActivity implements OnMapReadyC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
     }
 
     @Override

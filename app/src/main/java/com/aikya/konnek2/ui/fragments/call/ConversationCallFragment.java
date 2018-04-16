@@ -25,6 +25,7 @@ import android.widget.ToggleButton;
 
 import com.aikya.konnek2.call.core.models.AppSession;
 import com.aikya.konnek2.call.core.qb.helpers.QBFriendListHelper;
+import com.aikya.konnek2.call.core.utils.ConstsCore;
 import com.aikya.konnek2.call.services.model.QMUser;
 import com.aikya.konnek2.utils.AppPreference;
 import com.aikya.konnek2.utils.AppSensorManager;
@@ -296,7 +297,8 @@ public class ConversationCallFragment extends Fragment implements Serializable, 
             if (!qbFriendListHelper.isUserOnline(qbUser.getId())) {
                 String callMsg = getString(R.string.dlg_offline_call,
                         AppSession.getSession().getUser().getFullName());
-                QBSendPushCommand.start(getActivity(), callMsg, qbUser.getId());
+//                QBSendPushCommand.start(getActivity(), callMsg, qbUser.getId());
+                QBSendPushCommand.start(getActivity(), callMsg, qbUser.getId(), ConstsCore.PUSH_MESSAGE_TYPE_CALL);
             }
         }
     }
@@ -532,20 +534,15 @@ public class ConversationCallFragment extends Fragment implements Serializable, 
     }
 
     private void toggleAudioOutput() {
-
         if (!audioManager.getSelectedAudioDevice().equals(AppRTCAudioManager.AudioDevice.SPEAKER_PHONE)) {
             audioManager.setAudioDevice(AppRTCAudioManager.AudioDevice.SPEAKER_PHONE);
         } else {
-            if (audioManager.getAudioDevices().contains(AppRTCAudioManager.AudioDevice.WIRED_HEADSET)) {
+            if(audioManager.getAudioDevices().contains(AppRTCAudioManager.AudioDevice.WIRED_HEADSET)){
                 audioManager.setAudioDevice(AppRTCAudioManager.AudioDevice.WIRED_HEADSET);
             } else {
                 audioManager.setAudioDevice(AppRTCAudioManager.AudioDevice.EARPIECE);
-
             }
         }
-
-        //     new code from OLD Konnek2 for speaker
-
     }
 
     private void initAudioManager() {

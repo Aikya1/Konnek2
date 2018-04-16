@@ -1,6 +1,7 @@
 package com.aikya.konnek2.fcm;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import com.aikya.konnek2.utils.helpers.notification.ChatNotificationHelper;
 import com.google.firebase.messaging.RemoteMessage;
@@ -34,9 +35,9 @@ public class FcmPushListenerService extends QBFcmPushListenerService {
         String userId = (String) data.get(ChatNotificationHelper.USER_ID);
         String pushMessage = (String) data.get(ChatNotificationHelper.MESSAGE);
         String dialogId = (String) data.get(ChatNotificationHelper.DIALOG_ID);
-        String fromUser = from;
         String pushMessageType = (String) data.get(ChatNotificationHelper.MESSAGE_TYPE);
 
+        Log.v(TAG, "sendPushMessage\n" + "Message: " + pushMessage + "\nUser ID: " + userId + "\nDialog ID: " + dialogId);
 
         Bundle extras = new Bundle();
         extras.putString(ChatNotificationHelper.USER_ID, userId);

@@ -237,6 +237,9 @@
             </intent-filter>
         </service>
 
+        <service android:name=".service.CallService" />
+
+
 
         <service
             android:name="com.aikya.konnek2.service.SessionJobService"
@@ -254,19 +257,19 @@
             </intent-filter>
         </service>
 
-        <service android:name="com.aikya.konnek2.fcm.FirebaseIDService">
+        <!--<service android:name="com.aikya.konnek2.fcm.FirebaseIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
-        </service>
+        </service>-->
 
-        <!--  <service
+          <service
                    android:name="com.quickblox.messages.services.fcm.QBFcmPushInstanceIDService"
                    android:exported="false">
                    <intent-filter>
                        <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
                    </intent-filter>
-               </service>-->
+               </service>
 
 
         <provider

@@ -6,6 +6,7 @@ import com.quickblox.core.helper.StringifyArrayList;
 import com.quickblox.messages.model.QBEnvironment;
 import com.quickblox.messages.model.QBEvent;
 import com.quickblox.messages.model.QBNotificationType;
+import com.quickblox.messages.model.QBPushType;
 
 
 import java.util.HashMap;
@@ -18,9 +19,11 @@ public class CoreNotificationHelper {
         userIds.addAll(userIdsList);
         QBEvent event = new QBEvent();
         event.setUserIds(userIds);
-        event.setEnvironment(QBEnvironment.DEVELOPMENT);
+        event.setEnvironment(QBEnvironment.PRODUCTION);
         event.setNotificationType(QBNotificationType.PUSH);
+        event.setPushType(QBPushType.GCM);
         event.setMessage(message);
+        setMessage(event, message, messageType);
         return event;
     }
 

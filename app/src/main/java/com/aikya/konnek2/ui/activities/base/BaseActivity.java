@@ -792,7 +792,6 @@ public abstract class BaseActivity extends AppCompatActivity implements ActionBa
 
     protected void performLoadChatsSuccessAction(Bundle bundle) {
         // hideSnackBar();
-
         Log.d(TAG, "BUndle == " + bundle.toString());
         isDialogLoading = false;
     }
@@ -880,7 +879,6 @@ public abstract class BaseActivity extends AppCompatActivity implements ActionBa
     }
 
     private class BaseBroadcastReceiver extends BroadcastReceiver {
-
         @Override
         public void onReceive(Context context, final Intent intent) {
 

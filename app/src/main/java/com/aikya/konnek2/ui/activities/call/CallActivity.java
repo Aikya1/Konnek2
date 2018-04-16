@@ -23,32 +23,28 @@ import com.aikya.konnek2.R;
 import com.aikya.konnek2.base.db.AppCallLogModel;
 import com.aikya.konnek2.call.core.core.command.Command;
 import com.aikya.konnek2.call.core.models.CallPushParams;
-import com.aikya.konnek2.call.core.qb.commands.chat.QBLoadDialogsCommand;
+import com.aikya.konnek2.call.core.models.StartConversationReason;
 import com.aikya.konnek2.call.core.qb.helpers.QBCallChatHelper;
-import com.aikya.konnek2.call.core.utils.ConstsCore;
+import com.aikya.konnek2.call.core.service.QBService;
+import com.aikya.konnek2.call.core.service.QBServiceConsts;
 import com.aikya.konnek2.call.core.utils.UserFriendUtils;
 import com.aikya.konnek2.call.core.utils.call.RingtonePlayer;
+import com.aikya.konnek2.call.core.utils.call.SettingsUtil;
+import com.aikya.konnek2.call.db.managers.DataManager;
 import com.aikya.konnek2.call.db.models.Friend;
 import com.aikya.konnek2.call.services.model.QMUser;
 import com.aikya.konnek2.ui.activities.base.BaseLoggableActivity;
 import com.aikya.konnek2.ui.activities.others.ExitActivity;
 import com.aikya.konnek2.ui.fragments.call.ConversationCallFragment;
 import com.aikya.konnek2.ui.fragments.call.IncomingCallFragment;
-import com.aikya.konnek2.ui.fragments.chats.DialogsListFragment;
-import com.aikya.konnek2.utils.PowerManagerHelper;
-import com.aikya.konnek2.utils.helpers.SystemPermissionHelper;
-import com.aikya.konnek2.utils.listeners.CallDurationInterface;
-import com.aikya.konnek2.call.core.models.StartConversationReason;
-import com.aikya.konnek2.call.core.service.QBService;
-import com.aikya.konnek2.call.core.service.QBServiceConsts;
-import com.aikya.konnek2.call.core.utils.call.SettingsUtil;
-import com.aikya.konnek2.call.db.managers.DataManager;
 import com.aikya.konnek2.utils.AppConstant;
+import com.aikya.konnek2.utils.PowerManagerHelper;
 import com.aikya.konnek2.utils.StringUtils;
 import com.aikya.konnek2.utils.ToastUtils;
+import com.aikya.konnek2.utils.helpers.SystemPermissionHelper;
+import com.aikya.konnek2.utils.listeners.CallDurationInterface;
 import com.quickblox.chat.QBChatService;
 import com.quickblox.chat.model.QBChatDialog;
-
 import com.quickblox.users.model.QBUser;
 import com.quickblox.videochat.webrtc.BaseSession;
 import com.quickblox.videochat.webrtc.QBRTCClient;
@@ -125,8 +121,8 @@ public class CallActivity extends BaseLoggableActivity implements
     private boolean isNewAppTask;
     private boolean isCallAlreadyInit;
     private boolean isSkipInitCallFragment;
-    NotificationCommandSuccess notificationCommandSuccess;
-    NotificationCommandFailed notificationCommandFailed;
+//    NotificationCommandSuccess notificationCommandSuccess;
+//    NotificationCommandFailed notificationCommandFailed;
 
 
     public static void start(Activity activity, List<QBUser> qbUsersList, QBRTCTypes.QBConferenceType qbConferenceType,
@@ -175,6 +171,13 @@ public class CallActivity extends BaseLoggableActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (!canProceedInit()) {
+            Log.d(TAG, "cannot proceed call initialization");
+            finish();
+            return;
+        }
+
         canPerformLogout.set(false);
         initFields();
         initPushCallIfNeed();
@@ -184,6 +187,10 @@ public class CallActivity extends BaseLoggableActivity implements
         if (ACTION_ANSWER_CALL.equals(getIntent().getAction())) {
             checkPermissionsAndStartCall(StartConversationReason.INCOME_CALL_FOR_ACCEPTION);
         }
+    }
+
+    private boolean canProceedInit() {
+        return getIntent().getExtras() != null;
     }
 
     private void initPushCallIfNeed() {
@@ -203,7 +210,6 @@ public class CallActivity extends BaseLoggableActivity implements
 
 
     private void initCallFragment() {
-
         if (startConversationReason != null) {
             switch (startConversationReason) {
                 case INCOME_CALL_FOR_ACCEPTION:
@@ -242,7 +248,7 @@ public class CallActivity extends BaseLoggableActivity implements
         /*if (isNeedInitCallFragment()) {
             initIncomingCallFragment();
         }*/
-//        appSharedHelper.saveLastOpenActivity(getClass().getName());
+        appSharedHelper.saveLastOpenActivity(getClass().getName());
     }
 
     @Override
@@ -269,8 +275,8 @@ public class CallActivity extends BaseLoggableActivity implements
         super.onStart();
 
 
-        notificationCommandSuccess = new NotificationCommandSuccess();
-        notificationCommandFailed = new NotificationCommandFailed();
+//        notificationCommandSuccess = new NotificationCommandSuccess();
+//        notificationCommandFailed = new NotificationCommandFailed();
 
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
@@ -278,7 +284,7 @@ public class CallActivity extends BaseLoggableActivity implements
         intentFilter.addAction(AudioManager.ACTION_SCO_AUDIO_STATE_UPDATED);
         registerReceiver(wifiStateReceiver, intentFilter);
         registerReceiver(audioStreamReceiver, intentFilter);
-        addActions();
+//        addActions();
     }
 
 
@@ -294,8 +300,8 @@ public class CallActivity extends BaseLoggableActivity implements
 
 //        addAction(ConstsCore.PI);
         addAction(QBServiceConsts.LOGIN_CHAT_COMPOSITE_SUCCESS_ACTION, new LoginChatCompositeSuccessAction());
-        addAction(QBServiceConsts.SEND_PUSH_MESSAGES_SUCCESS_ACTION, notificationCommandSuccess);
-        addAction(QBServiceConsts.SEND_PUSH_MESSAGES_FAIL_ACTION, notificationCommandFailed);
+//        addAction(QBServiceConsts.SEND_PUSH_MESSAGES_SUCCESS_ACTION, notificationCommandSuccess);
+//        addAction(QBServiceConsts.SEND_PUSH_MESSAGES_FAIL_ACTION, notificationCommandFailed);
 
         updateBroadcastActionList();
     }
@@ -351,8 +357,6 @@ public class CallActivity extends BaseLoggableActivity implements
 
     @Override
     public void onSuccessSendingPacket(QBSignalingSpec.QBSignalCMD qbSignalCMD, Integer integer) {
-
-
     }
 
     @Override
@@ -365,7 +369,7 @@ public class CallActivity extends BaseLoggableActivity implements
 
     @Override
     public void onReceiveNewSession(final QBRTCSession session) {
-
+        Log.d(TAG, "Session " + session.getSessionID() + " are income");
     }
 
     @Override
@@ -385,8 +389,6 @@ public class CallActivity extends BaseLoggableActivity implements
 
     @Override
     public void onCallRejectByUser(QBRTCSession session, Integer userID, Map<String, String> userInfo) {
-
-
         if (!session.equals(getCurrentSession())) {
             return;
         }
@@ -556,8 +558,8 @@ public class CallActivity extends BaseLoggableActivity implements
                 isNewAppTask = callPushParams.isNewTask();
             }
 
-            qbChatDialogs = (QBChatDialog) getIntent().getExtras().getSerializable(QBServiceConsts.EXTRA_DIALOG);
-            ringtonePlayer = new RingtonePlayer(this, com.aikya.konnek2.R.raw.beep);
+//            qbChatDialogs = (QBChatDialog) getIntent().getExtras().getSerializable(QBServiceConsts.EXTRA_DIALOG);
+//            ringtonePlayer = new RingtonePlayer(this, com.aikya.konnek2.R.raw.beep);
 
             initRingtonePlayer();
             // Add activity as callback to RTCClient

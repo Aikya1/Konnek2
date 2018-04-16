@@ -36,6 +36,7 @@ import com.aikya.konnek2.call.core.qb.commands.friend.QBInitFriendListCommand;
 import com.aikya.konnek2.call.core.qb.commands.friend.QBLoadFriendListCommand;
 import com.aikya.konnek2.call.core.qb.commands.friend.QBRejectFriendCommand;
 import com.aikya.konnek2.call.core.qb.commands.friend.QBRemoveFriendCommand;
+import com.aikya.konnek2.call.core.qb.commands.push.QBPushCallCompositeCommand;
 import com.aikya.konnek2.call.core.qb.commands.push.QBSendPushCommand;
 import com.aikya.konnek2.call.core.qb.commands.rest.QBLogoutCompositeCommand;
 import com.aikya.konnek2.call.core.qb.helpers.BaseHelper;
@@ -127,6 +128,7 @@ public class QBService extends Service {
         registerLoadDialogMessagesCommand();
         registerJoinGroupChatsCommand();
         registerLoginChatCommand();
+        registerPushCallCommand();
 
         // users/friends commands
         registerLoadUsersCommand();
@@ -444,6 +446,35 @@ public class QBService extends Service {
         loginCommand.addCommand(initVideoChatCommand);
     }
 
+
+    private void registerPushCallCommand() {
+        CompositeServiceCommand pushCallCompositeCommand = new QBPushCallCompositeCommand(this,
+                QBServiceConsts.PUSH_CALL_COMPOSITE_SUCCESS_ACTION,
+                QBServiceConsts.PUSH_CALL_COMPOSITE_FAIL_ACTION);
+
+        addPushCallAndInitCommands(pushCallCompositeCommand);
+
+        serviceCommandMap.put(QBServiceConsts.PUSH_CALL_COMPOSITE_ACTION, pushCallCompositeCommand);
+    }
+    private void addPushCallAndInitCommands(CompositeServiceCommand pushCallCommand) {
+        QBChatRestHelper chatRestHelper = (QBChatRestHelper) getHelper(CHAT_REST_HELPER);
+        QBChatHelper chatHelper = (QBChatHelper) getHelper(CHAT_HELPER);
+
+        QBInitChatServiceCommand initChatServiceCommand = new QBInitChatServiceCommand(this, chatHelper,
+                chatRestHelper,
+                QBServiceConsts.INIT_CHAT_SERVICE_SUCCESS_ACTION,
+                QBServiceConsts.INIT_CHAT_SERVICE_FAIL_ACTION);
+
+        QBLoginChatCommand loginChatCommand = new QBLoginChatCommand(this, chatRestHelper,
+                QBServiceConsts.LOGIN_CHAT_SUCCESS_ACTION,
+                QBServiceConsts.LOGIN_CHAT_FAIL_ACTION);
+        QBInitCallChatCommand initVideoChatCommand = (QBInitCallChatCommand) serviceCommandMap.get(QBServiceConsts.INIT_CALL_CHAT_ACTION);
+
+        pushCallCommand.addCommand(initChatServiceCommand);
+        pushCallCommand.addCommand(loginChatCommand);
+        pushCallCommand.addCommand(initVideoChatCommand);
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -466,14 +497,7 @@ public class QBService extends Service {
                 startAsync(command, intent);
             }
         }
-        return START_STICKY;
-    }
-
-    @Override
-    public void onTaskRemoved(Intent rootIntent) {
-        super.onTaskRemoved(rootIntent);
-
-        Log.d(TAG,"On task removed..!!");
+        return START_NOT_STICKY;
     }
 
     @Override

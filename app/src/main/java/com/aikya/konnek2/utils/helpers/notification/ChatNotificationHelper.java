@@ -34,7 +34,6 @@ public class ChatNotificationHelper {
 
     public ChatNotificationHelper(Context context) {
         this.context = context;
-
         appSharedHelper = App.getInstance().getAppSharedHelper();
     }
 
@@ -117,6 +116,10 @@ public class ChatNotificationHelper {
     }
 
     private boolean shouldProceedCall() {
+
+        AppSession.ChatState state = AppSession.getSession().getChatState();
+        boolean isAppRun = SystemUtils.isAppRunningNow();
+
         return !SystemUtils.isAppRunningNow() || AppSession.ChatState.BACKGROUND == AppSession.getSession().getChatState();
     }
 }

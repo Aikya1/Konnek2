@@ -30,6 +30,21 @@ public class SystemUtils {
         }
     }
 
+    public static boolean isAppRunning() {
+        final ActivityManager activityManager = (ActivityManager) App.getInstance().getSystemService(Context.ACTIVITY_SERVICE);
+        final List<ActivityManager.RecentTaskInfo> recentTasks = activityManager != null ? activityManager.getRecentTasks(Integer.MAX_VALUE, ActivityManager.RECENT_IGNORE_UNAVAILABLE) : null;
+        ActivityManager.RecentTaskInfo recentTaskInfo = null;
+
+        for (int i = 0; i < (recentTasks != null ? recentTasks.size() : 0); i++) {
+            ComponentName componentName = recentTasks.get(i).baseIntent.getComponent();
+            if (componentName != null && componentName.getPackageName().equals(App.getInstance().getPackageName())) {
+                recentTaskInfo = recentTasks.get(i);
+                break;
+            }
+        }
+        return recentTaskInfo != null && recentTaskInfo.id > -1;
+    }
+
     public static Intent getPreviousIntent(Context context) {
         ActivityManager activityManager = (ActivityManager) App.getInstance().getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningTaskInfo> runningTasks = activityManager.getRunningTasks(Integer.MAX_VALUE);
