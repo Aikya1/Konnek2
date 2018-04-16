@@ -145,6 +145,7 @@ dependencies {
     compile "com.google.firebase:firebase-messaging:${rootProject.googlePlayServicesVersion}"
     compile "com.google.android.gms:play-services-maps:${rootProject.googlePlayServicesVersion}"
     compile "com.google.android.gms:play-services-location:${rootProject.googlePlayServicesVersion}"
+    compile "com.google.android.gms:play-services-places:${rootProject.googlePlayServicesVersion}"
     compile "com.google.android.gms:play-services-analytics:${rootProject.googlePlayServicesVersion}"
     compile "com.firebase:firebase-jobdispatcher-with-gcm-dep:${rootProject.firebaseDispatcherVersion}"
     compile "com.google.firebase:firebase-auth:${rootProject.firebaseAuthVersion}"
