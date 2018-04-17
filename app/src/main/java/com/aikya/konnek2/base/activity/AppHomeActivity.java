@@ -138,8 +138,8 @@ public class AppHomeActivity extends BaseLoggableActivity implements NavigationV
 
 
                     case 3:
-                        /*Intent goToCatchup = new Intent(getApplicationContext(), CatchUpActivity.class);
-                        startActivity(goToCatchup);*/
+                        Intent goToCatchup = new Intent(getApplicationContext(), CatchUpActivity.class);
+                        startActivity(goToCatchup);
                         break;
 
                     case 4:

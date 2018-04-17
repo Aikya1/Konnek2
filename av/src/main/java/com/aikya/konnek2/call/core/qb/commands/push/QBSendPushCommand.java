@@ -3,12 +3,14 @@ package com.aikya.konnek2.call.core.qb.commands.push;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.aikya.konnek2.call.core.utils.ConstsCore;
 import com.aikya.konnek2.call.core.utils.helpers.CoreNotificationHelper;
 import com.aikya.konnek2.call.core.core.command.ServiceCommand;
 import com.aikya.konnek2.call.core.service.QBService;
 import com.aikya.konnek2.call.core.service.QBServiceConsts;
+import com.quickblox.core.QBEntityCallback;
 import com.quickblox.core.exception.QBResponseException;
 import com.quickblox.messages.QBPushNotifications;
 import com.quickblox.messages.model.QBEvent;
@@ -45,6 +47,18 @@ public class QBSendPushCommand extends ServiceCommand {
         QBEvent pushEvent = CoreNotificationHelper.createPushEvent(usersIdsList, message, messageType);
         try {
             QBPushNotifications.createEvent(pushEvent).perform();
+
+            QBPushNotifications.createEvent(pushEvent).performAsync(new QBEntityCallback<QBEvent>() {
+                @Override
+                public void onSuccess(QBEvent qbEvent, Bundle bundle) {
+                    Log.d("QBSendPushCommand",qbEvent.getMessage());
+                }
+
+                @Override
+                public void onError(QBResponseException e) {
+                    Log.d("QBResponseException",e.getMessage());
+                }
+            });
 
 
         } catch (QBResponseException e) {

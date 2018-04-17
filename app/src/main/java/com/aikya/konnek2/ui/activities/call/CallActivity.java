@@ -299,7 +299,7 @@ public class CallActivity extends BaseLoggableActivity implements
         baseActivity.updateBroadcastActionList();*/
 
 //        addAction(ConstsCore.PI);
-        addAction(QBServiceConsts.LOGIN_CHAT_COMPOSITE_SUCCESS_ACTION, new LoginChatCompositeSuccessAction());
+//        addAction(QBServiceConsts.LOGIN_CHAT_COMPOSITE_SUCCESS_ACTION, new LoginChatCompositeSuccessAction());
 //        addAction(QBServiceConsts.SEND_PUSH_MESSAGES_SUCCESS_ACTION, notificationCommandSuccess);
 //        addAction(QBServiceConsts.SEND_PUSH_MESSAGES_FAIL_ACTION, notificationCommandFailed);
 

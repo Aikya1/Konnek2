@@ -19,10 +19,9 @@ public class CoreNotificationHelper {
         userIds.addAll(userIdsList);
         QBEvent event = new QBEvent();
         event.setUserIds(userIds);
-        event.setEnvironment(QBEnvironment.PRODUCTION);
+        event.setEnvironment(QBEnvironment.DEVELOPMENT);
         event.setNotificationType(QBNotificationType.PUSH);
-        event.setPushType(QBPushType.GCM);
-        event.setMessage(message);
+//        event.setMessage(message);
         setMessage(event, message, messageType);
         return event;
     }
