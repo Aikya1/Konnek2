@@ -381,8 +381,8 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="txt_in_progress">In progress</string>
-    <string name="terms_and_ser_1">I have read and agree to Konnek2 <u>Terms of Service</u> </string>
-    <string name="terms_and_ser_2">I have read Konnek2 <u> Privacy Policy </u> and agree Konnek2 to save my personal data. </string>
+    <string name="terms_and_ser_1">I have read and agree to Konnek2\n<u>Terms Of Service</u></string>
+    <string name="terms_and_ser_2">I have read Konnek2 Privacy Policy and agree\nKonnek2 to save my personal data. </string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -466,12 +466,57 @@
     <string name="iam">In-App-messages</string>
     <string name="email">Email</string>
     <string name="text_42">42</string>
-    <string name="status_text">Yes I am here...</string>
+
+
+    <!--For country code picker.List only few countries
+
+    US,CANADA,UK,UAE,INDIA,SINGAPORE,NEW ZEALAND,AUSTRALIA
+    -->
+    <string name="country_list">US,IN,CA,UAE,SG,NZ,AU</string>
+
+    <!--Settings Page-->
+    <string name="settings_accounts">Account</string>
+    <string name="settings_chats">Chats</string>
+    <string name="settings_notifications">Notifications</string>
+    <string name="settings_data_usage">Data Usage</string>
+    <string name="settings_contacts">Contacts</string>
+    <string name="settings_help">Help</string>
+    <string name="something">Status.</string>
+    <string name="text_push_notification_message">"%s is calling you"</string>
+    <string name="connection_was_lost">Connection was lost</string>
+    <string name="user_list_on_call">User 1, User 2, User 3, User 4, User 5, User 6</string>
+    <string name="text_incoming_video_call">Incoming Video Call</string>
+    <string name="text_incoming_audio_call">Incoming Audio Call</string>
+    <string name="ringing">Ringing</string>
+    <string name="subtitle_text_logged_in_as">Logged in as %s</string>
+    <string name="camera_swicth_failed">Camera Failed Switch</string>
+    <string name="opponent">and %s </string>
+    <string name="text_status_connected">Connected</string>
+    <string name="text_status_disconnected">Disconnected</string>
+    <string name="text_status_rejected">Rejected</string>
+    <string name="text_status_no_answer">No answer</string>
+    <string name="text_status_hang_up">Hung up</string>
+    <string name="text_status_closed">Closed</string>
+    <string name="text_status_time_out">Time Out</string>
+    <string name="text_status_failed">Failed</string>
+    <string name="accepted">Accepted</string>
+    <string name="action_screen_share">Share</string>
+    <string name="opponent_pending">Pending</string>
+    <string name="text_status_connect">Connect</string>
+    <string name="text_status_checking">Check</string>
+    <string name="opponent_closed">Closed</string>
+    <string name="title_call_settings_category">Call Settinhs</string>
+    <string name="stop_share">Stop Share</string>
+    <string name="title_video_category">Video</string>
+
+
+    <string name="status_text">Yes I am here…</string>
     <string name="accounts_text">Accounts</string>
     <string name="chats_text">Chats</string>
     <string name="notifications_text">Notifications</string>
     <string name="data_usage_text">Data Usage</string>
     <string name="contacts_text">Contacts</string>
     <string name="help_text">Help</string>
+
 
 </resources>

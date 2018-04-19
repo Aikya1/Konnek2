@@ -1,5 +1,6 @@
 package com.aikya.konnek2.call.core.service;
 
+import android.app.Notification;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -27,6 +28,7 @@ import com.aikya.konnek2.call.core.qb.commands.chat.QBLoadDialogMessagesCommand;
 import com.aikya.konnek2.call.core.qb.commands.chat.QBLoginChatCommand;
 import com.aikya.konnek2.call.core.qb.commands.chat.QBLoginChatCompositeCommand;
 import com.aikya.konnek2.call.core.qb.commands.chat.QBLogoutAndDestroyChatCommand;
+import com.aikya.konnek2.call.core.qb.commands.chat.QBRemoveUserFromGroupCommand;
 import com.aikya.konnek2.call.core.qb.commands.chat.QBUpdateGroupDialogCommand;
 import com.aikya.konnek2.call.core.qb.commands.chat.QBUpdateStatusMessageCommand;
 import com.aikya.konnek2.call.core.qb.commands.friend.QBAcceptFriendCommand;
@@ -127,6 +129,9 @@ public class QBService extends Service {
         registerLoadDialogByIdsCommandCommand();
         registerLoadDialogMessagesCommand();
         registerJoinGroupChatsCommand();
+        registerRemoveUserFromGroupCommand();
+
+
         registerLoginChatCommand();
         registerPushCallCommand();
 
@@ -262,6 +267,18 @@ public class QBService extends Service {
                 QBServiceConsts.JOIN_GROUP_CHAT_FAIL_ACTION);
 
         serviceCommandMap.put(QBServiceConsts.JOIN_GROUP_CHAT_ACTION, joinGroupChatsCommand);
+    }
+
+
+    private void registerRemoveUserFromGroupCommand() {
+        QBChatHelper chatHelper = (QBChatHelper) getHelper(CHAT_HELPER);
+
+        QBRemoveUserFromGroupCommand removeUserFromGroupCommand = new QBRemoveUserFromGroupCommand(this, chatHelper,
+                QBServiceConsts.REMOVE_USER__FROM_GROUP_SUCCESS_ACTION,
+                QBServiceConsts.REMOVE_USER__FROM_GROUP_FAIL_ACTION);
+
+
+        serviceCommandMap.put(QBServiceConsts.REMOVE_USER_FROM_GROUP_ACTION, removeUserFromGroupCommand);
     }
 
     private void registerLoadAttachFileCommand() {
@@ -481,6 +498,7 @@ public class QBService extends Service {
         Log.d(TAG, "onCreate()");
         IntentFilter filter = new IntentFilter();
         filter.addAction(QBServiceConsts.RE_LOGIN_IN_CHAT_SUCCESS_ACTION);
+        startForeground(1,new Notification());
         if (broadcastReceiver != null) {
             LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver, filter);
         }

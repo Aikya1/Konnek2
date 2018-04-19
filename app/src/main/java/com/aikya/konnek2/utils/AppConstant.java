@@ -162,4 +162,8 @@ public class AppConstant {
     //QuickBlox Custom Objects
     public static String PROFILE_CLASS_NAME = "Profile";
 
+
+    public static ArrayList<String> languageList = new ArrayList<>();
+    public static ArrayList<String> nonDupLangList = new ArrayList<>();
+
 }

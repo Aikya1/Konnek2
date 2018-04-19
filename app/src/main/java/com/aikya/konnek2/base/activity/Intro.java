@@ -97,7 +97,12 @@ public class Intro extends AppCompatActivity {
                     launchHomeScreen();
                 }*/
 
-                LandingActivity.start(Intro.this);
+//                LandingActivity.start(Intro.this);
+                Intent i = new Intent(Intro.this, Profile.class);
+                i.putExtra("phNo", phNumber);
+                i.putExtra("countryCode", countryCode);
+                startActivity(i);
+
             }
         });
     }

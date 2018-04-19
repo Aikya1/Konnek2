@@ -95,9 +95,10 @@ public class AppSplashActivity extends BaseActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-//                LandingActivity.start(AppSplashActivity.this);
-                Intro.start(AppSplashActivity.this);
+                LandingActivity.start(AppSplashActivity.this);
+//                Intro.start(AppSplashActivity.this);
                 overridePendingTransition(R.anim.right_to_left, R.anim.left_to_right);
+//                overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
                 finish();
             }
         }, SPLASH_TIME_OUT);

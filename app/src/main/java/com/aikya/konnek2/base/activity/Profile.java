@@ -4,14 +4,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.Html;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -19,36 +22,48 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.aikya.konnek2.Preference.ProfilePrefManager;
+import com.aikya.konnek2.R;
 import com.aikya.konnek2.call.core.models.AppSession;
+import com.aikya.konnek2.call.core.models.UserCustomData;
+import com.aikya.konnek2.call.db.models.Attachment;
 import com.aikya.konnek2.call.services.model.QMUser;
 import com.aikya.konnek2.call.services.utils.ErrorUtils;
 import com.aikya.konnek2.ui.activities.base.BaseActivity;
-import com.aikya.konnek2.utils.AppPreference;
-import com.aikya.konnek2.utils.AuthUtils;
-import com.aikya.konnek2.utils.MediaUtils;
-import com.aikya.konnek2.utils.listeners.OnMediaPickedListener;
-import com.aikya.konnek2.Preference.ProfilePrefManager;
-import com.aikya.konnek2.call.core.models.UserCustomData;
-import com.aikya.konnek2.call.db.models.Attachment;
 import com.aikya.konnek2.ui.views.roundedimageview.RoundedImageView;
 import com.aikya.konnek2.utils.AppConstant;
+import com.aikya.konnek2.utils.AppPreference;
+import com.aikya.konnek2.utils.AuthUtils;
 import com.aikya.konnek2.utils.EmailPhoneValidationUtils;
+import com.aikya.konnek2.utils.MediaUtils;
 import com.aikya.konnek2.utils.ToastUtils;
 import com.aikya.konnek2.utils.helpers.MediaPickHelper;
 import com.aikya.konnek2.utils.helpers.ServiceManager;
+import com.aikya.konnek2.utils.listeners.OnMediaPickedListener;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.StringSignature;
 import com.google.gson.Gson;
+import com.quickblox.content.QBContent;
+import com.quickblox.content.model.QBFile;
 import com.quickblox.core.helper.StringifyArrayList;
+import com.quickblox.core.server.Performer;
+import com.quickblox.extensions.RxJavaPerformProcessor;
 import com.quickblox.users.model.QBUser;
 import com.soundcloud.android.crop.Crop;
 
+import org.w3c.dom.Text;
+
 import java.io.File;
 import java.util.Date;
+import java.util.Locale;
 
 import rx.Observable;
 import rx.Observer;
 import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+
+import static com.aikya.konnek2.utils.AppConstant.nonDupLangList;
 
 public class Profile extends BaseActivity implements OnMediaPickedListener {
 
@@ -80,6 +95,8 @@ public class Profile extends BaseActivity implements OnMediaPickedListener {
     StringifyArrayList<String> tags = new StringifyArrayList<String>();
     private ProfilePrefManager profileprefManager;
     File file;
+
+    QBFile userQbFile;
 
     private String loginType;
     private QBUser qbUser;
@@ -218,19 +235,25 @@ public class Profile extends BaseActivity implements OnMediaPickedListener {
         }
     }
 
-    private void startCropActivity(Uri originalUri) {
-        imageUri = MediaUtils.getValidUri(new File(getCacheDir(), Crop.class.getName()), this);
-        Crop.of(originalUri, imageUri).asSquare().start(this);
-    }
-
     @Override
     public void onMediaPickError(int requestCode, Exception e) {
-        ErrorUtils.showError(this, e);
+
+        ToastUtils.shortToast("Error = " + e.getMessage());
     }
 
     @Override
     public void onMediaPickClosed(int requestCode) {
+
+        ToastUtils.shortToast("MediaPickClosed");
     }
+
+
+    private void startCropActivity(Uri originalUri) {
+        String extensionOriginalUri = originalUri.getPath().substring(originalUri.getPath().lastIndexOf(".")).toLowerCase();
+        imageUri = MediaUtils.getValidUri(new File(getCacheDir(), extensionOriginalUri), this);
+        Crop.of(originalUri, imageUri).asSquare().start(this);
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -294,6 +317,20 @@ public class Profile extends BaseActivity implements OnMediaPickedListener {
             passwordEt = findViewById(com.aikya.konnek2.R.id.facebookpwd);
 
 
+            ArrayAdapter<String> adapter =
+                    new ArrayAdapter<String>(getApplicationContext(),
+                            R.layout.custom_spinner_dropdown, nonDupLangList);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            if (spin1 != null) {
+                spin1.setAdapter(adapter);
+                String myString = Locale.getDefault().getDisplayLanguage(); //the value you want the position for
+                ArrayAdapter myAdap = (ArrayAdapter) spin1.getAdapter(); //cast to an ArrayAdapter
+                int spinnerPosition = myAdap.getPosition(myString);
+                //set the default according to value
+                spin1.setSelection(spinnerPosition);
+            }
+
+
             //If user comes by facebook
             if (appSharedHelper.getLoginType().equalsIgnoreCase(AppConstant.LOGIN_TYPE_FACEBOOK) ||
                     appSharedHelper.getLoginType().equalsIgnoreCase(AppConstant.LOGIN_TYPE_GMAIL)) {
@@ -339,37 +376,30 @@ public class Profile extends BaseActivity implements OnMediaPickedListener {
             camimageview.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mediaPickHelper.pickAnMedia(Profile.this, MediaUtils.IMAGE_REQUEST_CODE);
+                    mediaPickHelper.pickAnMedia(Profile.this, MediaUtils.CAMERA_PHOTO_REQUEST_CODE);
                 }
             });
             //Onclick of people
             photoImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mediaPickHelper.pickAnMedia(Profile.this, MediaUtils.IMAGE_REQUEST_CODE);
+                    mediaPickHelper.pickAnMedia(Profile.this, MediaUtils.CAMERA_PHOTO_REQUEST_CODE);
                 }
             });
             save.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-
                     viewPager.setCurrentItem(1);
 
-                    if (file != null && imageUri != null) {
-                        file = MediaUtils.getCreatedFileFromUri(imageUri);
-                    }
-                    String s1 = null;
-
-                    if (file == null && profileUrl != null) {
-                        file = new File(profileUrl);
-                    }
-
-
                     if (validates()) {
+                        String unique_id = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+
+                        qbUser = new QBUser();
+                        userCustomData = new UserCustomData();
                         showProgress();
+                        uploadFileToServer();
                         userStatus = status.getText().toString();
-                        userLanguage = "English";
+                        userLanguage = Locale.getDefault().getLanguage().toString();
                         firstName = firstNameEt.getText().toString().trim();
                         lastName = lastNameEt.getText().toString().trim();
                         userEmail = emailEt.getText().toString().trim();
@@ -379,7 +409,7 @@ public class Profile extends BaseActivity implements OnMediaPickedListener {
                         tags.add("dev");
                         //to get cropped camera image
 
-                        if (file != null) {
+                       /* if (file != null) {
                             String s = file.getAbsolutePath();
 
                             if (s.contains("Crop")) {
@@ -387,34 +417,47 @@ public class Profile extends BaseActivity implements OnMediaPickedListener {
                                 File file1 = new File(s1);
                                 file.renameTo(file1);
                             }
-                        }
-                        qbUser = new QBUser();
+                        }*/
                         qbUser.setLogin(phNo);
                         qbUser.setPassword(AppConstant.USER_PASSWORD);
                         qbUser.setEmail(userEmail);
-                        qbUser.setFullName(firstName + " " + lastName);
+
+                        if (!TextUtils.isEmpty(firstName) && !TextUtils.isEmpty(lastName)) {
+                            qbUser.setFullName(firstName + " " + lastName);
+                        } else if (!TextUtils.isEmpty(firstName)) {
+                            qbUser.setFullName(firstName);
+                        } else if (!TextUtils.isEmpty(lastName)) {
+                            qbUser.setFullName(lastName);
+                        }
+
                         qbUser.setPhone(phNo);
                         qbUser.setCreatedAt(new Date());
 
-                        userCustomData = new UserCustomData();
                         userCustomData.setFirstName(firstName);
                         if (facebookId != null) {
                             userCustomData.setFacebookId(facebookId);
                         }
                         userCustomData.setLastName(lastName);
-                        if (s1 != null) {
+
+                        if (profileUrl != null) {
+                            userCustomData.setAvatarUrl(profileUrl);
+                        }
+
+                       /* if (s1 != null) {
                             userCustomData.setAvatarUrl(s1);
                         } else if (profileUrl != null) {
                             userCustomData.setAvatarUrl(profileUrl);
                         } else if (imageUri != null) {
                             userCustomData.setAvatarUrl(imageUri.toString());
-                        }
+                        }*/
+
+
                         userCustomData.setAge("22");
                         userCustomData.setContactno(phNo);
                         userCustomData.setPrefEmail(userEmail);
                         userCustomData.setStatus(status.getText().toString());
                         userCustomData.setSignUpType(signUpType);
-                        userCustomData.setDeviceUDid("asdasdasd");
+                        userCustomData.setDeviceUDid(unique_id);
                         userCustomData.setIsEuropean(appSharedHelper.getIsGdpr());
 
                         Gson gson = new Gson();
@@ -435,6 +478,13 @@ public class Profile extends BaseActivity implements OnMediaPickedListener {
         public void destroyItem(ViewGroup container, int position, Object object) {
             View view = (View) object;
             container.removeView(view);
+        }
+    }
+
+    private void uploadFileToServer() {
+        if (isNeedUpdateImage && imageUri != null) {
+            file = MediaUtils.getCreatedFileFromUri(imageUri);
+            userCustomData.setAvatarUrl(imageUri.toString());
         }
     }
 
@@ -464,7 +514,12 @@ public class Profile extends BaseActivity implements OnMediaPickedListener {
             return false;
         } else */
         if (!EmailPhoneValidationUtils.isValidPhone(phNo) || TextUtils.isEmpty(phNo)) {
+            viewPager.setCurrentItem(1);
             ToastUtils.shortToast("Phone No is empty/not valid");
+            return false;
+        } else if (TextUtils.isEmpty(firstNameEt.getText().toString())) {
+            viewPager.setCurrentItem(1);
+            ToastUtils.shortToast("First Name is Mandatory");
             return false;
         } /*else if (TextUtils.isEmpty(password)) {
             ToastUtils.shortToast("Password can't be empty.");
@@ -544,29 +599,4 @@ public class Profile extends BaseActivity implements OnMediaPickedListener {
 
         finish();
     }
-
-
-    private Observer<QBUser> updateUserObserver = new Observer<QBUser>() {
-        @Override
-        public void onCompleted() {
-
-        }
-
-        @Override
-        public void onError(Throwable e) {
-            hideProgress();
-            AuthUtils.parseExceptionMessage(Profile.this, e.getMessage());
-        }
-
-        @Override
-        public void onNext(QBUser qbUser) {
-            hideProgress();
-            appSharedHelper.saveFirstAuth(true);
-            appSharedHelper.saveSavedRememberMe(true);
-            performLoginSuccessAction(qbUser);
-
-        }
-    };
-
-
 }

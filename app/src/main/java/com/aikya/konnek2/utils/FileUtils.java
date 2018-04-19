@@ -22,7 +22,7 @@ import java.io.IOException;
 public class FileUtils {
 
     private static final String TAG = FileUtils.class.getSimpleName();
-    private static final String folderName = "/Q-municate";
+    private static final String folderName = "/Konnek2";
     private static final String fileType = ".jpg";
     public static final String AUTHORITY = BuildConfig.APPLICATION_ID + ".provider";
 

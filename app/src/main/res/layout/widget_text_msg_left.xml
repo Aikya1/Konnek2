@@ -29,7 +29,7 @@
             <TextView
                 android:id="@+id/msg_text_user_name"
                 style="@style/CustomTextViewUserName.Left"
-                android:text="Pooja" />
+                 />
 
             <TextView
                 android:id="@+id/msg_text_message"

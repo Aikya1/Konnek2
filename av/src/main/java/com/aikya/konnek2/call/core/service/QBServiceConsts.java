@@ -252,5 +252,8 @@ public class QBServiceConsts {
     public static final int AUTH_TYPE_LOGIN = 2;
     public static final String REMOVE_USER_FROM_GROUP_ACTION = "remove_user_from_group_action";
     public static final String REMOVE_SELECTED_USER_FROM_GROUP = "remove_selected_user_from_group";
-    public static final String LOAD_GROUP_DIALOG = "load_group_dialog";
+
+
+    public static final String REMOVE_USER__FROM_GROUP_SUCCESS_ACTION = "remove_user_from_group_success_action";
+    public static final String REMOVE_USER__FROM_GROUP_FAIL_ACTION = "remove_user_from_group_fail_action";
 }

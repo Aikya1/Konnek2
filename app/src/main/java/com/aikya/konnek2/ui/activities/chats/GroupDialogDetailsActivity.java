@@ -26,6 +26,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.aikya.konnek2.call.core.core.command.Command;
 import com.aikya.konnek2.call.core.models.AppSession;
 import com.aikya.konnek2.call.core.qb.commands.chat.QBDeleteChatCommand;
+import com.aikya.konnek2.call.core.qb.commands.chat.QBRemoveUserFromGroupCommand;
 import com.aikya.konnek2.call.core.qb.commands.chat.QBUpdateGroupDialogCommand;
 import com.aikya.konnek2.call.core.qb.commands.friend.QBAddFriendCommand;
 import com.aikya.konnek2.call.core.utils.ChatUtils;
@@ -55,6 +56,7 @@ import com.aikya.konnek2.utils.listeners.simple.SimpleActionModeCallback;
 import com.quickblox.chat.QBChatService;
 import com.quickblox.chat.model.QBChatDialog;
 import com.quickblox.core.exception.QBResponseException;
+import com.quickblox.users.QBUsers;
 import com.quickblox.users.model.QBUser;
 import com.soundcloud.android.crop.Crop;
 
@@ -285,29 +287,39 @@ public class GroupDialogDetailsActivity extends BaseLoggableActivity implements
 
                     if (selectedUser.getId() != AppSession.getSession().getUser().getId()) {
 
-                        occupantsList = getUsersForGroupChat(qbDialog.getDialogId(), qbDialog.getOccupants());
+                      /*  occupantsList = getUsersForGroupChat(qbDialog.getDialogId(), qbDialog.getOccupants());
                         occupantsList.remove(selectedUser);
                         updateOccupantsList();
                         qbDialog.setOccupantsIds(ChatUtils.createOccupantsIdsFromUsersList(occupantsList));
 
-//                        UPDATE `dialog_occupant` SET `dialog_id` = ?, `dialog_occupant_status` = ?, `id` = ? WHERE `dialog_occupant_id` = ?
-
                         DialogOccupant dialogOccupant = new DialogOccupant();
 
                         dialogOccupant.setDialog(dataManager.getDialogDataManager().getByDialogId(dialogId));
-                        dataManager.getDialogOccupantDataManager().delete(dialogOccupant);
-                        dataManager.getDialogOccupantDataManager().update(dialogOccupant, true);
 
-//                        dataManager.getDialogOccupantDataManager().update(dialogOccupant, true);
-//                        qbDialog = dataManager.getQBChatDialogDataManager().getByDialogId(dialogId);
-//                        Log.d(TAG, "Updated");
-//                        updateDialog();
+                        List<DialogOccupant> list = dataManager.getDialogOccupantDataManager().getActualDialogOccupantsByDialog(dialogId);
+
+//                        removeUserFromDb(list, selectedUser.getId());
+                        *//*try {
+                            chatHelper.removeUserFromGroup(qbDialog,selectedUser);
+                        } catch (QBResponseException e) {
+                            e.printStackTrace();
+                        }*/
+
+                        QBRemoveUserFromGroupCommand.start(this,qbDialog,selectedUser);
 
                     }
                 }
                 break;
         }
         return true;
+    }
+
+    private void removeUserFromDb(List<DialogOccupant> list, Integer selectedUserId) {
+        for (DialogOccupant occupant : list) {
+            if (occupant.getUser().getId().equals(selectedUserId)) {
+                dataManager.getDialogOccupantDataManager().deleteById(occupant.getDialogOccupantId());
+            }
+        }
     }
 
 
@@ -355,16 +367,12 @@ public class GroupDialogDetailsActivity extends BaseLoggableActivity implements
         updateDialog();
 
 //        groupNameEditText.setText(qbDialog.getName());
-
         updateCountOnlineFriends();
-
       /*  occupantsTextView.setText(
                 getString(R.string.dialog_details_participants, qbDialog.getOccupants().size()));*/
-
         if (!isNeedUpdateImage) {
             loadAvatar(qbDialog.getPhoto());
         }
-
         updateOldGroupData();
     }
 

@@ -47,6 +47,7 @@ import com.quickblox.chat.model.QBChatMessage;
 import com.quickblox.chat.model.QBChatDialog;
 import com.quickblox.chat.model.QBDialogType;
 import com.quickblox.chat.model.QBPresence;
+import com.quickblox.chat.request.QBDialogRequestBuilder;
 import com.quickblox.chat.utils.DialogUtils;
 import com.quickblox.content.QBContent;
 import com.quickblox.content.model.QBFile;
@@ -689,8 +690,19 @@ public class QBChatHelper extends BaseThreadPoolHelper {
     }
 
     public void removeUserFromGroup(QBChatDialog chatDialog, QMUser selectedUser) throws QBResponseException {
+        /*QBRequestUpdateBuilder requestBuilder = new QBRequestUpdateBuilder();
+        requestBuilder.pullAll(Consts.DIALOG_OCCUPANTS, selectedUser.getId());
+
+        QBDialogRequestBuilder requestBuilder1 = new QBDialogRequestBuilder();
+        requestBuilder1.removeUsers(selectedUser.getId());
+
+        updateDialog(chatDialog, requestBuilder1);*/
+
+        List<Integer> userIdsList = new ArrayList<>();
+        userIdsList.add(selectedUser.getId());
+        StringifyArrayList<Integer> occupantsIdsList = new StringifyArrayList<>(userIdsList);
         QBRequestUpdateBuilder requestBuilder = new QBRequestUpdateBuilder();
-        requestBuilder.pullAll(Consts.DIALOG_USER_ID_FIELD_NAME, selectedUser);
+        requestBuilder.pullAll(com.quickblox.chat.Consts.DIALOG_OCCUPANTS, occupantsIdsList.getItemsAsString());
         updateDialog(chatDialog, requestBuilder);
         DataManager.getInstance().getQBChatDialogDataManager().deleteById(selectedUser.getId());
     }

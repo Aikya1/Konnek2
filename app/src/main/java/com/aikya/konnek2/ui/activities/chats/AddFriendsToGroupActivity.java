@@ -133,6 +133,13 @@ public class AddFriendsToGroupActivity extends BaseFriendsListActivity {
         if (!selectedFriendsList.isEmpty()) {
             if (isChatInitializedAndUserLoggedIn() && checkNetworkAvailableWithError()) {
                 boolean joined = chatHelper != null && qbDialog != null && chatHelper.isDialogJoined(qbDialog);
+
+                boolean val = chatHelper.isDialogJoined(qbDialog);
+                boolean val2 = chatHelper != null;
+                boolean val3 = qbDialog != null;
+
+
+
                 if (joined) {
                     showProgress();
                     friendIdsList = UserFriendUtils.getFriendIds(selectedFriendsList);

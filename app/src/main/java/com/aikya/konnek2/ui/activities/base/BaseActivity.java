@@ -297,7 +297,6 @@ public abstract class BaseActivity extends AppCompatActivity implements ActionBa
 
     @Override
     public void hideSnackBar(int titleResId) {
-
         snackbarClientPriority.remove(titleResId);
         hideSnackBar();
     }

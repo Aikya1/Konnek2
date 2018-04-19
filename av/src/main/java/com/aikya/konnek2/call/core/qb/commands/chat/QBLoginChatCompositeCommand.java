@@ -2,6 +2,7 @@ package com.aikya.konnek2.call.core.qb.commands.chat;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -30,7 +31,14 @@ public class QBLoginChatCompositeCommand extends CompositeServiceCommand {
         Log.i(TAG, "start");
         setIsRunning(true);
         Intent intent = new Intent(QBServiceConsts.LOGIN_CHAT_COMPOSITE_ACTION, null, context, QBService.class);
-        context.startService(intent);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            context.startForegroundService(intent);
+        } else {
+            context.startService(intent);
+        }
+
+//        context.startService(intent);
     }
 
     @Override

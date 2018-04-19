@@ -3,8 +3,12 @@ package com.aikya.konnek2.ui.activities.authorization;
 import android.accounts.Account;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +18,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
+import com.aikya.konnek2.base.activity.Intro;
 import com.aikya.konnek2.call.core.models.LoginType;
 import com.aikya.konnek2.R;
 import com.aikya.konnek2.base.activity.AppHomeActivity;
@@ -26,11 +31,13 @@ import com.aikya.konnek2.utils.AppPreference;
 import com.aikya.konnek2.utils.ToastUtils;
 import com.aikya.konnek2.utils.helpers.ServiceManager;
 import com.aikya.konnek2.utils.helpers.SystemPermissionHelper;
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.facebook.ProfileTracker;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -49,13 +56,21 @@ import com.quickblox.users.model.QBUser;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
 
 import butterknife.Bind;
 import butterknife.OnClick;
 import rx.Observer;
 import rx.Subscriber;
+
+import static com.aikya.konnek2.utils.AppConstant.languageList;
+import static com.aikya.konnek2.utils.AppConstant.nonDupLangList;
 
 public class LandingActivity extends BaseAuthActivity implements GoogleApiClient.OnConnectionFailedListener, GdprCustomDialog.OnGdprSelected {
 
@@ -82,7 +97,6 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
     String countryCode = "", phNumber = "";
     private GoogleApiClient mGoogleApiClient;
 
-
     GdprCustomDialog gdprCustomDialog;
 
 /*    @Bind(R.id.login_button)
@@ -103,6 +117,7 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
         return R.layout.activity_landing;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,13 +129,24 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
         gdprCustomDialog = new GdprCustomDialog(LandingActivity.this);
         gdprCustomDialog.setDialogResult(this);
 
+        for (Locale locale : Locale.getAvailableLocales()) {
+            languageList.add(locale.getDisplayLanguage());
+        }
+
+        Iterator<String> dupIter = languageList.iterator();
+        while (dupIter.hasNext()) {
+            String dupWord = dupIter.next();
+            if (nonDupLangList.contains(dupWord)) {
+                dupIter.remove();
+            } else {
+                nonDupLangList.add(dupWord);
+            }
+        }
+
         facebookLoginBtn.setReadPermissions(Arrays.asList(
                 "public_profile", "email"));
         callbackManager = CallbackManager.Factory.create();
-
-
         setUpGoogle();
-
         LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
@@ -176,6 +202,7 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
 
     }
 
+
     private void setUpGoogle() {
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -195,6 +222,11 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
     private void signIn() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    public boolean isLoggedIn() {
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        return accessToken != null;
     }
 
 
@@ -291,20 +323,27 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
 
     @OnClick(R.id.facebookView)
     public void setUpFbLogin() {
-        facebookLoginBtn.callOnClick();
+
+        if (!isLoggedIn()) {
+            facebookLoginBtn.callOnClick();
+        }else{
+            gdprCustomDialog.show();
+        }
+
+
     }
 
 
     @OnClick(R.id.btnsignups)
     void phoneNumberConnect(View view) {
         if (checkNetworkAvailableWithError()) {
-//            if (phoneeval() && checkeval()) {
+            if (phoneeval() && checkeval()) {
                 showProgress();
                 countryCode = countryCodePicker.getDefaultCountryCodeWithPlus();
                 phNumber = etphoneno.getText().toString();
                 serviceManager.checkIfUserExist(phNumber)
                         .subscribe(checkIfUserExists);
-//            }
+            }
         }
     }
 
@@ -451,9 +490,7 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
             appSharedHelper.saveIsGdpr("No");
             //No OTP VERIFICATION : GOTO INTRO screen
             //Manual login...
-            Intent i = new Intent(LandingActivity.this, Profile.class);
-            i.putExtra("phNo", phNumber);
-            i.putExtra("countryCode", countryCode);
+            Intent i = new Intent(LandingActivity.this, Intro.class);
             startActivity(i);
         }
     }

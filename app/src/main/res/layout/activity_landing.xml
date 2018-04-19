@@ -12,7 +12,8 @@
         android:layout_centerHorizontal="true"
         android:text="@string/sign_up"
         android:textColor="@color/white"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:visibility="gone" />
 
     <ImageView
         android:id="@+id/logo_imageview"
@@ -29,6 +30,7 @@
     <com.hbb20.CountryCodePicker
         android:id="@+id/country_isd_list"
         style="@style/FirebaseUI.CountrySpinner"
+        backgroundTint="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -38,10 +40,11 @@
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
         android:layout_marginStart="25dp"
-        android:layout_marginTop="@dimen/margin_20dp"
         android:backgroundTint="@color/white"
+        android:layout_marginTop="@dimen/margin_20dp"
         android:textColor="@color/white"
         fb:ccp_contentColor="@color/white"
+        fb:ccp_customMasterCountries="@string/country_list"
         fb:ccp_showArrow="false"
         fb:ccp_textGravity="LEFT"
         fb:ccp_textSize="@dimen/text_size16sp" />
@@ -72,10 +75,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/etphoneno"
-        android:layout_marginEnd="25dp"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        android:layout_marginStart="25dp"
+        android:layout_margin="@dimen/margin_25dp"
         android:layout_marginTop="@dimen/padding_10dp">
 
         <LinearLayout
@@ -83,14 +83,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <CheckBox
+            <android.support.v7.widget.AppCompatCheckBox
                 android:id="@+id/checkBox1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:buttonTint="@color/white"
-                android:paddingLeft="@dimen/padding_10dp"
-                android:paddingStart="@dimen/padding_10dp"
+                android:paddingLeft="@dimen/margin_8dp"
+                android:paddingStart="@dimen/margin_8dp"
                 android:text="@string/terms_and_ser_1"
                 android:textColor="@color/white"
                 tools:ignore="RtlSymmetry,UnusedAttribute" />
@@ -104,14 +104,14 @@
             android:layout_below="@+id/linearLayout1"
             android:layout_marginTop="10dp">
 
-            <CheckBox
+            <android.support.v7.widget.AppCompatCheckBox
                 android:id="@+id/checkBox2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:buttonTint="@color/white"
-                android:paddingLeft="@dimen/padding_10dp"
-                android:paddingStart="@dimen/padding_10dp"
+                android:paddingLeft="@dimen/margin_8dp"
+                android:paddingStart="@dimen/margin_8dp"
                 android:text="@string/terms_and_ser_2"
                 android:textColor="@color/white" />
 
@@ -132,6 +132,7 @@
         android:layout_marginRight="25dp"
         android:layout_marginStart="25dp"
         android:layout_marginTop="@dimen/margin_20dp"
+        android:background="@drawable/btn_round_corner_white"
         android:text="@string/sign_up"
         android:textStyle="bold" />
 

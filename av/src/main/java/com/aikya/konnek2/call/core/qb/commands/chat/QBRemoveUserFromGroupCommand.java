@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.aikya.konnek2.call.core.qb.helpers.QBChatHelper;
+import com.aikya.konnek2.call.core.utils.ChatUtils;
 import com.aikya.konnek2.call.services.model.QMUser;
 import com.aikya.konnek2.call.core.core.command.ServiceCommand;
 import com.aikya.konnek2.call.core.service.QBService;
@@ -39,6 +40,7 @@ public class QBRemoveUserFromGroupCommand extends ServiceCommand {
     protected Bundle perform(Bundle extras) throws Exception {
         QBChatDialog chatDialog = (QBChatDialog) extras.getSerializable(QBServiceConsts.EXTRA_DIALOG);
         QMUser selectedUser = (QMUser) extras.getSerializable(QBServiceConsts.REMOVE_SELECTED_USER_FROM_GROUP);
+
         chatHelper.removeUserFromGroup(chatDialog, selectedUser);
         if (chatDialog != null) {
             DataManager.getInstance().getQBChatDialogDataManager().update(chatDialog);
