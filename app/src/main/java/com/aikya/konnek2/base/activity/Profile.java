@@ -459,6 +459,16 @@ public class Profile extends BaseActivity implements OnMediaPickedListener {
                         userCustomData.setSignUpType(signUpType);
                         userCustomData.setDeviceUDid(unique_id);
                         userCustomData.setIsEuropean(appSharedHelper.getIsGdpr());
+                        userCustomData.setAddressLine1("");
+                        userCustomData.setCity("");
+                        userCustomData.setCountry("");
+                        userCustomData.setCountryCode(countryCode);
+                        userCustomData.setDob("");
+                        userCustomData.setPrefSms("");
+                        userCustomData.setPrefEmail("");
+                        userCustomData.setPrefInApp("");
+
+
 
                         Gson gson = new Gson();
                         String userCustomDataStringToSave = gson.toJson(userCustomData);

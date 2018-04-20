@@ -15,6 +15,7 @@ import com.aikya.konnek2.call.core.models.LoginType;
 import com.aikya.konnek2.ui.activities.base.BaseActivity;
 import com.aikya.konnek2.utils.AppPreference;
 import com.aikya.konnek2.utils.AuthUtils;
+import com.aikya.konnek2.utils.StringObfuscator;
 import com.aikya.konnek2.utils.helpers.GoogleAnalyticsHelper;
 import com.aikya.konnek2.R;
 import com.aikya.konnek2.base.activity.Intro;
@@ -205,7 +206,7 @@ public abstract class BaseAuthActivity extends BaseActivity {
         intent.putExtra("countryCode", countryCode);
         appSharedHelper.saveLastOpenActivity(Intro.class.getName());
         startActivity(intent);
-        finish();
+//        finish();
     }
 
 
@@ -297,14 +298,20 @@ public abstract class BaseAuthActivity extends BaseActivity {
         @Override
         public void onSuccess(String authToken) {
             showProgress();
-        /*    serviceManager.login(QBProvider.FIREBASE_PHONE, authToken, StringObfuscator.getFirebaseAuthProjectId())
+           /* serviceManager.login(QBProvider.FIREBASE_PHONE, authToken, StringObfuscator.getFirebaseAuthProjectId())
                     .subscribe(socialLoginObserver);*/
+//            startMainActivity();
 
-            startMainActivity();
+            Intent intent = new Intent(BaseAuthActivity.this, Intro.class);
+            intent.putExtra("phNo", phNo);
+            intent.putExtra("countryCode", countryCode);
+            appSharedHelper.saveLastOpenActivity(Intro.class.getName());
+            startActivity(intent);
         }
 
         @Override
         public void onError(Exception e) {
+            Log.d(TAG,"OTP Error "+e.getMessage());
             hideProgress();
         }
     }

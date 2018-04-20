@@ -37,7 +37,7 @@
         android:padding="@dimen/padding_5dp"
         android:text="@string/name"
         android:textColor="@color/black"
-        android:textSize="@dimen/text_size18sp"
+        android:textSize="@dimen/text_size16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageView10"
         app:layout_constraintTop_toTopOf="@+id/imageView10" />
@@ -54,7 +54,7 @@
         android:padding="@dimen/padding_5dp"
         android:text="@string/status_text"
         android:textColor="@color/black"
-        android:textSize="16sp"
+        android:textSize="@dimen/text_size_14sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline20"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageView10"

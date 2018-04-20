@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
               android:background="@color/white"
               android:orientation="vertical">
 
@@ -12,6 +12,7 @@
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/margin_20dp"
         android:gravity="center"
+        android:background="@drawable/grid_item_border"
         android:orientation="vertical"
         android:paddingBottom="@dimen/padding_5dp"
         >
@@ -19,6 +20,7 @@
         <ImageView
             android:id="@+id/grid_image"
             android:layout_width="65dp"
+            android:src="@drawable/contact_us_20_2x"
             android:layout_height="65dp">
             <!--android:background="@drawable/grid_gradient"-->
         </ImageView>
@@ -27,8 +29,9 @@
             android:id="@+id/grid_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="sample"
             android:layout_marginTop="10dp"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/black"
             android:textSize="14sp">
         </TextView>
 
@@ -45,7 +48,7 @@
             android:id="@+id/grid_text3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/black"
             android:textSize="10sp"
             android:visibility="invisible">
         </TextView>

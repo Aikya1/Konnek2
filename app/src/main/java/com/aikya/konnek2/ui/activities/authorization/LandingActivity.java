@@ -5,10 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
-import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -18,12 +16,10 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
-import com.aikya.konnek2.base.activity.Intro;
-import com.aikya.konnek2.call.core.models.LoginType;
 import com.aikya.konnek2.R;
 import com.aikya.konnek2.base.activity.AppHomeActivity;
-import com.aikya.konnek2.base.activity.Profile;
-import com.aikya.konnek2.call.core.models.AppSession;
+import com.aikya.konnek2.base.activity.Intro;
+import com.aikya.konnek2.call.core.models.LoginType;
 import com.aikya.konnek2.call.services.model.QMUser;
 import com.aikya.konnek2.ui.dialogs.GdprCustomDialog;
 import com.aikya.konnek2.utils.AppConstant;
@@ -37,7 +33,6 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
-import com.facebook.ProfileTracker;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -56,13 +51,10 @@ import com.quickblox.users.model.QBUser;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.stream.Collectors;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -150,17 +142,11 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
         LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                Log.d(TAG, "FB Success");
-
-                // App code
                 GraphRequest request = GraphRequest.newMeRequest(
                         loginResult.getAccessToken(),
                         new GraphRequest.GraphJSONObjectCallback() {
                             @Override
                             public void onCompleted(JSONObject object, GraphResponse response) {
-                                Log.v("LoginActivity", response.toString());
-
-                                // Application code
                                 try {
                                     //send user to gdpr screen
                                     String profileUrl = "http://graph.facebook.com/" + object.getString("id") + "/picture?type=large";
@@ -169,13 +155,11 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
                                     appSharedHelper.saveSocialId(object.getString("id"));
                                     appSharedHelper.saveUserEmail(object.getString("email"));
                                     appSharedHelper.saveUserGender(object.getString("gender"));
+                                    appSharedHelper.saveIsGdpr("");
                                     appSharedHelper.saveUserProfilePic(profileUrl);
-
-                                  /*  Intent i = new Intent(LandingActivity.this, GdprActivity.class);
-                                    i.putExtra("loginType", AppConstant.LOGIN_TYPE_FACEBOOK);
-                                    startActivity(i);*/
-                                    gdprCustomDialog.show();
-
+                                    appSharedHelper.saveCountryCode("");
+                                    startIntroActivity(AppConstant.LOGIN_TYPE_FACEBOOK);
+//                                    gdprCustomDialog.show();
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -204,7 +188,6 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
 
 
     private void setUpGoogle() {
-
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestScopes(new Scope(Scopes.PLUS_LOGIN))
                 .requestEmail()
@@ -258,13 +241,7 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
             String personPhotoUrl = "";
-            Log.e(TAG, "display name: " + acct.getDisplayName());
-
             String personName = acct.getDisplayName();
-            String famName = acct.getFamilyName();
-            String givenName = acct.getGivenName();
-            Account account = acct.getAccount();
-
 
             if (acct.getPhotoUrl() != null) {
                 personPhotoUrl = acct.getPhotoUrl().toString();
@@ -278,14 +255,10 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
             appSharedHelper.saveUserEmail(email);
             appSharedHelper.saveSocialId(acct.getId());
             appSharedHelper.saveUserGender("");
+            appSharedHelper.saveIsGdpr("");
+            appSharedHelper.saveCountryCode("");
 
-
-      /*      Intent i = new Intent(LandingActivity.this, GdprActivity.class);
-            i.putExtra("loginType", AppConstant.LOGIN_TYPE_GMAIL);
-            startActivity(i);*/
-//            gdprCustomDialog = new GdprCustomDialog(LandingActivity.this);
-            gdprCustomDialog.show();
-
+            startIntroActivity(AppConstant.LOGIN_TYPE_GMAIL);
 
         } else {
             // Signed out, show unauthenticated UI.
@@ -323,11 +296,14 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
 
     @OnClick(R.id.facebookView)
     public void setUpFbLogin() {
-
-        if (!isLoggedIn()) {
-            facebookLoginBtn.callOnClick();
-        }else{
-            gdprCustomDialog.show();
+        if (checkNetworkAvailableWithError()) {
+            if (checkeval()) {
+                if (!isLoggedIn()) {
+                    facebookLoginBtn.callOnClick();
+                } else {
+                    startIntroActivity(AppConstant.LOGIN_TYPE_FACEBOOK);
+                }
+            }
         }
 
 
@@ -354,7 +330,11 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
 
     @OnClick(R.id.googleSignInBtn)
     public void setUpGoogleSignIn() {
-        signIn();
+        if (checkNetworkAvailableWithError()) {
+            if (checkeval()) {
+                signIn();
+            }
+        }
     }
 
     private boolean checkeval() {
@@ -389,7 +369,6 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
 
 
     private boolean checkRecordPermission() {
-
         if (systemPermissionHelper.isContactPermissionGranted()) {
             return true;
         } else {
@@ -466,7 +445,7 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
                 appSharedHelper.saveCountryCode(countryCode);
                 gdprCustomDialog.show();
                 Window window = gdprCustomDialog.getWindow();
-                window.setLayout(ViewGroup.LayoutParams.FILL_PARENT,
+                window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.WRAP_CONTENT);
             }
 
@@ -477,6 +456,15 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
         Log.d(TAG, "onConnectionFailed:" + connectionResult);
+
+    }
+
+
+    public void startIntroActivity(String loginType) {
+
+        Intent i = new Intent(LandingActivity.this, Intro.class);
+        i.putExtra("loginType", loginType);
+        startActivity(i);
 
     }
 

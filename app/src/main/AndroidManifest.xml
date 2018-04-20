@@ -48,6 +48,7 @@
             android:name="com.aikya.konnek2.base.activity.AppSplashActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleInstance"
+            android:noHistory="true"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -59,6 +60,7 @@
             android:name="com.aikya.konnek2.ui.activities.authorization.LandingActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleTop"
+            android:noHistory="true"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.aikya.konnek2.base.activity.Intro"

@@ -187,8 +187,12 @@ public class SettingsActivity extends BaseLoggableActivity {
     private void fillUI() {
 
         QBUser qbUser = AppSession.getSession().getUser();
+        if (qbUser.getLogin() == null && TextUtils.isEmpty(qbUser.getLogin())) {
+            nameTv.setText(qbUser.getPhone());
+        } else {
+            nameTv.setText(qbUser.getLogin());
+        }
 
-        nameTv.setText(qbUser.getLogin());
         if (qbUser.getEmail() != null && TextUtils.isEmpty(qbUser.getEmail())) {
             statusTv.setText(qbUser.getEmail());
         } else {
