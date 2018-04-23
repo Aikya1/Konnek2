@@ -37,6 +37,9 @@ import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.TwitterCore;
 
 import io.fabric.sdk.android.Fabric;
+import io.michaelrocks.libphonenumber.android.NumberParseException;
+import io.michaelrocks.libphonenumber.android.PhoneNumberUtil;
+import io.michaelrocks.libphonenumber.android.Phonenumber;
 
 public class App extends MultiDexApplication {
 
@@ -64,6 +67,22 @@ public class App extends MultiDexApplication {
         registerActivityLifecycleCallbacks(new ActivityLifecycleHandler());
         createTable();
         initFacebook();
+
+        try {
+            // phone must begin with '+'
+            PhoneNumberUtil phoneUtil = PhoneNumberUtil.createInstance(this);
+            Phonenumber.PhoneNumber numberProto = phoneUtil.parse("009876543210", "IN");
+            int countryCode = numberProto.getCountryCode();
+            long nationalNumber = numberProto.getNationalNumber();
+            Log.i("code", "code " + countryCode);
+            Log.i("code", "national number " + nationalNumber);
+            if(android.util.Patterns.PHONE.matcher("009876543210").matches()){
+                Log.i("code", "national number " + true);
+
+            }
+        } catch (NumberParseException e) {
+            System.err.println("NumberParseException was thrown: " + e.toString());
+        }
 //        appcallLogTableDAO = new AppCallLogTable(appDBAdapter.getDataBase(), instance);
     }
 

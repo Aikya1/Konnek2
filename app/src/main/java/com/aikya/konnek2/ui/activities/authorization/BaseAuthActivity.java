@@ -206,7 +206,7 @@ public abstract class BaseAuthActivity extends BaseActivity {
         intent.putExtra("countryCode", countryCode);
         appSharedHelper.saveLastOpenActivity(Intro.class.getName());
         startActivity(intent);
-//        finish();
+       finish();
     }
 
 
@@ -300,13 +300,8 @@ public abstract class BaseAuthActivity extends BaseActivity {
             showProgress();
            /* serviceManager.login(QBProvider.FIREBASE_PHONE, authToken, StringObfuscator.getFirebaseAuthProjectId())
                     .subscribe(socialLoginObserver);*/
-//            startMainActivity();
+            startMainActivity();
 
-            Intent intent = new Intent(BaseAuthActivity.this, Intro.class);
-            intent.putExtra("phNo", phNo);
-            intent.putExtra("countryCode", countryCode);
-            appSharedHelper.saveLastOpenActivity(Intro.class.getName());
-            startActivity(intent);
         }
 
         @Override

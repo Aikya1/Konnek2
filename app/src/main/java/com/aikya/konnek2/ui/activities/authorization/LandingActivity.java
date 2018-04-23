@@ -158,7 +158,12 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
                                     appSharedHelper.saveIsGdpr("");
                                     appSharedHelper.saveUserProfilePic(profileUrl);
                                     appSharedHelper.saveCountryCode("");
-                                    startIntroActivity(AppConstant.LOGIN_TYPE_FACEBOOK);
+                                    /*if(!=null){
+                                        AppHomeActivity.start(LandingActivity.this);
+                                    }else{
+                                        startIntroActivity(AppConstant.LOGIN_TYPE_FACEBOOK);
+                                    }*/
+                                    serviceManager.checkIfUserExist_2(object.getString("email")).subscribe(checkIfUserExists_2);
 //                                    gdprCustomDialog.show();
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -319,6 +324,7 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
                 phNumber = etphoneno.getText().toString();
                 serviceManager.checkIfUserExist(phNumber)
                         .subscribe(checkIfUserExists);
+
             }
         }
     }
@@ -447,6 +453,49 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
                 Window window = gdprCustomDialog.getWindow();
                 window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.WRAP_CONTENT);
+            }
+
+        }
+    };
+
+    private Observer<QMUser> checkIfUserExists_2 = new Observer<QMUser>() {
+        @Override
+        public void onCompleted() {
+            hideProgress();
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            Log.d(TAG, "User List == " + e.getMessage());
+        }
+
+        @Override
+        public void onNext(QMUser user) {
+
+            if (user!=null) {
+                //If the user already exists then send user to home page.
+                QBUser qbuser = user;
+                qbuser.setPassword(AppConstant.USER_PASSWORD);
+
+                serviceManager.login(qbuser).subscribe(new Subscriber<QBUser>() {
+                    @Override
+                    public void onCompleted() {
+                        AppHomeActivity.start(LandingActivity.this);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d(TAG, "ERROR = " + e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(QBUser user) {
+                        loginUser(user);
+                    }
+                });
+
+            } else{
+                startIntroActivity(AppConstant.LOGIN_TYPE_FACEBOOK);
             }
 
         }

@@ -105,6 +105,26 @@ public class ServiceManager {
 
     }
 
+    public Observable<QMUser> checkIfUserExist_2(String email) {
+
+        QBPagedRequestBuilder pagedRequestBuilder = new QBPagedRequestBuilder();
+        pagedRequestBuilder.setPage(1);
+        pagedRequestBuilder.setPerPage(50);
+
+        ArrayList<String> phones = new ArrayList<String>();
+        phones.add(email);
+        Observable<QMUser> result = userService.getUserByEmail(email)
+                .subscribeOn(Schedulers.io())
+                .map(new Func1<QMUser, QMUser>() {
+                    @Override
+                    public QMUser call(QMUser qmUser) {
+                        return qmUser;
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread());
+        return result;
+    }
+
 
     public Observable<QBUser> signUp(QBUser user) {
 
