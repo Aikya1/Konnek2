@@ -42,9 +42,6 @@ public class MainActivity extends BaseLoggableActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
-//    private ImportFriendsSuccessAction importFriendsSuccessAction;
-//    private ImportFriendsFailAction importFriendsFailAction;
-
     public static void start(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -58,14 +55,6 @@ public class MainActivity extends BaseLoggableActivity {
 
     @Override
     public void onBackPressed() {
-
-//        if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
-//            finish();
-//        } else {
-//
-//        }
-
-
         Intent goToHone = new Intent(getApplicationContext(), AppHomeActivity.class);
         startActivity(goToHone);
         super.onBackPressed();
@@ -76,7 +65,6 @@ public class MainActivity extends BaseLoggableActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initFields();
-//        loginUser();
         setUpActionBarWithUpButton();
         if (!isChatInitializedAndUserLoggedIn()) {
             loginChat();
@@ -86,30 +74,6 @@ public class MainActivity extends BaseLoggableActivity {
         openPushDialogIfPossible();
     }
 
-    private void loginUser() {
-
-        AppSession.getSession().getUser().setPassword("aikya@123");
-
-        Observable<QBUser> userObservable = ServiceManager.getInstance().login(AppSession.getSession().getUser());
-        userObservable.subscribe(new Subscriber<QBUser>() {
-            @Override
-            public void onCompleted() {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                Log.d(TAG, "ERrro = " + e.getMessage());
-            }
-
-            @Override
-            public void onNext(QBUser qbUser) {
-
-                Log.d(TAG, "USER = " + qbUser);
-
-            }
-        });
-    }
 
     private void openPushDialogIfPossible() {
         CoreSharedHelper sharedHelper = CoreSharedHelper.getInstance();
@@ -132,10 +96,6 @@ public class MainActivity extends BaseLoggableActivity {
     }
 
     private void initFields() {
-
-//        importFriendsSuccessAction = new ImportFriendsSuccessAction();
-//        importFriendsFailAction = new ImportFriendsFailAction();
-
         AppSession session = AppSession.getSession();
         QBUser user = session.getUser();
         String fullName = AppSession.getSession().getUser().getFullName();
@@ -148,10 +108,6 @@ public class MainActivity extends BaseLoggableActivity {
         } else {
             title = " " + phNo;
         }
-
-//        importFriendsSuccessAction = new ImportFriendsSuccessAction();
-//        importFriendsFailAction = new ImportFriendsFailAction();
-
     }
 
 

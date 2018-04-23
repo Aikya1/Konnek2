@@ -91,6 +91,7 @@ public class ServiceManager {
 
         ArrayList<String> phones = new ArrayList<String>();
         phones.add(phNumber);
+
         Observable<List<QMUser>> result = userService.getUsersByPhoneNumbers(phones, pagedRequestBuilder, true)
                 .subscribeOn(Schedulers.io())
                 .map(new Func1<List<QMUser>, List<QMUser>>() {
@@ -100,9 +101,22 @@ public class ServiceManager {
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread());
-
         return result;
+    }
 
+
+    public Observable<QMUser> checkIfUserExistsEmail(String email) {
+        Observable<QMUser> result2 = userService.getUserByEmail(email)
+                .subscribeOn(Schedulers.io())
+                .map(new Func1<QMUser, QMUser>() {
+                    @Override
+                    public QMUser call(QMUser qmUser) {
+                        return qmUser;
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread());
+
+        return result2;
     }
 
     public Observable<QMUser> checkIfUserExist_2(String email) {
@@ -543,6 +557,7 @@ public class ServiceManager {
 
                         inviteFriend = new InviteFriend();
                         inviteFriend.setName(name);
+                        inviteFriend.setId(id);
 //                        inviteFriend.setId(id);
                         contact1.setName(name);
 

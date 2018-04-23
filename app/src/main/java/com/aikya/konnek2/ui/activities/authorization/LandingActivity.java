@@ -3,11 +3,15 @@ package com.aikya.konnek2.ui.activities.authorization;
 import android.accounts.Account;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,6 +55,8 @@ import com.quickblox.users.model.QBUser;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -90,6 +96,9 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
     private GoogleApiClient mGoogleApiClient;
 
     GdprCustomDialog gdprCustomDialog;
+    String userLoginType = "";
+
+
 
 /*    @Bind(R.id.login_button)
     LoginButton fbLoginBtn;*/
@@ -120,6 +129,8 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
         serviceManager = ServiceManager.getInstance();
         gdprCustomDialog = new GdprCustomDialog(LandingActivity.this);
         gdprCustomDialog.setDialogResult(this);
+
+//        generateFacebookKeyHash();
 
         for (Locale locale : Locale.getAvailableLocales()) {
             languageList.add(locale.getDisplayLanguage());
@@ -158,12 +169,14 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
                                     appSharedHelper.saveIsGdpr("");
                                     appSharedHelper.saveUserProfilePic(profileUrl);
                                     appSharedHelper.saveCountryCode("");
-                                    /*if(!=null){
-                                        AppHomeActivity.start(LandingActivity.this);
-                                    }else{
-                                        startIntroActivity(AppConstant.LOGIN_TYPE_FACEBOOK);
-                                    }*/
-                                    serviceManager.checkIfUserExist_2(object.getString("email")).subscribe(checkIfUserExists_2);
+                                    userLoginType = AppConstant.LOGIN_TYPE_FACEBOOK;
+
+                                    serviceManager.checkIfUserExistsEmail(object.getString("email"))
+                                            .subscribe(checkIfUserEmailExists);
+//                                    gdprCustomDialog.show();
+
+//                                    startIntroActivity(AppConstant.LOGIN_TYPE_FACEBOOK);
+
 //                                    gdprCustomDialog.show();
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -189,6 +202,23 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
             }
         });
 
+    }
+
+    private void generateFacebookKeyHash() {
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(
+                    "com.aikya.konnek2",
+                    PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+
+        } catch (NoSuchAlgorithmException e) {
+
+        }
     }
 
 
@@ -254,7 +284,9 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
             }
             String email = acct.getEmail();
 
-
+            showProgress();
+            serviceManager.checkIfUserExistsEmail(acct.getEmail())
+                    .subscribe(checkIfUserEmailExists);
             appSharedHelper.saveLoginType(AppConstant.LOGIN_TYPE_GMAIL);
             appSharedHelper.saveUserFullName(personName);
             appSharedHelper.saveUserEmail(email);
@@ -262,8 +294,7 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
             appSharedHelper.saveUserGender("");
             appSharedHelper.saveIsGdpr("");
             appSharedHelper.saveCountryCode("");
-
-            startIntroActivity(AppConstant.LOGIN_TYPE_GMAIL);
+            userLoginType = AppConstant.LOGIN_TYPE_GMAIL;
 
         } else {
             // Signed out, show unauthenticated UI.
@@ -306,11 +337,11 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
                 if (!isLoggedIn()) {
                     facebookLoginBtn.callOnClick();
                 } else {
-                    startIntroActivity(AppConstant.LOGIN_TYPE_FACEBOOK);
+                    userLoginType = AppConstant.LOGIN_TYPE_FACEBOOK;
+                    gdprCustomDialog.show();
                 }
             }
         }
-
 
     }
 
@@ -324,7 +355,6 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
                 phNumber = etphoneno.getText().toString();
                 serviceManager.checkIfUserExist(phNumber)
                         .subscribe(checkIfUserExists);
-
             }
         }
     }
@@ -422,29 +452,13 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
 
             appSharedHelper.saveFirstAuth(true);
             appSharedHelper.saveSavedRememberMe(true);
+            userLoginType = AppConstant.LOGIN_TYPE_MANUAL;
             appSharedHelper.saveLoginType(AppConstant.LOGIN_TYPE_MANUAL);
 
             if (userList.size() > 0) {
-                //If the user already exists then send user to home page.
-                QBUser user = userList.get(0);
-                user.setPassword(AppConstant.USER_PASSWORD);
 
-                serviceManager.login(user).subscribe(new Subscriber<QBUser>() {
-                    @Override
-                    public void onCompleted() {
+                sendUserToHomePage(userList.get(0));
 
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.d(TAG, "ERROR = " + e.getMessage());
-                    }
-
-                    @Override
-                    public void onNext(QBUser user) {
-                        loginUser(user);
-                    }
-                });
 
             } else {
                 appSharedHelper.saveUserPhoneNumber(phNumber);
@@ -458,7 +472,32 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
         }
     };
 
-    private Observer<QMUser> checkIfUserExists_2 = new Observer<QMUser>() {
+    private void sendUserToHomePage(QMUser qmUser) {
+        //If the user already exists then send user to home page.
+        QBUser user = qmUser;
+        user.setPassword(AppConstant.USER_PASSWORD);
+
+        serviceManager.login(user).subscribe(new Subscriber<QBUser>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Log.d(TAG, "ERROR = " + e.getMessage());
+            }
+
+            @Override
+            public void onNext(QBUser user) {
+                loginUser(user);
+            }
+        });
+    }
+
+
+    private Observer<QMUser> checkIfUserEmailExists = new Observer<QMUser>() {
+
         @Override
         public void onCompleted() {
             hideProgress();
@@ -466,38 +505,15 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
 
         @Override
         public void onError(Throwable e) {
-            Log.d(TAG, "User List == " + e.getMessage());
+            hideProgress();
+            gdprCustomDialog.show();
         }
 
         @Override
-        public void onNext(QMUser user) {
-
-            if (user!=null) {
-                //If the user already exists then send user to home page.
-                QBUser qbuser = user;
-                qbuser.setPassword(AppConstant.USER_PASSWORD);
-
-                serviceManager.login(qbuser).subscribe(new Subscriber<QBUser>() {
-                    @Override
-                    public void onCompleted() {
-                        AppHomeActivity.start(LandingActivity.this);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.d(TAG, "ERROR = " + e.getMessage());
-                    }
-
-                    @Override
-                    public void onNext(QBUser user) {
-                        loginUser(user);
-                    }
-                });
-
-            } else{
-                startIntroActivity(AppConstant.LOGIN_TYPE_FACEBOOK);
+        public void onNext(QMUser qmUser) {
+            if (qmUser != null) {
+                sendUserToHomePage(qmUser);
             }
-
         }
     };
 
@@ -509,17 +525,36 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
     }
 
 
-    public void startIntroActivity(String loginType) {
-
+    public void startIntroActivity() {
         Intent i = new Intent(LandingActivity.this, Intro.class);
-        i.putExtra("loginType", loginType);
         startActivity(i);
 
     }
 
     @Override
     public void finish(String result) {
-        if (result.equalsIgnoreCase("yes")) {
+
+        if (userLoginType.equals(AppConstant.LOGIN_TYPE_FACEBOOK) ||
+                userLoginType.equals(AppConstant.LOGIN_TYPE_GMAIL) && result.equalsIgnoreCase("yes")) {
+            appSharedHelper.saveIsGdpr(result);
+            appSharedHelper.saveUserPhoneNumber("");
+            startIntroActivity();
+
+        } else if (userLoginType.equals(AppConstant.LOGIN_TYPE_MANUAL) && result.equalsIgnoreCase("yes")) {
+            appSharedHelper.saveIsGdpr(result);
+            loginType = LoginType.FIREBASE_PHONE;
+            startSocialLogin(phNumber, countryCode);
+        } else {
+            appSharedHelper.saveIsGdpr(result);
+            startIntroActivity();
+        }
+
+
+
+
+        /*if (result.equalsIgnoreCase("yes")) {
+
+
             loginType = LoginType.FIREBASE_PHONE;
             appSharedHelper.saveIsGdpr("Yes");
             startSocialLogin(phNumber, countryCode);
@@ -529,6 +564,6 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
             //Manual login...
             Intent i = new Intent(LandingActivity.this, Intro.class);
             startActivity(i);
-        }
+        }*/
     }
 }

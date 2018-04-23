@@ -3,7 +3,6 @@ package com.aikya.konnek2.ui.dialogs;
 import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -11,8 +10,8 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import com.aikya.konnek2.call.core.models.LoginType;
 import com.aikya.konnek2.R;
+import com.aikya.konnek2.call.core.models.LoginType;
 import com.aikya.konnek2.utils.ToastUtils;
 
 /**

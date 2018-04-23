@@ -41,6 +41,7 @@
         android:layout_marginRight="25dp"
         android:layout_marginStart="25dp"
         android:backgroundTint="@color/white"
+        fb:ccp_autoDetectCountry="true"
         android:layout_marginTop="@dimen/margin_20dp"
         android:textColor="@color/white"
         fb:ccp_contentColor="@color/white"

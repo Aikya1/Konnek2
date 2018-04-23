@@ -472,7 +472,7 @@
 
     US,CANADA,UK,UAE,INDIA,SINGAPORE,NEW ZEALAND,AUSTRALIA
     -->
-    <string name="country_list">US,IN,CA,UAE,SG,NZ,AU</string>
+    <string name="country_list">US,GB,IN,CA,UAE,SG,NZ,AU</string>
 
     <!--Settings Page-->
     <string name="settings_accounts">Account</string>
@@ -517,6 +517,8 @@
     <string name="data_usage_text">Data Usage</string>
     <string name="contacts_text">Contacts</string>
     <string name="help_text">Help</string>
+    <string name="select_invitation">Select Invitation mode</string>
+    <string name="invite_whatsapp">Whatsapp</string>
 
 
 </resources>
