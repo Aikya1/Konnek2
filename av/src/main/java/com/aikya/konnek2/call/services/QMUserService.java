@@ -103,7 +103,7 @@ public class QMUserService extends QMBaseService {
         return getUserByColumn(QMUserColumns.TWITTER_DIGITS_ID, twitterDigitsId, forceLoad);
     }
 
-    public Observable<QMUser> getUserByEmail(final String email) {
+    public Observable<QMUser> getUserByEmail(String email) {
         return getUserByEmail(email, true);
     }
 

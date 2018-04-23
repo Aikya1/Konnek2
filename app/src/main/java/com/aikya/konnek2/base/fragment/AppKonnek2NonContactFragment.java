@@ -25,6 +25,7 @@ import android.widget.ProgressBar;
 import com.aikya.konnek2.base.db.AppCallLogModel;
 import com.aikya.konnek2.base.db.AppNonKonnek2ContactAdpater;
 import com.aikya.konnek2.call.services.model.QMUser;
+import com.aikya.konnek2.ui.dialogs.InviteFriendDialog;
 import com.aikya.konnek2.ui.fragments.base.BaseFragment;
 import com.aikya.konnek2.utils.listeners.ContactInterface;
 import com.aikya.konnek2.R;
@@ -34,6 +35,10 @@ import com.aikya.konnek2.call.services.QMUserService;
 import com.aikya.konnek2.utils.helpers.ServiceManager;
 import com.quickblox.core.request.QBPagedRequestBuilder;
 import com.quickblox.core.request.QBRequestGetBuilder;
+
+import android.app.DialogFragment;
+import android.app.Fragment;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +69,6 @@ public class AppKonnek2NonContactFragment extends BaseFragment implements Contac
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_konnek2_non_contact, container, false);
         nonKonnek2Listiview = view.findViewById(R.id.listview_non_konnek2_contacts);
         progressBar = view.findViewById(R.id.progress_non_contact);
@@ -76,7 +80,6 @@ public class AppKonnek2NonContactFragment extends BaseFragment implements Contac
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         contactNumberList = new ArrayList<>();
-
         dataManager = DataManager.getInstance();
         phoneContactModel = new ArrayList<>();
         qbRequestGetBuilder = new QBRequestGetBuilder();
@@ -91,10 +94,11 @@ public class AppKonnek2NonContactFragment extends BaseFragment implements Contac
 
         if (!usersLists.get(0).isEmpty() && usersLists.get(0) != null) {
 //            sendInviteSMS(usersLists.get(0));
+//            shareTextUrl();
 
-
-            shareTextUrl();
-
+            //Open dialog/fragment here.
+            InviteFriendDialog dialog = new InviteFriendDialog();
+            dialog.show(getFragmentManager(), "example");
 
         }
 
@@ -293,8 +297,7 @@ public class AppKonnek2NonContactFragment extends BaseFragment implements Contac
         // Add data to the intent, the receiving app will decide
         // what to do with it.
         share.putExtra(Intent.EXTRA_SUBJECT, "Konnek2");
-        share.putExtra(Intent.EXTRA_TEXT, "http://www.codeofaninja.com");
+        share.putExtra(Intent.EXTRA_TEXT, "");
         startActivity(Intent.createChooser(share, "Share App"));
-
     }
 }
