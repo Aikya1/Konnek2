@@ -119,7 +119,7 @@ public class ServiceManager {
         return result2;
     }
 
-    public Observable<QMUser> checkIfUserExist_2(String email) {
+    /*public Observable<QMUser> checkIfUserExist_2(String email) {
 
         QBPagedRequestBuilder pagedRequestBuilder = new QBPagedRequestBuilder();
         pagedRequestBuilder.setPage(1);
@@ -137,7 +137,7 @@ public class ServiceManager {
                 })
                 .observeOn(AndroidSchedulers.mainThread());
         return result;
-    }
+    }*/
 
 
     public Observable<QBUser> signUp(QBUser user) {

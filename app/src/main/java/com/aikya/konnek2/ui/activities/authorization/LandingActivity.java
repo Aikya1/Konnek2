@@ -1,11 +1,12 @@
 package com.aikya.konnek2.ui.activities.authorization;
 
-import android.accounts.Account;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -22,7 +23,7 @@ import android.widget.EditText;
 
 import com.aikya.konnek2.R;
 import com.aikya.konnek2.base.activity.AppHomeActivity;
-import com.aikya.konnek2.base.activity.Intro;
+import com.aikya.konnek2.base.activity.Profile;
 import com.aikya.konnek2.call.core.models.LoginType;
 import com.aikya.konnek2.call.services.model.QMUser;
 import com.aikya.konnek2.ui.dialogs.GdprCustomDialog;
@@ -100,8 +101,8 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
 
 
 
-/*    @Bind(R.id.login_button)
-    LoginButton fbLoginBtn;*/
+    /*    @Bind(R.id.login_button)
+        LoginButton fbLoginBtn;*/
 
 
     public static void start(Context context) {
@@ -130,7 +131,7 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
         gdprCustomDialog = new GdprCustomDialog(LandingActivity.this);
         gdprCustomDialog.setDialogResult(this);
 
-//        generateFacebookKeyHash();
+        //        generateFacebookKeyHash();
 
         for (Locale locale : Locale.getAvailableLocales()) {
             languageList.add(locale.getDisplayLanguage());
@@ -171,13 +172,14 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
                                     appSharedHelper.saveCountryCode("");
                                     userLoginType = AppConstant.LOGIN_TYPE_FACEBOOK;
 
+                                    showProgress();
                                     serviceManager.checkIfUserExistsEmail(object.getString("email"))
                                             .subscribe(checkIfUserEmailExists);
-//                                    gdprCustomDialog.show();
+                                    //                                    gdprCustomDialog.show();
 
-//                                    startIntroActivity(AppConstant.LOGIN_TYPE_FACEBOOK);
+                                    //                                    startIntroActivity(AppConstant.LOGIN_TYPE_FACEBOOK);
 
-//                                    gdprCustomDialog.show();
+                                    //                                    gdprCustomDialog.show();
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -248,15 +250,15 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
     }
 
 
-   /* private void signOut() {
-        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
-                new ResultCallback<Status>() {
-                    @Override
-                    public void onResult(Status status) {
-//                        updateUI(false);
-                    }
-                });
-    }*/
+       /* private void signOut() {
+            Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                    new ResultCallback<Status>() {
+                        @Override
+                        public void onResult(Status status) {
+    //                        updateUI(false);
+                        }
+                    });
+        }*/
 
 
     @Override
@@ -298,7 +300,7 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
 
         } else {
             // Signed out, show unauthenticated UI.
-//            updateUI(false);
+            //            updateUI(false);
         }
     }
 
@@ -308,25 +310,25 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
         super.onStart();
         checkRecordPermission();
         OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
-        /*if (opr.isDone()) {
-            // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
-            // and the GoogleSignInResult will be available instantly.
-            Log.d(TAG, "Got cached sign-in");
-            GoogleSignInResult result = opr.get();
-            handleSignInResult(result);
-        } else {
-            // If the user has not previously signed in on this device or the sign-in has expired,
-            // this asynchronous branch will attempt to sign in the user silently.  Cross-device
-            // single sign-on will occur in this branch.
-            showProgress();
-            opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
-                @Override
-                public void onResult(GoogleSignInResult googleSignInResult) {
-                    hideProgress();
-                    handleSignInResult(googleSignInResult);
-                }
-            });
-        }*/
+            /*if (opr.isDone()) {
+                // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
+                // and the GoogleSignInResult will be available instantly.
+                Log.d(TAG, "Got cached sign-in");
+                GoogleSignInResult result = opr.get();
+                handleSignInResult(result);
+            } else {
+                // If the user has not previously signed in on this device or the sign-in has expired,
+                // this asynchronous branch will attempt to sign in the user silently.  Cross-device
+                // single sign-on will occur in this branch.
+                showProgress();
+                opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
+                    @Override
+                    public void onResult(GoogleSignInResult googleSignInResult) {
+                        hideProgress();
+                        handleSignInResult(googleSignInResult);
+                    }
+                });
+            }*/
     }
 
 
@@ -519,26 +521,25 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
         Log.d(TAG, "onConnectionFailed:" + connectionResult);
-
     }
 
 
-    public void startIntroActivity() {
-        Intent i = new Intent(LandingActivity.this, Intro.class);
-        startActivity(i);
+    public void startProfileActivity() {
+        Intent profileIntent = new Intent(LandingActivity.this, Profile.class);
+        profileIntent.putExtra("phNo", phNumber);
+        profileIntent.putExtra("countryCode", countryCode);
+        startActivity(profileIntent);
 
     }
 
     @Override
     public void finish(String result) {
-
         if (userLoginType.equals(AppConstant.LOGIN_TYPE_FACEBOOK) ||
                 userLoginType.equals(AppConstant.LOGIN_TYPE_GMAIL) && result.equalsIgnoreCase("yes")) {
             appSharedHelper.saveIsGdpr(result);
             appSharedHelper.saveUserPhoneNumber("");
-            startIntroActivity();
+            startProfileActivity();
 
         } else if (userLoginType.equals(AppConstant.LOGIN_TYPE_MANUAL) && result.equalsIgnoreCase("yes")) {
             appSharedHelper.saveIsGdpr(result);
@@ -546,24 +547,24 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
             startSocialLogin(phNumber, countryCode);
         } else {
             appSharedHelper.saveIsGdpr(result);
-            startIntroActivity();
+            startProfileActivity();
         }
 
 
 
 
-        /*if (result.equalsIgnoreCase("yes")) {
+            /*if (result.equalsIgnoreCase("yes")) {
 
 
-            loginType = LoginType.FIREBASE_PHONE;
-            appSharedHelper.saveIsGdpr("Yes");
-            startSocialLogin(phNumber, countryCode);
-        } else {
-            appSharedHelper.saveIsGdpr("No");
-            //No OTP VERIFICATION : GOTO INTRO screen
-            //Manual login...
-            Intent i = new Intent(LandingActivity.this, Intro.class);
-            startActivity(i);
-        }*/
+                loginType = LoginType.FIREBASE_PHONE;
+                appSharedHelper.saveIsGdpr("Yes");
+                startSocialLogin(phNumber, countryCode);
+            } else {
+                appSharedHelper.saveIsGdpr("No");
+                //No OTP VERIFICATION : GOTO INTRO screen
+                //Manual login...
+                Intent i = new Intent(LandingActivity.this, Intro.class);
+                startActivity(i);
+            }*/
     }
 }

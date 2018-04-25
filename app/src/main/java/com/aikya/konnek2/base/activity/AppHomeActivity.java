@@ -13,6 +13,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -24,8 +25,10 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.aikya.konnek2.call.core.models.AppSession;
+import com.aikya.konnek2.call.core.models.UserCustomData;
 import com.aikya.konnek2.call.core.service.QBServiceConsts;
 import com.aikya.konnek2.call.core.utils.UserFriendUtils;
+import com.aikya.konnek2.call.core.utils.Utils;
 import com.aikya.konnek2.call.db.utils.ErrorUtils;
 import com.aikya.konnek2.call.services.model.QMUser;
 import com.aikya.konnek2.ui.activities.authorization.LandingActivity;
@@ -67,6 +70,7 @@ public class AppHomeActivity extends BaseLoggableActivity implements NavigationV
     public static final int REQUEST_CODE_LOGOUT = 300;
     private QMUser user;
     ServiceManager serviceManager;
+    private UserCustomData userCustomData;
 
 
     public static void start(Context context) {
@@ -242,10 +246,16 @@ public class AppHomeActivity extends BaseLoggableActivity implements NavigationV
         toggle.syncState();
         user = UserFriendUtils.createLocalUser(AppSession.getSession().getUser());
 
-        if (user != null) {
+        userCustomData = Utils.customDataToObject(user.getCustomData());
 
+        if (user != null) {
             tv_name.setText(user.getFullName());
-            tv_mobile.setText(user.getPhone());
+            if (userCustomData.getCountryCode() != null || !TextUtils.isEmpty(userCustomData.getCountryCode())) {
+                String title = userCustomData.getCountryCode() + " " + user.getPhone();
+                tv_mobile.setText(title);
+            } else {
+                tv_mobile.setText(user.getPhone());
+            }
             showUserAvatar();
         } else {
             tv_name.setText("");

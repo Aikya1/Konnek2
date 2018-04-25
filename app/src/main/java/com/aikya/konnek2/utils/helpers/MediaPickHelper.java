@@ -25,7 +25,7 @@ import java.util.List;
 
 public class MediaPickHelper {
 
-    public void pickAnMedia(Fragment fragment, int requestCode) {
+    /*public void pickAnMedia(Fragment fragment, int requestCode) {
         MediaPickHelperFragment mediaPickHelperFragment = MediaPickHelperFragment
                 .start(fragment, requestCode);
         showMediaSourcePickerDialog(fragment.getChildFragmentManager(), mediaPickHelperFragment);
@@ -44,6 +44,22 @@ public class MediaPickHelper {
     public void pickImageChooser(FragmentActivity activity, int requestCode) {
         MediaPickHelperFragment mediaPickHelperFragment = MediaPickHelperFragment
                 .start(activity, requestCode);
+    }*/
+
+    public void pickAnMedia(Fragment fragment, int requestCode) {
+        MediaPickHelperFragment mediaPickHelperFragment = MediaPickHelperFragment
+                .start(fragment, requestCode);
+        showMediaSourcePickerDialog(fragment.getChildFragmentManager(), mediaPickHelperFragment);
+    }
+
+    public void pickAnMedia(FragmentActivity activity, int requestCode) {
+        MediaPickHelperFragment mediaPickHelperFragment = MediaPickHelperFragment
+                .start(activity, requestCode);
+        showMediaSourcePickerDialog(activity.getSupportFragmentManager(), mediaPickHelperFragment);
+    }
+
+    private void showMediaSourcePickerDialog(FragmentManager fm, MediaPickHelperFragment fragment) {
+        MediaSourcePickDialogFragment.show(fm,fragment);
     }
 
 }

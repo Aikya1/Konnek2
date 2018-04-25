@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORA`GE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
@@ -183,6 +183,7 @@
                 <data android:scheme="file" />
             </intent-filter>
         </activity>
+
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

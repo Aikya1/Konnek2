@@ -132,7 +132,6 @@ dependencies {
     compile 'org.greenrobot:eventbus:3.1.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha9'
     testCompile 'junit:junit:4.12'
-
     //    compile 'com.android.support:support-v4:26.1.0'
     compile "com.android.support:support-v4:${rootProject.supportV4Version}"
     compile 'com.hbb20:ccp:2.1.4'
@@ -159,6 +158,8 @@ dependencies {
     compile "com.timehop.stickyheadersrecyclerview:library:${rootProject.stickylistheadersRecyclerViewVersion}@aar"
     compile "com.rockerhieu.emojicon:library:${rootProject.emojiconVersion}"
     compile "com.soundcloud.android:android-crop:${rootProject.cropVersion}@aar"
+
+    // for experimental rx picker
     compile('com.crashlytics.sdk.android:crashlytics:2.6.2@aar') {
         transitive = true;
     }

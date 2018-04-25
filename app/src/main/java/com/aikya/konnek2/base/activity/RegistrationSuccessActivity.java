@@ -28,6 +28,6 @@ public class RegistrationSuccessActivity extends AppCompatActivity {
 
     @OnClick(R.id.getStartedBtn)
     public void startAppHome() {
-        AppHomeActivity.start(RegistrationSuccessActivity.this);
+        Intro.start(RegistrationSuccessActivity.this);
     }
 }

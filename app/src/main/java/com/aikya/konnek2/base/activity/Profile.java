@@ -1,7 +1,9 @@
 package com.aikya.konnek2.base.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -26,9 +28,7 @@ import com.aikya.konnek2.Preference.ProfilePrefManager;
 import com.aikya.konnek2.R;
 import com.aikya.konnek2.call.core.models.AppSession;
 import com.aikya.konnek2.call.core.models.UserCustomData;
-import com.aikya.konnek2.call.db.models.Attachment;
 import com.aikya.konnek2.call.services.model.QMUser;
-import com.aikya.konnek2.call.services.utils.ErrorUtils;
 import com.aikya.konnek2.ui.activities.base.BaseActivity;
 import com.aikya.konnek2.ui.views.roundedimageview.RoundedImageView;
 import com.aikya.konnek2.utils.AppConstant;
@@ -37,21 +37,15 @@ import com.aikya.konnek2.utils.AuthUtils;
 import com.aikya.konnek2.utils.EmailPhoneValidationUtils;
 import com.aikya.konnek2.utils.MediaUtils;
 import com.aikya.konnek2.utils.ToastUtils;
-import com.aikya.konnek2.utils.helpers.MediaPickHelper;
 import com.aikya.konnek2.utils.helpers.ServiceManager;
-import com.aikya.konnek2.utils.listeners.OnMediaPickedListener;
+import com.aikya.konnek2.utils.image.ImageUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.StringSignature;
 import com.google.gson.Gson;
-import com.quickblox.content.QBContent;
 import com.quickblox.content.model.QBFile;
 import com.quickblox.core.helper.StringifyArrayList;
-import com.quickblox.core.server.Performer;
-import com.quickblox.extensions.RxJavaPerformProcessor;
 import com.quickblox.users.model.QBUser;
 import com.soundcloud.android.crop.Crop;
-
-import org.w3c.dom.Text;
 
 import java.io.File;
 import java.util.Date;
@@ -60,12 +54,10 @@ import java.util.Locale;
 import rx.Observable;
 import rx.Observer;
 import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 import static com.aikya.konnek2.utils.AppConstant.nonDupLangList;
 
-public class Profile extends BaseActivity implements OnMediaPickedListener {
+public class Profile extends BaseActivity {
 
 
     private static String TAG = Profile.class.getSimpleName();
@@ -77,7 +69,6 @@ public class Profile extends BaseActivity implements OnMediaPickedListener {
     private Button profilebtnNext;
     Spinner spin1;
     Spinner spin2;
-    private MediaPickHelper mediaPickHelper;
     private Uri imageUri;
     private boolean isNeedUpdateImage;
     //ImageUtils imageUtils;
@@ -119,6 +110,8 @@ public class Profile extends BaseActivity implements OnMediaPickedListener {
             launchHomeScreen();
             finish();
         }
+
+
         phNo = getIntent().getExtras().getString("phNo");
         countryCode = getIntent().getExtras().getString("countryCode");
         serviceManager = ServiceManager.getInstance();
@@ -126,7 +119,6 @@ public class Profile extends BaseActivity implements OnMediaPickedListener {
         viewPager = findViewById(com.aikya.konnek2.R.id.view_pager);
         dotsLayout = findViewById(com.aikya.konnek2.R.id.layoutProfileDots);
         profilebtnNext = findViewById(com.aikya.konnek2.R.id.btn_profile_next);
-        mediaPickHelper = new MediaPickHelper();
         // layouts of all profile sliders
         layouts = new int[]{
                 com.aikya.konnek2.R.layout.profile_slide1,
@@ -228,40 +220,20 @@ public class Profile extends BaseActivity implements OnMediaPickedListener {
         }*/
     }
 
-    @Override
-    public void onMediaPicked(int requestCode, Attachment.Type attachmentType, Object attachment) {
-        if (Attachment.Type.IMAGE.equals(attachmentType)) {
-            startCropActivity(MediaUtils.getValidUri((File) attachment, this));
-        }
-    }
 
-    @Override
-    public void onMediaPickError(int requestCode, Exception e) {
-
-        ToastUtils.shortToast("Error = " + e.getMessage());
-    }
-
-    @Override
-    public void onMediaPickClosed(int requestCode) {
-
-        ToastUtils.shortToast("MediaPickClosed");
-    }
-
-
-    private void startCropActivity(Uri originalUri) {
-        String extensionOriginalUri = originalUri.getPath().substring(originalUri.getPath().lastIndexOf(".")).toLowerCase();
-        imageUri = MediaUtils.getValidUri(new File(getCacheDir(), extensionOriginalUri), this);
-        Crop.of(originalUri, imageUri).asSquare().start(this);
-    }
-
-
-    @Override
+    /*@Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == Crop.REQUEST_CROP) {
-            handleCrop(resultCode, data);
+
+        if (resultCode == RESULT_OK && resultCode == ImagePickerUtils.REQUEST_PICK) {
+            ImagePickerUtils.beginCrop(this, resultCode, data);
+        } else if (requestCode == ImagePickerUtils.REQUEST_CROP) {
+
+            Bitmap bitmap = ImagePickerUtils.getImageCropped(Profile.this,
+                    resultCode, data, ImagePickerUtils.ResizeType.FIXED_SIZE, AVATAR_SIZE);
+
         }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
+
+    }*/
 
     private void handleCrop(int resultCode, Intent result) {
         if (resultCode == RESULT_OK) {
@@ -376,14 +348,12 @@ public class Profile extends BaseActivity implements OnMediaPickedListener {
             camimageview.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mediaPickHelper.pickAnMedia(Profile.this, MediaUtils.CAMERA_PHOTO_REQUEST_CODE);
                 }
             });
             //Onclick of people
             photoImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mediaPickHelper.pickAnMedia(Profile.this, MediaUtils.CAMERA_PHOTO_REQUEST_CODE);
                 }
             });
             save.setOnClickListener(new View.OnClickListener() {
@@ -467,7 +437,6 @@ public class Profile extends BaseActivity implements OnMediaPickedListener {
                         userCustomData.setPrefSms("");
                         userCustomData.setPrefEmail("");
                         userCustomData.setPrefInApp("");
-
 
 
                         Gson gson = new Gson();
@@ -581,8 +550,6 @@ public class Profile extends BaseActivity implements OnMediaPickedListener {
                     performLoginSuccessAction(loginUser);
                 }
             });
-
-
         }
     };
 
@@ -607,6 +574,9 @@ public class Profile extends BaseActivity implements OnMediaPickedListener {
 //        AppHomeActivity.start(Profile.this);
         RegistrationSuccessActivity.start(Profile.this);
 
+
         finish();
     }
+
+
 }

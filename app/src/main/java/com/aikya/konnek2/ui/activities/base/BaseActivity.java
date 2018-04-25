@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -63,6 +64,7 @@ import com.aikya.konnek2.utils.helpers.ActivityUIHelper;
 import com.aikya.konnek2.utils.helpers.LoginHelper;
 import com.aikya.konnek2.utils.helpers.SharedHelper;
 import com.aikya.konnek2.utils.helpers.notification.NotificationManagerHelper;
+import com.aikya.konnek2.utils.image.ImageUtils;
 import com.aikya.konnek2.utils.listeners.ServiceConnectionListener;
 import com.aikya.konnek2.utils.listeners.UserStatusChangingListener;
 import com.quickblox.chat.QBChatService;
@@ -80,7 +82,8 @@ import java.util.Set;
 
 import butterknife.ButterKnife;
 
-public abstract class BaseActivity extends AppCompatActivity implements ActionBarBridge, ConnectionBridge, LoadingBridge, SnackbarBridge {
+public abstract class BaseActivity extends AppCompatActivity implements ActionBarBridge, ConnectionBridge,
+        LoadingBridge, SnackbarBridge {
 
     private static final String TAG = BaseActivity.class.getSimpleName();
     protected static boolean appInitialized;
@@ -126,6 +129,7 @@ public abstract class BaseActivity extends AppCompatActivity implements ActionBa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         root = (ViewGroup) getLayoutInflater().inflate(getContentResId(), null);
+
         setContentView(root);
         //setContentView(getContentResId());
         initFields();
@@ -960,4 +964,5 @@ public abstract class BaseActivity extends AppCompatActivity implements ActionBa
     public void onBackPressed() {
         super.onBackPressed();
     }
+
 }

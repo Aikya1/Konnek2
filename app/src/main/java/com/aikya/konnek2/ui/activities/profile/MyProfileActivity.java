@@ -179,13 +179,7 @@ public class MyProfileActivity extends BaseLoggableActivity implements OnMediaPi
 
     @OnClick(R.id.camera_image)
     void changePhoto(View view) {
-//        fullNameTextInputLayout.setError(null);
-        mediaPickHelper.pickAnMedia(this, MediaUtils.CAMERA_PHOTO_REQUEST_CODE);
-
-//        Intent chooseImageIntent = mediaPickHelper.getPickImageChooserIntent(this);
-//        startActivityForResult(chooseImageIntent, MediaUtils.CAMERA_PHOTO_REQUEST_CODE);
-
-//        mediaPickHelper.pickImageChooser(this,MediaUtils.CAMERA_PHOTO_REQUEST_CODE);
+        mediaPickHelper.pickAnMedia(this, MediaUtils.IMAGE_REQUEST_CODE);
 
     }
 
@@ -212,6 +206,7 @@ public class MyProfileActivity extends BaseLoggableActivity implements OnMediaPi
         title = getString(com.aikya.konnek2.R.string.profile_title);
         mediaPickHelper = new MediaPickHelper();
         qbUser = AppSession.getSession().getUser();
+        userCustomData = Utils.customDataToObject(qbUser.getCustomData());
         myCalendar = Calendar.getInstance();
 
     }
@@ -221,14 +216,20 @@ public class MyProfileActivity extends BaseLoggableActivity implements OnMediaPi
             currentFullName = qbUser.getFullName();
             currentEmail = qbUser.getEmail();
 
+
             initCustomData();
             loadAvatar();
             etName.setText(currentFullName);
             etEmail.setText(currentEmail);
             etStatus.setText(userStatus);
-            contactno.setText(qbUser.getPhone());
+            if (userCustomData.getCountryCode() != null || !TextUtils.isEmpty(userCustomData.getCountryCode())) {
+                contactno.setText(userCustomData.getCountryCode() + " " + qbUser.getPhone());
+            } else {
+                contactno.setText(qbUser.getPhone());
+            }
+
             contactno.setEnabled(false);
-           etEmail.setEnabled(false);
+            etEmail.setEnabled(false);
             if (userCustomData.getGender().equals("Female")) {
                 rgGender.check(R.id.rgFemale);
             } else if (userCustomData.getGender().equals("Male")) {

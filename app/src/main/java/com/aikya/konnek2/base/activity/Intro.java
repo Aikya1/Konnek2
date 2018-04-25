@@ -99,7 +99,7 @@ public class Intro extends AppCompatActivity {
                 }*/
 
 //                LandingActivity.start(Intro.this);
-                Intent i = new Intent(Intro.this, Profile.class);
+                Intent i = new Intent(Intro.this, AppHomeActivity.class);
                 i.putExtra("phNo", phNumber);
                 i.putExtra("countryCode", countryCode);
                 startActivity(i);
@@ -130,7 +130,7 @@ public class Intro extends AppCompatActivity {
 
     private void launchHomeScreen() {
         prefManager.setFirstTimeLaunch(false);
-        Intent intent = new Intent(Intro.this, Profile.class);
+        Intent intent = new Intent(Intro.this, AppHomeActivity.class);
         intent.putExtra("phNo", phNumber);
         intent.putExtra("countryCode", countryCode);
         startActivity(intent);

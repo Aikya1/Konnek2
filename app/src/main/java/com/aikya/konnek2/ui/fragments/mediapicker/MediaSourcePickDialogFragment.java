@@ -33,7 +33,6 @@ public class MediaSourcePickDialogFragment extends DialogFragment {
     private static final int POSITION_CAMERA_PHOTO = 1;
     private static final int POSITION_CAMERA_VIDEO = 2;
     private static final int POSITION_LOCATION = 3;
-    private static final int READ_PHONE_CONTACTS = 4;
     private static SystemPermissionHelper systemPermissionHelper;
 
     private OnImageSourcePickedListener onImageSourcePickedListener;
@@ -110,14 +109,6 @@ public class MediaSourcePickDialogFragment extends DialogFragment {
                             systemPermissionHelper.requestPermissionsTakeVideo();
                         }
                         break;
-
-                    case READ_PHONE_CONTACTS:
-                        if (systemPermissionHelper.isContactPermissionGranted()) {
-                            onImageSourcePickedListener.onImageSourcePicked(ImageSource.READ_CONTACTS);
-                        } else {
-                            systemPermissionHelper.requestPermissionsReadContacts();
-                        }
-                        break;
                     case POSITION_LOCATION:
                         onImageSourcePickedListener.onImageSourcePicked(ImageSource.LOCATION);
                         break;
@@ -169,7 +160,6 @@ public class MediaSourcePickDialogFragment extends DialogFragment {
         GALLERY_IMAGE,
         CAMERA_PHOTO,
         CAMERA_VIDEO,
-        READ_CONTACTS,
         LOCATION
     }
 
@@ -209,14 +199,6 @@ public class MediaSourcePickDialogFragment extends DialogFragment {
                             onImageSourcePickedListener.onImageSourcePicked(ImageSource.GALLERY_IMAGE);
                         } else {
                             showPermissionSettingsDialog(R.string.dlg_permission_storage);
-                        }
-                        break;
-
-                    case (SystemPermissionHelper.PERMISSIONS_FOR_READ_CONTACT_REQUEST):
-                        if (systemPermissionHelper.isContactPermissionGranted()) {
-                            onImageSourcePickedListener.onImageSourcePicked(ImageSource.READ_CONTACTS);
-                        } else {
-                            showPermissionSettingsDialog(R.string.dlg_permission_read_contact);
                         }
                         break;
                 }

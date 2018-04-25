@@ -12,6 +12,7 @@ import android.widget.EditText;
 
 import com.aikya.konnek2.R;
 import com.aikya.konnek2.base.activity.Intro;
+import com.aikya.konnek2.base.activity.Profile;
 import com.aikya.konnek2.call.core.models.LoginType;
 import com.aikya.konnek2.ui.activities.base.BaseActivity;
 import com.aikya.konnek2.utils.AppPreference;
@@ -195,16 +196,16 @@ public abstract class BaseAuthActivity extends BaseActivity {
     }
 
     protected void startMainActivity(QBUser user) {
-        startMainActivity();
+        startProfileActivity();
     }
 
-    protected void startMainActivity() {
-        Intent intent = new Intent(BaseAuthActivity.this, Intro.class);
+    protected void startProfileActivity() {
+        Intent intent = new Intent(BaseAuthActivity.this, Profile.class);
         intent.putExtra("phNo", phNo);
         intent.putExtra("countryCode", countryCode);
         appSharedHelper.saveLastOpenActivity(Intro.class.getName());
         startActivity(intent);
-       finish();
+        finish();
     }
 
 
@@ -272,6 +273,25 @@ public abstract class BaseAuthActivity extends BaseActivity {
         }
     };
 
+
+
+
+    private class FirebaseAuthCallback implements FirebaseAuthHelper.RequestFirebaseIdTokenCallback {
+        @Override
+        public void onSuccess(String authToken) {
+            showProgress();
+           /* serviceManager.login(QBProvider.FIREBASE_PHONE, authToken, StringObfuscator.getFirebaseAuthProjectId())
+                    .subscribe(socialLoginObserver);*/
+            startProfileActivity();
+        }
+
+        @Override
+        public void onError(Exception e) {
+            Log.d(TAG, "OTP Error " + e.getMessage());
+            hideProgress();
+        }
+    }
+
     private class FacebookLoginCallback implements FacebookCallback<LoginResult> {
 
         @Override
@@ -292,20 +312,5 @@ public abstract class BaseAuthActivity extends BaseActivity {
         }
     }
 
-    private class FirebaseAuthCallback implements FirebaseAuthHelper.RequestFirebaseIdTokenCallback {
-        @Override
-        public void onSuccess(String authToken) {
-            showProgress();
-           /* serviceManager.login(QBProvider.FIREBASE_PHONE, authToken, StringObfuscator.getFirebaseAuthProjectId())
-                    .subscribe(socialLoginObserver);*/
-            startMainActivity();
 
-        }
-
-        @Override
-        public void onError(Exception e) {
-            Log.d(TAG,"OTP Error "+e.getMessage());
-            hideProgress();
-        }
-    }
 }

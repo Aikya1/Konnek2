@@ -45,7 +45,7 @@
         android:layout_marginTop="@dimen/margin_20dp"
         android:textColor="@color/white"
         fb:ccp_contentColor="@color/white"
-        fb:ccp_customMasterCountries="@string/country_list"
+        fb:ccp_countryPreference="@string/country_list"
         fb:ccp_showArrow="false"
         fb:ccp_textGravity="LEFT"
         fb:ccp_textSize="@dimen/text_size16sp" />
