@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:textAlignment="center"
     android:textSize="@dimen/text_size16sp"
+    android:textColor="@color/black"
     android:padding="@dimen/padding_5dp"
     android:text="TEST"
     android:layout_height="wrap_content"

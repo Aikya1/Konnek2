@@ -1,6 +1,7 @@
 package com.aikya.konnek2.utils;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
@@ -30,24 +31,29 @@ public class AppSpeechToTextConvertor implements AppIConvertor {      // by sure
 
 
     @Override
-    public AppIConvertor initialize(String message,String SelectedLanguage , Activity appContext) {
+    public AppIConvertor initialize(String message, String SelectedLanguage, Activity appContext) {
         //Prepeare Intent
-
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                 RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,SelectedLanguage);
-        intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
-                message);
+
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, SelectedLanguage);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, SelectedLanguage);
+        intent.putExtra(RecognizerIntent.EXTRA_ONLY_RETURN_LANGUAGE_PREFERENCE, SelectedLanguage);
+
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, SelectedLanguage);
+       /* intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
+                message);*/
         intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1);
         intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
                 appContext.getPackageName());
 
         //Add listeners
         CustomRecognitionListener listener = new CustomRecognitionListener();
-        SpeechRecognizer   sr = SpeechRecognizer.createSpeechRecognizer(appContext);
+        SpeechRecognizer sr = SpeechRecognizer.createSpeechRecognizer(appContext);
         sr.setRecognitionListener(listener);
         sr.startListening(intent);
+
         return this;
     }
 
@@ -81,11 +87,8 @@ public class AppSpeechToTextConvertor implements AppIConvertor {      // by sure
         }
 
         public void onResults(Bundle results) {
-
-            ArrayList<String> result1 = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
-
-            appConversionCallaback.onConversionSuccess(result1.get(0));
-
+            ArrayList<String> result2 = results.getStringArrayList("results_recognition");
+            appConversionCallaback.onConversionSuccess(result2.get(0));
         }
 
         public void onPartialResults(Bundle partialResults) {

@@ -11,7 +11,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.text.Html;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +22,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.aikya.konnek2.R;
 import com.aikya.konnek2.base.activity.AppHomeActivity;
@@ -29,6 +32,7 @@ import com.aikya.konnek2.call.services.model.QMUser;
 import com.aikya.konnek2.ui.dialogs.GdprCustomDialog;
 import com.aikya.konnek2.utils.AppConstant;
 import com.aikya.konnek2.utils.AppPreference;
+import com.aikya.konnek2.utils.EmailPhoneValidationUtils;
 import com.aikya.konnek2.utils.ToastUtils;
 import com.aikya.konnek2.utils.helpers.ServiceManager;
 import com.aikya.konnek2.utils.helpers.SystemPermissionHelper;
@@ -59,9 +63,11 @@ import org.json.JSONObject;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -75,6 +81,7 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
 
     public static final String TAG = LandingActivity.class.getSimpleName();
 
+    Map<String, Locale> langMap = new HashMap<>();
     private static final int RC_SIGN_IN = 007;
 
     private SystemPermissionHelper systemPermissionHelper;
@@ -92,6 +99,9 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
 
     @Bind(R.id.facebookView)
     Button facebookManualBtn;
+
+    @Bind(R.id.textView2)
+    TextView policyTv;
 
     String countryCode = "", phNumber = "";
     private GoogleApiClient mGoogleApiClient;
@@ -130,10 +140,20 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
         serviceManager = ServiceManager.getInstance();
         gdprCustomDialog = new GdprCustomDialog(LandingActivity.this);
         gdprCustomDialog.setDialogResult(this);
+        addLanguagesToList();
 
         //        generateFacebookKeyHash();
 
-        for (Locale locale : Locale.getAvailableLocales()) {
+
+        /*for (Locale locale : Locale.getAvailableLocales()) {
+
+            Log.d(TAG,"ISO3Language = "+locale.getISO3Language());
+            Log.d(TAG,"ISO3Language = "+locale.getDisplayScript());
+            Log.d(TAG,"ISO3Language = "+locale.getDisplayName());
+            Log.d(TAG,"ISO3Language = "+locale.getDisplayVariant());
+
+
+
             languageList.add(locale.getDisplayLanguage());
         }
 
@@ -145,7 +165,16 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
             } else {
                 nonDupLangList.add(dupWord);
             }
-        }
+        }*/
+
+
+        //<string name="terms_and_ser_2">I have read Konnek2 <a href="https://www.google.com/">
+        //Privacy Policy</a> &amp; agree\nKonnek2 to save my personal data. </string>
+
+        policyTv.setText(Html.fromHtml("I have read Konnek2 " +
+                "<a href='http://konnek2.aikya.info/Privacy_Policy.pdf'>Privacy Policy</a> &amp; agree\nKonnek2 to save my personal data."));
+        policyTv.setClickable(true);
+        policyTv.setMovementMethod(LinkMovementMethod.getInstance());
 
         facebookLoginBtn.setReadPermissions(Arrays.asList(
                 "public_profile", "email"));
@@ -204,6 +233,36 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
             }
         });
 
+    }
+
+    private void addLanguagesToList() {
+
+        nonDupLangList.add("Hindi");
+        nonDupLangList.add("Bengali");
+        nonDupLangList.add("Punjabi");
+        nonDupLangList.add("Telugu");
+        nonDupLangList.add("Marathi");
+        nonDupLangList.add("Tamil");
+        nonDupLangList.add("Urdu");
+        nonDupLangList.add("Gujarati");
+        nonDupLangList.add("Kannada");
+        nonDupLangList.add("Malayalam");
+
+        nonDupLangList.add("Chinese");
+        nonDupLangList.add("Spanish");
+        nonDupLangList.add("English");
+        nonDupLangList.add("Arabic");
+        nonDupLangList.add("Portuguese");
+        nonDupLangList.add("Russian");
+        nonDupLangList.add("Japanese");
+        nonDupLangList.add("German");
+        nonDupLangList.add("French");
+        nonDupLangList.add("Malay");
+        nonDupLangList.add("Italian");
+        nonDupLangList.add("Polish");
+        nonDupLangList.add("Ukrainian");
+        nonDupLangList.add("Romanian");
+        nonDupLangList.add("Swahili");
     }
 
     private void generateFacebookKeyHash() {
@@ -388,8 +447,8 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
 
     private boolean phoneeval() {
         phoneNumber = etphoneno.getText().toString();
-        if (TextUtils.isEmpty(phoneNumber)) {
-            ToastUtils.shortToast("Phone number is Mandatory");
+        if (!EmailPhoneValidationUtils.isValidPhone(phoneNumber) || TextUtils.isEmpty(phoneNumber)) {
+            ToastUtils.shortToast("Phone No is empty/not valid");
             return false;
         }
         return true;

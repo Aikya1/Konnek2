@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -17,6 +18,7 @@ import android.os.Looper;
 import android.os.SystemClock;
 import android.os.Vibrator;
 import android.support.annotation.IdRes;
+import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -39,14 +41,17 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.aikya.konnek2.R;
 import com.aikya.konnek2.call.core.core.command.Command;
 import com.aikya.konnek2.call.core.models.AppSession;
 import com.aikya.konnek2.call.core.models.CombinationMessage;
+import com.aikya.konnek2.call.core.models.UserCustomData;
 import com.aikya.konnek2.call.core.qb.commands.QBLoadAttachFileCommand;
 import com.aikya.konnek2.call.core.qb.commands.chat.QBLoadDialogMessagesCommand;
 import com.aikya.konnek2.call.core.service.QBService;
 import com.aikya.konnek2.call.core.utils.ChatUtils;
 import com.aikya.konnek2.call.core.utils.ConstsCore;
+import com.aikya.konnek2.call.core.utils.Utils;
 import com.aikya.konnek2.call.db.managers.DialogDataManager;
 import com.aikya.konnek2.call.db.managers.DialogNotificationDataManager;
 import com.aikya.konnek2.call.db.managers.MessageDataManager;
@@ -101,6 +106,7 @@ import com.quickblox.ui.kit.chatmessage.adapter.media.recorder.view.QBRecordAudi
 import com.quickblox.ui.kit.chatmessage.adapter.media.video.ui.VideoPlayerActivity;
 import com.quickblox.ui.kit.chatmessage.adapter.models.QBLinkPreview;
 import com.quickblox.ui.kit.chatmessage.adapter.utils.QBMessageTextClickMovement;
+import com.quickblox.users.model.QBUser;
 import com.rockerhieu.emojicon.EmojiconGridFragment;
 import com.rockerhieu.emojicon.EmojiconsFragment;
 import com.rockerhieu.emojicon.emoji.Emojicon;
@@ -114,9 +120,13 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.BlockingQueue;
@@ -145,6 +155,7 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
     private static final int DURATION_VIBRATE_TEXT = 300;
     private static final TimeUnit KEEP_ALIVE_TIME_UNIT = TimeUnit.SECONDS;
     private static int NUMBER_OF_CORES = Runtime.getRuntime().availableProcessors();
+    private static Map<String, Locale> displayNames = new HashMap<String, Locale>();
 
 
     @Bind(com.aikya.konnek2.R.id.messages_swiperefreshlayout)
@@ -251,6 +262,11 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
 
     private AppSpeechToTextConvertor appSpeechToTextConvertor;
 
+
+    QBUser qbUser;
+    UserCustomData userCustomData;
+
+
     @Override
     protected int getContentResId() {
         return com.aikya.konnek2.R.layout.activity_dialog;
@@ -272,6 +288,8 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
         initThreads();
         initAudioRecorder();
 
+        getCustomData();
+
         addActions();
         addObservers();
         registerBroadcastReceivers();
@@ -287,6 +305,11 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
             deleteTempMessagesAsync();
         }
 
+    }
+
+    private void getCustomData() {
+        qbUser = AppSession.getSession().getUser();
+        userCustomData = Utils.customDataToObject(qbUser.getCustomData());
     }
 
     @OnTextChanged(com.aikya.konnek2.R.id.message_edittext)
@@ -352,7 +375,6 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
 
     private void chechSession() {
         AppSession session = AppSession.getSession();
-
         boolean res = session.isLoggedIn();
         Log.d(TAG, "Result = " + res);
     }
@@ -890,7 +912,6 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
         if (combinationMessagesList.size() == 0) {
             return 0;
         }
-
         return !isLoadOld
                 ? combinationMessagesList.get(combinationMessagesList.size() - 1).getCreatedDate()
                 : combinationMessagesList.get(0).getCreatedDate();
@@ -1163,7 +1184,6 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
     public void Translate(String textToBeTranslated, String languagePair) {
         TranslatorBackgroundTask translatorBackgroundTask = new TranslatorBackgroundTask(BaseDialogActivity.this);
         translatorBackgroundTask.execute(textToBeTranslated, languagePair);
-
     }
 
     @Override
@@ -1564,12 +1584,31 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
         micImage = alertLayout.findViewById(com.aikya.konnek2.R.id.image_mic_text);
         editTextMessage = alertLayout.findViewById(com.aikya.konnek2.R.id.edit_text_message);
         radioGroupLeft = alertLayout.findViewById(com.aikya.konnek2.R.id.radio_group_left);
+        RadioButton prefLangRadioBtn = alertLayout.findViewById(R.id.button_hindi);
+
+        String prefLanguage = userCustomData.getPrefLanguage();
+        Locale locale;
+
 
         final TextView headerView = alertLayout.findViewById(com.aikya.konnek2.R.id.text_header);
         final TextView tapToSpeak = alertLayout.findViewById(com.aikya.konnek2.R.id.txt_speak);
 
         final Button buttonOk = alertLayout.findViewById(com.aikya.konnek2.R.id.text_ok);
         final Button buttonCancel = alertLayout.findViewById(com.aikya.konnek2.R.id.text_cancel);
+        final RadioButton secLangRadButton = alertLayout.findViewById(R.id.button_hindi);
+
+        if (!prefLanguage.equalsIgnoreCase("English")) {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+              /*  locale = getLocale(prefLanguage);
+                getLocaleString(prefLanguage);*/
+
+                secLangRadButton.setVisibility(View.VISIBLE);
+                secLangRadButton.setText(prefLanguage);
+                secLangRadButton.setTag(getLanguageCode(prefLanguage));
+
+            }
+
+        }
 
 //        radioGroupRight = alertLayout.findViewById(R.id.radio_group_right);
 //        final CheckBox lanuageTranslate = alertLayout.findViewById(R.id.check_box_translate);
@@ -1642,9 +1681,7 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
         micImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if (!speakFlag) {
-
                     myCountDownTimer.start();
                     speakFlag = true;
                     tapToSpeak.setText("Tap Mic to Stop");
@@ -1666,7 +1703,6 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
         buttonOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 try {
                     if (transLate) {
                         if (ConvertedTextOnline.length() > 0) {
@@ -1712,6 +1748,89 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
 
         dialog.show();
 
+    }
+
+    private String getLanguageCode(String prefLanguage) {
+
+        String result = "";
+        /*hi-IN-translit”, “bn_IN”, “pu”, “te”, “mr_IN”, “ta_IN”, “ur_IN”, “gu_IN”, “kn”, “ml_IN*/
+        switch (prefLanguage) {
+            case "Hindi":
+                result = "hi_IN";
+                break;
+            case "Bengali":
+                result = "bn_IN";
+                break;
+            case "Punjabi":
+                result = "pa_IN";
+                break;
+            case "Telugu":
+                result = "te_IN";
+                break;
+            case "Marathi":
+                result = "mr_IN";
+                break;
+            case "Tamil":
+                result = "ta_IN";
+                break;
+            case "Urdu":
+                result = "ur_IN";
+                break;
+            case "Gujrati":
+                result = "gu_IN";
+                break;
+            case "Kannada":
+                result = "kn_IN";
+                break;
+            case "Malayalam":
+                result = "ml_IN";
+                break;
+            case "Chinese":
+                result = "zh_";
+                break;
+            case "Spanish":
+                result = "es";
+                break;
+            case "Arabic":
+                result = "ks_IN";
+                break;
+            case "Portugese":
+                result = "pt_PT";
+                break;
+            case "Russian":
+                result = "ru_RU";
+                break;
+            case "Japanese":
+                result = "ja_JP";
+                break;
+            case "German":
+                result = "de";
+                break;
+            case "French":
+                result = "fr";
+                break;
+            case "Malay":
+                result = "ta_IN";
+                break;
+            case "Italian":
+                result = "it_IT";
+                break;
+            case "Polish":
+                result = "pl_PL";
+                break;
+
+            case "Ukrainian":
+                result = "uk_UA";
+                break;
+            case "Romanian":
+                result = "ro_RO";
+                break;
+            case "Swahii":
+                result = "sw";
+                break;
+        }
+
+        return result;
     }
 
 
@@ -1832,5 +1951,28 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
         }
     }
 
+    static {
+        for (Locale l : Locale.getAvailableLocales()) {
+            displayNames.put(l.getDisplayName(), l);
+        }
+    }
 
+    public Locale getLocale(String displayName) {
+
+        Locale locale = displayNames.get(displayName);
+        Log.d(TAG, "Locale == " + locale);
+
+        return displayNames.get(displayName);
+    }
+
+    public String getLocaleString(String displayName) {
+        Set keys = displayNames.keySet();
+        System.out.println("All keys are: " + keys);
+// To get all key: value
+        for (Object key : keys) {
+            System.out.println(key + ": " + displayNames.get(key));
+        }
+
+        return "";
+    }
 }

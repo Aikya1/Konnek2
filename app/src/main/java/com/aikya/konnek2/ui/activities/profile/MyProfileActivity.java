@@ -31,6 +31,7 @@ import com.aikya.konnek2.call.db.utils.ErrorUtils;
 import com.aikya.konnek2.call.services.model.QMUser;
 import com.aikya.konnek2.ui.activities.base.BaseLoggableActivity;
 import com.aikya.konnek2.ui.views.roundedimageview.RoundedImageView;
+import com.aikya.konnek2.utils.AppConstant;
 import com.aikya.konnek2.utils.MediaUtils;
 import com.aikya.konnek2.utils.ToastUtils;
 import com.aikya.konnek2.utils.ValidationUtils;
@@ -222,10 +223,18 @@ public class MyProfileActivity extends BaseLoggableActivity implements OnMediaPi
             etName.setText(currentFullName);
             etEmail.setText(currentEmail);
             etStatus.setText(userStatus);
-            if (userCustomData.getCountryCode() != null || !TextUtils.isEmpty(userCustomData.getCountryCode())) {
-                contactno.setText(userCustomData.getCountryCode() + " " + qbUser.getPhone());
-            } else {
+
+            String loginType = appSharedHelper.getLoginType();
+
+            if (loginType.equalsIgnoreCase(AppConstant.LOGIN_TYPE_FACEBOOK) ||
+                    loginType.equalsIgnoreCase(AppConstant.LOGIN_TYPE_GMAIL)) {
                 contactno.setText(qbUser.getPhone());
+            } else if (loginType.equalsIgnoreCase(AppConstant.LOGIN_TYPE_MANUAL)) {
+                if (userCustomData.getCountryCode() != null || !TextUtils.isEmpty(userCustomData.getCountryCode())) {
+                    contactno.setText(userCustomData.getCountryCode() + " " + qbUser.getPhone());
+                } else {
+                    contactno.setText(qbUser.getPhone());
+                }
             }
 
             contactno.setEnabled(false);

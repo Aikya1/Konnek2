@@ -117,13 +117,13 @@ public class PrivateDialogActivity extends BaseDialogActivity {
     protected void addActions() {
         super.addActions();
 
-        addAction(QBServiceConsts.ACCEPT_FRIEND_SUCCESS_ACTION, new AcceptFriendSuccessAction());
-        addAction(QBServiceConsts.ACCEPT_FRIEND_FAIL_ACTION, failAction);
+//        addAction(QBServiceConsts.ACCEPT_FRIEND_SUCCESS_ACTION, new AcceptFriendSuccessAction());
+//        addAction(QBServiceConsts.ACCEPT_FRIEND_FAIL_ACTION, failAction);
 
-        addAction(QBServiceConsts.REJECT_FRIEND_SUCCESS_ACTION, new RejectFriendSuccessAction());
-        addAction(QBServiceConsts.REJECT_FRIEND_FAIL_ACTION, failAction);
+//        addAction(QBServiceConsts.REJECT_FRIEND_SUCCESS_ACTION, new RejectFriendSuccessAction());
+//        addAction(QBServiceConsts.REJECT_FRIEND_FAIL_ACTION, failAction);
 
-        updateBroadcastActionList();
+//        updateBroadcastActionList();
     }
 
     @Override
@@ -156,7 +156,7 @@ public class PrivateDialogActivity extends BaseDialogActivity {
         super.initMessagesRecyclerView();
         messagesRecyclerView.addItemDecoration(
                 new StickyRecyclerHeadersDecoration(messagesAdapter));
-        findLastFriendsRequest(true);
+//        findLastFriendsRequest(true);
 
         messagesRecyclerView.setAdapter(messagesAdapter);
         scrollMessagesToBottom(0);
@@ -164,7 +164,7 @@ public class PrivateDialogActivity extends BaseDialogActivity {
 
     @Override
     protected void updateMessagesList() {
-        findLastFriendsRequest(false);
+//        findLastFriendsRequest(false);
     }
 
     @Override
@@ -245,7 +245,7 @@ public class PrivateDialogActivity extends BaseDialogActivity {
         super.initFields();
         appCallLogModel = new AppCallLogModel();
         appCallLogModelArrayList = new ArrayList<AppCallLogModel>();
-        friendOperationAction = new FriendOperationAction();
+//        friendOperationAction = new FriendOperationAction();
         friendObserver = new FriendObserver();
         typingMessageBroadcastReceiver = new TypingStatusBroadcastReceiver();
         opponentUser = (QMUser) getIntent().getExtras().getSerializable(QBServiceConsts.EXTRA_OPPONENT);
@@ -269,21 +269,21 @@ public class PrivateDialogActivity extends BaseDialogActivity {
     @Override
     protected void addObservers() {
         super.addObservers();
-        dataManager.getFriendDataManager().addObserver(friendObserver);
+//        dataManager.getFriendDataManager().addObserver(friendObserver);
     }
 
     @Override
     protected void deleteObservers() {
         super.deleteObservers();
-        dataManager.getFriendDataManager().deleteObserver(friendObserver);
+//        dataManager.getFriendDataManager().deleteObserver(friendObserver);
     }
 
-    private void findLastFriendsRequest(boolean needNotifyAdapter) {
+   /* private void findLastFriendsRequest(boolean needNotifyAdapter) {
         ((PrivateChatMessageAdapter) messagesAdapter).findLastFriendsRequestMessagesPosition();
         if (needNotifyAdapter) {
             messagesAdapter.notifyDataSetChanged();
         }
-    }
+    }*/
 
     private void setOnlineStatus(QMUser user) {
         if (user != null) {
@@ -326,7 +326,7 @@ public class PrivateDialogActivity extends BaseDialogActivity {
 
     }
 
-    private void acceptUser(final int userId) {
+    /*private void acceptUser(final int userId) {
 
         if (isNetworkAvailable()) {
             if (!isChatInitializedAndUserLoggedIn()) {
@@ -353,9 +353,9 @@ public class PrivateDialogActivity extends BaseDialogActivity {
             ToastUtils.longToast(R.string.dlg_fail_connection);
             return;
         }
-    }
+    }*/
 
-    private void showRejectUserDialog(final int userId) {
+    /*private void showRejectUserDialog(final int userId) {
         QMUser user = QMUserService.getInstance().getUserCache().get((long) userId);
         if (user == null) {
             return;
@@ -371,7 +371,7 @@ public class PrivateDialogActivity extends BaseDialogActivity {
                         QBRejectFriendCommand.start(PrivateDialogActivity.this, userId);
                     }
                 });
-    }
+    }*/
 
     private void updateCurrentChatFromDB() {
         QBChatDialog updatedDialog = null;
@@ -403,17 +403,17 @@ public class PrivateDialogActivity extends BaseDialogActivity {
         @Override
         public void onAcceptUserClicked(int position, int userId) {
             operationItemPosition = position;
-            acceptUser(userId);
+//            acceptUser(userId);
         }
 
         @Override
         public void onRejectUserClicked(int position, int userId) {
             operationItemPosition = position;
-            rejectUser(userId);
+//            rejectUser(userId);
         }
     }
 
-    private class AcceptFriendSuccessAction implements Command {
+    /*private class AcceptFriendSuccessAction implements Command {
 
         @Override
         public void execute(Bundle bundle) {
@@ -433,7 +433,7 @@ public class PrivateDialogActivity extends BaseDialogActivity {
             startLoadDialogMessages(false);
             hideProgress();
         }
-    }
+    }*/
 
     private class FriendObserver implements Observer {
         @Override

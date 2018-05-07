@@ -53,12 +53,11 @@
             android:id="@+id/button_hindi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:buttonTint="@color/colorPrimary"
-            android:tag="hi_IN"
-            android:text="@string/hindi_lang"
             android:textColor="@color/colorPrimary"
             tools:targetApi="lollipop" />
 
