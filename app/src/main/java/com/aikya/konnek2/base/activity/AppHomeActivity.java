@@ -56,6 +56,7 @@ import rx.Subscriber;
 public class AppHomeActivity extends BaseLoggableActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     //commented
+    //Comment by rajeev ..
 
     GridView gridView;
     Toolbar toolbar;
