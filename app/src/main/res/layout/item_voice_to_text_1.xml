@@ -53,12 +53,12 @@
             android:id="@+id/button_hindi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:buttonTint="@color/colorPrimary"
             android:textColor="@color/colorPrimary"
+            android:visibility="invisible"
             tools:targetApi="lollipop" />
 
 
@@ -99,6 +99,7 @@
         android:layout_width="0dp"
         android:layout_height="30dp"
         android:layout_marginEnd="@dimen/margin_20dp"
+        android:layout_marginRight="@dimen/margin_20dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/button_outline_blue"
         android:text="@string/dlg_cancel"
@@ -108,8 +109,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toEndOf="@+id/text_ok"
-        app:layout_constraintTop_toBottomOf="@+id/edit_text_message"
-        android:layout_marginRight="@dimen/margin_20dp" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_message" />
 
     <Button
         android:id="@+id/text_ok"
@@ -134,7 +134,6 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:padding="@dimen/margin_4dp"
-        android:text="@string/tap_to_start"
         android:textColor="@color/black"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/image_mic_text"
@@ -147,4 +146,32 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.4" />
+
+    <ImageButton
+        android:id="@+id/changeLangBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@color/white"
+        android:padding="@dimen/margin_2dp"
+        app:layout_constraintBottom_toBottomOf="@+id/radio_group_left"
+        app:layout_constraintEnd_toStartOf="@+id/image_mic_text"
+        app:layout_constraintTop_toTopOf="@+id/radio_group_left"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/ic_edit" />
+
+    <Spinner
+        android:id="@+id/languageSpinner"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:spinnerMode="dialog"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/txt_speak"
+        app:layout_constraintEnd_toStartOf="@+id/txt_speak"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/txt_speak" />
 </android.support.constraint.ConstraintLayout>

@@ -96,7 +96,6 @@ public class AppContactActivity extends BaseLoggableActivity {
     }
 
     public void swipeViewer() {
-
         try {
 
             tabLayout.addTab(tabLayout.newTab().setText(AppConstant.TAB_CONTACTS_KONNEK2_USERS));

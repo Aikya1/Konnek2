@@ -22,6 +22,8 @@ public class AppSpeechToTextConvertor implements AppIConvertor {      // by sure
 
 
     private ArrayList data;
+    SpeechRecognizer sr;
+    Intent intent;
 
     public AppSpeechToTextConvertor(AppConversionCallaback appConversionCallaback) {
         this.appConversionCallaback = appConversionCallaback;
@@ -33,24 +35,27 @@ public class AppSpeechToTextConvertor implements AppIConvertor {      // by sure
     @Override
     public AppIConvertor initialize(String message, String SelectedLanguage, Activity appContext) {
         //Prepeare Intent
-        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+
+//        SelectedLanguage = "gu_IN";
+        intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                 RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
 
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, SelectedLanguage);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, SelectedLanguage);
         intent.putExtra(RecognizerIntent.EXTRA_ONLY_RETURN_LANGUAGE_PREFERENCE, SelectedLanguage);
-
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, SelectedLanguage);
        /* intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
+
                 message);*/
+
         intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1);
         intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
                 appContext.getPackageName());
 
         //Add listeners
         CustomRecognitionListener listener = new CustomRecognitionListener();
-        SpeechRecognizer sr = SpeechRecognizer.createSpeechRecognizer(appContext);
+        sr = SpeechRecognizer.createSpeechRecognizer(appContext);
         sr.setRecognitionListener(listener);
         sr.startListening(intent);
 
@@ -101,4 +106,6 @@ public class AppSpeechToTextConvertor implements AppIConvertor {      // by sure
 
 
     }
+
+
 }

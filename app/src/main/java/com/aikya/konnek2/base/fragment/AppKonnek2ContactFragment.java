@@ -133,6 +133,7 @@ public class AppKonnek2ContactFragment extends BaseFragment {
 
                     @Override
                     public void onNext(ArrayList<QBUser> qbUsers) {
+                        baseActivity.hideProgress();
                         Log.d(TAG, "onNext == ");
                         QBUser qbUser = AppSession.getSession().getUser();
                         if (qbUsers != null && !qbUsers.isEmpty()) {

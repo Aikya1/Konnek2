@@ -225,7 +225,6 @@ public class AppHomeActivity extends BaseLoggableActivity implements NavigationV
 
     public void initViews() {
 //        appFindUserPresenter = new AppFindUserPresenter(this);
-
         facebookHelper = new FacebookHelper(this);
         firebaseAuthHelper = new FirebaseAuthHelper();
         progressBar = findViewById(R.id.progress_home);
@@ -267,8 +266,6 @@ public class AppHomeActivity extends BaseLoggableActivity implements NavigationV
 
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setItemIconTintList(null);
-
-
     }
 
     @Override

@@ -569,6 +569,8 @@ public class ServiceManager {
                                 null);
                         if (phoneCursor.moveToNext()) {
                             String phoneNumber = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                            phoneNumber = formatNumber(phoneNumber.trim());
+//                            phoneNumber = phoneNumber.replaceFirst("[]","");
                             inviteFriend.setNumber(phoneNumber);
                             contact1.setPhone(phoneNumber);
                         }
@@ -602,9 +604,23 @@ public class ServiceManager {
         }
     }
 
+    private String formatNumber(String phoneNumber) {
+        String res = "";
+        if (phoneNumber.startsWith("+")) {
+            res = phoneNumber.replaceFirst("[-+.^:,]", "");
+        }
+        if (phoneNumber.startsWith("00")) {
+            res = phoneNumber.substring(2, phoneNumber.length());
+        } else if (phoneNumber.startsWith("0")) {
+            res = phoneNumber.replaceFirst("0", "");
+        }
+
+        return res;
+    }
+
     private void uploadToQbAddressBook(ArrayList<QBAddressBookContact> contactsGlobal) {
         String UDID = "";
-        boolean force = false;
+        boolean force = true;
 
         Performer<QBAddressBookResponse> performer = QBUsers.uploadAddressBook(contactsGlobal, UDID, force);
         Observable<QBAddressBookResponse> observable = performer.convertTo(RxJavaPerformProcessor.INSTANCE);
@@ -624,6 +640,9 @@ public class ServiceManager {
 
                     @Override
                     public void onNext(QBAddressBookResponse qbAddressBookResponse) {
+
+                        int createdCount = qbAddressBookResponse.getCreatedCount();
+                        int updatedCount = qbAddressBookResponse.getUpdatedCount();
                         Log.d(TAG, "Response ==  " + qbAddressBookResponse.toString());
                     }
                 });

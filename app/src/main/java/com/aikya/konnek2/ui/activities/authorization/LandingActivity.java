@@ -62,6 +62,7 @@ import org.json.JSONObject;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -74,7 +75,6 @@ import butterknife.OnClick;
 import rx.Observer;
 import rx.Subscriber;
 
-import static com.aikya.konnek2.utils.AppConstant.languageList;
 import static com.aikya.konnek2.utils.AppConstant.nonDupLangList;
 
 public class LandingActivity extends BaseAuthActivity implements GoogleApiClient.OnConnectionFailedListener, GdprCustomDialog.OnGdprSelected {
@@ -235,8 +235,8 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
 
     }
 
-    private void addLanguagesToList() {
-
+    public static void addLanguagesToList() {
+        nonDupLangList.clear();
         nonDupLangList.add("Hindi");
         nonDupLangList.add("Bengali");
         nonDupLangList.add("Punjabi");
@@ -412,7 +412,7 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
         if (checkNetworkAvailableWithError()) {
             if (phoneeval() && checkeval()) {
                 showProgress();
-                countryCode = countryCodePicker.getDefaultCountryCodeWithPlus();
+                countryCode = countryCodePicker.getSelectedCountryCode();
                 phNumber = etphoneno.getText().toString();
                 serviceManager.checkIfUserExist(phNumber)
                         .subscribe(checkIfUserExists);

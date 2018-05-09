@@ -139,7 +139,6 @@ public class AppKonnek2OnlineContactFragment extends BaseFragment implements Con
     }
 
     private void getOnlineUsersFromQBAddressBook() {
-        baseActivity.showProgress();
         String UDID = "";
         boolean isCompact = false;
         Performer<ArrayList<QBUser>> performer = QBUsers.getRegisteredUsersFromAddressBook(UDID, isCompact);
@@ -158,6 +157,7 @@ public class AppKonnek2OnlineContactFragment extends BaseFragment implements Con
 
                     @Override
                     public void onNext(ArrayList<QBUser> qbUsers) {
+                        baseActivity.hideProgress();
                         QBUser qbUser = AppSession.getSession().getUser();
                         if (qbUsers != null && !qbUsers.isEmpty()) {
                             if (qbUsers.contains(qbUser)) {
