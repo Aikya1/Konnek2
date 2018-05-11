@@ -64,6 +64,7 @@
                 android:textColor="@color/dark_gray"
                 android:textSize="@dimen/standard_content_size" />
 
+
             <SeekBar
                 android:id="@+id/mile_seek"
                 android:layout_width="match_parent"
@@ -71,10 +72,10 @@
                 android:layout_below="@+id/catch_tv2"
                 android:layout_marginTop="10dp"
                 android:thumbTint="@color/colorPrimary"
-                android:max="100"
+                android:max="5"
                 android:progressTint="@color/colorPrimary"
                 android:progressBackgroundTint="@color/dark_gray"
-                android:progress="0"
+                android:progress="1"
                 android:scrollbarSize="20dp"
                 />
 
