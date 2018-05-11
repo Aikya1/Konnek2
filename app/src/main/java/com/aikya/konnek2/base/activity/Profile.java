@@ -3,11 +3,9 @@ package com.aikya.konnek2.base.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.Html;
@@ -31,7 +29,6 @@ import com.aikya.konnek2.call.core.models.AppSession;
 import com.aikya.konnek2.call.core.models.UserCustomData;
 import com.aikya.konnek2.call.db.models.Attachment;
 import com.aikya.konnek2.call.services.model.QMUser;
-import com.aikya.konnek2.call.services.utils.ErrorUtils;
 import com.aikya.konnek2.ui.activities.base.BaseActivity;
 import com.aikya.konnek2.ui.views.roundedimageview.RoundedImageView;
 import com.aikya.konnek2.utils.AppConstant;
@@ -46,15 +43,10 @@ import com.aikya.konnek2.utils.listeners.OnMediaPickedListener;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.StringSignature;
 import com.google.gson.Gson;
-import com.quickblox.content.QBContent;
 import com.quickblox.content.model.QBFile;
 import com.quickblox.core.helper.StringifyArrayList;
-import com.quickblox.core.server.Performer;
-import com.quickblox.extensions.RxJavaPerformProcessor;
 import com.quickblox.users.model.QBUser;
 import com.soundcloud.android.crop.Crop;
-
-import org.w3c.dom.Text;
 
 import java.io.File;
 import java.util.Date;
@@ -63,8 +55,6 @@ import java.util.Locale;
 import rx.Observable;
 import rx.Observer;
 import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 import static com.aikya.konnek2.utils.AppConstant.nonDupLangList;
 
@@ -477,7 +467,7 @@ public class Profile extends BaseActivity implements OnMediaPickedListener, Adap
                         }*/
 
                         userCustomData.setPrefLanguage(selectedLanguage);
-                        userCustomData.setAge("22");
+                        userCustomData.setIsLocationToShare(true);
                         userCustomData.setContactno(phNo);
                         userCustomData.setPrefEmail(userEmail);
                         userCustomData.setStatus(status.getText().toString());

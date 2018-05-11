@@ -343,6 +343,7 @@ public class MyProfileActivity extends BaseLoggableActivity implements OnMediaPi
         } else {
             return newUser;
         }
+        userCustomData.setPrefLanguage("Gujarati");
 
         newUser.setFacebookId(qbUser.getFacebookId());
 

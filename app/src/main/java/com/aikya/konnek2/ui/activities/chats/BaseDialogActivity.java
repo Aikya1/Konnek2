@@ -30,6 +30,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.EditText;
@@ -38,10 +40,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.aikya.konnek2.R;
+import com.aikya.konnek2.base.activity.Profile;
 import com.aikya.konnek2.call.core.core.command.Command;
 import com.aikya.konnek2.call.core.models.AppSession;
 import com.aikya.konnek2.call.core.models.CombinationMessage;
@@ -62,6 +66,7 @@ import com.aikya.konnek2.call.db.models.DialogNotification;
 import com.aikya.konnek2.call.db.models.DialogOccupant;
 import com.aikya.konnek2.call.db.models.Message;
 import com.aikya.konnek2.call.db.utils.ErrorUtils;
+import com.aikya.konnek2.ui.activities.authorization.LandingActivity;
 import com.aikya.konnek2.ui.activities.base.BaseLoggableActivity;
 import com.aikya.konnek2.ui.activities.location.MapsActivity;
 import com.aikya.konnek2.ui.activities.others.PreviewImageActivity;
@@ -138,6 +143,8 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
 import butterknife.OnTouch;
+
+import static com.aikya.konnek2.utils.AppConstant.nonDupLangList;
 
 
 public abstract class BaseDialogActivity extends BaseLoggableActivity implements AppConversionCallaback,
@@ -266,6 +273,7 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
     QBUser qbUser;
     UserCustomData userCustomData;
 
+    RadioButton secLangRadButton = null;
 
     @Override
     protected int getContentResId() {
@@ -684,11 +692,11 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
         removeAction(QBServiceConsts.LOAD_DIALOG_MESSAGES_SUCCESS_ACTION);
         removeAction(QBServiceConsts.LOAD_DIALOG_MESSAGES_FAIL_ACTION);
 
-        removeAction(QBServiceConsts.ACCEPT_FRIEND_SUCCESS_ACTION);
-        removeAction(QBServiceConsts.ACCEPT_FRIEND_FAIL_ACTION);
+//        removeAction(QBServiceConsts.ACCEPT_FRIEND_SUCCESS_ACTION);
+//        removeAction(QBServiceConsts.ACCEPT_FRIEND_FAIL_ACTION);
 
-        removeAction(QBServiceConsts.REJECT_FRIEND_SUCCESS_ACTION);
-        removeAction(QBServiceConsts.REJECT_FRIEND_FAIL_ACTION);
+//        removeAction(QBServiceConsts.REJECT_FRIEND_SUCCESS_ACTION);
+//        removeAction(QBServiceConsts.REJECT_FRIEND_FAIL_ACTION);
 
         updateBroadcastActionList();
     }
@@ -915,6 +923,7 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
         if (combinationMessagesList.size() == 0) {
             return 0;
         }
+
         return !isLoadOld
                 ? combinationMessagesList.get(combinationMessagesList.size() - 1).getCreatedDate()
                 : combinationMessagesList.get(0).getCreatedDate();
@@ -1150,9 +1159,9 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
     public void onConversionSuccess(String result) {
 
 
-        if (result.toString().length() > 0) {
+        if (result.length() > 0) {
             ConvertedText = "";
-            ConvertedText = result.toString();
+            ConvertedText = result;
             editTextMessage.setText(ConvertedText);
             shakes.cancel();
             shakes.reset();
@@ -1191,7 +1200,7 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
 
     @Override
     public void onConversionCompletion() {
-
+        Log.d("VOICETEXTCON", "OnConversionCompletion");
     }
 
     @Override
@@ -1587,10 +1596,8 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
         micImage = alertLayout.findViewById(com.aikya.konnek2.R.id.image_mic_text);
         editTextMessage = alertLayout.findViewById(com.aikya.konnek2.R.id.edit_text_message);
         radioGroupLeft = alertLayout.findViewById(com.aikya.konnek2.R.id.radio_group_left);
-        RadioButton prefLangRadioBtn = alertLayout.findViewById(R.id.button_hindi);
 
         String prefLanguage = userCustomData.getPrefLanguage();
-        Locale locale;
 
 
         final TextView headerView = alertLayout.findViewById(com.aikya.konnek2.R.id.text_header);
@@ -1598,7 +1605,9 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
 
         final Button buttonOk = alertLayout.findViewById(com.aikya.konnek2.R.id.text_ok);
         final Button buttonCancel = alertLayout.findViewById(com.aikya.konnek2.R.id.text_cancel);
-        final RadioButton secLangRadButton = alertLayout.findViewById(R.id.button_hindi);
+        secLangRadButton = alertLayout.findViewById(R.id.button_hindi);
+        final ImageButton changeLangButton = alertLayout.findViewById(R.id.changeLangBtn);
+        final Spinner langSpinner = alertLayout.findViewById(R.id.languageSpinner);
 
         if (!prefLanguage.equalsIgnoreCase("English")) {
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
@@ -1606,6 +1615,8 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
                 getLocaleString(prefLanguage);*/
 
                 secLangRadButton.setVisibility(View.VISIBLE);
+                changeLangButton.setVisibility(View.VISIBLE);
+
                 secLangRadButton.setText(prefLanguage);
                 secLangRadButton.setTag(getLanguageCode(prefLanguage));
 
@@ -1635,6 +1646,14 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
                 }
             }
         });*/
+
+
+        changeLangButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setUpLanguageSpinner(langSpinner);
+            }
+        });
 
         radioGroupLeft.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -1751,6 +1770,42 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
 
         dialog.show();
 
+
+        langSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                userCustomData.setPrefLanguage(nonDupLangList.get(position));
+                secLangRadButton.setChecked(false);
+                secLangRadButton.setText(nonDupLangList.get(position));
+                secLangRadButton.setTag(getLanguageCode(nonDupLangList.get(position)));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
+
+
+    private void setUpLanguageSpinner(Spinner langSpinner) {
+//        langSpinner.setVisibility(View.VISIBLE);
+        LandingActivity.addLanguagesToList();
+        ArrayAdapter<String> adapter =
+                new ArrayAdapter<String>(getApplicationContext(),
+                        R.layout.custom_spinner_dropdown, nonDupLangList);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        if (langSpinner != null) {
+            langSpinner.setAdapter(adapter);
+            String myString = Locale.getDefault().getDisplayLanguage(); //the value you want the position for
+            ArrayAdapter myAdap = (ArrayAdapter) langSpinner.getAdapter(); //cast to an ArrayAdapter
+            int spinnerPosition = myAdap.getPosition(myString);
+            //set the default according to value
+//            langSpinner.setSelection(spinnerPosition);
+            langSpinner.performClick();
+//                selectedLanguage = spin1.getSelectedItem().toString();
+        }
+
     }
 
     private String getLanguageCode(String prefLanguage) {
@@ -1779,7 +1834,7 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
             case "Urdu":
                 result = "ur_IN";
                 break;
-            case "Gujrati":
+            case "Gujarati":
                 result = "gu_IN";
                 break;
             case "Kannada":
@@ -1952,30 +2007,5 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
         public void onFinish() {
             finish();
         }
-    }
-
-    static {
-        for (Locale l : Locale.getAvailableLocales()) {
-            displayNames.put(l.getDisplayName(), l);
-        }
-    }
-
-    public Locale getLocale(String displayName) {
-
-        Locale locale = displayNames.get(displayName);
-        Log.d(TAG, "Locale == " + locale);
-
-        return displayNames.get(displayName);
-    }
-
-    public String getLocaleString(String displayName) {
-        Set keys = displayNames.keySet();
-        System.out.println("All keys are: " + keys);
-// To get all key: value
-        for (Object key : keys) {
-            System.out.println(key + ": " + displayNames.get(key));
-        }
-
-        return "";
     }
 }

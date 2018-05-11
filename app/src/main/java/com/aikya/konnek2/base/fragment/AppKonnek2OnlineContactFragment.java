@@ -152,7 +152,7 @@ public class AppKonnek2OnlineContactFragment extends BaseFragment implements Con
                 .subscribe(new Observer<ArrayList<QBUser>>() {
                     @Override
                     public void onCompleted() {
-                        //baseActivity.hideProgress();
+                        baseActivity.hideProgress();
                     }
 
                     @Override
@@ -166,8 +166,6 @@ public class AppKonnek2OnlineContactFragment extends BaseFragment implements Con
                             if (qbUsers.contains(qbUser)) {
                                 qbUsers.remove(qbUser);
                             }
-
-
                             updateContactsList(qbUsers);
                         }
                     }
@@ -176,36 +174,16 @@ public class AppKonnek2OnlineContactFragment extends BaseFragment implements Con
 
     private void updateContactsList(List<QBUser> usersList) {
         this.qbUserLists = usersList;
-        for (int i = 0; i < usersList.size(); i++)
-        {
+        for (int i = 0; i < usersList.size(); i++) {
             //https://quickblox.com/developers/SimpleSample-users-android
             //Here Online\Offline status
             long currentTime = System.currentTimeMillis();
-
             long userLastRequestAtTime = (QMUser.convert(usersList.get(i)).getLastRequestAt().getTime());
-
-            Log.d(TAG,"Time is "+userLastRequestAtTime);
-
-
-            if ((currentTime - userLastRequestAtTime) > 1 * 60 * 1000)
-            {
+            if ((currentTime - userLastRequestAtTime) > 30 * 60 * 1000) {
                 // user is offline now
-
-
-              //  materialDesignFAM.hideMenuButton(true);
-
-            }
-            else
-                {
-
-                   //  materialDesignFAM.showMenuButton(true);
-
-
-
-                 qMUserList.add(QMUser.convert(usersList.get(i)));
-
-
-
+                //    ToastUtils.shortToast("OFFLINE");
+            } else {
+                qMUserList.add(QMUser.convert(usersList.get(i)));
                 String s1 = (QMUser.convert(usersList.get(i)).getFullName());
                 Log.d(TAG, "data added" + s1);
                 friendsOnlineAdapter = new FriendsOnlineAdapter(baseActivity, qMUserList, false, this);
@@ -220,11 +198,6 @@ public class AppKonnek2OnlineContactFragment extends BaseFragment implements Con
 
 
             }
-
-
-
-
-
         }
 
         if(qMUserList.isEmpty())
@@ -236,38 +209,16 @@ public class AppKonnek2OnlineContactFragment extends BaseFragment implements Con
         floatingActionButton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // ToastUtils.longToast("Audio call");
-
-                if(seletedUsersLists.size()==0)
-                {
-
-                    ToastUtils.shortToast("Select a user to make Audio call");
-                }
-                else
-                {
-
-                    callToUser(seletedUsersLists, QBRTCTypes.QBConferenceType.QB_CONFERENCE_TYPE_AUDIO);
-                }
-                //callToUser(seletedUsersLists, QBRTCTypes.QBConferenceType.QB_CONFERENCE_TYPE_AUDIO);
+                ToastUtils.longToast("Audio call");
+                callToUser(seletedUsersLists, QBRTCTypes.QBConferenceType.QB_CONFERENCE_TYPE_AUDIO);
             }
         });
         floatingActionButton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // ToastUtils.longToast("Video call");
-                //callToUser(seletedUsersLists, QBRTCTypes.QBConferenceType.QB_CONFERENCE_TYPE_VIDEO);
-                if(seletedUsersLists.size()==0)
-                {
-
-                    ToastUtils.shortToast("Select a user to make Video call");
-
-                }
-                else {
-
-                    callToUser(seletedUsersLists, QBRTCTypes.QBConferenceType.QB_CONFERENCE_TYPE_VIDEO);
-                }
+                ToastUtils.longToast("Video call");
+                callToUser(seletedUsersLists, QBRTCTypes.QBConferenceType.QB_CONFERENCE_TYPE_VIDEO);
             }
-
         });
     }
 
@@ -331,8 +282,6 @@ public class AppKonnek2OnlineContactFragment extends BaseFragment implements Con
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_audio_call:
-
-
                 AppConstant.CALL_TYPES = AppConstant.CALL_AUDIO;
                 callToUser(contactUsersList, QBRTCTypes.QBConferenceType.QB_CONFERENCE_TYPE_AUDIO);
                 break;

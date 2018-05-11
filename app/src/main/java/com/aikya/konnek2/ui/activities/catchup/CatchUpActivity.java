@@ -44,8 +44,9 @@ public class CatchUpActivity extends BaseLoggableActivity implements OnMapReadyC
     GeoDataClient mGeoDataClient;
     PlaceDetectionClient mPlaceDetectionClient;
     FusedLocationProviderClient mFusedLocationProviderClient;
-    boolean mLocationPermissionGranted=false;
+    boolean mLocationPermissionGranted = false;
     private Location mLastKnownLocation;
+
     @Override
     protected int getContentResId() {
         return R.layout.activity_catchup;
@@ -68,12 +69,12 @@ public class CatchUpActivity extends BaseLoggableActivity implements OnMapReadyC
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
-        if(checkLocationPermission()){
+        if (checkLocationPermission()) {
 
             mFusedLocationProviderClient.getLastLocation()
                     .addOnSuccessListener(this, location -> {
                         if (location != null) {
-                            LatLng sydney = new LatLng(location.getLatitude(),location.getLongitude());
+                            LatLng sydney = new LatLng(location.getLatitude(), location.getLongitude());
                             googleMap.addMarker(new MarkerOptions().position(sydney).title("my loc"));
                             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 15.0f));
                         }
@@ -97,10 +98,10 @@ public class CatchUpActivity extends BaseLoggableActivity implements OnMapReadyC
         mLocationPermissionGranted = false;
         switch (requestCode) {
             case SystemPermissionHelper.PERMISSIONS_FOR_CALL_REQUEST: {
-                if (grantResults.length > 0 ) {
+                if (grantResults.length > 0) {
                     if (!systemPermissionHelper.isAllLocationPermissionGranted()) {
                         showToastDeniedPermissions(permissions, grantResults);
-                    }else{
+                    } else {
                         mLocationPermissionGranted = true;
                     }
                 }
