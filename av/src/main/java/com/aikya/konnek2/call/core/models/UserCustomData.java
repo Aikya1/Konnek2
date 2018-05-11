@@ -81,6 +81,16 @@ public class UserCustomData implements Serializable {
     private String prefSms;
     private boolean isLocationToShare;
 
+    public String getLastSeen() {
+        return lastSeen;
+    }
+
+    public void setLastSeen(String lastSeen) {
+        this.lastSeen = lastSeen;
+    }
+
+    private String lastSeen;
+
 
 
 
