@@ -64,6 +64,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -141,6 +142,8 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
         gdprCustomDialog = new GdprCustomDialog(LandingActivity.this);
         gdprCustomDialog.setDialogResult(this);
         addLanguagesToList();
+        Collections.sort(nonDupLangList);
+
 
         //        generateFacebookKeyHash();
 
@@ -323,7 +326,6 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);

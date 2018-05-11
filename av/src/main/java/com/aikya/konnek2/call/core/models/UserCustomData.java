@@ -43,6 +43,7 @@ public class UserCustomData implements Serializable {
     public static String TAG_postalcode = "postalcode";
     public static String FACEBOOK_ID = "facebook_id";
     public static String TAG_Errormessage = "error";
+    public static boolean IS_LOCATION_TO_SHARE = true;
 
 
     /*  public static String TAG_LANGUAGE_1 = "language_1";
@@ -78,10 +79,7 @@ public class UserCustomData implements Serializable {
     private String dob;
     private String postalcode;
     private String prefSms;
-
-
-
-    private  String lastSeen;
+    private boolean isLocationToShare;
 
 
 
@@ -280,12 +278,11 @@ public class UserCustomData implements Serializable {
         this.facebookId = facebookId;
     }
 
-
-    public String getLastSeen() {
-        return lastSeen;
+    public boolean getIsLocationToShare() {
+        return isLocationToShare;
     }
 
-    public void setLastSeen(String lastSeen) {
-        this.lastSeen = lastSeen;
+    public void setIsLocationToShare(boolean isLocationToShare) {
+        this.isLocationToShare = isLocationToShare;
     }
 }

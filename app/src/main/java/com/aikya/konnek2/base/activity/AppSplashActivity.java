@@ -9,24 +9,33 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Base64;
 import android.util.Log;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 
 import com.aikya.konnek2.App;
 import com.aikya.konnek2.R;
+import com.aikya.konnek2.call.core.service.QBService;
 import com.aikya.konnek2.call.core.service.QBServiceConsts;
 import com.aikya.konnek2.call.core.utils.helpers.CoreSharedHelper;
+import com.aikya.konnek2.call.services.model.QMUser;
 import com.aikya.konnek2.ui.activities.authorization.LandingActivity;
 import com.aikya.konnek2.ui.activities.base.BaseActivity;
 import com.aikya.konnek2.utils.AppConstant;
+import com.aikya.konnek2.utils.ToastUtils;
 import com.aikya.konnek2.utils.helpers.ServiceManager;
 import com.quickblox.auth.model.QBProvider;
 import com.quickblox.auth.session.QBSessionManager;
+import com.quickblox.auth.session.QBSessionParameters;
+import com.quickblox.users.model.QBUser;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import rx.Observer;
 import rx.Subscriber;
 
 public class AppSplashActivity extends BaseActivity {
@@ -67,13 +76,27 @@ public class AppSplashActivity extends BaseActivity {
 //        AppSession.load();
         processPushIntent();
 
+        QBSessionParameters parameters = QBSessionManager.getInstance().getSessionParameters();
 
-        if (QBSessionManager.getInstance().getSessionParameters() != null && appSharedHelper.isSavedRememberMe()) {
-            startLastOpenActivityOrMain();
+        if (parameters != null && parameters.getUserLogin() != null) {
+            showProgress();
+            String phNumber = appSharedHelper.getUserPhoneNumber();
+            ServiceManager.getInstance().checkIfUserExist(appSharedHelper.getUserPhoneNumber()).subscribe(checkIfUserExists);
         } else {
-//            startLandingActivity();
             startActivity();
         }
+
+        /*if (QBSessionManager.getInstance().getSessionParameters() != null && appSharedHelper.isSavedRememberMe()) {
+            startLastOpenActivityOrMain();
+        } else {
+
+            if (appSharedHelper.getUserPhoneNumber() != null) {
+            } else {
+                startActivity();
+            }
+//            startLandingActivity();
+//            startActivity();
+        }*/
     }
 
     private void generateFacebookKeyHash() {
@@ -95,6 +118,7 @@ public class AppSplashActivity extends BaseActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+
                 LandingActivity.start(AppSplashActivity.this);
 //                Intro.start(AppSplashActivity.this);
                 overridePendingTransition(R.anim.right_to_left, R.anim.left_to_right);
@@ -169,6 +193,31 @@ public class AppSplashActivity extends BaseActivity {
             }
         });
     }
+
+    private Observer<List<QMUser>> checkIfUserExists = new Observer<List<QMUser>>() {
+        @Override
+        public void onCompleted() {
+            hideProgress();
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            Log.d(TAG, "User List == " + e.getMessage());
+        }
+
+        @Override
+        public void onNext(List<QMUser> userList) {
+
+            if (userList.size() > 0) {
+                startLastOpenActivityOrMain();
+            } else {
+                startActivity();
+                ToastUtils.shortToast("User has been removed");
+
+            }
+
+        }
+    };
 
 
 }
