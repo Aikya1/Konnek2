@@ -4,12 +4,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.aikya.konnek2.call.core.core.command.Command;
 import com.aikya.konnek2.call.core.models.AppSession;
@@ -67,6 +70,7 @@ public class AppKonnek2ContactFragment extends BaseFragment {
     private QMUser selectedUser;
     private Handler mHandler;
 
+    private ProgressBar progressBar;
 
     public AppKonnek2ContactFragment() {
     }
@@ -77,6 +81,9 @@ public class AppKonnek2ContactFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_konnek2_contact, container, false);
         listView = view.findViewById(R.id.listview_contacts);
         chatHelper = new QBChatHelper(getContext());
+
+        progressBar = view.findViewById(R.id.progress_contact);
+
         return view;
     }
 
@@ -100,7 +107,9 @@ public class AppKonnek2ContactFragment extends BaseFragment {
         appCallLogModel = new AppCallLogModel();
         appCallLogModelArrayList = new ArrayList<>();
 
+        progressBar.setVisibility(View.VISIBLE);
         getRegisteredUsersFromQBAddressBook();
+        progressBar.setVisibility(View.INVISIBLE);
     }
 
 
@@ -112,7 +121,7 @@ public class AppKonnek2ContactFragment extends BaseFragment {
 
     /*================+++TEST CODE+++==================*/
     private void getRegisteredUsersFromQBAddressBook() {
-        baseActivity.showProgress();
+       baseActivity.showProgress();
         String UDID = "";
         boolean isCompact = false;
         Performer<ArrayList<QBUser>> performer = QBUsers.getRegisteredUsersFromAddressBook(UDID, isCompact);
@@ -149,6 +158,11 @@ public class AppKonnek2ContactFragment extends BaseFragment {
         friendsAdapter = new FriendsAdapter(baseActivity, qMUserList, false);
         friendsAdapter.setFriendListHelper(friendListHelper);
         listView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        DividerItemDecoration divider = new DividerItemDecoration(listView.getContext(), DividerItemDecoration.VERTICAL);
+        divider.setDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.divider_horizontal));
+        listView.addItemDecoration(divider);
+
         listView.setAdapter(friendsAdapter);
 
         initCustomListeners();

@@ -275,6 +275,12 @@
                </service>
 
 
+        <service
+            android:name="com.aikya.konnek2.service.OnlineService"
+            android:enabled="true" >
+        </service>
+
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.provider"

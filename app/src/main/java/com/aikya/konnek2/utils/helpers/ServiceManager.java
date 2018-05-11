@@ -296,7 +296,11 @@ public class ServiceManager {
         return result;
     }
 
+ /*   public Observable<QMUser> updateLastseen(QBUser inputUser)
+    {
 
+    }
+*/
     public Observable<QMUser> updateUser(QBUser inputUser) {
         Observable<QMUser> result = null;
         final String password = inputUser.getPassword();
@@ -344,6 +348,8 @@ public class ServiceManager {
                         newUser.setPassword(user.getPassword());
                         newUser.setFileId(qbFile.getId());
                         newUser.setFullName(user.getFullName());
+
+
 
                         UserCustomData userCustomData = getUserCustomData(user);
                         userCustomData.setAvatarUrl(qbFile.getPublicUrl());

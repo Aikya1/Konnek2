@@ -132,7 +132,10 @@
     <string name="dialog_attach_image">attachment image</string>
     <string name="dialog_attach_audio">attachment audio</string>
     <string name="dialog_attach_video">attachment video</string>
+    <string name="dialog_attach_doc">attachment document</string>
     <string name="dialog_location">location</string>
+    <string name="dialog_attach_contact">attachment contact</string>
+    <string name="dialog_attach_document">attachment document</string>
     <string name="dialog_now_typing">Typing…</string>
     <string name="dialog_message_reject_friend">Do you really want to reject contact request from %1$s?</string>
     <string name="dialog_ctx_menu_reply">Reply</string>
@@ -365,6 +368,8 @@
         <item>Take a Photo</item>
         <item>Take a Video</item>
         <item>Location</item>
+        <item>Contact</item>
+        <item>Document</item>
     </string-array>
     <string name="title_activity_home">HomeActivity</string>
 

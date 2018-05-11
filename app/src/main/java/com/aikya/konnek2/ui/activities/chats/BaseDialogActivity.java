@@ -564,6 +564,7 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
         messagesAdapter.setAttachImageClickListener(imageAttachClickListener);
         messagesAdapter.setAttachVideoClickListener(videoAttachClickListener);
         messagesAdapter.setLinkPreviewClickListener(linkPreviewClickListener, false);
+
     }
 
     private void addAudioRecorderListener() {
@@ -791,6 +792,8 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
                             case IMAGE:
                             case AUDIO:
                             case VIDEO:
+                            case DOC:
+
                                 showProgress();
                                 QBLoadAttachFileCommand.start(BaseDialogActivity.this, (File) attachment, dialogId);
                                 break;

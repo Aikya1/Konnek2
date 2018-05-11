@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -135,11 +137,12 @@ public class AppKonnek2OnlineContactFragment extends BaseFragment implements Con
         OpponentsList = new ArrayList<>();
         appCallLogModel = new AppCallLogModel();
         appCallLogModelArrayList = new ArrayList<>();
+
         getOnlineUsersFromQBAddressBook();
     }
 
     private void getOnlineUsersFromQBAddressBook() {
-        baseActivity.showProgress();
+       // baseActivity.showProgress();
         String UDID = "";
         boolean isCompact = false;
         Performer<ArrayList<QBUser>> performer = QBUsers.getRegisteredUsersFromAddressBook(UDID, isCompact);
@@ -149,7 +152,7 @@ public class AppKonnek2OnlineContactFragment extends BaseFragment implements Con
                 .subscribe(new Observer<ArrayList<QBUser>>() {
                     @Override
                     public void onCompleted() {
-                        baseActivity.hideProgress();
+                        //baseActivity.hideProgress();
                     }
 
                     @Override
@@ -163,6 +166,8 @@ public class AppKonnek2OnlineContactFragment extends BaseFragment implements Con
                             if (qbUsers.contains(qbUser)) {
                                 qbUsers.remove(qbUser);
                             }
+
+
                             updateContactsList(qbUsers);
                         }
                     }
@@ -171,36 +176,98 @@ public class AppKonnek2OnlineContactFragment extends BaseFragment implements Con
 
     private void updateContactsList(List<QBUser> usersList) {
         this.qbUserLists = usersList;
-        for (int i = 0; i < usersList.size(); i++) {
+        for (int i = 0; i < usersList.size(); i++)
+        {
             //https://quickblox.com/developers/SimpleSample-users-android
             //Here Online\Offline status
             long currentTime = System.currentTimeMillis();
+
             long userLastRequestAtTime = (QMUser.convert(usersList.get(i)).getLastRequestAt().getTime());
-            if ((currentTime - userLastRequestAtTime) > 30 * 60 * 1000) {
+
+            Log.d(TAG,"Time is "+userLastRequestAtTime);
+
+
+            if ((currentTime - userLastRequestAtTime) > 1 * 60 * 1000)
+            {
                 // user is offline now
-                //    ToastUtils.shortToast("OFFLINE");
-            } else {
-                qMUserList.add(QMUser.convert(usersList.get(i)));
+
+
+              //  materialDesignFAM.hideMenuButton(true);
+
+            }
+            else
+                {
+
+                   //  materialDesignFAM.showMenuButton(true);
+
+
+
+                 qMUserList.add(QMUser.convert(usersList.get(i)));
+
+
+
                 String s1 = (QMUser.convert(usersList.get(i)).getFullName());
                 Log.d(TAG, "data added" + s1);
                 friendsOnlineAdapter = new FriendsOnlineAdapter(baseActivity, qMUserList, false, this);
                 listView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+                    DividerItemDecoration divider = new DividerItemDecoration(listView.getContext(), DividerItemDecoration.VERTICAL);
+                    divider.setDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.divider_horizontal));
+                    listView.addItemDecoration(divider);
+
                 listView.setAdapter(friendsOnlineAdapter);
+
+
+
             }
+
+
+
+
+
         }
+
+        if(qMUserList.isEmpty())
+        {
+            materialDesignFAM.hideMenuButton(true);
+        }
+
+
         floatingActionButton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtils.longToast("Audio call");
-                callToUser(seletedUsersLists, QBRTCTypes.QBConferenceType.QB_CONFERENCE_TYPE_AUDIO);
+               // ToastUtils.longToast("Audio call");
+
+                if(seletedUsersLists.size()==0)
+                {
+
+                    ToastUtils.shortToast("Select a user to make Audio call");
+                }
+                else
+                {
+
+                    callToUser(seletedUsersLists, QBRTCTypes.QBConferenceType.QB_CONFERENCE_TYPE_AUDIO);
+                }
+                //callToUser(seletedUsersLists, QBRTCTypes.QBConferenceType.QB_CONFERENCE_TYPE_AUDIO);
             }
         });
         floatingActionButton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtils.longToast("Video call");
-                callToUser(seletedUsersLists, QBRTCTypes.QBConferenceType.QB_CONFERENCE_TYPE_VIDEO);
+               // ToastUtils.longToast("Video call");
+                //callToUser(seletedUsersLists, QBRTCTypes.QBConferenceType.QB_CONFERENCE_TYPE_VIDEO);
+                if(seletedUsersLists.size()==0)
+                {
+
+                    ToastUtils.shortToast("Select a user to make Video call");
+
+                }
+                else {
+
+                    callToUser(seletedUsersLists, QBRTCTypes.QBConferenceType.QB_CONFERENCE_TYPE_VIDEO);
+                }
             }
+
         });
     }
 
@@ -264,6 +331,8 @@ public class AppKonnek2OnlineContactFragment extends BaseFragment implements Con
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_audio_call:
+
+
                 AppConstant.CALL_TYPES = AppConstant.CALL_AUDIO;
                 callToUser(contactUsersList, QBRTCTypes.QBConferenceType.QB_CONFERENCE_TYPE_AUDIO);
                 break;
@@ -279,12 +348,16 @@ public class AppKonnek2OnlineContactFragment extends BaseFragment implements Con
 
     public void callToUser(List<String> opponentsList, QBRTCTypes.QBConferenceType qbConferenceType) {
         try {
-//            if (!isChatInitializedAndUserLoggedIn()) {
-//                ToastUtils.longToast(R.string.call_chat_service_is_initializing);
-//                return;
-//            }
-            qMUserList = qmUserCache.getUsersByIDs(getUserIntegerId(opponentsList));
-            qbUserLists = new ArrayList<>(qMUserList.size());
+           if (!isChatInitializedAndUserLoggedIn()) {
+                ToastUtils.longToast(R.string.call_chat_service_is_initializing);
+               return;
+            }
+
+
+            //qMUserList = qmUserCache.getUsersByIDs(getUserIntegerId(opponentsList));
+            List<QMUser> qmUsers = qmUserCache.getUsersByIDs(getUserIntegerId(opponentsList));
+
+            qbUserLists = new ArrayList<>(qmUsers.size());
             qbUserLists.addAll(UserFriendUtils.createQbUserList(qMUserList));
             CallActivity.start(getActivity(), qbUserLists, qbConferenceType, null);
             AppConstant.OPPONENTS = qbUserLists.get(0).getFullName();

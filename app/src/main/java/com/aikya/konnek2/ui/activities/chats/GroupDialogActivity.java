@@ -236,7 +236,9 @@ public class GroupDialogActivity extends BaseDialogActivity implements UserListI
     public void callToUser(List<String> opponentUsers, QBRTCTypes.QBConferenceType qbConferenceType) {
 
         try {
-            if (!isChatInitializedAndUserLoggedIn()) {
+
+            if(!isChatInitializedAndUserLoggedIn())
+            {
                 ToastUtils.longToast(R.string.call_chat_service_is_initializing);
                 return;
             }

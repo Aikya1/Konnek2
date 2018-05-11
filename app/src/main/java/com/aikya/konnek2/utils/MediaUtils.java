@@ -55,6 +55,10 @@ public class MediaUtils {
     public static final int IMAGE_REQUEST_CODE = 333;
     public static final int IMAGE_VIDEO_LOCATION_REQUEST_CODE = 444;
 
+    public static final int DOC_REQUEST_CODE = 555;
+
+
+
     private static final String TAG = MediaUtils.class.getSimpleName();
     private static final String CAMERA_FILE_NAME_PREFIX = "CAMERA_";
     private static final String CAMERA_PHOTO_FILE_EXT = ".jpg";
@@ -169,9 +173,32 @@ public class MediaUtils {
         activity.startActivityForResult(intent, IMAGE_VIDEO_LOCATION_REQUEST_CODE);
     }
 
+
     public static void startMapForResult(Fragment fragment) {
         Intent intent = new Intent(fragment.getContext(), MapsActivity.class);
         fragment.startActivityForResult(intent, IMAGE_VIDEO_LOCATION_REQUEST_CODE);
+    }
+
+
+    public static void startDocForResult(Activity activity)
+    {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        //intent.setType("file/*");
+        intent.setType("*/*");
+        activity.startActivityForResult(
+                Intent.createChooser(intent, activity.getString(com.aikya.konnek2.R.string.dlg_choose_media_from)),DOC_REQUEST_CODE);
+
+
+    }
+
+
+    public static void startDocForResult(Fragment fragment)
+    {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("file/*");
+
+        fragment.startActivityForResult(
+                Intent.createChooser(intent, fragment.getString(com.aikya.konnek2.R.string.dlg_choose_media_from)), DOC_REQUEST_CODE);
     }
 
     private static void setIntentMediaPicker(Intent intent) {
@@ -185,6 +212,9 @@ public class MediaUtils {
             intent.putExtra(Intent.EXTRA_MIME_TYPES, MimeType.mediaMimeTypes);
         }
     }
+
+
+
 
     private static void setIntentImagePicker(Intent intent) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {

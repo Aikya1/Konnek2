@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
+import com.aikya.konnek2.call.core.models.AppSession;
 import com.aikya.konnek2.ui.activities.base.BaseActivity;
 import com.aikya.konnek2.utils.bridges.LoadingBridge;
 import com.aikya.konnek2.App;
@@ -20,6 +21,7 @@ import com.aikya.konnek2.utils.bridges.ConnectionBridge;
 import com.aikya.konnek2.utils.bridges.SnackbarBridge;
 import com.aikya.konnek2.utils.listeners.ServiceConnectionListener;
 import com.aikya.konnek2.utils.listeners.UserStatusChangingListener;
+import com.quickblox.chat.QBChatService;
 
 
 import butterknife.ButterKnife;
@@ -132,5 +134,15 @@ public abstract class BaseFragment extends Fragment implements UserStatusChangin
         // nothing by default
     }
 
+
+
+    //
+    protected boolean isChatInitializedAndUserLoggedIn() {
+        return isAppInitialized() && QBChatService.getInstance().isLoggedIn();
+    }
+
+    protected boolean isAppInitialized() {
+        return AppSession.getSession().isSessionExist();
+    }
 
 }

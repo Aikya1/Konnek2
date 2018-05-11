@@ -9,6 +9,7 @@ import android.widget.ListView;
 import com.aikya.konnek2.App;
 import com.aikya.konnek2.base.db.AppCallHistoryAdapter;
 import com.aikya.konnek2.base.db.AppCallLogModel;
+import com.aikya.konnek2.call.services.model.QMUser;
 import com.aikya.konnek2.utils.AppPreference;
 import com.aikya.konnek2.R;
 import com.aikya.konnek2.utils.AppConstant;
@@ -28,6 +29,7 @@ public class AppCallHistoryActivity extends AppCompatActivity {
     private String currentUserName;
     Toolbar toolbar;
     private String random = "sadasdasdas";
+
 
     
     @Override
@@ -65,6 +67,8 @@ public class AppCallHistoryActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
+
+
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

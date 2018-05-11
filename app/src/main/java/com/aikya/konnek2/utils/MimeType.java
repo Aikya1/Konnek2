@@ -14,4 +14,6 @@ public interface MimeType {
     String IMAGE_MIME_PREFIX = "image";
     String VIDEO_MIME_EXTENSION_MP4 = "mp4";
     String AUDIO_MIME_EXTENSION_MP3 = "mp3";
+
+    String DOC_MIME="text/plain";
 }

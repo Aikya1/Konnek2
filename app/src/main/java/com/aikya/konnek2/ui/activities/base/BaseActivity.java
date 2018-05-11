@@ -1,5 +1,6 @@
 package com.aikya.konnek2.ui.activities.base;
 
+import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -49,6 +50,7 @@ import com.aikya.konnek2.call.core.utils.ConnectivityUtils;
 import com.aikya.konnek2.call.db.utils.ErrorUtils;
 import com.aikya.konnek2.call.services.model.QMUser;
 import com.aikya.konnek2.base.activity.AppSplashActivity;
+import com.aikya.konnek2.service.OnlineService;
 import com.aikya.konnek2.ui.activities.authorization.LandingActivity;
 import com.aikya.konnek2.ui.activities.call.CallActivity;
 import com.aikya.konnek2.ui.activities.chats.GroupDialogActivity;
@@ -125,6 +127,15 @@ public abstract class BaseActivity extends AppCompatActivity implements ActionBa
 
     protected abstract int getContentResId();
 
+
+    /*Intent onlineServiceIntent;
+    private OnlineService onlineService;
+    Context ctx;
+    public Context getCtx()
+    {
+        return ctx;
+    }
+*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -134,6 +145,31 @@ public abstract class BaseActivity extends AppCompatActivity implements ActionBa
         //setContentView(getContentResId());
         initFields();
         activateButterKnife();
+
+
+        /*ctx = this;
+        onlineService=new OnlineService(getCtx());
+        onlineServiceIntent=new Intent(getCtx(),onlineService.getClass());
+        if (!isMyServiceRunning(onlineService.getClass()))
+        {
+            startService(onlineServiceIntent);
+        }*/
+
+        
+
+
+    }
+
+    /*private  boolean isMyServiceRunning(Class<?> serviceClass)
+    {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                Log.i ("isMyServiceRunning?", true+"");
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -143,6 +179,13 @@ public abstract class BaseActivity extends AppCompatActivity implements ActionBa
     }
 
 
+    @Override
+    protected void onDestroy()
+    {
+        stopService(onlineServiceIntent);
+        super.onDestroy();
+    }
+*/
     @Override
     public void initActionBar() {
 
@@ -223,12 +266,14 @@ public abstract class BaseActivity extends AppCompatActivity implements ActionBa
     }
 
     @Override
-    public synchronized void showProgress() {
+    public  void showProgress() {
         ProgressDialogFragment.show(getSupportFragmentManager());
     }
 
+
+
     @Override
-    public synchronized void hideProgress() {
+    public  void hideProgress() {
         ProgressDialogFragment.hide(getSupportFragmentManager());
     }
 
@@ -459,13 +504,13 @@ public abstract class BaseActivity extends AppCompatActivity implements ActionBa
         notifyConnectedToService();
     }
 
-    private void unbindService() {
+    /*private void unbindService() {
         if (bounded) {
             unbindService(serviceConnection);
             bounded = false;
         }
     }
-
+*/
     private void connectToService() {
         Intent intent = new Intent(this, QBService.class);
         bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);

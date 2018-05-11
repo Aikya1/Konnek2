@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.webkit.MimeTypeMap;
 
 import com.aikya.konnek2.App;
+import com.aikya.konnek2.R;
 import com.aikya.konnek2.call.db.models.Attachment;
 import com.quickblox.core.helper.MimeUtils;
 
@@ -58,6 +59,14 @@ public class StringUtils {
                 break;
             case LOCATION:
                 attachmentName = context.getString(com.aikya.konnek2.R.string.dialog_location);
+                break;
+
+            case CONTACT:
+                attachmentName = context.getString(R.string.dialog_attach_contact);
+                break;
+
+            case DOC:
+                attachmentName = context.getString(com.aikya.konnek2.R.string.dialog_attach_document);
                 break;
             //will be extend for new attachment types
         }

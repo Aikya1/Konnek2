@@ -16,6 +16,8 @@ public class ProgressDialogFragment extends DialogFragment {
     private static final String TAG = ProgressDialogFragment.class.getSimpleName();
     private static final String ARG_MESSAGE_ID = "message_id";
 
+    ProgressDialog dialog;
+
     public static void show(FragmentManager fm) {
 
         if (fm.findFragmentByTag(TAG) == null) {
@@ -35,7 +37,8 @@ public class ProgressDialogFragment extends DialogFragment {
         return newInstance(R.string.dlg_wait_please);
     }
 
-    public static ProgressDialogFragment newInstance(int messageId) {
+    public static ProgressDialogFragment newInstance(int messageId)
+    {
 
         Bundle args = new Bundle();
         args.putInt(ARG_MESSAGE_ID, messageId);
@@ -48,7 +51,7 @@ public class ProgressDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-        ProgressDialog dialog = new ProgressDialog(getActivity());
+        dialog= new ProgressDialog(getActivity());
         dialog.setMessage(getString(getArguments().getInt(ARG_MESSAGE_ID)));
         dialog.setIndeterminate(true);
         dialog.setCancelable(false);
@@ -65,4 +68,15 @@ public class ProgressDialogFragment extends DialogFragment {
 
         return dialog;
     }
+
+
+   /*@Override
+    public void onResume() {
+        super.onResume();
+
+        if (dialog.isShowing() && dialog != null) {
+            dialog.dismiss();
+
+        }
+    }*/
 }

@@ -493,6 +493,8 @@ public class Profile extends BaseActivity implements OnMediaPickedListener, Adap
                         userCustomData.setPrefEmail("");
                         userCustomData.setPrefInApp("");
 
+                        userCustomData.setLastSeen("");
+
 
                         Gson gson = new Gson();
                         String userCustomDataStringToSave = gson.toJson(userCustomData);

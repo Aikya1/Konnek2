@@ -81,6 +81,10 @@ public class UserCustomData implements Serializable {
 
 
 
+    private  String lastSeen;
+
+
+
 
     public String getAge() {
         return age;
@@ -274,5 +278,14 @@ public class UserCustomData implements Serializable {
 
     public void setFacebookId(String facebookId) {
         this.facebookId = facebookId;
+    }
+
+
+    public String getLastSeen() {
+        return lastSeen;
+    }
+
+    public void setLastSeen(String lastSeen) {
+        this.lastSeen = lastSeen;
     }
 }

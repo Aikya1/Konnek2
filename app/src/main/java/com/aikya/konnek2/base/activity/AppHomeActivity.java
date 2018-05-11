@@ -1,5 +1,6 @@
 package com.aikya.konnek2.base.activity;
 
+import android.app.ActivityManager;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -31,6 +33,7 @@ import com.aikya.konnek2.call.core.utils.UserFriendUtils;
 import com.aikya.konnek2.call.core.utils.Utils;
 import com.aikya.konnek2.call.db.utils.ErrorUtils;
 import com.aikya.konnek2.call.services.model.QMUser;
+import com.aikya.konnek2.service.OnlineService;
 import com.aikya.konnek2.ui.activities.authorization.LandingActivity;
 import com.aikya.konnek2.ui.activities.catchup.CatchUpActivity;
 import com.aikya.konnek2.ui.activities.base.BaseLoggableActivity;
@@ -76,6 +79,13 @@ public class AppHomeActivity extends BaseLoggableActivity implements NavigationV
     private UserCustomData userCustomData;
 
 
+
+    private OnlineService onlineService;
+    Intent onlineServiceIntent;
+
+
+
+
     public static void start(Context context) {
         Intent intent = new Intent(context, AppHomeActivity.class);
         context.startActivity(intent);
@@ -119,6 +129,14 @@ public class AppHomeActivity extends BaseLoggableActivity implements NavigationV
         appHomeAdapter = new AppHomeAdapter(AppHomeActivity.this, title, subtitle, imageId);
         gridView.setAdapter(appHomeAdapter);
         serviceManager = ServiceManager.getInstance();
+
+
+        onlineService=new OnlineService();
+        onlineServiceIntent=new Intent(this,onlineService.getClass());
+        if (!isMyServiceRunning(onlineService.getClass()))
+        {
+            startService(onlineServiceIntent);
+        }
 
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -208,6 +226,18 @@ public class AppHomeActivity extends BaseLoggableActivity implements NavigationV
 
     }
 
+    private boolean isMyServiceRunning(Class<? extends OnlineService> serviceClass)
+    {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                Log.i ("isMyServiceRunning?", true+"");
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void addDialogsAction() {
         addAction(QBServiceConsts.LOGIN_CHAT_COMPOSITE_SUCCESS_ACTION, new LoginChatCompositeSuccessAction());
         addAction(QBServiceConsts.LOAD_CHATS_DIALOGS_SUCCESS_ACTION, new LoadChatsSuccessAction());
@@ -279,7 +309,12 @@ public class AppHomeActivity extends BaseLoggableActivity implements NavigationV
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+
+
         }
+
+
+
     }
 
 
@@ -380,4 +415,10 @@ public class AppHomeActivity extends BaseLoggableActivity implements NavigationV
     }
 
 
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }

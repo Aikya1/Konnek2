@@ -137,6 +137,8 @@ public class FriendsAdapter extends BaseFilterAdapter<QMUser, BaseClickListenerV
             viewHolder.labelTextView.setText(OnlineStatusUtils.getOnlineStatus(online));
             viewHolder.labelTextView.setTextColor(baseActivity.getResources().getColor(R.color.green));
         } else if (user.getLastRequestAt() != null) {
+
+
             viewHolder.labelTextView.setText(baseActivity.getString(R.string.last_seen,
                     DateUtils.toTodayYesterdayShortDateWithoutYear2(user.getLastRequestAt().getTime()),
                     DateUtils.formatDateSimpleTime(user.getLastRequestAt().getTime())));

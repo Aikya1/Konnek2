@@ -12,12 +12,14 @@ import android.view.View;
 import com.aikya.konnek2.R;
 import com.aikya.konnek2.base.db.AppContactsSwipeViewAdapter;
 import com.aikya.konnek2.call.core.models.AppSession;
+import com.aikya.konnek2.call.services.model.QMUser;
 import com.aikya.konnek2.ui.activities.base.BaseLoggableActivity;
 import com.aikya.konnek2.utils.AppConstant;
 import com.quickblox.chat.model.QBChatDialog;
 import com.quickblox.core.request.QBRequestGetBuilder;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class AppContactActivity extends BaseLoggableActivity {
@@ -29,6 +31,8 @@ public class AppContactActivity extends BaseLoggableActivity {
     public Bundle returnedBundle;
     public QBRequestGetBuilder qbRequestGetBuilder;
     public List<QBChatDialog> qbPrivateDialogsList;
+
+
 
     private int[] tabIcons = {
             R.drawable.konnek2_tab_icon,
@@ -153,6 +157,10 @@ public class AppContactActivity extends BaseLoggableActivity {
     public void onBackPressed() {
         finish();
         super.onBackPressed();
+
+
+
+
     }
 
 
@@ -168,6 +176,7 @@ public class AppContactActivity extends BaseLoggableActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
+
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -16,6 +16,7 @@ import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.aikya.konnek2.ui.activities.base.BaseLoggableActivity;
+import com.aikya.konnek2.utils.ToastUtils;
 import com.aikya.konnek2.utils.helpers.SystemPermissionHelper;
 import com.aikya.konnek2.R;
 import com.aikya.konnek2.utils.DialogsUtils;
@@ -33,6 +34,9 @@ public class MediaSourcePickDialogFragment extends DialogFragment {
     private static final int POSITION_CAMERA_PHOTO = 1;
     private static final int POSITION_CAMERA_VIDEO = 2;
     private static final int POSITION_LOCATION = 3;
+
+    private static final int POSITION_CONTACT = 4;
+    private static final int POSITION_DOC = 5;
     private static SystemPermissionHelper systemPermissionHelper;
 
     private OnImageSourcePickedListener onImageSourcePickedListener;
@@ -81,13 +85,15 @@ public class MediaSourcePickDialogFragment extends DialogFragment {
                                     CharSequence charSequence) {
                 switch (i) {
                     case POSITION_GALLERY:
-                        if (imageRequest) {
+                        if (imageRequest)
+                        {
                             if (systemPermissionHelper.isAllPermissionsGrantedForSaveFileImage()) {
                                 onImageSourcePickedListener.onImageSourcePicked(ImageSource.GALLERY_IMAGE);
                             } else {
                                 systemPermissionHelper.requestPermissionsForSaveFileImage();
                             }
-                        } else {
+                        }
+                        else {
                             if (systemPermissionHelper.isAllPermissionsGrantedForSaveFile()) {
                                 onImageSourcePickedListener.onImageSourcePicked(ImageSource.GALLERY);
                             } else {
@@ -96,7 +102,8 @@ public class MediaSourcePickDialogFragment extends DialogFragment {
                         }
                         break;
                     case POSITION_CAMERA_PHOTO:
-                        if (systemPermissionHelper.isCameraPermissionGranted()) {
+                        if (systemPermissionHelper.isCameraPermissionGranted())
+                        {
                             onImageSourcePickedListener.onImageSourcePicked(ImageSource.CAMERA_PHOTO);
                         } else {
                             systemPermissionHelper.requestPermissionsTakePhoto();
@@ -112,6 +119,25 @@ public class MediaSourcePickDialogFragment extends DialogFragment {
                     case POSITION_LOCATION:
                         onImageSourcePickedListener.onImageSourcePicked(ImageSource.LOCATION);
                         break;
+
+                    case POSITION_CONTACT:
+                        onImageSourcePickedListener.onImageSourcePicked(ImageSource.CONTACT);
+                        break;
+
+                    case POSITION_DOC:
+                        if(systemPermissionHelper.isAllPermissionsGrantedForSaveFile()) {
+                            onImageSourcePickedListener.onImageSourcePicked(ImageSource.DOCUMENT);
+                        }
+                        else {
+                            systemPermissionHelper.requestPermissionsForSaveFile();
+                        }
+
+
+
+                        break;
+
+
+
                 }
             }
         });
@@ -160,7 +186,9 @@ public class MediaSourcePickDialogFragment extends DialogFragment {
         GALLERY_IMAGE,
         CAMERA_PHOTO,
         CAMERA_VIDEO,
-        LOCATION
+        LOCATION,
+        CONTACT,
+        DOCUMENT
     }
 
     @Override
@@ -201,6 +229,7 @@ public class MediaSourcePickDialogFragment extends DialogFragment {
                             showPermissionSettingsDialog(R.string.dlg_permission_storage);
                         }
                         break;
+
                 }
 
                 getFragmentManager().popBackStack();
@@ -278,6 +307,25 @@ public class MediaSourcePickDialogFragment extends DialogFragment {
                         setupActivityToBeNonLoggable(activity);
                         MediaUtils.startMapForResult(activity);
                     }
+                    break;
+
+                case DOCUMENT:
+                   // ToastUtils.shortToast("Document In Progress");
+                    if(fragment!=null)
+                    {
+                        Activity activity = fragment.getActivity();
+                        setupActivityToBeNonLoggable(activity);
+                        MediaUtils.startDocForResult(fragment);
+                    }
+                    else {
+                        setupActivityToBeNonLoggable(activity);
+                        MediaUtils.startDocForResult(activity);
+                    }
+
+                    break;
+
+                case CONTACT:
+                    ToastUtils.shortToast("Contact In Progress");
                     break;
             }
         }

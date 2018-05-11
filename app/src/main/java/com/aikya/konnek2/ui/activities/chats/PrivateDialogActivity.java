@@ -292,6 +292,7 @@ public class PrivateDialogActivity extends BaseDialogActivity {
                         DateUtils.formatDateSimpleTime(user.getLastRequestAt().getTime()));
                 setActionBarSubtitle(
                         OnlineStatusUtils.getOnlineStatus(this, friendListHelper.isUserOnline(user.getId()), offlineStatus));
+
 //                setActionBarSubtitle("R.string.last_seen  at 16:38");
 
             } else {

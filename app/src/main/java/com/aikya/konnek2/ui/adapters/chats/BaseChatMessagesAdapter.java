@@ -15,6 +15,7 @@ import com.aikya.konnek2.call.core.qb.commands.chat.QBUpdateStatusMessageCommand
 import com.aikya.konnek2.call.db.models.State;
 import com.aikya.konnek2.ui.activities.base.BaseActivity;
 import com.aikya.konnek2.utils.FileUtils;
+import com.aikya.konnek2.utils.ToastUtils;
 import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
@@ -73,6 +74,9 @@ public class BaseChatMessagesAdapter extends QBMessagesAdapter<CombinationMessag
         TextView headerTextView = view.findViewById(com.aikya.konnek2.R.id.header_date_textview);
         CombinationMessage combinationMessage = getItem(position);
         headerTextView.setText(DateUtils.toTodayYesterdayFullMonthDate(combinationMessage.getCreatedDate()));
+
+
+
     }
 
 

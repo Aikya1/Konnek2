@@ -34,6 +34,8 @@ import com.quickblox.chat.model.QBChatDialog;
 import com.quickblox.chat.model.QBDialogType;
 import com.quickblox.users.model.QBUser;
 
+import java.util.Date;
+
 import rx.Observable;
 import rx.Subscriber;
 
@@ -41,6 +43,7 @@ import rx.Subscriber;
 public class MainActivity extends BaseLoggableActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
+
 
     public static void start(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
@@ -58,6 +61,8 @@ public class MainActivity extends BaseLoggableActivity {
         Intent goToHone = new Intent(getApplicationContext(), AppHomeActivity.class);
         startActivity(goToHone);
         super.onBackPressed();
+
+
 
     }
 

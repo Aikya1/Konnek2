@@ -170,7 +170,7 @@ public class AppKonnek2NonContactFragment extends BaseFragment implements Contac
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progressBar.setVisibility(View.VISIBLE);
+           // progressBar.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -182,7 +182,7 @@ public class AppKonnek2NonContactFragment extends BaseFragment implements Contac
         @Override
         protected void onPostExecute(Object o) {
             super.onPostExecute(o);
-            progressBar.setVisibility(View.INVISIBLE);
+          //  progressBar.setVisibility(View.INVISIBLE);
 //            loadContacts();
 
         }
