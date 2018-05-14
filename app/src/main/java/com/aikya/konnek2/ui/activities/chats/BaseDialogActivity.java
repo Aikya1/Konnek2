@@ -332,6 +332,8 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
         }
     }
 
+
+
     @OnTouch(com.aikya.konnek2.R.id.message_edittext)
     boolean touchMessageEdit() {
         hideSmileLayout();
@@ -533,6 +535,8 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
         });
     }
 
+
+
     private void loadNextPartMessagesAsync() {
         threadPool.execute(new Runnable() {
             @Override
@@ -669,6 +673,8 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
 
         //use deprecated listener for support old devices
         messagesRecyclerView.setOnScrollListener(messagesScrollListener);
+
+
     }
 
     protected void initMediaManager() {

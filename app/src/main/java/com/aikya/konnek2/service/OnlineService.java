@@ -8,6 +8,7 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.aikya.konnek2.base.activity.Profile;
 import com.aikya.konnek2.call.core.models.AppSession;
 import com.aikya.konnek2.call.core.models.UserCustomData;
 import com.aikya.konnek2.call.core.service.QBServiceConsts;
@@ -104,48 +105,14 @@ public class OnlineService extends Service
                 Log.d("data","id is "+qbUser.getId());
 
                 qbUser.setId(qbUser.getId());
-                qbUser.getCustomData();
+                UserCustomData userCustomData= Utils.customDataToObject(qbUser.getCustomData());
+                userCustomData.setLastSeen(date.toString());
+                qbUser.setCustomData(Utils.customDataToString(userCustomData));
 
-                Log.d("data","ids is ");
-
-
-              //  Log.d("CDO","Object is"+qbUser.getCustomDataAsObject());
-                Log.d("CDS","String is"+qbUser.getCustomData());
-
-                String jsonstring=qbUser.getCustomData();
-
-                JSONObject jObject  = null;
-                try {
-                    jObject = new JSONObject(jsonstring);
-                   // String age=jObject.getString("age");
-
-                  //  Log.d("AGE","String is"+age);
-
-                    jObject.put("lastSeen",date);
+              //  serviceManager.updateUser(qbUser).subscribe(onlineObserver);
 
 
 
-
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                Log.d("json object","jsonobject is"+jObject);
-                qbUser.setCustomData(jObject.toString());
-
-                Log.d("now","now"+qbUser);
-
-              //  AppSession.getSession().updateUser(qbUser);
-
-               // serviceManager.updateLastseen(qbUser).subscribe(lastSeenObserver);
-
-
-
-
-
-                Log.d("Success","now"+qbUser);
 
 
 
@@ -195,6 +162,7 @@ public class OnlineService extends Service
         };
 
     }
+
 
 
     @Nullable

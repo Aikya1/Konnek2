@@ -21,8 +21,15 @@ import com.aikya.konnek2.utils.helpers.SystemPermissionHelper;
 import com.aikya.konnek2.R;
 import com.aikya.konnek2.utils.DialogsUtils;
 import com.aikya.konnek2.utils.MediaUtils;
+import com.quickblox.chat.model.QBAttachment;
+import com.quickblox.chat.model.QBChatMessage;
+import com.quickblox.content.QBContent;
+import com.quickblox.content.model.QBFile;
+import com.quickblox.core.QBEntityCallback;
+import com.quickblox.core.exception.QBResponseException;
 
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -321,6 +328,9 @@ public class MediaSourcePickDialogFragment extends DialogFragment {
                         setupActivityToBeNonLoggable(activity);
                         MediaUtils.startDocForResult(activity);
                     }
+
+
+                   // https://github.com/QuickBlox/q-municate-android/issues/155
 
                     break;
 

@@ -65,6 +65,8 @@ public class MediaUtils {
     private static final String CAMERA_VIDEO_FILE_EXT = ".mp4";
     private static final int AVATAR_SIZE = 110;
 
+    private static final String DOC_FILE_EXT = ".doc";
+
     private Activity activity;
 
     public MediaUtils(Activity activity) {
@@ -205,6 +207,7 @@ public class MediaUtils {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
             intent.setAction(Intent.ACTION_GET_CONTENT);
             intent.setType(MimeType.IMAGE_MIME + MimeType.VIDEO_MIME_MP4 + MimeType.AUDIO_MIME_MP3);
+            //intent.setType(MimeType.DOC_MIME );
         } else {
             intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
             intent.addCategory(Intent.CATEGORY_OPENABLE);

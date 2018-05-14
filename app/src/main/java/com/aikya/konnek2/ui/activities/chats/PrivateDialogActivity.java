@@ -48,7 +48,10 @@ import com.aikya.konnek2.utils.listeners.CallDurationInterface;
 import com.aikya.konnek2.utils.listeners.FriendOperationListener;
 import com.quickblox.chat.QBChatService;
 import com.quickblox.chat.model.QBChatDialog;
+import com.quickblox.chat.model.QBChatMessage;
 import com.quickblox.chat.model.QBDialogType;
+import com.quickblox.ui.kit.chatmessage.adapter.listeners.QBChatMessageLinkClickListener;
+import com.quickblox.ui.kit.chatmessage.adapter.utils.QBMessageTextClickMovement;
 import com.quickblox.users.model.QBUser;
 import com.quickblox.videochat.webrtc.QBRTCTypes;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
@@ -60,7 +63,12 @@ import java.util.Observer;
 
 import butterknife.OnClick;
 
-public class PrivateDialogActivity extends BaseDialogActivity {
+
+
+
+    //https://github.com/QuickBlox/ChatMessagesAdapter-android
+public class PrivateDialogActivity extends BaseDialogActivity
+{
 
     private FriendOperationAction friendOperationAction;
     private QMUser opponentUser;
@@ -80,6 +88,8 @@ public class PrivateDialogActivity extends BaseDialogActivity {
     private EditText otherEditTxt;
     //    private QBChatDialog qbChatDialog;
     private CallDurationInterface callDurationInterface;
+
+    PrivateChatMessageAdapter messagesAdapter;
 
     public static void start(Context context, QMUser opponent, QBChatDialog chatDialog) {
         Intent intent = getIntentWithExtra(context, opponent, chatDialog);
@@ -149,7 +159,11 @@ public class PrivateDialogActivity extends BaseDialogActivity {
     @Override
     protected void initChatAdapter() {
         messagesAdapter = new PrivateChatMessageAdapter(this, combinationMessagesList, friendOperationAction, currentChatDialog);
+
+
     }
+
+
 
     @Override
     protected void initMessagesRecyclerView() {
@@ -160,7 +174,18 @@ public class PrivateDialogActivity extends BaseDialogActivity {
 
         messagesRecyclerView.setAdapter(messagesAdapter);
         scrollMessagesToBottom(0);
+
+
+
+
     }
+
+
+
+
+
+
+
 
     @Override
     protected void updateMessagesList() {
@@ -397,6 +422,10 @@ public class PrivateDialogActivity extends BaseDialogActivity {
     private void hideTypingStatus() {
         setOnlineStatus(opponentUser);
     }
+
+
+
+
 
     private class FriendOperationAction implements FriendOperationListener {
 

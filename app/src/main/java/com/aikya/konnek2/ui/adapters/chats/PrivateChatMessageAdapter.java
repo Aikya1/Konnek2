@@ -27,6 +27,9 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+
+
+
 public class PrivateChatMessageAdapter extends BaseChatMessagesAdapter implements StickyRecyclerHeadersAdapter<RecyclerView.ViewHolder> {
     private static final String TAG = PrivateChatMessageAdapter.class.getSimpleName();
     private static final int SECOND_IN_MILLIS = 1000;
@@ -188,7 +191,8 @@ public class PrivateChatMessageAdapter extends BaseChatMessagesAdapter implement
     @Override
     public RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup parent) {
         View view = inflater.inflate(R.layout.item_chat_sticky_header_date, parent, false);
-        return new RecyclerView.ViewHolder(view) {
+        return new RecyclerView.ViewHolder(view)
+        {
         };
     }
 
@@ -199,6 +203,8 @@ public class PrivateChatMessageAdapter extends BaseChatMessagesAdapter implement
         TextView headerTextView = view.findViewById(R.id.header_date_textview);
         CombinationMessage combinationMessage = getItem(position);
         headerTextView.setText(DateUtils.toTodayYesterdayFullMonthDate(combinationMessage.getCreatedDate()));
+
+
     }
 
     @Override
