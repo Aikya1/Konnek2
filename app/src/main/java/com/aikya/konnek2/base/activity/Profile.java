@@ -445,7 +445,7 @@ public class Profile extends BaseActivity implements OnMediaPickedListener, Adap
                             qbUser.setFullName(lastName);
                         }
 
-                        qbUser.setPhone(phNo);
+                        qbUser.setPhone(countryCode+phNo);
                         qbUser.setCreatedAt(new Date());
 
                         userCustomData.setFirstName(firstName);

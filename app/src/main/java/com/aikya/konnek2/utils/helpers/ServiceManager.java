@@ -611,7 +611,7 @@ public class ServiceManager {
     }
 
     private String formatNumber(String phoneNumber) {
-        String res = "";
+        String res = phoneNumber;
         if (phoneNumber.startsWith("+")) {
             res = phoneNumber.replaceFirst("[-+.^:,]", "");
         }

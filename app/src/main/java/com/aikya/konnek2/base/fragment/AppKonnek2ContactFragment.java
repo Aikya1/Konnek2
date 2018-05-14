@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -31,6 +32,8 @@ import com.aikya.konnek2.call.db.models.DialogOccupant;
 import com.aikya.konnek2.call.db.models.Friend;
 import com.aikya.konnek2.call.db.utils.DialogTransformUtils;
 import com.aikya.konnek2.call.services.QMUserCacheImpl;
+import com.aikya.konnek2.utils.ToastUtils;
+import com.aikya.konnek2.utils.helpers.ServiceManager;
 import com.aikya.konnek2.utils.listeners.simple.SimpleOnRecycleItemClickListener;
 import com.quickblox.chat.model.QBChatDialog;
 import com.quickblox.core.exception.QBResponseException;
@@ -51,7 +54,7 @@ import rx.schedulers.Schedulers;
 /**
  */
 
-public class AppKonnek2ContactFragment extends BaseFragment {
+public class AppKonnek2ContactFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private static final String TAG = AppKonnek2ContactFragment.class.getSimpleName();
     private DataManager dataManager;
@@ -69,6 +72,7 @@ public class AppKonnek2ContactFragment extends BaseFragment {
     private FriendsAdapter friendsAdapter;
     private QMUser selectedUser;
     private Handler mHandler;
+    private SwipeRefreshLayout swipeRefresh;
 
     private ProgressBar progressBar;
 
@@ -81,7 +85,7 @@ public class AppKonnek2ContactFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_konnek2_contact, container, false);
         listView = view.findViewById(R.id.listview_contacts);
         chatHelper = new QBChatHelper(getContext());
-
+        swipeRefresh = view.findViewById(R.id.swipeRefresh);
         progressBar = view.findViewById(R.id.progress_contact);
 
         return view;
@@ -110,6 +114,7 @@ public class AppKonnek2ContactFragment extends BaseFragment {
         progressBar.setVisibility(View.VISIBLE);
         getRegisteredUsersFromQBAddressBook();
         progressBar.setVisibility(View.INVISIBLE);
+        swipeRefresh.setOnRefreshListener(this);
     }
 
 
@@ -121,7 +126,7 @@ public class AppKonnek2ContactFragment extends BaseFragment {
 
     /*================+++TEST CODE+++==================*/
     private void getRegisteredUsersFromQBAddressBook() {
-       baseActivity.showProgress();
+        baseActivity.showProgress();
         String UDID = "";
         boolean isCompact = false;
         Performer<ArrayList<QBUser>> performer = QBUsers.getRegisteredUsersFromAddressBook(UDID, isCompact);
@@ -235,6 +240,15 @@ public class AppKonnek2ContactFragment extends BaseFragment {
         friend.setUser(selectedUser);
         dataManager.getFriendDataManager().createOrUpdate(friend, true);
     }
+
+    @Override
+    public void onRefresh() {
+        qMUserList.clear();
+        ServiceManager.getInstance().uploadAllContacts(baseActivity);
+        getRegisteredUsersFromQBAddressBook();
+        swipeRefresh.setRefreshing(false);
+    }
+
 
     private class CreatePrivateChatSuccessAction implements Command {
         @Override

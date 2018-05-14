@@ -36,6 +36,7 @@ import android.widget.TextView;
 
 import com.aikya.konnek2.App;
 import com.aikya.konnek2.R;
+import com.aikya.konnek2.base.activity.AppSplashActivity;
 import com.aikya.konnek2.call.core.core.command.Command;
 import com.aikya.konnek2.call.core.models.AppSession;
 import com.aikya.konnek2.call.core.qb.commands.chat.QBInitCallChatCommand;
@@ -47,7 +48,6 @@ import com.aikya.konnek2.call.core.service.QBServiceConsts;
 import com.aikya.konnek2.call.core.utils.ConnectivityUtils;
 import com.aikya.konnek2.call.db.utils.ErrorUtils;
 import com.aikya.konnek2.call.services.model.QMUser;
-import com.aikya.konnek2.base.activity.AppSplashActivity;
 import com.aikya.konnek2.ui.activities.authorization.LandingActivity;
 import com.aikya.konnek2.ui.activities.call.CallActivity;
 import com.aikya.konnek2.ui.activities.chats.GroupDialogActivity;
@@ -68,7 +68,6 @@ import com.aikya.konnek2.utils.listeners.UserStatusChangingListener;
 import com.quickblox.chat.QBChatService;
 import com.quickblox.chat.model.QBChatDialog;
 
-
 import org.jivesoftware.smack.ConnectionListener;
 import org.jivesoftware.smack.XMPPConnection;
 
@@ -80,7 +79,8 @@ import java.util.Set;
 
 import butterknife.ButterKnife;
 
-public abstract class BaseActivity extends AppCompatActivity implements ActionBarBridge, ConnectionBridge, LoadingBridge, SnackbarBridge {
+public abstract class BaseActivity extends AppCompatActivity implements ActionBarBridge, ConnectionBridge,
+        LoadingBridge, SnackbarBridge {
 
     private static final String TAG = BaseActivity.class.getSimpleName();
     protected static boolean appInitialized;
@@ -122,14 +122,47 @@ public abstract class BaseActivity extends AppCompatActivity implements ActionBa
 
     protected abstract int getContentResId();
 
+
+    /*Intent onlineServiceIntent;
+    private OnlineService onlineService;
+    Context ctx;
+    public Context getCtx()
+    {
+        return ctx;
+    }
+*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         root = (ViewGroup) getLayoutInflater().inflate(getContentResId(), null);
+
         setContentView(root);
         //setContentView(getContentResId());
         initFields();
         activateButterKnife();
+
+
+        /*ctx = this;
+        onlineService=new OnlineService(getCtx());
+        onlineServiceIntent=new Intent(getCtx(),onlineService.getClass());
+        if (!isMyServiceRunning(onlineService.getClass()))
+        {
+            startService(onlineServiceIntent);
+        }*/
+
+
+    }
+
+    /*private  boolean isMyServiceRunning(Class<?> serviceClass)
+    {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                Log.i ("isMyServiceRunning?", true+"");
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -138,6 +171,20 @@ public abstract class BaseActivity extends AppCompatActivity implements ActionBa
         unbindService();
     }
 
+
+    @Override
+    protected void onDestroy()
+    {
+        stopService(onlineServiceIntent);
+        super.onDestroy();
+    }
+*/
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unbindService();
+    }
 
     @Override
     public void initActionBar() {
@@ -960,4 +1007,5 @@ public abstract class BaseActivity extends AppCompatActivity implements ActionBa
     public void onBackPressed() {
         super.onBackPressed();
     }
+
 }

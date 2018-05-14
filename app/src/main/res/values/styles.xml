@@ -307,6 +307,14 @@
     <style name="CustomBubbleTextFrame.Right">
         <item name="android:background">@drawable/right_bubble2</item>
     </style>
+
+    <style name="BubbleAttachFrame.Left">
+        <item name="android:background">@drawable/left_bubble2</item>
+    </style>
+
+    <style name="BubbleAttachFrame.Right">
+        <item name="android:background">@drawable/left_bubble2</item>
+    </style>
     <!--BUBBLE FRAME END-->
 
     <style name="BubbleAttachFrame.Left">

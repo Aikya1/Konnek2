@@ -51,6 +51,9 @@ public class PrivateChatMessageAdapter extends BaseChatMessagesAdapter implement
         this.chatDialog = chatDialog;
     }
 
+
+
+
     @Override
     protected void onBindViewCustomHolder(QBMessageViewHolder holder, CombinationMessage chatMessage, int position) {
         Log.d(TAG, "onBindViewCustomHolder combinationMessage getBody= " + chatMessage.getBody());
@@ -210,7 +213,6 @@ public class PrivateChatMessageAdapter extends BaseChatMessagesAdapter implement
     @Override
     public int getItemViewType(int position) {
         CombinationMessage combinationMessage = getItem(position);
-
         if (combinationMessage.getNotificationType() != null) {
             Log.d(TAG, "combinationMessage.getNotificationType()" + combinationMessage.getNotificationType());
             return TYPE_REQUEST_MESSAGE;

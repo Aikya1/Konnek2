@@ -133,7 +133,7 @@ public class PrivateDialogActivity extends BaseDialogActivity
 //        addAction(QBServiceConsts.REJECT_FRIEND_SUCCESS_ACTION, new RejectFriendSuccessAction());
 //        addAction(QBServiceConsts.REJECT_FRIEND_FAIL_ACTION, failAction);
 
-//        updateBroadcastActionList();
+        updateBroadcastActionList();
     }
 
     @Override
@@ -270,12 +270,11 @@ public class PrivateDialogActivity extends BaseDialogActivity
         super.initFields();
         appCallLogModel = new AppCallLogModel();
         appCallLogModelArrayList = new ArrayList<AppCallLogModel>();
-//        friendOperationAction = new FriendOperationAction();
+        friendOperationAction = new FriendOperationAction();
         friendObserver = new FriendObserver();
         typingMessageBroadcastReceiver = new TypingStatusBroadcastReceiver();
         opponentUser = (QMUser) getIntent().getExtras().getSerializable(QBServiceConsts.EXTRA_OPPONENT);
         title = opponentUser.getFullName();
-
     }
 
     @Override

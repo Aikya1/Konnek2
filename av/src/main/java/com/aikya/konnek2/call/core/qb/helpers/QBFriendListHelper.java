@@ -362,6 +362,10 @@ public class QBFriendListHelper extends BaseThreadPoolHelper implements Serializ
     }
 
     public boolean isUserOnline(int userId) {
+
+        QBPresence presence = roster.getPresence(userId);
+
+
         return roster != null
                 && roster.getPresence(userId) != null
                 && isUserOnline(roster.getPresence(userId));

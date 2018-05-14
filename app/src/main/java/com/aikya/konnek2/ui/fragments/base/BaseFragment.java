@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -132,8 +133,8 @@ public abstract class BaseFragment extends Fragment implements UserStatusChangin
     @Override
     public void onConnectedToService(QBService service) {
         // nothing by default
+        Log.d("BaseFragment", service.getPackageName());
     }
-
 
 
     //

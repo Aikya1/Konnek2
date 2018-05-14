@@ -416,7 +416,7 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
                 showProgress();
                 countryCode = countryCodePicker.getSelectedCountryCode();
                 phNumber = etphoneno.getText().toString();
-                serviceManager.checkIfUserExist(phNumber)
+                serviceManager.checkIfUserExist(countryCode+phNumber)
                         .subscribe(checkIfUserExists);
             }
         }

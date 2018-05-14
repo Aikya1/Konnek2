@@ -92,15 +92,13 @@ public class MediaSourcePickDialogFragment extends DialogFragment {
                                     CharSequence charSequence) {
                 switch (i) {
                     case POSITION_GALLERY:
-                        if (imageRequest)
-                        {
+                        if (imageRequest) {
                             if (systemPermissionHelper.isAllPermissionsGrantedForSaveFileImage()) {
                                 onImageSourcePickedListener.onImageSourcePicked(ImageSource.GALLERY_IMAGE);
                             } else {
                                 systemPermissionHelper.requestPermissionsForSaveFileImage();
                             }
-                        }
-                        else {
+                        } else {
                             if (systemPermissionHelper.isAllPermissionsGrantedForSaveFile()) {
                                 onImageSourcePickedListener.onImageSourcePicked(ImageSource.GALLERY);
                             } else {
@@ -109,8 +107,7 @@ public class MediaSourcePickDialogFragment extends DialogFragment {
                         }
                         break;
                     case POSITION_CAMERA_PHOTO:
-                        if (systemPermissionHelper.isCameraPermissionGranted())
-                        {
+                        if (systemPermissionHelper.isCameraPermissionGranted()) {
                             onImageSourcePickedListener.onImageSourcePicked(ImageSource.CAMERA_PHOTO);
                         } else {
                             systemPermissionHelper.requestPermissionsTakePhoto();
@@ -126,23 +123,18 @@ public class MediaSourcePickDialogFragment extends DialogFragment {
                     case POSITION_LOCATION:
                         onImageSourcePickedListener.onImageSourcePicked(ImageSource.LOCATION);
                         break;
-
                     case POSITION_CONTACT:
                         onImageSourcePickedListener.onImageSourcePicked(ImageSource.CONTACT);
                         break;
-
                     case POSITION_DOC:
-                        if(systemPermissionHelper.isAllPermissionsGrantedForSaveFile()) {
+                        if (systemPermissionHelper.isAllPermissionsGrantedForSaveFile()) {
                             onImageSourcePickedListener.onImageSourcePicked(ImageSource.DOCUMENT);
-                        }
-                        else {
+                        } else {
                             systemPermissionHelper.requestPermissionsForSaveFile();
                         }
 
 
-
                         break;
-
 
 
                 }
@@ -317,14 +309,12 @@ public class MediaSourcePickDialogFragment extends DialogFragment {
                     break;
 
                 case DOCUMENT:
-                   // ToastUtils.shortToast("Document In Progress");
-                    if(fragment!=null)
-                    {
+                    // ToastUtils.shortToast("Document In Progress");
+                    if (fragment != null) {
                         Activity activity = fragment.getActivity();
                         setupActivityToBeNonLoggable(activity);
                         MediaUtils.startDocForResult(fragment);
-                    }
-                    else {
+                    } else {
                         setupActivityToBeNonLoggable(activity);
                         MediaUtils.startDocForResult(activity);
                     }

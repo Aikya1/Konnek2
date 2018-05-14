@@ -63,7 +63,6 @@ public class MainActivity extends BaseLoggableActivity {
         super.onBackPressed();
 
 
-
     }
 
     @Override
@@ -74,11 +73,12 @@ public class MainActivity extends BaseLoggableActivity {
         if (!isChatInitializedAndUserLoggedIn()) {
             loginChat();
         }
+
+        friendListHelper = getFriendListHelper();
         addDialogsAction();
         launchDialogsListFragment();
         openPushDialogIfPossible();
     }
-
 
     private void openPushDialogIfPossible() {
         CoreSharedHelper sharedHelper = CoreSharedHelper.getInstance();

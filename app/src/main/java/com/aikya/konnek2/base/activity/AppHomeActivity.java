@@ -24,6 +24,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.aikya.konnek2.call.core.models.AppSession;
@@ -40,7 +41,9 @@ import com.aikya.konnek2.ui.activities.base.BaseLoggableActivity;
 import com.aikya.konnek2.ui.activities.base.BaseLoggableActivity;
 import com.aikya.konnek2.ui.activities.main.MainActivity;
 import com.aikya.konnek2.ui.activities.settings.SettingsActivity;
+import com.aikya.konnek2.utils.ToastUtils;
 import com.aikya.konnek2.utils.helpers.FacebookHelper;
+import com.aikya.konnek2.utils.helpers.SystemPermissionHelper;
 import com.aikya.konnek2.utils.listeners.AppCommon;
 import com.aikya.konnek2.R;
 import com.aikya.konnek2.ui.activities.profile.MyProfileActivity;
@@ -77,13 +80,11 @@ public class AppHomeActivity extends BaseLoggableActivity implements NavigationV
     private QMUser user;
     ServiceManager serviceManager;
     private UserCustomData userCustomData;
-
+    private SystemPermissionHelper systemPermissionHelper;
 
 
     private OnlineService onlineService;
     Intent onlineServiceIntent;
-
-
 
 
     public static void start(Context context) {
@@ -96,6 +97,22 @@ public class AppHomeActivity extends BaseLoggableActivity implements NavigationV
         fragment.getActivity().startActivityForResult(intent, REQUEST_CODE_LOGOUT);
     }
 
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (systemPermissionHelper.isContactPermissionGranted()) {
+            if (serviceManager.friendList == null) {
+                serviceManager.uploadAllContacts(this);
+            }
+
+        } else {
+            systemPermissionHelper.requestPermissionsReadContacts();
+//            ToastUtils.shortToast("Please grant permission to synch contacts.");
+            Toast.makeText(this, "Please grant permission to synch contacts.", Toast.LENGTH_SHORT).show();
+
+        }
+    }
 
     @Override
     protected void onResume() {
@@ -119,6 +136,7 @@ public class AppHomeActivity extends BaseLoggableActivity implements NavigationV
         setContentView(R.layout.activity_app_home);
         toolbar = findViewById(R.id.home_toolbar);
         setSupportActionBar(toolbar);
+        systemPermissionHelper = new SystemPermissionHelper(this);
         initViews();
         imageId = getResources().obtainTypedArray(R.array.home_image); // String  Values  from resource  files
         title = getResources().getStringArray(R.array.home_title);          //  Image  Values  from resource  files
@@ -131,10 +149,9 @@ public class AppHomeActivity extends BaseLoggableActivity implements NavigationV
         serviceManager = ServiceManager.getInstance();
 
 
-        onlineService=new OnlineService();
-        onlineServiceIntent=new Intent(this,onlineService.getClass());
-        if (!isMyServiceRunning(onlineService.getClass()))
-        {
+        onlineService = new OnlineService();
+        onlineServiceIntent = new Intent(this, onlineService.getClass());
+        if (!isMyServiceRunning(onlineService.getClass())) {
             startService(onlineServiceIntent);
         }
 
@@ -219,19 +236,18 @@ public class AppHomeActivity extends BaseLoggableActivity implements NavigationV
 
         addDialogsAction();
 
-        /*+++++++++++++++++++++TEST CODE ++++++++++++++++*/
-        if (serviceManager.friendList == null) {
+        /*+++++++++++++++++++++TEST CODE ++++++++++++++++*//*
+        if (  serviceManager.friendList == null) {
             serviceManager.uploadAllContacts(this);
-        }
-
+        }*/
     }
 
-    private boolean isMyServiceRunning(Class<? extends OnlineService> serviceClass)
-    {
+
+    private boolean isMyServiceRunning(Class<? extends OnlineService> serviceClass) {
         ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
             if (serviceClass.getName().equals(service.service.getClassName())) {
-                Log.i ("isMyServiceRunning?", true+"");
+                Log.i("isMyServiceRunning?", true + "");
                 return true;
             }
         }
@@ -309,7 +325,6 @@ public class AppHomeActivity extends BaseLoggableActivity implements NavigationV
 
 
         }
-
 
 
     }
@@ -410,8 +425,6 @@ public class AppHomeActivity extends BaseLoggableActivity implements NavigationV
                 profileImage,
                 ImageLoaderUtils.UIL_USER_AVATAR_DISPLAY_OPTIONS);
     }
-
-
 
 
     @Override
