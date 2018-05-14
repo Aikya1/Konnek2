@@ -274,8 +274,6 @@ public abstract class BaseAuthActivity extends BaseActivity {
     };
 
 
-
-
     private class FirebaseAuthCallback implements FirebaseAuthHelper.RequestFirebaseIdTokenCallback {
         @Override
         public void onSuccess(String authToken) {
@@ -309,6 +307,7 @@ public abstract class BaseAuthActivity extends BaseActivity {
         @Override
         public void onError(FacebookException error) {
             hideProgress();
+            Log.d(TAG, "Error = " + error.getMessage());
         }
     }
 

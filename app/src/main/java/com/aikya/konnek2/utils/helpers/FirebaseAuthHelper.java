@@ -30,13 +30,16 @@ public class FirebaseAuthHelper {
 
     public void loginByPhone(Activity activity, String phNo, String countryCode) {
 
+        String phNumber = "+" + countryCode + phNo;
+
+        Log.d("FirebaseAuthHelper", phNumber);
         if (!TextUtils.isEmpty(phNo)) {
             activity.startActivityForResult(
                     AuthUI.getInstance()
                             .createSignInIntentBuilder()
                             .setAvailableProviders(
                                     Arrays.asList(
-                                            new AuthUI.IdpConfig.PhoneBuilder().setDefaultNumber(countryCode + phNo)
+                                            new AuthUI.IdpConfig.PhoneBuilder().setDefaultNumber(phNumber)
                                                     .build()))
                             .build(),
                     RC_SIGN_IN);
@@ -97,7 +100,7 @@ public class FirebaseAuthHelper {
         Log.i(TAG, "refreshInternalFirebaseToken() synchronously start " + new Date(System.currentTimeMillis()));
         final CountDownLatch countDownLatch = new CountDownLatch(1);
 
-        getCurrentFirebaseUser().getIdToken(false).addOnCompleteListener(new Executor(){
+        getCurrentFirebaseUser().getIdToken(false).addOnCompleteListener(new Executor() {
             @Override
             public void execute(@NonNull Runnable command) {
                 command.run();

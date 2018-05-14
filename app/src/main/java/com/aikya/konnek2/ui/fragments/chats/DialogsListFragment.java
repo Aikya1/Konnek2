@@ -211,7 +211,9 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
         contactGroupQMUsersList = new ArrayList<>();
         appCallLogModel = new AppCallLogModel();
         appCallLogModelArrayList = new ArrayList<AppCallLogModel>();
-
+      /*  if (friendListHelper == null) {
+            friendListHelper = (QBFriendListHelper) service.getHelper(QBService.FRIEND_LIST_HELPER);
+        }*/
 
     }
 

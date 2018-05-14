@@ -332,8 +332,6 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
         }
     }
 
-
-
     @OnTouch(com.aikya.konnek2.R.id.message_edittext)
     boolean touchMessageEdit() {
         hideSmileLayout();
@@ -535,8 +533,6 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
         });
     }
 
-
-
     private void loadNextPartMessagesAsync() {
         threadPool.execute(new Runnable() {
             @Override
@@ -673,8 +669,6 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
 
         //use deprecated listener for support old devices
         messagesRecyclerView.setOnScrollListener(messagesScrollListener);
-
-
     }
 
     protected void initMediaManager() {
@@ -894,6 +888,7 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
             ErrorUtils.showError(this, e);
             error = true;
         }
+
         if (!error) {
             messageEditText.setText(ConstsCore.EMPTY_STRING);
         }
@@ -1781,6 +1776,7 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                 userCustomData.setPrefLanguage(nonDupLangList.get(position));
+                secLangRadButton.setVisibility(View.VISIBLE);
                 secLangRadButton.setChecked(false);
                 secLangRadButton.setText(nonDupLangList.get(position));
                 secLangRadButton.setTag(getLanguageCode(nonDupLangList.get(position)));

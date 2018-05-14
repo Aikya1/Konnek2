@@ -80,6 +80,9 @@ import static com.aikya.konnek2.utils.AppConstant.nonDupLangList;
 
 public class LandingActivity extends BaseAuthActivity implements GoogleApiClient.OnConnectionFailedListener, GdprCustomDialog.OnGdprSelected {
 
+    /*RAJEEV COMMIT*/
+
+
     public static final String TAG = LandingActivity.class.getSimpleName();
 
     Map<String, Locale> langMap = new HashMap<>();
