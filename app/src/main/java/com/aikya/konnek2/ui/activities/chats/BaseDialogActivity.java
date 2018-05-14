@@ -888,7 +888,6 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
             ErrorUtils.showError(this, e);
             error = true;
         }
-
         if (!error) {
             messageEditText.setText(ConstsCore.EMPTY_STRING);
         }

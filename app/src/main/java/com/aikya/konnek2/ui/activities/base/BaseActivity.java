@@ -1,6 +1,5 @@
 package com.aikya.konnek2.ui.activities.base;
 
-import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -14,7 +13,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.DrawableRes;
-import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -38,9 +36,9 @@ import android.widget.TextView;
 
 import com.aikya.konnek2.App;
 import com.aikya.konnek2.R;
+import com.aikya.konnek2.base.activity.AppSplashActivity;
 import com.aikya.konnek2.call.core.core.command.Command;
 import com.aikya.konnek2.call.core.models.AppSession;
-import com.aikya.konnek2.call.core.qb.commands.QBFindUsersCommand;
 import com.aikya.konnek2.call.core.qb.commands.chat.QBInitCallChatCommand;
 import com.aikya.konnek2.call.core.qb.commands.chat.QBLoginChatCompositeCommand;
 import com.aikya.konnek2.call.core.qb.helpers.QBChatHelper;
@@ -50,8 +48,6 @@ import com.aikya.konnek2.call.core.service.QBServiceConsts;
 import com.aikya.konnek2.call.core.utils.ConnectivityUtils;
 import com.aikya.konnek2.call.db.utils.ErrorUtils;
 import com.aikya.konnek2.call.services.model.QMUser;
-import com.aikya.konnek2.base.activity.AppSplashActivity;
-import com.aikya.konnek2.service.OnlineService;
 import com.aikya.konnek2.ui.activities.authorization.LandingActivity;
 import com.aikya.konnek2.ui.activities.call.CallActivity;
 import com.aikya.konnek2.ui.activities.chats.GroupDialogActivity;
@@ -67,12 +63,10 @@ import com.aikya.konnek2.utils.helpers.ActivityUIHelper;
 import com.aikya.konnek2.utils.helpers.LoginHelper;
 import com.aikya.konnek2.utils.helpers.SharedHelper;
 import com.aikya.konnek2.utils.helpers.notification.NotificationManagerHelper;
-import com.aikya.konnek2.utils.image.ImageUtils;
 import com.aikya.konnek2.utils.listeners.ServiceConnectionListener;
 import com.aikya.konnek2.utils.listeners.UserStatusChangingListener;
 import com.quickblox.chat.QBChatService;
 import com.quickblox.chat.model.QBChatDialog;
-
 
 import org.jivesoftware.smack.ConnectionListener;
 import org.jivesoftware.smack.XMPPConnection;
@@ -156,8 +150,6 @@ public abstract class BaseActivity extends AppCompatActivity implements ActionBa
             startService(onlineServiceIntent);
         }*/
 
-        
-
 
     }
 
@@ -187,6 +179,13 @@ public abstract class BaseActivity extends AppCompatActivity implements ActionBa
         super.onDestroy();
     }
 */
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unbindService();
+    }
+
     @Override
     public void initActionBar() {
 
@@ -267,14 +266,12 @@ public abstract class BaseActivity extends AppCompatActivity implements ActionBa
     }
 
     @Override
-    public  void showProgress() {
+    public synchronized void showProgress() {
         ProgressDialogFragment.show(getSupportFragmentManager());
     }
 
-
-
     @Override
-    public  void hideProgress() {
+    public synchronized void hideProgress() {
         ProgressDialogFragment.hide(getSupportFragmentManager());
     }
 
@@ -505,13 +502,13 @@ public abstract class BaseActivity extends AppCompatActivity implements ActionBa
         notifyConnectedToService();
     }
 
-    /*private void unbindService() {
+    private void unbindService() {
         if (bounded) {
             unbindService(serviceConnection);
             bounded = false;
         }
     }
-*/
+
     private void connectToService() {
         Intent intent = new Intent(this, QBService.class);
         bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);

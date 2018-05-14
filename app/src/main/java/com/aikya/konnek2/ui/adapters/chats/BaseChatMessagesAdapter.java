@@ -96,6 +96,8 @@ public class BaseChatMessagesAdapter extends QBMessagesAdapter<CombinationMessag
         return new ImageRequestListener((ImageAttachHolder) holder, isIncoming(chatMessage));
     }
 
+
+
     @Override
     public String obtainAvatarUrl(int valueType, CombinationMessage chatMessage) {
         return chatMessage.getDialogOccupant().getUser().getAvatar();

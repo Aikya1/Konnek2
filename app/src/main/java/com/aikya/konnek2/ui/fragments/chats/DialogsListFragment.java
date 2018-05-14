@@ -23,6 +23,7 @@ import com.aikya.konnek2.call.core.core.command.Command;
 import com.aikya.konnek2.call.core.models.AppSession;
 import com.aikya.konnek2.call.core.qb.commands.chat.QBDeleteChatCommand;
 import com.aikya.konnek2.call.core.qb.helpers.QBChatHelper;
+import com.aikya.konnek2.call.core.qb.helpers.QBFriendListHelper;
 import com.aikya.konnek2.call.db.managers.base.BaseManager;
 import com.aikya.konnek2.call.db.models.Dialog;
 import com.aikya.konnek2.call.db.models.DialogNotification;
@@ -210,6 +211,7 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
         contactGroupQMUsersList = new ArrayList<>();
         appCallLogModel = new AppCallLogModel();
         appCallLogModelArrayList = new ArrayList<AppCallLogModel>();
+
 
     }
 
@@ -602,6 +604,14 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
         List<DialogOccupant> occupantsList = dataManager.getDialogOccupantDataManager()
                 .getDialogOccupantsListByDialogId(chatDialog.getDialogId());
         QMUser opponent = ChatUtils.getOpponentFromPrivateDialog(UserFriendUtils.createLocalUser(qbUser), occupantsList);
+
+        try {
+            int id = opponent.getId();
+
+            friendListHelper.addFriend(opponent.getId());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         if (!TextUtils.isEmpty(chatDialog.getDialogId())) {
             PrivateDialogActivity.startForResult(this, opponent, chatDialog, PICK_DIALOG);
         }
