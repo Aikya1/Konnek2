@@ -308,22 +308,6 @@
         <item name="android:background">@drawable/right_bubble2</item>
     </style>
 
-    <style name="BubbleAttachFrame.Left">
-        <item name="android:background">@drawable/left_bubble2</item>
-    </style>
-
-    <style name="BubbleAttachFrame.Right">
-        <item name="android:background">@drawable/left_bubble2</item>
-    </style>
-    <!--BUBBLE FRAME END-->
-
-    <style name="BubbleAttachFrame.Left">
-        <item name="android:background">@drawable/left_bubble2</item>
-    </style>
-
-    <style name="BubbleAttachFrame.Right">
-        <item name="android:background">@drawable/left_bubble2</item>
-    </style>
 
     <style name="FacebookLoginButton">
         <item name="android:textSize">@dimen/text_size16sp</item>
