@@ -91,14 +91,13 @@ public class AppKonnek2NonContactFragment extends BaseFragment implements Contac
 
     @Override
     public void contactUsersList(List<String> usersLists) {
-
         if (!usersLists.get(0).isEmpty() && usersLists.get(0) != null) {
 //            sendInviteSMS(usersLists.get(0));
-//            shareTextUrl();
+            shareTextUrl();
 
             //Open dialog/fragment here.
-            InviteFriendDialog dialog = new InviteFriendDialog();
-            dialog.show(getFragmentManager(), "example");
+//            InviteFriendDialog dialog = new InviteFriendDialog();
+//            dialog.show(getFragmentManager(), "example");
 
         }
 

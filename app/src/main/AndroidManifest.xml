@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?><!-- suppress AndroidElementNotAllowed -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.aikya.konnek2">`
+    package="com.aikya.konnek2">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
@@ -16,9 +16,12 @@
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.GET_TASKS" />
-
+    <uses-permission android:name="android.permission.READ_PHONE_NUMBERS" />
+    <uses-permission android:name="android.permission.READ_SMS"/>
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -68,8 +71,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.aikya.konnek2.base.activity.Profile"
-            android:exported="true"
             android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
@@ -198,7 +201,7 @@
         -->
         <meta-data
             android:name="io.fabric.ApiKey"
-            android:value="7aea78439bec41a9005c7488bb6751c5e33fe270"
+            android:value="55b65779fc1f96ba3f58f2d376b37d9d16e71ca1"
             tools:replace="android:value" />
         <meta-data
             android:name="com.quickblox.messages.TYPE"
@@ -243,7 +246,6 @@
         <service android:name=".service.CallService" />
 
 
-
         <service
             android:name="com.aikya.konnek2.service.SessionJobService"
             android:exported="false">
@@ -266,19 +268,18 @@
             </intent-filter>
         </service>-->
 
-          <service
-                   android:name="com.quickblox.messages.services.fcm.QBFcmPushInstanceIDService"
-                   android:exported="false">
-                   <intent-filter>
-                       <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
-                   </intent-filter>
-               </service>
+        <service
+            android:name="com.quickblox.messages.services.fcm.QBFcmPushInstanceIDService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
 
 
         <service
             android:name="com.aikya.konnek2.service.OnlineService"
-            android:enabled="true" >
-        </service>
+            android:enabled="true"></service>
 
 
         <provider
@@ -327,7 +328,7 @@
                    </intent-filter>-->
 
         </activity>
-        <activity android:name=".ui.activities.catchup.CatchUpActivity"/>
+        <activity android:name=".ui.activities.catchup.CatchUpActivity" />
     </application>
 
 </manifest>

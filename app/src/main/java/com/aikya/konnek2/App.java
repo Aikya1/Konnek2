@@ -76,7 +76,7 @@ public class App extends MultiDexApplication {
             long nationalNumber = numberProto.getNationalNumber();
             Log.i("code", "code " + countryCode);
             Log.i("code", "national number " + nationalNumber);
-            if(android.util.Patterns.PHONE.matcher("009876543210").matches()){
+            if (android.util.Patterns.PHONE.matcher("009876543210").matches()) {
                 Log.i("code", "national number " + true);
 
             }
@@ -92,17 +92,21 @@ public class App extends MultiDexApplication {
     }
 
     private void initFabric() {
-        Crashlytics crashlyticsKit = new Crashlytics.Builder()
+        /*Crashlytics crashlyticsKit = new Crashlytics.Builder()
                 .core(new CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build())
                 .build();
 
         TwitterAuthConfig authConfig = new TwitterAuthConfig(
                 StringObfuscator.getTwitterConsumerKey(),
-                StringObfuscator.getTwitterConsumerSecret());
+                StringObfuscator.getTwitterConsumerSecret());*/
 
-        Fabric.with(this,
+        /*Fabric.with(this, crashlyticsKit, new TwitterCore(authConfig), new Crashlytics(),
                 crashlyticsKit,
-                new TwitterCore(authConfig));
+                new TwitterCore(authConfig));*/
+        Log.d(TAG, "Setting up fabrics..");
+        Fabric.with(this, new Crashlytics());
+
+
     }
 
     private void initApplication() {

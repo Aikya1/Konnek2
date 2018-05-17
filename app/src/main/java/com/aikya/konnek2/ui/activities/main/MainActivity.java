@@ -74,7 +74,7 @@ public class MainActivity extends BaseLoggableActivity {
             loginChat();
         }
 
-        friendListHelper = getFriendListHelper();
+
         addDialogsAction();
         launchDialogsListFragment();
         openPushDialogIfPossible();

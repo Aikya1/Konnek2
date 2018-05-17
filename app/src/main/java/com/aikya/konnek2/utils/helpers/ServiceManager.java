@@ -1,15 +1,20 @@
 package com.aikya.konnek2.utils.helpers;
 
+import android.Manifest;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.v4.app.ActivityCompat;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.aikya.konnek2.App;
+import com.aikya.konnek2.R;
 import com.aikya.konnek2.call.core.models.AppSession;
 import com.aikya.konnek2.call.core.models.InviteFriend;
 import com.aikya.konnek2.call.core.models.LoginType;
@@ -296,11 +301,11 @@ public class ServiceManager {
         return result;
     }
 
- /*   public Observable<QMUser> updateLastseen(QBUser inputUser)
-    {
+    /*   public Observable<QMUser> updateLastseen(QBUser inputUser)
+       {
 
-    }
-*/
+       }
+   */
     public Observable<QMUser> updateUser(QBUser inputUser) {
         Observable<QMUser> result = null;
         final String password = inputUser.getPassword();
@@ -348,7 +353,6 @@ public class ServiceManager {
                         newUser.setPassword(user.getPassword());
                         newUser.setFileId(qbFile.getId());
                         newUser.setFullName(user.getFullName());
-
 
 
                         UserCustomData userCustomData = getUserCustomData(user);
@@ -612,6 +616,10 @@ public class ServiceManager {
 
     private String formatNumber(String phoneNumber) {
         String res = phoneNumber;
+        String locale = context.getResources().getConfiguration().locale.getCountry();
+
+        Log.d(TAG, "Loclae = " + locale);
+
         if (phoneNumber.startsWith("+")) {
             res = phoneNumber.replaceFirst("[-+.^:,]", "");
         }
@@ -620,9 +628,9 @@ public class ServiceManager {
         } else if (phoneNumber.startsWith("0")) {
             res = phoneNumber.replaceFirst("0", "");
         }
-
         return res;
     }
+
 
     private void uploadToQbAddressBook(ArrayList<QBAddressBookContact> contactsGlobal) {
         String UDID = "";

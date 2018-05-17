@@ -17,6 +17,7 @@ import com.google.gson.JsonSyntaxException;
 import com.quickblox.core.exception.QBResponseException;
 
 import com.quickblox.users.model.QBUser;
+import com.twitter.sdk.android.core.models.User;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -94,7 +95,6 @@ public class Utils {
     }
 
 
-
     public static int[] toIntArray(List<Integer> integerList) {
         int[] intArray = new int[integerList.size()];
         int i = 0;
@@ -140,6 +140,17 @@ public class Utils {
         setJsonValue(jsonObject, UserCustomData.FACEBOOK_ID, userCustomData.getFacebookId());
         setJsonValue(jsonObject, UserCustomData.TAG_isEuropean, userCustomData.getIsEuropean());
 
+        setJsonValue(jsonObject, UserCustomData.TAG_deviceUdid, userCustomData.getDeviceUDid());
+        setJsonValue(jsonObject, UserCustomData.TAG_AVATAR_URL, userCustomData.getAvatarUrl());
+        setJsonValue(jsonObject, UserCustomData.TAG_COUNTRY, userCustomData.getCountry());
+        setJsonValue(jsonObject, UserCustomData.TAG_countryCode, userCustomData.getCountryCode());
+        setJsonValue(jsonObject, UserCustomData.IS_LOCATION_TO_SHARE, String.valueOf(userCustomData.getIsLocationToShare()));
+        setJsonValue(jsonObject, UserCustomData.TAG_LAST_SEEN, userCustomData.getLastSeen());
+        setJsonValue(jsonObject, UserCustomData.TAG_prefEmail, userCustomData.getPrefEmail());
+        setJsonValue(jsonObject, UserCustomData.TAG_prefInApp, userCustomData.getPrefInApp());
+        setJsonValue(jsonObject, UserCustomData.TAG_prefsms, userCustomData.getPrefSms());
+        setJsonValue(jsonObject, UserCustomData.TAG_prefLanguage, userCustomData.getPrefLanguage());
+
         setJsonValue(jsonObject, UserCustomData.TAG_gender, userCustomData.getGender());
         setJsonValue(jsonObject, UserCustomData.TAG_dob, userCustomData.getDob());
         setJsonValue(jsonObject, UserCustomData.TAG_addressLine1, userCustomData.getAddressLine1());
@@ -147,21 +158,26 @@ public class Utils {
         setJsonValue(jsonObject, UserCustomData.TAG_COUNTRY, userCustomData.getCountry());
         setJsonValue(jsonObject, UserCustomData.TAG_postalcode, userCustomData.getPostalcode());
         setJsonValue(jsonObject, UserCustomData.TAG_prefInApp, userCustomData.getPrefInApp());
-        setJsonValue(jsonObject, UserCustomData.TAG_prefsms, userCustomData.getPrefSms());
 
+        String sms = userCustomData.getPrefSms();
+        Log.d("TAG", "Sms = " + sms);
+        setJsonValue(jsonObject, UserCustomData.TAG_prefsms, userCustomData.getPrefSms());
 
 
         return jsonObject.toString();
     }
 
     private static void setJsonValue(JSONObject jsonObject, String key, String value) {
-        if (!TextUtils.isEmpty(value)) {
-            try {
-                jsonObject.put(key, value);
-            } catch (JSONException e) {
-                ErrorUtils.logError(e);
-            }
+//        if (!TextUtils.isEmpty(value)) {
+        if (value == null) {
+            value = "";
         }
+        try {
+            jsonObject.put(key, value);
+        } catch (JSONException e) {
+            ErrorUtils.logError(e);
+        }
+//        }
     }
 
     public static UserCustomData customDataToObject(String userCustomDataString) {

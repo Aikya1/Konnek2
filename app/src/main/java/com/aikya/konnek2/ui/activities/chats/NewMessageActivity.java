@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -16,6 +18,7 @@ import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.LinearLayout;
 
+import com.aikya.konnek2.R;
 import com.aikya.konnek2.call.core.core.command.Command;
 import com.aikya.konnek2.call.core.models.AppSession;
 import com.aikya.konnek2.call.core.qb.commands.QBFindUsersCommand;
@@ -32,6 +35,9 @@ import com.aikya.konnek2.call.db.managers.DataManager;
 import com.aikya.konnek2.utils.KeyboardUtils;
 import com.aikya.konnek2.utils.listeners.simple.SimpleOnRecycleItemClickListener;
 import com.quickblox.chat.model.QBChatDialog;
+import com.quickblox.core.server.Performer;
+import com.quickblox.extensions.RxJavaPerformProcessor;
+import com.quickblox.users.QBUsers;
 import com.quickblox.users.model.QBUser;
 
 import java.io.Serializable;
@@ -40,6 +46,10 @@ import java.util.Collection;
 import java.util.List;
 
 import butterknife.Bind;
+import rx.Observable;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class NewMessageActivity extends BaseLoggableActivity implements SearchView.OnQueryTextListener, SearchView.OnCloseListener, View.OnClickListener {
 
@@ -52,7 +62,8 @@ public class NewMessageActivity extends BaseLoggableActivity implements SearchVi
     @Bind(com.aikya.konnek2.R.id.group_layout)
     LinearLayout groupLayout;
 
-    private List<QMUser> usersList;
+    private List<QBUser> qbUserLists;
+    private List<QMUser> qMUserList;
 
     private DataManager dataManager;
     private FriendsAdapter friendsAdapter;
@@ -75,6 +86,7 @@ public class NewMessageActivity extends BaseLoggableActivity implements SearchVi
         initFields();
         setUpActionBarWithUpButton();
 
+        getRegisteredUsersFromQBAddressBook();
         initRecyclerView();
         initCustomListeners();
 
@@ -85,6 +97,68 @@ public class NewMessageActivity extends BaseLoggableActivity implements SearchVi
     protected void onDestroy() {
         super.onDestroy();
         removeActions();
+    }
+
+    private void getRegisteredUsersFromQBAddressBook() {
+        showProgress();
+        String UDID = "";
+        boolean isCompact = false;
+        Performer<ArrayList<QBUser>> performer = QBUsers.getRegisteredUsersFromAddressBook(UDID, isCompact);
+        Observable<ArrayList<QBUser>> observable = performer.convertTo(RxJavaPerformProcessor.INSTANCE);
+
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<ArrayList<QBUser>>() {
+                    @Override
+                    public void onCompleted() {
+                        hideProgress();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d(TAG, "Error == " + e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(ArrayList<QBUser> qbUsers) {
+                        hideProgress();
+                        Log.d(TAG, "onNext == ");
+                        QBUser qbUser = AppSession.getSession().getUser();
+                        if (qbUsers != null && !qbUsers.isEmpty()) {
+                            if (qbUsers.contains(qbUser)) {
+                                qbUsers.remove(qbUser);
+                            }
+
+                            updateContactsList(qbUsers);
+                        }
+                    }
+                });
+
+        friendsAdapter = new FriendsAdapter(NewMessageActivity.this, qMUserList, false);
+        friendsAdapter.setFriendListHelper(friendListHelper);
+        friendsRecyclerView.setLayoutManager(new LinearLayoutManager(NewMessageActivity.this));
+        DividerItemDecoration divider = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        divider.setDrawable(ContextCompat.getDrawable(this, R.drawable.divider_horizontal));
+        friendsRecyclerView.addItemDecoration(divider);
+        friendsRecyclerView.setAdapter(friendsAdapter);
+
+        /*friendsAdapter = new FriendsAdapter(baseActivity, qMUserList, false);
+        friendsAdapter.setFriendListHelper(friendListHelper);
+        listView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        DividerItemDecoration divider = new DividerItemDecoration(listView.getContext(), DividerItemDecoration.VERTICAL);
+        divider.setDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.divider_horizontal));
+        listView.addItemDecoration(divider);
+
+        listView.setAdapter(friendsAdapter);
+
+        initCustomListeners();*/
+    }
+
+    private void initRecyclerView() {
+//        showProgress();
+//        QBFindUsersCommand.start(this, null, "dev", 1);
+
     }
 
     @Override
@@ -192,24 +266,24 @@ public class NewMessageActivity extends BaseLoggableActivity implements SearchVi
 //        title = getString(R.string.new_message_title);
         dataManager = DataManager.getInstance();
         groupLayout.setOnClickListener(this);
-        usersList = new ArrayList<>();
+        qMUserList = new ArrayList<>();
+        qbUserLists = new ArrayList<>();
     }
 
-    private void initRecyclerView() {
-        showProgress();
-        QBFindUsersCommand.start(this, null, "dev", 1);
-        friendsAdapter = new FriendsAdapter(NewMessageActivity.this, usersList, false);
-        friendsAdapter.setFriendListHelper(friendListHelper);
-        friendsRecyclerView.setLayoutManager(new LinearLayoutManager(NewMessageActivity.this));
-        friendsRecyclerView.setAdapter(friendsAdapter);
+    private void updateContactsList(List<QBUser> usersList) {
+        this.qbUserLists = usersList;
+        for (int i = 0; i < usersList.size(); i++) {
+            qMUserList.add(QMUser.convert(usersList.get(i)));
+        }
+        friendsAdapter.setList(qMUserList);
     }
 
 
-    private void updateContactsList(List<QMUser> usersList) {
+   /* private void updateContactsList(List<QMUser> usersList) {
         this.usersList = usersList;
         friendsAdapter.setList(usersList);
     }
-
+*/
     private void checkForExcludeMe(Collection<QMUser> usersCollection) {
         QBUser qbUser = AppSession.getSession().getUser();
         QMUser me = QMUser.convert(qbUser);
@@ -296,7 +370,7 @@ public class NewMessageActivity extends BaseLoggableActivity implements SearchVi
         switch (v.getId()) {
             case com.aikya.konnek2.R.id.group_layout:
                 Intent intent = new Intent();
-                intent.putExtra("data", (Serializable) usersList);
+                intent.putExtra("data", (Serializable) qMUserList);
                 NewGroupDialogActivity.start(this, intent);
                 break;
         }
@@ -317,12 +391,13 @@ public class NewMessageActivity extends BaseLoggableActivity implements SearchVi
             hideProgress();
             Collection<QMUser> userCollection = (Collection<QMUser>) bundle.getSerializable(QBServiceConsts.EXTRA_USERS);
             checkForExcludeMe(userCollection);
-            usersList.clear();
-            usersList.addAll(userCollection);
+            qMUserList.clear();
+            qMUserList.addAll(userCollection);
             /*for (int i = 0; i < usersList.size(); i++) {
                 dataManager.getFriendDataManager().createOrUpdate(usersList.get(i));
             }*/
-            updateContactsList(usersList);
+
+//            updateContactsList(qMUserList);
         }
     }
 }

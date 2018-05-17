@@ -78,6 +78,8 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import butterknife.OnItemClick;
 
+import static com.aikya.konnek2.call.core.service.QBService.FRIEND_LIST_HELPER;
+
 
 public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>> implements ContactInterface {
 
@@ -173,6 +175,12 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
         initChatsDialogs();
         initActions();
         addObservers();
+
+
+        if (service != null) {
+            QBFriendListHelper friendListHelper = (QBFriendListHelper) service.getHelper(FRIEND_LIST_HELPER);
+            Log.d(TAG,"Helper..");
+        }
     }
 
     @Override
@@ -609,6 +617,9 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
 
         try {
             int id = opponent.getId();
+
+            long onlineStatus = QBChatService.getInstance().getLastUserActivity(id);
+
 
             friendListHelper.addFriend(opponent.getId());
         } catch (Exception e) {

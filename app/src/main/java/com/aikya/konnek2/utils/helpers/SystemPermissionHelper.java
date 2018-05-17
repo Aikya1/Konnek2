@@ -36,6 +36,7 @@ public class SystemPermissionHelper {
     public static final int PERMISSIONS_FOR_VIDEO_RECORD_REQUEST = 21;
     public static final int PERMISSIONS_FOR_READ_CONTACT_REQUEST = 47;
     public static final int LOCATION_PERMISSION_REQUEST_CODE = 48;
+    public static final int PERMISSION_FOR_READ_PHONE_STATE = 50;
 
     private Activity activity;
     private Fragment fragment;
@@ -49,7 +50,7 @@ public class SystemPermissionHelper {
     }
 
     public void requestPermission(int requestCode, String permission) {
-        if (fragment != null){
+        if (fragment != null) {
             fragment.requestPermissions(new String[]{permission}, requestCode);
         } else {
             ActivityCompat.requestPermissions(activity, new String[]{permission}, requestCode);
@@ -57,7 +58,7 @@ public class SystemPermissionHelper {
     }
 
     public void requestPermissions(int requestCode, String... permissions) {
-        if (fragment != null){
+        if (fragment != null) {
             Log.v("Permissions", "request Permissions for fragment " + fragment.getClass().getSimpleName());
             fragment.requestPermissions(permissions, requestCode);
         } else {
@@ -91,7 +92,7 @@ public class SystemPermissionHelper {
     }
 
     public boolean isPermissionGranted(String permission) {
-        if (fragment != null){
+        if (fragment != null) {
             return ContextCompat.checkSelfPermission(fragment.getContext(), permission) == PackageManager.PERMISSION_GRANTED;
         } else {
             return ContextCompat.checkSelfPermission(activity.getApplicationContext(), permission) == PackageManager.PERMISSION_GRANTED;
@@ -145,6 +146,19 @@ public class SystemPermissionHelper {
         return isPermissionGranted(Manifest.permission.READ_CONTACTS);
     }
 
+    public boolean isReadPhoneStatePermissionGranted() {
+        return isPermissionGranted(Manifest.permission.READ_PHONE_STATE);
+    }
+
+    public boolean isReadSMSPermissionGranted() {
+        return isPermissionGranted(Manifest.permission.READ_SMS);
+    }
+
+    public boolean isReadNumbersPersmissionGranted() {
+        return isPermissionGranted(Manifest.permission.READ_PHONE_NUMBERS);
+    }
+
+
     public boolean isAllAudioRecordPermissionGranted() {
         return isAllPermissionGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO);
     }
@@ -170,15 +184,22 @@ public class SystemPermissionHelper {
     }
 
     public void requestPermissionsTakePhoto() {
-            checkAndRequestPermissions(PERMISSIONS_FOR_TAKE_PHOTO_REQUEST, Manifest.permission.CAMERA);
+        checkAndRequestPermissions(PERMISSIONS_FOR_TAKE_PHOTO_REQUEST, Manifest.permission.CAMERA);
     }
 
     public void requestPermissionsTakeVideo() {
-            checkAndRequestPermissions(PERMISSIONS_FOR_VIDEO_RECORD_REQUEST, Manifest.permission.CAMERA);
+        checkAndRequestPermissions(PERMISSIONS_FOR_VIDEO_RECORD_REQUEST, Manifest.permission.CAMERA);
     }
 
     public void requestPermissionsReadContacts() {
         checkAndRequestPermissions(PERMISSIONS_FOR_READ_CONTACT_REQUEST, Manifest.permission.READ_CONTACTS);
+    }
+
+    public void requestPermissionsReadPhoneState() {
+        checkAndRequestPermissions(PERMISSION_FOR_READ_PHONE_STATE,
+                Manifest.permission.READ_PHONE_NUMBERS,
+                Manifest.permission.READ_SMS, Manifest.permission.READ_PHONE_STATE);
+
     }
 
     public boolean isAllPermissionsGrantedForImportFriends() {

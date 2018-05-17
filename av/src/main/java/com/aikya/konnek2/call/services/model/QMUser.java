@@ -51,8 +51,7 @@ public class QMUser extends QBUser {
         result.setTwitterDigitsId(qbUser.getTwitterDigitsId());
         result.setFileId(qbUser.getFileId());
         result.setTags(qbUser.getTags());
-        result.setPassword(qbUser.getPassword());
-        result.setOldPassword(qbUser.getOldPassword());
+//        result.setPassword(qbUser.getPassword());
         result.setCustomData(qbUser.getCustomData());
         result.setCreatedAt(qbUser.getCreatedAt());
         result.setUpdatedAt(qbUser.getUpdatedAt());

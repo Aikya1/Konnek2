@@ -317,6 +317,7 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
 
     private void getCustomData() {
         qbUser = AppSession.getSession().getUser();
+        Log.d(TAG, "Custom Data = " + qbUser.getCustomData());
         userCustomData = Utils.customDataToObject(qbUser.getCustomData());
     }
 
@@ -1614,8 +1615,8 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
               /*  locale = getLocale(prefLanguage);
                 getLocaleString(prefLanguage);*/
 
-                secLangRadButton.setVisibility(View.VISIBLE);
-                changeLangButton.setVisibility(View.VISIBLE);
+//                secLangRadButton.setVisibility(View.VISIBLE);
+//                changeLangButton.setVisibility(View.VISIBLE);
 
                 secLangRadButton.setText(prefLanguage);
                 secLangRadButton.setTag(getLanguageCode(prefLanguage));
@@ -1665,7 +1666,6 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
 
                     RadioButton selectedRadioButton = alertLayout.findViewById(selectedRadioButtonIDLeft);
                     String selectedRadioButtonTag = String.valueOf(selectedRadioButton.getTag());
-
                     SelectedLanguageLeft = selectedRadioButtonTag;
                 } else {
 
@@ -1770,16 +1770,16 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
 
         dialog.show();
 
-
         langSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
                 userCustomData.setPrefLanguage(nonDupLangList.get(position));
-                secLangRadButton.setVisibility(View.VISIBLE);
-                secLangRadButton.setChecked(false);
+//                secLangRadButton.setVisibility(View.VISIBLE);
+                secLangRadButton.setChecked(true);
+                secLangRadButton.setTextColor(getApplicationContext().getResources().getColor(R.color.black));
                 secLangRadButton.setText(nonDupLangList.get(position));
                 secLangRadButton.setTag(getLanguageCode(nonDupLangList.get(position)));
+                SelectedLanguageLeft = nonDupLangList.get(position);
             }
 
             @Override
@@ -1792,10 +1792,11 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
     private void setUpLanguageSpinner(Spinner langSpinner) {
 //        langSpinner.setVisibility(View.VISIBLE);
         LandingActivity.addLanguagesToList();
+        nonDupLangList.remove("English");
         ArrayAdapter<String> adapter =
                 new ArrayAdapter<String>(getApplicationContext(),
                         R.layout.custom_spinner_dropdown, nonDupLangList);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
         if (langSpinner != null) {
             langSpinner.setAdapter(adapter);
             String myString = Locale.getDefault().getDisplayLanguage(); //the value you want the position for
@@ -1984,8 +1985,6 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
 
         @Override
         public void onTick(long millisUntilFinished) {
-
-
             if (speakFlag && counts == 0) {
                 selectedRadioButtonIDLeft = 1;
                 if (selectedRadioButtonIDLeft == 0 && selectedRadioButtonIDRight == 0) {

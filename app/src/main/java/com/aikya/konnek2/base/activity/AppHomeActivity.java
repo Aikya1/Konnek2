@@ -101,13 +101,16 @@ public class AppHomeActivity extends BaseLoggableActivity implements NavigationV
     @Override
     protected void onStart() {
         super.onStart();
-        if (systemPermissionHelper.isContactPermissionGranted()) {
+        if (systemPermissionHelper.isContactPermissionGranted()/* &&
+                (systemPermissionHelper.isReadPhoneStatePermissionGranted()
+                        && systemPermissionHelper.isReadSMSPermissionGranted()
+                        && systemPermissionHelper.isReadNumbersPersmissionGranted())*/) {
             if (serviceManager.friendList == null) {
                 serviceManager.uploadAllContacts(this);
             }
-
         } else {
             systemPermissionHelper.requestPermissionsReadContacts();
+//            systemPermissionHelper.requestPermissionsReadPhoneState();
 //            ToastUtils.shortToast("Please grant permission to synch contacts.");
             Toast.makeText(this, "Please grant permission to synch contacts.", Toast.LENGTH_SHORT).show();
 

@@ -30,11 +30,9 @@ public abstract class BaseLoggableActivity extends BaseActivity implements Logga
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         if (!appInitialized) {
             startSplashActivity();
         }
-
         if (savedInstanceState != null && savedInstanceState.containsKey(CAN_PERFORM_LOGOUT)) {
             canPerformLogout = new AtomicBoolean(savedInstanceState.getBoolean(CAN_PERFORM_LOGOUT));
         }
@@ -52,7 +50,7 @@ public abstract class BaseLoggableActivity extends BaseActivity implements Logga
         return canPerformLogout.get();
     }
 
-    protected void startSplashActivity(){
+    protected void startSplashActivity() {
 //        SplashActivity.start(this);
         AppSplashActivity.start(this);
         finish();

@@ -202,6 +202,8 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
                                     appSharedHelper.saveSocialId(object.getString("id"));
                                     appSharedHelper.saveUserEmail(object.getString("email"));
                                     appSharedHelper.saveUserGender(object.getString("gender"));
+
+
                                     appSharedHelper.saveIsGdpr("");
                                     appSharedHelper.saveUserProfilePic(profileUrl);
                                     appSharedHelper.saveCountryCode("");
@@ -257,6 +259,7 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
         nonDupLangList.add("Chinese");
         nonDupLangList.add("Spanish");
         nonDupLangList.add("English");
+
         nonDupLangList.add("Arabic");
         nonDupLangList.add("Portuguese");
         nonDupLangList.add("Russian");
@@ -419,7 +422,7 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
                 showProgress();
                 countryCode = countryCodePicker.getSelectedCountryCode();
                 phNumber = etphoneno.getText().toString();
-                serviceManager.checkIfUserExist(countryCode+phNumber)
+                serviceManager.checkIfUserExist(countryCode + phNumber)
                         .subscribe(checkIfUserExists);
             }
         }
@@ -472,6 +475,7 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
 
     private boolean checkRecordPermission() {
         if (systemPermissionHelper.isContactPermissionGranted()) {
+            serviceManager.uploadAllContacts(this);
             return true;
         } else {
             systemPermissionHelper.requestPermissionsReadContacts();

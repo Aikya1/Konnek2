@@ -301,7 +301,7 @@
     </style>
 
     <style name="CustomBubbleTextFrame.Left">
-        <item name="android:background">@drawable/left_bubble</item>
+        <item name="android:background">@drawable/right_bubble2</item>
     </style>
 
     <style name="CustomBubbleTextFrame.Right">

@@ -44,9 +44,10 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:buttonTint="@color/colorPrimary"
+            android:checked="true"
             android:tag="en_US"
             android:text="@string/eng_lang"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/black"
             tools:targetApi="lollipop" />
 
         <RadioButton
@@ -57,8 +58,8 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:buttonTint="@color/colorPrimary"
-            android:textColor="@color/colorPrimary"
-            android:visibility="invisible"
+            android:text="@string/pref_language"
+            android:textColor="@color/dark_gray"
             tools:targetApi="lollipop" />
 
 
@@ -149,8 +150,9 @@
 
     <ImageButton
         android:id="@+id/changeLangBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
         android:background="@color/white"
         android:padding="@dimen/margin_2dp"

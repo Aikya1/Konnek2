@@ -3,6 +3,7 @@ package com.aikya.konnek2.base.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -176,13 +177,15 @@ public class Profile extends BaseActivity implements OnMediaPickedListener, Adap
 
     private void addBottomDots(int currentPage) {
         dots = new TextView[layouts.length];
-        int[] colorsActive = getResources().getIntArray(com.aikya.konnek2.R.array.array_dot_active);
-        int[] colorsInactive = getResources().getIntArray(com.aikya.konnek2.R.array.array_dot_inactive);
+        int[] colorsActive = getResources().getIntArray(R.array.array_dot_active);
+        int[] colorsInactive = getResources().getIntArray(R.array.array_dot_inactive);
         dotsLayout.removeAllViews();
         for (int i = 0; i < dots.length; i++) {
             dots[i] = new TextView(this);
             dots[i].setText(Html.fromHtml("&#8226;"));
             dots[i].setTextSize(35);
+
+
             dots[i].setTextColor(colorsInactive[currentPage]);
             dotsLayout.addView(dots[i]);
         }
@@ -445,17 +448,21 @@ public class Profile extends BaseActivity implements OnMediaPickedListener, Adap
                             qbUser.setFullName(lastName);
                         }
 
-                        qbUser.setPhone(countryCode+phNo);
+                        qbUser.setPhone(countryCode + phNo);
                         qbUser.setCreatedAt(new Date());
 
                         userCustomData.setFirstName(firstName);
                         if (facebookId != null) {
                             userCustomData.setFacebookId(facebookId);
+                        }else{
+                            userCustomData.setFacebookId("");
                         }
                         userCustomData.setLastName(lastName);
 
                         if (profileUrl != null) {
                             userCustomData.setAvatarUrl(profileUrl);
+                        } else {
+                            userCustomData.setAvatarUrl("");
                         }
 
                        /* if (s1 != null) {
@@ -465,6 +472,7 @@ public class Profile extends BaseActivity implements OnMediaPickedListener, Adap
                         } else if (imageUri != null) {
                             userCustomData.setAvatarUrl(imageUri.toString());
                         }*/
+
 
                         userCustomData.setPrefLanguage(selectedLanguage);
                         userCustomData.setIsLocationToShare(true);
@@ -482,8 +490,11 @@ public class Profile extends BaseActivity implements OnMediaPickedListener, Adap
                         userCustomData.setPrefSms("");
                         userCustomData.setPrefEmail("");
                         userCustomData.setPrefInApp("");
-
                         userCustomData.setLastSeen("");
+                        userCustomData.setGender("");
+                        userCustomData.setPrefSms("");
+                        userCustomData.setPrefLanguage1("");
+                        userCustomData.setPrefLanguage3("");
 
 
                         Gson gson = new Gson();

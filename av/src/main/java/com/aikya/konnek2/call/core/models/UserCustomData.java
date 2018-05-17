@@ -43,7 +43,11 @@ public class UserCustomData implements Serializable {
     public static String TAG_postalcode = "postalcode";
     public static String FACEBOOK_ID = "facebook_id";
     public static String TAG_Errormessage = "error";
-    public static boolean IS_LOCATION_TO_SHARE = true;
+    public static String IS_LOCATION_TO_SHARE = "isLocationToShare";
+    public static String TAG_LAST_SEEN = "lastSeen";
+
+
+
 
 
     /*  public static String TAG_LANGUAGE_1 = "language_1";

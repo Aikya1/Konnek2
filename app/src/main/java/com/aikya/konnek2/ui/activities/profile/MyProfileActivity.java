@@ -226,7 +226,7 @@ public class MyProfileActivity extends BaseLoggableActivity implements OnMediaPi
 
             String loginType = appSharedHelper.getLoginType();
 
-            if (loginType.equalsIgnoreCase(AppConstant.LOGIN_TYPE_FACEBOOK) ||
+            /*if (loginType.equalsIgnoreCase(AppConstant.LOGIN_TYPE_FACEBOOK) ||
                     loginType.equalsIgnoreCase(AppConstant.LOGIN_TYPE_GMAIL)) {
                 contactno.setText(qbUser.getPhone());
             } else if (loginType.equalsIgnoreCase(AppConstant.LOGIN_TYPE_MANUAL)) {
@@ -235,7 +235,8 @@ public class MyProfileActivity extends BaseLoggableActivity implements OnMediaPi
                 } else {
                     contactno.setText(qbUser.getPhone());
                 }
-            }
+            }*/
+            contactno.setText(qbUser.getPhone());
 
             contactno.setEnabled(false);
             etEmail.setEnabled(false);
@@ -336,14 +337,15 @@ public class MyProfileActivity extends BaseLoggableActivity implements OnMediaPi
     }
 
     private QBUser createUserForUpdating() {
-        QBUser newUser = new QBUser();
-        newUser.setId(qbUser.getId());
+
+        QBUser newUser = AppSession.getSession().getUser();
+
         if (!etName.getText().toString().isEmpty()) {
             newUser.setFullName(etName.getText().toString());
         } else {
             return newUser;
         }
-        userCustomData.setPrefLanguage("Gujarati");
+//        userCustomData.setPrefLanguage("Gujarati");
 
         newUser.setFacebookId(qbUser.getFacebookId());
 
