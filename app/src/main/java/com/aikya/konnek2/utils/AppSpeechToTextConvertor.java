@@ -34,6 +34,8 @@ public class AppSpeechToTextConvertor implements AppIConvertor {      // by sure
 
     @Override
     public AppIConvertor initialize(String message, String SelectedLanguage, Activity appContext) {
+
+//        SelectedLanguage = "zh_HK";
         //Prepeare Intent
 
 //        SelectedLanguage = "gu_IN";

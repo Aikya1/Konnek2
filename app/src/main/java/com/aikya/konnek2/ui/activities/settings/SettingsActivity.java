@@ -3,40 +3,20 @@ package com.aikya.konnek2.ui.activities.settings;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.SwitchCompat;
 import android.text.TextUtils;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.afollestad.materialdialogs.MaterialDialog;
-import com.aikya.konnek2.call.core.models.AppSession;
-import com.aikya.konnek2.call.db.utils.ErrorUtils;
-import com.aikya.konnek2.call.services.model.QMUser;
-import com.aikya.konnek2.ui.activities.base.BaseLoggableActivity;
-import com.aikya.konnek2.ui.activities.changepassword.ChangePasswordActivity;
-import com.aikya.konnek2.utils.helpers.FacebookHelper;
 import com.aikya.konnek2.R;
+import com.aikya.konnek2.call.core.models.AppSession;
 import com.aikya.konnek2.call.core.service.QBServiceConsts;
 import com.aikya.konnek2.call.core.utils.UserFriendUtils;
-import com.aikya.konnek2.ui.activities.feedback.FeedbackActivity;
-import com.aikya.konnek2.ui.activities.invitefriends.InviteFriendsActivity;
-import com.aikya.konnek2.ui.activities.profile.MyProfileActivity;
-import com.aikya.konnek2.ui.fragments.dialogs.base.TwoButtonsDialogFragment;
-import com.aikya.konnek2.ui.views.roundedimageview.RoundedImageView;
-import com.aikya.konnek2.utils.ToastUtils;
+import com.aikya.konnek2.call.services.model.QMUser;
+import com.aikya.konnek2.ui.activities.base.BaseLoggableActivity;
+import com.aikya.konnek2.utils.helpers.FacebookHelper;
 import com.aikya.konnek2.utils.helpers.FirebaseAuthHelper;
-import com.aikya.konnek2.utils.helpers.ServiceManager;
-import com.aikya.konnek2.utils.image.ImageLoaderUtils;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.quickblox.auth.session.QBSettings;
-import com.quickblox.users.QBUsers;
 import com.quickblox.users.model.QBUser;
 
-
 import butterknife.Bind;
-import butterknife.OnCheckedChanged;
-import butterknife.OnClick;
-import rx.Subscriber;
 
 public class SettingsActivity extends BaseLoggableActivity {
 

@@ -113,7 +113,6 @@ public class AppHomeActivity extends BaseLoggableActivity implements NavigationV
 //            systemPermissionHelper.requestPermissionsReadPhoneState();
 //            ToastUtils.shortToast("Please grant permission to synch contacts.");
             Toast.makeText(this, "Please grant permission to synch contacts.", Toast.LENGTH_SHORT).show();
-
         }
     }
 

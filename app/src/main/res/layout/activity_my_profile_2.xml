@@ -63,11 +63,12 @@
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/change_photo_views"
                 android:layout_marginTop="19dp"
-                android:hint="Name"
                 android:background="@color/transparent_color"
+                android:hint="Name"
                 android:paddingLeft="20dp"
-                android:textSize="@dimen/standard_content_size"
-                android:paddingRight="20dp" />
+                android:paddingRight="20dp"
+                android:textSize="@dimen/standard_content_size" />
+
             <View
                 android:id="@+id/view0"
                 android:layout_width="fill_parent"
@@ -77,6 +78,7 @@
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="10dp"
                 android:background="#b7b7b7" />
+
             <EditText
                 android:id="@+id/etstatus"
                 android:layout_width="match_parent"
@@ -87,7 +89,7 @@
                 android:hint="Yes I am here..."
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:textSize="@dimen/standard_content_size"/>
+                android:textSize="@dimen/standard_content_size" />
 
             <TextView
                 android:id="@+id/tvprivacy"
@@ -115,8 +117,8 @@
                 android:inputType="textEmailAddress"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:textSize="@dimen/standard_content_size"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:textSize="@dimen/standard_content_size" />
 
             <View
                 android:id="@+id/view1"
@@ -140,9 +142,9 @@
                 android:hint="@string/contact_number"
                 android:inputType="phone"
                 android:paddingLeft="20dp"
-                android:textSize="@dimen/standard_content_size"
+                android:paddingRight="20dp"
                 android:textColor="@color/black"
-                android:paddingRight="20dp" />
+                android:textSize="@dimen/standard_content_size" />
 
             <View
                 android:id="@+id/view3"
@@ -194,15 +196,15 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:drawableLeft="@drawable/profile_blue_29_3x"
                     android:drawablePadding="10dp"
                     android:gravity="bottom"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
                     android:text="Gender"
-                    android:layout_weight="1"
-                    android:textSize="@dimen/standard_content_size"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/standard_content_size" />
 
                 <RadioGroup
                     android:id="@+id/rgGender"
@@ -255,12 +257,12 @@
             android:drawablePadding="10dp"
             android:drawableRight="@drawable/calender_20_2x"
             android:drawableStart="@drawable/dob_20_2x"
+            android:focusable="false"
             android:hint="@string/dob"
-            android:textSize="@dimen/standard_content_size"
             android:inputType="date"
             android:paddingLeft="20dp"
-            android:focusable="false"
-            android:paddingRight="20dp" />
+            android:paddingRight="20dp"
+            android:textSize="@dimen/standard_content_size" />
 
             <View
                 android:id="@+id/view4"
@@ -285,7 +287,7 @@
                 android:inputType="textPersonName"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:textSize="@dimen/standard_content_size"/>
+                android:textSize="@dimen/standard_content_size" />
 
             <View
                 android:id="@+id/view5"
@@ -310,7 +312,7 @@
                 android:inputType="text"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:textSize="@dimen/standard_content_size"/>
+                android:textSize="@dimen/standard_content_size" />
 
             <View
                 android:id="@+id/view6"
@@ -335,7 +337,7 @@
                 android:inputType="text"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:textSize="@dimen/standard_content_size"/>
+                android:textSize="@dimen/standard_content_size" />
 
             <View
                 android:id="@+id/view7"
@@ -360,7 +362,7 @@
                 android:inputType="textPostalAddress"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:textSize="@dimen/standard_content_size"/>
+                android:textSize="@dimen/standard_content_size" />
             >
 
             <TextView
@@ -433,6 +435,90 @@
                     android:layout_below="@+id/checkBox3"
                     android:layout_marginTop="10dp"
                     android:background="#b7b7b7" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/dictationTv"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/linearLayout2"
+                android:background="#EBEBEB"
+                android:gravity="bottom"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:text="@string/dictation_heading"
+                android:textAllCaps="true" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/dictationTv"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@android:color/transparent"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:text="@string/primaryLang"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/standard_content_size" />
+
+
+                <View
+                    android:id="@+id/dictationView"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="10dp"
+                    android:background="#b7b7b7" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <TextView
+                        android:id="@+id/secondaryLangTv"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="1.7"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:text="@string/secondLangTv"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/standard_content_size" />
+
+                    <ImageButton
+                        android:id="@+id/changeLangBtn"
+                        android:layout_width="0dp"
+                        android:layout_height="35dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_weight="0.3"
+                        android:background="@color/white"
+                        app:srcCompat="@drawable/ic_edit" />
+
+                </LinearLayout>
+
+                <Spinner
+                    android:id="@+id/languageSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginStart="8dp"
+                    android:spinnerMode="dialog"
+                    android:visibility="invisible" />
+
             </LinearLayout>
         </RelativeLayout>
     </ScrollView>

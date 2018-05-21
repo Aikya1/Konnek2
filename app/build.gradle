@@ -158,6 +158,8 @@ dependencies {
     compile "com.timehop.stickyheadersrecyclerview:library:${rootProject.stickylistheadersRecyclerViewVersion}@aar"
     compile "com.rockerhieu.emojicon:library:${rootProject.emojiconVersion}"
     compile "com.soundcloud.android:android-crop:${rootProject.cropVersion}@aar"
+    compile 'com.github.vikramezhil:DroidSpeech:v2.0.3'
+
 
     // for experimental rx picker
     compile('com.crashlytics.sdk.android:crashlytics:2.6.2@aar') {

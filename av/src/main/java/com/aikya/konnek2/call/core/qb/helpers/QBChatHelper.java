@@ -164,11 +164,15 @@ public class QBChatHelper extends BaseThreadPoolHelper {
     }
 
     private void initMainChatListeners() {
-        chatService.getMessageStatusesManager().addMessageStatusListener(privateChatMessagesStatusListener);
-        chatService.getIncomingMessagesManager().addDialogMessageListener(allChatMessagesListener);
+        if (chatService != null && systemMessagesManager != null) {
+            chatService.getMessageStatusesManager().addMessageStatusListener(privateChatMessagesStatusListener);
+            chatService.getIncomingMessagesManager().addDialogMessageListener(allChatMessagesListener);
 
-        systemMessagesManager = QBChatService.getInstance().getSystemMessagesManager();
-        systemMessagesManager.addSystemMessageListener(systemMessagesListener);
+            systemMessagesManager = QBChatService.getInstance().getSystemMessagesManager();
+            systemMessagesManager.addSystemMessageListener(systemMessagesListener);
+        }
+
+
     }
 
     public boolean isLoggedInToChat() {

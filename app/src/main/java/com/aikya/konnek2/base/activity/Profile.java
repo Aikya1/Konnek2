@@ -454,7 +454,7 @@ public class Profile extends BaseActivity implements OnMediaPickedListener, Adap
                         userCustomData.setFirstName(firstName);
                         if (facebookId != null) {
                             userCustomData.setFacebookId(facebookId);
-                        }else{
+                        } else {
                             userCustomData.setFacebookId("");
                         }
                         userCustomData.setLastName(lastName);
@@ -474,7 +474,12 @@ public class Profile extends BaseActivity implements OnMediaPickedListener, Adap
                         }*/
 
 
-                        userCustomData.setPrefLanguage(selectedLanguage);
+                        userCustomData.setPrefLanguage("English");
+                        if (!selectedLanguage.equalsIgnoreCase("English")) {
+                            userCustomData.setPrefLanguage1(selectedLanguage);
+                        } else {
+                            userCustomData.setPrefLanguage1("");
+                        }
                         userCustomData.setIsLocationToShare(true);
                         userCustomData.setContactno(phNo);
                         userCustomData.setPrefEmail(userEmail);
@@ -493,7 +498,7 @@ public class Profile extends BaseActivity implements OnMediaPickedListener, Adap
                         userCustomData.setLastSeen("");
                         userCustomData.setGender("");
                         userCustomData.setPrefSms("");
-                        userCustomData.setPrefLanguage1("");
+
                         userCustomData.setPrefLanguage3("");
 
 

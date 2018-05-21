@@ -86,9 +86,9 @@
         android:layout_below="@+id/view1"
         android:layout_marginTop="20dp"
         android:paddingLeft="20dp"
-        android:text="Preferred language for dictation :"
-        android:textColor="@color/black"
-        android:paddingStart="20dp" />
+        android:paddingStart="20dp"
+        android:text="@string/profileLang"
+        android:textColor="@color/black" />
 
     <Spinner
         android:id="@+id/spin1"
@@ -101,7 +101,7 @@
         android:layout_marginTop="20dp"
         android:backgroundTint="@color/gray"
         android:paddingLeft="20dp"
-        android:textSize="20sp"
-        android:paddingStart="20dp" />
+        android:paddingStart="20dp"
+        android:textSize="20sp" />
 
 </RelativeLayout>

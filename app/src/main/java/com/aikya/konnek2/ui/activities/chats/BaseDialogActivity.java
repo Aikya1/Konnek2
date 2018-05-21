@@ -163,6 +163,7 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
     private static final TimeUnit KEEP_ALIVE_TIME_UNIT = TimeUnit.SECONDS;
     private static int NUMBER_OF_CORES = Runtime.getRuntime().availableProcessors();
     private static Map<String, Locale> displayNames = new HashMap<String, Locale>();
+    private boolean isSecondLangSet = false;
 
 
     @Bind(com.aikya.konnek2.R.id.messages_swiperefreshlayout)
@@ -1599,6 +1600,7 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
         radioGroupLeft = alertLayout.findViewById(com.aikya.konnek2.R.id.radio_group_left);
 
         String prefLanguage = userCustomData.getPrefLanguage();
+        String secondLanguage = userCustomData.getPrefLanguage1();
 
 
         final TextView headerView = alertLayout.findViewById(com.aikya.konnek2.R.id.text_header);
@@ -1610,20 +1612,26 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
         final ImageButton changeLangButton = alertLayout.findViewById(R.id.changeLangBtn);
         final Spinner langSpinner = alertLayout.findViewById(R.id.languageSpinner);
 
-        if (!prefLanguage.equalsIgnoreCase("English")) {
+        if (isSecondLangSet) {
+            secLangRadButton.setEnabled(true);
+        } else {
+            secLangRadButton.setEnabled(false);
+        }
+
+
+        if (secondLanguage != null && !TextUtils.isEmpty(secondLanguage)) {
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
               /*  locale = getLocale(prefLanguage);
                 getLocaleString(prefLanguage);*/
-
 //                secLangRadButton.setVisibility(View.VISIBLE);
 //                changeLangButton.setVisibility(View.VISIBLE);
-
-                secLangRadButton.setText(prefLanguage);
-                secLangRadButton.setTag(getLanguageCode(prefLanguage));
-
+                secLangRadButton.setTextColor(getApplicationContext().getResources().getColor(R.color.black));
+                secLangRadButton.setEnabled(true);
+                secLangRadButton.setText(secondLanguage);
+                secLangRadButton.setTag(getLanguageCode(secondLanguage));
             }
-
         }
+
 
 //        radioGroupRight = alertLayout.findViewById(R.id.radio_group_right);
 //        final CheckBox lanuageTranslate = alertLayout.findViewById(R.id.check_box_translate);
@@ -1659,11 +1667,8 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
         radioGroupLeft.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
-
-
                 selectedRadioButtonIDLeft = radioGroupLeft.getCheckedRadioButtonId();
                 if (selectedRadioButtonIDLeft != -1) {
-
                     RadioButton selectedRadioButton = alertLayout.findViewById(selectedRadioButtonIDLeft);
                     String selectedRadioButtonTag = String.valueOf(selectedRadioButton.getTag());
                     SelectedLanguageLeft = selectedRadioButtonTag;
@@ -1773,13 +1778,17 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
         langSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                userCustomData.setPrefLanguage(nonDupLangList.get(position));
+                userCustomData.setPrefLanguage1(nonDupLangList.get(position));
 //                secLangRadButton.setVisibility(View.VISIBLE);
+                secLangRadButton.setEnabled(true);
                 secLangRadButton.setChecked(true);
                 secLangRadButton.setTextColor(getApplicationContext().getResources().getColor(R.color.black));
                 secLangRadButton.setText(nonDupLangList.get(position));
                 secLangRadButton.setTag(getLanguageCode(nonDupLangList.get(position)));
-                SelectedLanguageLeft = nonDupLangList.get(position);
+                isSecondLangSet = true;
+                String selectedRadioButtonTag = String.valueOf(secLangRadButton.getTag());
+
+                SelectedLanguageLeft = selectedRadioButtonTag;
             }
 
             @Override
@@ -1846,13 +1855,13 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
                 result = "ml_IN";
                 break;
             case "Chinese":
-                result = "zh_";
+                result = "zh_HK";
                 break;
             case "Spanish":
                 result = "es";
                 break;
             case "Arabic":
-                result = "ks_IN";
+                result = "ar-AE";
                 break;
             case "Portugese":
                 result = "pt_PT";
@@ -1870,7 +1879,7 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
                 result = "fr";
                 break;
             case "Malay":
-                result = "ta_IN";
+                result = "ms-MY";
                 break;
             case "Italian":
                 result = "it_IT";
@@ -1878,15 +1887,14 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
             case "Polish":
                 result = "pl_PL";
                 break;
-
             case "Ukrainian":
                 result = "uk_UA";
                 break;
             case "Romanian":
                 result = "ro_RO";
                 break;
-            case "Swahii":
-                result = "sw";
+            case "Swahili":
+                result = "sw-TZ";
                 break;
         }
 
@@ -1985,6 +1993,8 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
 
         @Override
         public void onTick(long millisUntilFinished) {
+            Log.d(TAG, "Selected Language = " + SelectedLanguageLeft);
+
             if (speakFlag && counts == 0) {
                 selectedRadioButtonIDLeft = 1;
                 if (selectedRadioButtonIDLeft == 0 && selectedRadioButtonIDRight == 0) {

@@ -150,6 +150,7 @@ public class Utils {
         setJsonValue(jsonObject, UserCustomData.TAG_prefInApp, userCustomData.getPrefInApp());
         setJsonValue(jsonObject, UserCustomData.TAG_prefsms, userCustomData.getPrefSms());
         setJsonValue(jsonObject, UserCustomData.TAG_prefLanguage, userCustomData.getPrefLanguage());
+        setJsonValue(jsonObject,UserCustomData.TAG_prefLanguage1,userCustomData.getPrefLanguage1());
 
         setJsonValue(jsonObject, UserCustomData.TAG_gender, userCustomData.getGender());
         setJsonValue(jsonObject, UserCustomData.TAG_dob, userCustomData.getDob());

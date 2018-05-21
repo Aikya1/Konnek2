@@ -16,12 +16,16 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.aikya.konnek2.R;
 import com.aikya.konnek2.call.core.models.AppSession;
@@ -29,6 +33,7 @@ import com.aikya.konnek2.call.core.models.UserCustomData;
 import com.aikya.konnek2.call.core.utils.Utils;
 import com.aikya.konnek2.call.db.utils.ErrorUtils;
 import com.aikya.konnek2.call.services.model.QMUser;
+import com.aikya.konnek2.ui.activities.authorization.LandingActivity;
 import com.aikya.konnek2.ui.activities.base.BaseLoggableActivity;
 import com.aikya.konnek2.ui.views.roundedimageview.RoundedImageView;
 import com.aikya.konnek2.utils.AppConstant;
@@ -62,8 +67,9 @@ import rx.Observable;
 import rx.Subscriber;
 
 import static android.support.v4.graphics.TypefaceCompatUtil.getTempFile;
+import static com.aikya.konnek2.utils.AppConstant.nonDupLangList;
 
-public class MyProfileActivity extends BaseLoggableActivity implements OnMediaPickedListener {
+public class MyProfileActivity extends BaseLoggableActivity implements OnMediaPickedListener, AdapterView.OnItemSelectedListener {
 
     private static String TAG = MyProfileActivity.class.getSimpleName();
 
@@ -103,6 +109,12 @@ public class MyProfileActivity extends BaseLoggableActivity implements OnMediaPi
     @Bind(R.id.checkBox3)
     CheckBox checkBox3;
 
+    @Bind(R.id.languageSpinner)
+    Spinner langSpinner;
+
+    @Bind(R.id.secondaryLangTv)
+    TextView secondLangTv;
+
     private QBUser qbUser;
     private boolean isNeedUpdateImage;
     private UserCustomData userCustomData;
@@ -111,6 +123,7 @@ public class MyProfileActivity extends BaseLoggableActivity implements OnMediaPi
     private MediaPickHelper mediaPickHelper;
     private Uri imageUri;
     private Calendar myCalendar;
+    private String selectedLanguage;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, MyProfileActivity.class);
@@ -209,6 +222,7 @@ public class MyProfileActivity extends BaseLoggableActivity implements OnMediaPi
         qbUser = AppSession.getSession().getUser();
         userCustomData = Utils.customDataToObject(qbUser.getCustomData());
         myCalendar = Calendar.getInstance();
+        langSpinner.setOnItemSelectedListener(this);
 
     }
 
@@ -223,6 +237,11 @@ public class MyProfileActivity extends BaseLoggableActivity implements OnMediaPi
             etName.setText(currentFullName);
             etEmail.setText(currentEmail);
             etStatus.setText(userStatus);
+
+            if (userCustomData.getPrefLanguage1() != null &&
+                    !TextUtils.isEmpty(userCustomData.getPrefLanguage1())) {
+                secondLangTv.setText(getString(R.string.secondLangTv) + " " + userCustomData.getPrefLanguage1());
+            }
 
             String loginType = appSharedHelper.getLoginType();
 
@@ -345,8 +364,8 @@ public class MyProfileActivity extends BaseLoggableActivity implements OnMediaPi
         } else {
             return newUser;
         }
-//        userCustomData.setPrefLanguage("Gujarati");
 
+//      userCustomData.setPrefLanguage("Gujarati");
         newUser.setFacebookId(qbUser.getFacebookId());
 
         RadioButton gender = findViewById(rgGender.getCheckedRadioButtonId());
@@ -428,5 +447,50 @@ public class MyProfileActivity extends BaseLoggableActivity implements OnMediaPi
             }
         });
 //        }
+    }
+
+
+    @OnClick(R.id.changeLangBtn)
+    public void setSecondLanguage() {
+        setUpLanguageSpinner();
+    }
+
+    /*Method that will populate the language spinner which will be displayed to the user
+     * when they click on the edit button.*/
+    private void setUpLanguageSpinner() {
+
+        LandingActivity.addLanguagesToList();
+        nonDupLangList.remove("English");
+        ArrayAdapter<String> adapter =
+                new ArrayAdapter<String>(getApplicationContext(),
+                        R.layout.custom_spinner_dropdown, nonDupLangList);
+        adapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
+        if (langSpinner != null) {
+            langSpinner.setAdapter(adapter);
+            String myString = Locale.getDefault().getDisplayLanguage(); //the value you want the position for
+            ArrayAdapter myAdap = (ArrayAdapter) langSpinner.getAdapter(); //cast to an ArrayAdapter
+            int spinnerPosition = myAdap.getPosition(myString);
+            //set the default according to value
+//            langSpinner.setSelection(spinnerPosition);
+            langSpinner.setSelected(false);  // must
+            langSpinner.performClick();
+//          selectedLanguage = spin1.getSelectedItem().toString();
+        }
+    }
+
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+        Log.d(TAG, "onItemSelected" + position);
+        secondLangTv.setText(getString(R.string.secondLangTv) + " " + nonDupLangList.get(position));
+        userCustomData.setPrefLanguage1(nonDupLangList.get(position));
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+        Log.d(TAG, "OnNothing selected");
+
     }
 }

@@ -556,7 +556,7 @@ public class ServiceManager {
             ContentResolver contentResolver = context.getContentResolver();
             Cursor cursor = contentResolver.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC");
 
-            if (cursor.getCount() > 0) {
+            if (cursor != null && cursor.getCount() > 0) {
                 while (cursor.moveToNext()) {
                     int hasPhoneNumber = Integer.parseInt(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)));
                     if (hasPhoneNumber > 0) {
