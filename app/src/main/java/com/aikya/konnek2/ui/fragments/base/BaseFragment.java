@@ -74,7 +74,6 @@ public abstract class BaseFragment extends Fragment implements UserStatusChangin
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addListeners();
-
         app = App.getInstance();
         failAction = baseActivity.getFailAction();
     }

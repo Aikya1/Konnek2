@@ -6,11 +6,14 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.graphics.Bitmap;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
@@ -23,7 +26,9 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.aikya.konnek2.Manifest;
 import com.aikya.konnek2.R;
 import com.aikya.konnek2.base.activity.AppHomeActivity;
 import com.aikya.konnek2.base.activity.Profile;
@@ -33,6 +38,7 @@ import com.aikya.konnek2.ui.dialogs.GdprCustomDialog;
 import com.aikya.konnek2.utils.AppConstant;
 import com.aikya.konnek2.utils.AppPreference;
 import com.aikya.konnek2.utils.EmailPhoneValidationUtils;
+import com.aikya.konnek2.utils.Locator;
 import com.aikya.konnek2.utils.ToastUtils;
 import com.aikya.konnek2.utils.helpers.ServiceManager;
 import com.aikya.konnek2.utils.helpers.SystemPermissionHelper;
@@ -54,6 +60,7 @@ import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.Scope;
+import com.google.android.gms.location.LocationServices;
 import com.hbb20.CountryCodePicker;
 import com.quickblox.users.model.QBUser;
 
@@ -76,11 +83,18 @@ import butterknife.OnClick;
 import rx.Observer;
 import rx.Subscriber;
 
+import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+import static android.Manifest.permission.READ_CONTACTS;
 import static com.aikya.konnek2.utils.AppConstant.nonDupLangList;
 
-public class LandingActivity extends BaseAuthActivity implements GoogleApiClient.OnConnectionFailedListener, GdprCustomDialog.OnGdprSelected {
+public class LandingActivity extends BaseAuthActivity implements GoogleApiClient.OnConnectionFailedListener,
+        GdprCustomDialog.OnGdprSelected, Locator.Listener {
 
     /*RAJEEV COMMIT*/
+
+
+    public static final int RequestPermissionCode = 7;
 
 
     public static final String TAG = LandingActivity.class.getSimpleName();
@@ -112,6 +126,9 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
 
     GdprCustomDialog gdprCustomDialog;
     String userLoginType = "";
+    Locator userLocator;
+
+    double userLatitude, userLongitude;
 
 
 
@@ -146,6 +163,8 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
         gdprCustomDialog.setDialogResult(this);
         addLanguagesToList();
         Collections.sort(nonDupLangList);
+
+        userLocator = new Locator(this, this);
 
 
         //        generateFacebookKeyHash();
@@ -303,6 +322,7 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .addApi(LocationServices.API)
                 .build();
     }
 
@@ -311,6 +331,7 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
+
 
     public boolean isLoggedIn() {
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
@@ -375,7 +396,13 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
     @Override
     public void onStart() {
         super.onStart();
-        checkRecordPermission();
+//        checkRecordPermission();
+        if (mGoogleApiClient != null) {
+            mGoogleApiClient.connect();
+        }
+
+//        checkLocationPermission();
+        checkLocationAndRecordPermission();
         OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
             /*if (opr.isDone()) {
                 // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
@@ -397,7 +424,6 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
                 });
             }*/
     }
-
 
     @OnClick(R.id.facebookView)
     public void setUpFbLogin() {
@@ -431,6 +457,10 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
     @Override
     protected void onResume() {
         super.onResume();
+        if (systemPermissionHelper.isAllLocationPermissionGranted()) {
+            userLocator.getLocation(Locator.Method.GPS, this);
+        }
+        checkRecordPermission();
     }
 
     @OnClick(R.id.googleSignInBtn)
@@ -479,6 +509,16 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
             return true;
         } else {
             systemPermissionHelper.requestPermissionsReadContacts();
+            return false;
+        }
+    }
+
+    private boolean checkLocationPermission() {
+        if (systemPermissionHelper.isAllLocationPermissionGranted()) {
+            return true;
+        } else {
+            ToastUtils.shortToast("Grant Permission.");
+            systemPermissionHelper.requestAllPermissionForLocation();
             return false;
         }
     }
@@ -587,6 +627,7 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
         }
     };
 
+
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Log.d(TAG, "onConnectionFailed:" + connectionResult);
@@ -597,6 +638,12 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
         Intent profileIntent = new Intent(LandingActivity.this, Profile.class);
         profileIntent.putExtra("phNo", phNumber);
         profileIntent.putExtra("countryCode", countryCode);
+
+        if (userLatitude != 0.0 && userLongitude != 0.0) {
+            profileIntent.putExtra("latitude", userLatitude);
+            profileIntent.putExtra("longitude", userLongitude);
+        }
+
         startActivity(profileIntent);
 
     }
@@ -612,7 +659,12 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
         } else if (userLoginType.equals(AppConstant.LOGIN_TYPE_MANUAL) && result.equalsIgnoreCase("yes")) {
             appSharedHelper.saveIsGdpr(result);
             loginType = LoginType.FIREBASE_PHONE;
-            startSocialLogin(phNumber, countryCode);
+
+            if (userLongitude != 0 && userLatitude != 0) {
+                startSocialLogin(phNumber, countryCode, userLatitude, userLongitude);
+            } else {
+                startSocialLogin(phNumber, countryCode);
+            }
         } else {
             appSharedHelper.saveIsGdpr(result);
             startProfileActivity();
@@ -634,5 +686,128 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
                 Intent i = new Intent(LandingActivity.this, Intro.class);
                 startActivity(i);
             }*/
+    }
+
+    /*Catch Up Permissions..*/
+
+    private void checkLocationAndRecordPermission() {
+
+        if (CheckingPermissionIsEnabledOrNot()) {
+            Toast.makeText(LandingActivity.this, "All Permissions Granted Successfully", Toast.LENGTH_LONG).show();
+        }
+        // If, If permission is not enabled then else condition will execute.
+        else {
+            //Calling method to enable permission.
+            RequestMultiplePermission();
+
+        }
+    }
+
+
+    // Checking permission is enabled or not using function starts from here.
+    public boolean CheckingPermissionIsEnabledOrNot() {
+
+        int FirstPermissionResult = ContextCompat.checkSelfPermission(getApplicationContext(), ACCESS_FINE_LOCATION);
+        int SecondPermissionResult = ContextCompat.checkSelfPermission(getApplicationContext(), READ_CONTACTS);
+
+        return FirstPermissionResult == PackageManager.PERMISSION_GRANTED &&
+                SecondPermissionResult == PackageManager.PERMISSION_GRANTED;
+    }
+
+
+    //Permission function starts from here
+    private void RequestMultiplePermission() {
+
+        // Creating String Array with Permissions.
+        ActivityCompat.requestPermissions(LandingActivity.this, new String[]
+                {
+                        ACCESS_FINE_LOCATION,
+                        READ_CONTACTS
+                }, RequestPermissionCode);
+    }
+
+    // Calling override method.
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case RequestPermissionCode:
+                if (grantResults.length > 0) {
+
+                    checkRationale(permissions, grantResults);
+
+                  /*  boolean accessFineLocationPermission = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                    boolean readContactsPermission = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+
+                    if (accessFineLocationPermission && readContactsPermission) {
+
+//                        Toast.makeText(LandingActivity.this, "Permission Granted", Toast.LENGTH_LONG).show();
+                    } else {
+                        checkLocationAndRecordPermission();
+                        Toast.makeText(LandingActivity.this, "Permission Denied", Toast.LENGTH_LONG).show();
+                    }*/
+                }
+
+                break;
+        }
+    }
+
+    private void checkRationale(String[] permissions, int[] grantResults) {
+        for (int i = 0, len = permissions.length; i < len; i++) {
+            String permission = permissions[i];
+//            ToastUtils.shortToast("permission = " + permission);
+            if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
+                //User rejected the permission
+
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                    boolean rationale = shouldShowRequestPermissionRationale(permission);
+                    if (!rationale) {
+                        //user also checked "never ask again"
+                        //you can either enable some fall back,
+                        //disable features of your app
+                        //or open another dialog explaining
+                        //again the permission and directing to
+                        //the app setting
+//                        ToastUtils.shortToast("!rationale");
+//                        closeApp();
+
+                    } else if (android.Manifest.permission.ACCESS_FINE_LOCATION.equals(permission)) {
+                        //showRationale(permission,R.string.permission_rationale_location);
+                        // user did NOT check "never ask again"
+                        // this is a good place to explain the user
+                        // why you need the permission and ask if he wants
+                        // to accept it (the rationale)
+                        ToastUtils.shortToast("android.Manifest.permission.ACCESS_FINE_LOCATION.equals(permission)");
+//                        closeApp();
+                    }
+
+
+                } else {
+                    //dont show anything..
+//                    ToastUtils.shortToast("Don't show rationale");
+                }
+
+            }
+        }
+    }
+
+    private void closeApp() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            finishAffinity();
+        } else {
+            finish();
+        }
+    }
+
+    @Override
+    public void onLocationFound(Location location) {
+//        ToastUtils.shortToast("Location Found = " + location.getLatitude() + " " + location.getLongitude());
+        userLatitude = location.getLatitude();
+        userLongitude = location.getLongitude();
+
+    }
+
+    @Override
+    public void onLocationNotFound() {
+
     }
 }

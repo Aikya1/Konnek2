@@ -86,6 +86,9 @@ public class Profile extends BaseActivity implements OnMediaPickedListener, Adap
     private String firstName, lastName, phNo, userEmail, profileUrl, userStatus, userLanguage, selectedLanguage, signUpType, password, fullName, facebookId;
     private String countryCode;
 
+    /*Catch up vars*/
+    double userLatitude, userLongitude;
+
     StringifyArrayList<String> tags = new StringifyArrayList<String>();
     private ProfilePrefManager profileprefManager;
     File file;
@@ -113,8 +116,10 @@ public class Profile extends BaseActivity implements OnMediaPickedListener, Adap
             launchHomeScreen();
             finish();
         }
-        phNo = getIntent().getExtras().getString("phNo");
-        countryCode = getIntent().getExtras().getString("countryCode");
+
+
+        getBundleData();
+
         serviceManager = ServiceManager.getInstance();
         // setContentView(R.layout.activity_profile);
         viewPager = findViewById(com.aikya.konnek2.R.id.view_pager);
@@ -156,6 +161,19 @@ public class Profile extends BaseActivity implements OnMediaPickedListener, Adap
         });
 
         loginType = appSharedHelper.getLoginType();
+    }
+
+    private void getBundleData() {
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            phNo = bundle.getString("phNo");
+            countryCode = bundle.getString("countryCode");
+            if (bundle.containsKey("latitude") && bundle.containsKey("longitude")) {
+                userLatitude = bundle.getDouble("latitude");
+                userLongitude = bundle.getDouble("longitude");
+            }
+        }
+
     }
 
     private void setUpLanguageSpinner() {
@@ -498,8 +516,9 @@ public class Profile extends BaseActivity implements OnMediaPickedListener, Adap
                         userCustomData.setLastSeen("");
                         userCustomData.setGender("");
                         userCustomData.setPrefSms("");
-
                         userCustomData.setPrefLanguage3("");
+                        userCustomData.setLatitude(userLatitude);
+                        userCustomData.setLongitude(userLongitude);
 
 
                         Gson gson = new Gson();

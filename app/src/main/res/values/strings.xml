@@ -529,7 +529,8 @@
     <string name="pref_language">2nd Lang</string>
     <string name="primaryLang">Primary language: English</string>
     <string name="profileLang">Default language is English\n\nSecondary language</string>
-    <string name="secondLangTv">Second language: </string>>
+    <string name="secondLangTv">Second language: </string>
+    <string name="milesTextView">%s miles</string>>
 
 
 </resources>

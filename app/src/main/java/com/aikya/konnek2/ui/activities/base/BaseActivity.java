@@ -46,12 +46,14 @@ import com.aikya.konnek2.call.core.qb.helpers.QBFriendListHelper;
 import com.aikya.konnek2.call.core.service.QBService;
 import com.aikya.konnek2.call.core.service.QBServiceConsts;
 import com.aikya.konnek2.call.core.utils.ConnectivityUtils;
+import com.aikya.konnek2.call.db.managers.DataManager;
 import com.aikya.konnek2.call.db.utils.ErrorUtils;
 import com.aikya.konnek2.call.services.model.QMUser;
 import com.aikya.konnek2.ui.activities.authorization.LandingActivity;
 import com.aikya.konnek2.ui.activities.call.CallActivity;
 import com.aikya.konnek2.ui.activities.chats.GroupDialogActivity;
 import com.aikya.konnek2.ui.activities.chats.PrivateDialogActivity;
+import com.aikya.konnek2.ui.adapters.friends.FriendsAdapter;
 import com.aikya.konnek2.ui.fragments.dialogs.base.ProgressDialogFragment;
 import com.aikya.konnek2.utils.ToastUtils;
 import com.aikya.konnek2.utils.bridges.ActionBarBridge;
@@ -62,11 +64,13 @@ import com.aikya.konnek2.utils.broadcasts.NetworkChangeReceiver;
 import com.aikya.konnek2.utils.helpers.ActivityUIHelper;
 import com.aikya.konnek2.utils.helpers.LoginHelper;
 import com.aikya.konnek2.utils.helpers.SharedHelper;
+import com.aikya.konnek2.utils.helpers.SystemPermissionHelper;
 import com.aikya.konnek2.utils.helpers.notification.NotificationManagerHelper;
 import com.aikya.konnek2.utils.listeners.ServiceConnectionListener;
 import com.aikya.konnek2.utils.listeners.UserStatusChangingListener;
 import com.quickblox.chat.QBChatService;
 import com.quickblox.chat.model.QBChatDialog;
+import com.quickblox.users.model.QBUser;
 
 import org.jivesoftware.smack.ConnectionListener;
 import org.jivesoftware.smack.XMPPConnection;
@@ -74,6 +78,7 @@ import org.jivesoftware.smack.XMPPConnection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -97,6 +102,15 @@ public abstract class BaseActivity extends AppCompatActivity implements ActionBa
     protected QBService service;
     protected LocalBroadcastManager localBroadcastManager;
     protected String title;
+    /*Variables for Catch up*/
+    protected List<QBUser> qbUserLists;
+    protected List<QMUser> qMUserList;
+    protected FriendsAdapter friendsAdapter;
+    protected QMUser selectedUser;
+    protected DataManager dataManager;
+
+
+    /*End of variables for catch up*/
 
     private ProgressBar toolbarProgressBar;
     private View snackBarView;
@@ -119,6 +133,9 @@ public abstract class BaseActivity extends AppCompatActivity implements ActionBa
     private ConnectionListener chatConnectionListener;
     private ViewGroup root;
     private boolean isUIDisabled;
+
+    protected SystemPermissionHelper systemPermissionHelper;
+
 
     protected abstract int getContentResId();
 
@@ -428,6 +445,8 @@ public abstract class BaseActivity extends AppCompatActivity implements ActionBa
         serviceConnection = new QBChatServiceConnection();
         localBroadcastManager = LocalBroadcastManager.getInstance(this);
         snackbarClientPriority = new SparseArray<>();
+        systemPermissionHelper = new SystemPermissionHelper(this);
+
     }
 
     protected void setUpActionBarWithUpButton() {

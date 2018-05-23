@@ -159,6 +159,8 @@ dependencies {
     compile "com.rockerhieu.emojicon:library:${rootProject.emojiconVersion}"
     compile "com.soundcloud.android:android-crop:${rootProject.cropVersion}@aar"
     compile 'com.github.vikramezhil:DroidSpeech:v2.0.3'
+    compile 'com.baoyz.actionsheet:library:1.1.7'
+
 
 
     // for experimental rx picker

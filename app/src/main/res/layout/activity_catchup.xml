@@ -60,7 +60,8 @@
                 android:layout_alignParentRight="true"
                 android:layout_below="@+id/catch_tv1"
                 android:layout_marginTop="20dp"
-                android:text="0.5 miles"
+                android:inputType="numberDecimal"
+                android:text="10.0 miles"
                 android:textColor="@color/dark_gray"
                 android:textSize="@dimen/standard_content_size" />
 
@@ -71,19 +72,19 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/catch_tv2"
                 android:layout_marginTop="10dp"
-                android:thumbTint="@color/colorPrimary"
-                android:max="5"
-                android:progressTint="@color/colorPrimary"
+                android:max="500"
+                android:progress="100"
                 android:progressBackgroundTint="@color/dark_gray"
-                android:progress="1"
+                android:progressTint="@color/colorPrimary"
                 android:scrollbarSize="20dp"
-                />
+                android:thumbTint="@color/colorPrimary" />
 
             <android.support.v7.widget.RecyclerView
+                android:id="@+id/catchUpListView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/mile_seek"
-                android:layout_marginTop="20dp"/>
+                android:layout_marginTop="20dp" />
 
 
         </RelativeLayout>

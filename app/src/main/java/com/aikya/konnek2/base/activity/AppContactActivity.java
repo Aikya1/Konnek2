@@ -15,6 +15,7 @@ import com.aikya.konnek2.call.core.models.AppSession;
 import com.aikya.konnek2.call.services.model.QMUser;
 import com.aikya.konnek2.ui.activities.base.BaseLoggableActivity;
 import com.aikya.konnek2.utils.AppConstant;
+import com.aikya.konnek2.utils.helpers.ServiceManager;
 import com.quickblox.chat.model.QBChatDialog;
 import com.quickblox.core.request.QBRequestGetBuilder;
 
@@ -32,7 +33,7 @@ public class AppContactActivity extends BaseLoggableActivity {
     public QBRequestGetBuilder qbRequestGetBuilder;
     public List<QBChatDialog> qbPrivateDialogsList;
 
-
+    ServiceManager serviceManager;
 
     private int[] tabIcons = {
             R.drawable.konnek2_tab_icon,
@@ -40,7 +41,6 @@ public class AppContactActivity extends BaseLoggableActivity {
 
     @Override
     protected int getContentResId() {
-
         return R.layout.activity_app_contact;
     }
 
@@ -52,7 +52,9 @@ public class AppContactActivity extends BaseLoggableActivity {
         if (!isChatInitializedAndUserLoggedIn()) {
             loginChat();
         }
+
         initViews();
+        serviceManager = ServiceManager.getInstance();
     }
 
 
@@ -64,7 +66,20 @@ public class AppContactActivity extends BaseLoggableActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        if (!checkRecordPermission()) {
 
+        }
+    }
+
+
+    public boolean checkRecordPermission() {
+        if (systemPermissionHelper.isContactPermissionGranted()) {
+            serviceManager.uploadAllContacts(this);
+            return true;
+        } else {
+            systemPermissionHelper.requestPermissionsReadContacts();
+            return false;
+        }
     }
 
 
@@ -156,8 +171,6 @@ public class AppContactActivity extends BaseLoggableActivity {
     public void onBackPressed() {
         finish();
         super.onBackPressed();
-
-
 
 
     }

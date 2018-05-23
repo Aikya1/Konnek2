@@ -6,16 +6,16 @@ import java.io.Serializable;
 public class UserCustomData implements Serializable {
 
     /*
-    *
-    *
-    * ["country": "India", "city": "Bengaluru", "longitude": 77.566988358551981,
-    * "deviceType": "IOS", "addressLine3": "", "prefLaunguage2": "Hindi",
-    * "gender": Konnek2.Gender.Male, "addressLine1": "15th Cross Road", "prefSMS": false,
-    * "addressLine2": "15th Cross Road", "latitude": 13.005525341257357, "deviceToken": "",
+     *
+     *
+     * ["country": "India", "city": "Bengaluru", "longitude": 77.566988358551981,
+     * "deviceType": "IOS", "addressLine3": "", "prefLaunguage2": "Hindi",
+     * "gender": Konnek2.Gender.Male, "addressLine1": "15th Cross Road", "prefSMS": false,
+     * "addressLine2": "15th Cross Road", "latitude": 13.005525341257357, "deviceToken": "",
      * "signUpType": Konnek2.SignupType.Phone, "countryCode": "+91", "gid": "",
      * "prefEmail": false, "postCode": "560003", "prefInApp": false, "isEuropean": false, "prefLaunguage1": "English",
-    * "deviceUdid": "19FE517C-E1C2-45FB-9687-FCC1B23694C9", "prefLaunguage3": "Urdu"]
-    * */
+     * "deviceUdid": "19FE517C-E1C2-45FB-9687-FCC1B23694C9", "prefLaunguage3": "Urdu"]
+     * */
 
     public static String TAG_AVATAR_URL = "avatarUrl";
     public static String TAG_STATUS = "status";
@@ -45,6 +45,9 @@ public class UserCustomData implements Serializable {
     public static String TAG_Errormessage = "error";
     public static String IS_LOCATION_TO_SHARE = "isLocationToShare";
     public static String TAG_LAST_SEEN = "lastSeen";
+    public static String TAG_USER_LATITUDE = "latitude";
+    public static String TAG_USER_LONGITUDE = "longitude";
+
 
 
 
@@ -84,6 +87,24 @@ public class UserCustomData implements Serializable {
     private String postalcode;
     private String prefSms;
     private boolean isLocationToShare;
+    private double latitude;
+    private double longitude;
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
 
     public String getLastSeen() {
         return lastSeen;
@@ -94,8 +115,6 @@ public class UserCustomData implements Serializable {
     }
 
     private String lastSeen;
-
-
 
 
     public String getAge() {
@@ -257,7 +276,6 @@ public class UserCustomData implements Serializable {
     public void setAddressLine1(String addressLine1) {
         this.addressLine1 = addressLine1;
     }
-
 
 
     public String getPrefSms() {

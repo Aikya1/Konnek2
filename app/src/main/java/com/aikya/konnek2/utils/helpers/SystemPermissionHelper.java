@@ -180,7 +180,8 @@ public class SystemPermissionHelper {
     }
 
     public void requestAllPermissionForLocation() {
-        checkAndRequestPermissions(LOCATION_PERMISSION_REQUEST_CODE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION);
+        checkAndRequestPermissions(LOCATION_PERMISSION_REQUEST_CODE, Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION);
     }
 
     public void requestPermissionsTakePhoto() {

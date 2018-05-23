@@ -74,7 +74,6 @@ public class AppKonnek2ContactFragment extends BaseFragment implements SwipeRefr
     private Handler mHandler;
     private SwipeRefreshLayout swipeRefresh;
 
-    private ProgressBar progressBar;
 
     public AppKonnek2ContactFragment() {
     }
@@ -86,7 +85,6 @@ public class AppKonnek2ContactFragment extends BaseFragment implements SwipeRefr
         listView = view.findViewById(R.id.listview_contacts);
         chatHelper = new QBChatHelper(getContext());
         swipeRefresh = view.findViewById(R.id.swipeRefresh);
-        progressBar = view.findViewById(R.id.progress_contact);
 
         return view;
     }
@@ -111,12 +109,21 @@ public class AppKonnek2ContactFragment extends BaseFragment implements SwipeRefr
         appCallLogModel = new AppCallLogModel();
         appCallLogModelArrayList = new ArrayList<>();
 
-        progressBar.setVisibility(View.VISIBLE);
-        getRegisteredUsersFromQBAddressBook();
-        progressBar.setVisibility(View.INVISIBLE);
         swipeRefresh.setOnRefreshListener(this);
     }
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        getRegisteredUsersFromQBAddressBook();
+    }
 
     @Override
     public void onDestroy() {
@@ -142,6 +149,7 @@ public class AppKonnek2ContactFragment extends BaseFragment implements SwipeRefr
 
                     @Override
                     public void onError(Throwable e) {
+                        baseActivity.hideProgress();
                         Log.d(TAG, "Error == " + e.getMessage());
                     }
 

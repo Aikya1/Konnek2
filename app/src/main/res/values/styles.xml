@@ -161,6 +161,8 @@
 
         <item name="colorControlNormal">@color/material_green_500</item>
         <item name="colorControlActivated">@color/material_green_500</item>
+        <item name="actionSheetStyle">@style/ActionSheetStyleiOS7</item>
+
     </style>
 
     <style name="TextAppearance44">
@@ -307,7 +309,6 @@
     <style name="CustomBubbleTextFrame.Right">
         <item name="android:background">@drawable/right_bubble2</item>
     </style>
-
 
     <style name="FacebookLoginButton">
         <item name="android:textSize">@dimen/text_size16sp</item>

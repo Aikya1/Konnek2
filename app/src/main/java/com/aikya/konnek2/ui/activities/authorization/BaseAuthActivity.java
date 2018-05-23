@@ -67,6 +67,7 @@ public abstract class BaseAuthActivity extends BaseActivity {
     private ServiceManager serviceManager;
 
     protected CallbackManager callbackManager;
+    private double userLatitude, userLongitude;
 
 
     private String phNo, countryCode;
@@ -185,6 +186,15 @@ public abstract class BaseAuthActivity extends BaseActivity {
         loginWithSocial(phNo, countryCode);
     }
 
+    protected void startSocialLogin(String phNo, String countryCode, double userLat, double userLong) {
+
+        this.userLatitude = userLat;
+        this.userLongitude = userLong;
+        this.phNo = phNo;
+        this.countryCode = countryCode;
+        loginWithSocial(phNo, countryCode);
+    }
+
     private void loginWithSocial(String phNo, String countryCode) {
         appSharedHelper.saveFirstAuth(true);
         appSharedHelper.saveSavedRememberMe(true);
@@ -203,6 +213,10 @@ public abstract class BaseAuthActivity extends BaseActivity {
         Intent intent = new Intent(BaseAuthActivity.this, Profile.class);
         intent.putExtra("phNo", phNo);
         intent.putExtra("countryCode", countryCode);
+        if (userLongitude != 0 && userLatitude != 0) {
+            intent.putExtra("latitude", userLatitude);
+            intent.putExtra("longitude", userLongitude);
+        }
         appSharedHelper.saveLastOpenActivity(Intro.class.getName());
         startActivity(intent);
         finish();

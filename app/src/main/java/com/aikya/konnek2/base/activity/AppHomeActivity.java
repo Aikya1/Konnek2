@@ -5,13 +5,13 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.TextUtils;
@@ -26,43 +26,38 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.MaterialDialog;
+import com.aikya.konnek2.R;
 import com.aikya.konnek2.call.core.models.AppSession;
 import com.aikya.konnek2.call.core.models.UserCustomData;
 import com.aikya.konnek2.call.core.service.QBServiceConsts;
 import com.aikya.konnek2.call.core.utils.UserFriendUtils;
 import com.aikya.konnek2.call.core.utils.Utils;
-import com.aikya.konnek2.call.db.utils.ErrorUtils;
 import com.aikya.konnek2.call.services.model.QMUser;
 import com.aikya.konnek2.service.OnlineService;
-import com.aikya.konnek2.ui.activities.authorization.LandingActivity;
+import com.aikya.konnek2.ui.activities.base.BaseLoggableActivity;
 import com.aikya.konnek2.ui.activities.catchup.CatchUpActivity;
-import com.aikya.konnek2.ui.activities.base.BaseLoggableActivity;
-import com.aikya.konnek2.ui.activities.base.BaseLoggableActivity;
 import com.aikya.konnek2.ui.activities.main.MainActivity;
-import com.aikya.konnek2.ui.activities.settings.SettingsActivity;
-import com.aikya.konnek2.utils.ToastUtils;
-import com.aikya.konnek2.utils.helpers.FacebookHelper;
-import com.aikya.konnek2.utils.helpers.SystemPermissionHelper;
-import com.aikya.konnek2.utils.listeners.AppCommon;
-import com.aikya.konnek2.R;
 import com.aikya.konnek2.ui.activities.profile.MyProfileActivity;
+import com.aikya.konnek2.ui.activities.settings.SettingsActivity;
 import com.aikya.konnek2.ui.adapters.base.AppHomeAdapter;
-import com.aikya.konnek2.ui.fragments.dialogs.base.TwoButtonsDialogFragment;
 import com.aikya.konnek2.ui.views.roundedimageview.RoundedImageView;
 import com.aikya.konnek2.utils.AppConstant;
+import com.aikya.konnek2.utils.Locator;
+import com.aikya.konnek2.utils.helpers.FacebookHelper;
 import com.aikya.konnek2.utils.helpers.FirebaseAuthHelper;
 import com.aikya.konnek2.utils.helpers.ServiceManager;
+import com.aikya.konnek2.utils.helpers.SystemPermissionHelper;
 import com.aikya.konnek2.utils.image.ImageLoaderUtils;
+import com.aikya.konnek2.utils.listeners.AppCommon;
 import com.nostra13.universalimageloader.core.ImageLoader;
-
-import rx.Subscriber;
 
 
 public class AppHomeActivity extends BaseLoggableActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     //commented
     //Comment by rajeev ..
+
+    private static final String TAG = AppHomeActivity.class.getSimpleName();
 
     GridView gridView;
     Toolbar toolbar;
@@ -97,25 +92,6 @@ public class AppHomeActivity extends BaseLoggableActivity implements NavigationV
         fragment.getActivity().startActivityForResult(intent, REQUEST_CODE_LOGOUT);
     }
 
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if (systemPermissionHelper.isContactPermissionGranted()/* &&
-                (systemPermissionHelper.isReadPhoneStatePermissionGranted()
-                        && systemPermissionHelper.isReadSMSPermissionGranted()
-                        && systemPermissionHelper.isReadNumbersPersmissionGranted())*/) {
-            if (serviceManager.friendList == null) {
-                serviceManager.uploadAllContacts(this);
-            }
-        } else {
-            systemPermissionHelper.requestPermissionsReadContacts();
-//            systemPermissionHelper.requestPermissionsReadPhoneState();
-//            ToastUtils.shortToast("Please grant permission to synch contacts.");
-            Toast.makeText(this, "Please grant permission to synch contacts.", Toast.LENGTH_SHORT).show();
-        }
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -144,7 +120,6 @@ public class AppHomeActivity extends BaseLoggableActivity implements NavigationV
         title = getResources().getStringArray(R.array.home_title);          //  Image  Values  from resource  files
 //        subtitle[6] = AppConstant.SUB_TITLE_ONE;
 //        subtitle[2] = AppConstant.SUB_TITLE_TWO;
-
         gridView = findViewById(R.id.home_rid);
         appHomeAdapter = new AppHomeAdapter(AppHomeActivity.this, title, subtitle, imageId);
         gridView.setAdapter(appHomeAdapter);
@@ -238,10 +213,10 @@ public class AppHomeActivity extends BaseLoggableActivity implements NavigationV
 
         addDialogsAction();
 
-        /*+++++++++++++++++++++TEST CODE ++++++++++++++++*//*
-        if (  serviceManager.friendList == null) {
+//        +++++++++++++++++++++TEST CODE ++++++++++++++++
+        if (serviceManager.friendList == null) {
             serviceManager.uploadAllContacts(this);
-        }*/
+        }
     }
 
 
@@ -433,4 +408,5 @@ public class AppHomeActivity extends BaseLoggableActivity implements NavigationV
     protected void onDestroy() {
         super.onDestroy();
     }
+
 }

@@ -1,14 +1,12 @@
 package com.aikya.konnek2.utils;
 
 import android.app.Activity;
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.util.Log;
-
 
 import com.aikya.konnek2.utils.listeners.AppTranslatorUtil;
 

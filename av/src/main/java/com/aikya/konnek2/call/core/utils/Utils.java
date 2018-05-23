@@ -150,7 +150,7 @@ public class Utils {
         setJsonValue(jsonObject, UserCustomData.TAG_prefInApp, userCustomData.getPrefInApp());
         setJsonValue(jsonObject, UserCustomData.TAG_prefsms, userCustomData.getPrefSms());
         setJsonValue(jsonObject, UserCustomData.TAG_prefLanguage, userCustomData.getPrefLanguage());
-        setJsonValue(jsonObject,UserCustomData.TAG_prefLanguage1,userCustomData.getPrefLanguage1());
+        setJsonValue(jsonObject, UserCustomData.TAG_prefLanguage1, userCustomData.getPrefLanguage1());
 
         setJsonValue(jsonObject, UserCustomData.TAG_gender, userCustomData.getGender());
         setJsonValue(jsonObject, UserCustomData.TAG_dob, userCustomData.getDob());
@@ -161,8 +161,9 @@ public class Utils {
         setJsonValue(jsonObject, UserCustomData.TAG_prefInApp, userCustomData.getPrefInApp());
 
         String sms = userCustomData.getPrefSms();
-        Log.d("TAG", "Sms = " + sms);
         setJsonValue(jsonObject, UserCustomData.TAG_prefsms, userCustomData.getPrefSms());
+        setJsonValue(jsonObject, UserCustomData.TAG_USER_LATITUDE, String.valueOf(userCustomData.getLatitude()));
+        setJsonValue(jsonObject, UserCustomData.TAG_USER_LONGITUDE, String.valueOf(userCustomData.getLongitude()));
 
 
         return jsonObject.toString();
