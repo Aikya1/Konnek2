@@ -19,7 +19,9 @@ import android.widget.TextView;
 
 import com.aikya.konnek2.R;
 import com.aikya.konnek2.call.core.models.AppSession;
+import com.aikya.konnek2.call.core.models.UserCustomData;
 import com.aikya.konnek2.call.core.qb.commands.chat.QBCreatePrivateChatCommand;
+import com.aikya.konnek2.call.core.utils.Utils;
 import com.aikya.konnek2.call.db.managers.DataManager;
 import com.aikya.konnek2.call.db.models.DialogOccupant;
 import com.aikya.konnek2.call.db.models.Friend;
@@ -45,6 +47,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.quickblox.chat.model.QBChatDialog;
 import com.quickblox.core.exception.QBResponseException;
@@ -58,6 +61,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import okhttp3.internal.Util;
 import rx.Observable;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
@@ -84,6 +88,12 @@ public class CatchUpActivity extends BaseLoggableActivity implements OnMapReadyC
     LatLng userLatLng;
     Location userLocation;
 
+    QBUser currentUser;
+    UserCustomData currentUserCustomData, dbUserCustomData;
+    double curUserLatitude, curUserLongitude, dbUserLatitude, dbUserLongitude;
+
+    float radiusSetByUser = 0;
+
 
     @Bind(R.id.mile_seek)
     SeekBar mileSeekBar;
@@ -95,6 +105,8 @@ public class CatchUpActivity extends BaseLoggableActivity implements OnMapReadyC
     TextView milesTextView;
     @Bind(R.id.catchUpListView)
     RecyclerView userListView;
+
+    Marker mapMarker;
 
 
     @Override
@@ -158,7 +170,7 @@ public class CatchUpActivity extends BaseLoggableActivity implements OnMapReadyC
                             LatLng currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
                             userLatLng = currentLocation;
                             userLocation = location;
-                            double iMeter = 5 * 1609.34;
+                            double iMeter = 10 * 1609.34;
 
                             mMap = googleMap;
                             circleOptions = new CircleOptions()
@@ -219,6 +231,13 @@ public class CatchUpActivity extends BaseLoggableActivity implements OnMapReadyC
     @Override
     protected void onStart() {
         super.onStart();
+        currentUser = AppSession.getSession().getUser();
+        currentUserCustomData = Utils.customDataToObject(currentUser.getCustomData());
+        if (currentUserCustomData.getLatitude() != 0 && currentUserCustomData.getLongitude() != 0) {
+            curUserLatitude = currentUserCustomData.getLatitude();
+            curUserLongitude = currentUserCustomData.getLongitude();
+        }
+
         if (!checkLocationPermission()) {
             ToastUtils.shortToast("please grant location permission to continue using Catch-Up");
         } else {
@@ -280,8 +299,11 @@ public class CatchUpActivity extends BaseLoggableActivity implements OnMapReadyC
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(userLocation.getLatitude(), userLocation.getLongitude()), animateZomm));
             mMap.animateCamera(CameraUpdateFactory.zoomTo(currentZoomLevel), 2000, null);
 
-            float prog2 = (float) progress / 10;
-            milesValueTv.setText(getString(R.string.milesTextView, String.valueOf(prog2)));
+            radiusSetByUser = (float) progress / 10;
+            milesValueTv.setText(getString(R.string.milesTextView, String.valueOf(radiusSetByUser)));
+
+
+            updateContactsList(qbUserLists);
         }
     }
 
@@ -294,31 +316,6 @@ public class CatchUpActivity extends BaseLoggableActivity implements OnMapReadyC
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
 
-    }
-
-    public double CalculationByDistance(LatLng StartP, LatLng EndP) {
-        int Radius = 6371;// radius of earth in Km
-        double lat1 = StartP.latitude;
-        double lat2 = EndP.latitude;
-        double lon1 = StartP.longitude;
-        double lon2 = EndP.longitude;
-        double dLat = Math.toRadians(lat2 - lat1);
-        double dLon = Math.toRadians(lon2 - lon1);
-        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2)
-                + Math.cos(Math.toRadians(lat1))
-                * Math.cos(Math.toRadians(lat2)) * Math.sin(dLon / 2)
-                * Math.sin(dLon / 2);
-        double c = 2 * Math.asin(Math.sqrt(a));
-        double valueResult = Radius * c;
-        double km = valueResult / 1;
-        DecimalFormat newFormat = new DecimalFormat("####");
-        int kmInDec = Integer.valueOf(newFormat.format(km));
-        double meter = valueResult % 1000;
-        int meterInDec = Integer.valueOf(newFormat.format(meter));
-        Log.i("Radius Value", "" + valueResult + "   KM  " + kmInDec
-                + " Meter   " + meterInDec);
-
-        return Radius * c;
     }
 
 
@@ -378,19 +375,18 @@ public class CatchUpActivity extends BaseLoggableActivity implements OnMapReadyC
                     @Override
                     public void onError(Throwable e) {
                         Log.d(TAG, "Error == " + e.getMessage());
+                        hideProgress();
                     }
 
                     @Override
                     public void onNext(ArrayList<QBUser> qbUsers) {
                         hideProgress();
-                        QBUser qbUser = AppSession.getSession().getUser();
                         if (qbUsers != null && !qbUsers.isEmpty()) {
-                            if (qbUsers.contains(qbUser)) {
-                                qbUsers.remove(qbUser);
+                            if (qbUsers.contains(currentUser)) {
+                                qbUsers.remove(currentUser);
                             }
                             updateContactsList(qbUsers);
                         }
-
                     }
                 });
 
@@ -426,10 +422,69 @@ public class CatchUpActivity extends BaseLoggableActivity implements OnMapReadyC
 
     private void updateContactsList(List<QBUser> usersList) {
         this.qbUserLists = usersList;
+        Log.d(TAG, "UserList Size = " + usersList.size());
         for (int i = 0; i < usersList.size(); i++) {
-            qMUserList.add(QMUser.convert(usersList.get(i)));
+            placeUserMarkerOnMap(usersList.get(i));
         }
         friendsAdapter.setList(qMUserList);
+    }
+
+    /*Method that will get the users from the Database.
+     * 2) get the latitude and longitude from the CustomData,
+     * 3) find the distance between two co-ordinates and place
+     * the marker on the google map.*/
+    private void placeUserMarkerOnMap(QBUser qbUser) {
+        dbUserCustomData = Utils.customDataToObject(qbUser.getCustomData());
+        if (dbUserCustomData.getIsLocationToShare() && (dbUserCustomData.getLongitude() != 0 &&
+                dbUserCustomData.getLatitude() != 0)) {
+
+            dbUserLatitude = dbUserCustomData.getLatitude();
+            dbUserLongitude = dbUserCustomData.getLongitude();
+            double distanceInKm = CalculationByDistance(new LatLng(curUserLatitude, curUserLongitude),
+                    new LatLng(dbUserLatitude, dbUserLongitude));
+            Log.d(TAG, "Distance == " + distanceInKm);
+            /*method that will check if the user is in the radius or not*/
+            String val = milesValueTv.getText().toString();
+            if (val.contains("miles")) {
+                String arr[] = val.split("\\s+");
+                double val3 = milesToKm(Double.valueOf(arr[0]));
+
+                int result = Double.compare(distanceInKm, val3);
+
+                if (result > 0) {
+                    //distanceInKm is greater than val3
+                    Log.d(TAG, "User not present in radius");
+                    mapMarker.remove();
+
+                } else if (result < 0) {
+                    //distanceInKm is lesser than val3
+                    //user is in the radius that is specified.
+                    MarkerOptions options = new MarkerOptions();
+                    options.position(new LatLng(dbUserLatitude, dbUserLongitude));
+                    options.title("someTitle");
+                    options.snippet("someDesc");
+
+                    mapMarker = mMap.addMarker(options);
+
+                    qMUserList.add(QMUser.convert(qbUser));
+                } else {
+                    MarkerOptions options = new MarkerOptions();
+                    options.position(new LatLng(dbUserLatitude, dbUserLongitude));
+                    options.title("someTitle");
+                    options.snippet("someDesc");
+
+                    mapMarker = mMap.addMarker(options);
+
+                    qMUserList.add(QMUser.convert(qbUser));
+
+                }
+            }
+        }
+    }
+
+
+    private static double milesToKm(double distanceInKm) {
+        return distanceInKm * 1.60934;
     }
 
     private void insertUserAsFriendToDb(QMUser selectedUser) {
@@ -471,5 +526,30 @@ public class CatchUpActivity extends BaseLoggableActivity implements OnMapReadyC
     private void startPrivateChat(QBChatDialog dialog) {
         PrivateDialogActivity.start(this, selectedUser, dialog);
         this.finish();
+    }
+
+    public double CalculationByDistance(LatLng StartP, LatLng EndP) {
+        int Radius = 6371;// radius of earth in Km
+        double lat1 = StartP.latitude;
+        double lat2 = EndP.latitude;
+        double lon1 = StartP.longitude;
+        double lon2 = EndP.longitude;
+        double dLat = Math.toRadians(lat2 - lat1);
+        double dLon = Math.toRadians(lon2 - lon1);
+        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2)
+                + Math.cos(Math.toRadians(lat1))
+                * Math.cos(Math.toRadians(lat2)) * Math.sin(dLon / 2)
+                * Math.sin(dLon / 2);
+        double c = 2 * Math.asin(Math.sqrt(a));
+        double valueResult = Radius * c;
+        double km = valueResult / 1;
+        DecimalFormat newFormat = new DecimalFormat("####");
+        int kmInDec = Integer.valueOf(newFormat.format(km));
+        double meter = valueResult % 1000;
+        int meterInDec = Integer.valueOf(newFormat.format(meter));
+        Log.i("Radius Value", "" + valueResult + "   KM  " + kmInDec
+                + " Meter   " + meterInDec);
+
+        return Radius * c;
     }
 }
