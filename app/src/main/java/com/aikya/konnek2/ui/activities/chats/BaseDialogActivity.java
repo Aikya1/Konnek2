@@ -136,6 +136,7 @@ import java.util.concurrent.TimeUnit;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import butterknife.OnLongClick;
 import butterknife.OnTextChanged;
 import butterknife.OnTouch;
 
@@ -144,7 +145,7 @@ import static com.aikya.konnek2.utils.AppConstant.nonDupLangList;
 
 public abstract class BaseDialogActivity extends BaseLoggableActivity implements AppConversionCallaback,
         EmojiconGridFragment.OnEmojiconClickedListener, EmojiconsFragment.OnEmojiconBackspaceClickedListener,
-        ChatUIHelperListener, OnMediaPickedListener {
+        ChatUIHelperListener, OnMediaPickedListener, View.OnLongClickListener {
 
     private static final String TAG = BaseDialogActivity.class.getSimpleName();
     private static final int TYPING_DELAY = 1000;
@@ -261,6 +262,7 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
 
     private Timer T;
 
+
     public enum TRANSLATOR_TYPE {TEXT_TO_SPEECH, SPEECH_TO_TEXT}
 
     private AppSpeechToTextConvertor appSpeechToTextConvertor;
@@ -328,6 +330,7 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
             checkStopTyping();
         }
     }
+
 
     @OnTouch(com.aikya.konnek2.R.id.message_edittext)
     boolean touchMessageEdit() {
@@ -636,6 +639,9 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
         combinationMessagesList = new ArrayList<>();
         vibro = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         messagesScrollListener = new MessagesScrollListener();
+
+        messageEditText.setOnLongClickListener(this);
+
     }
 
     private void initCustomUI() {
@@ -2021,5 +2027,17 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
         public void onFinish() {
             finish();
         }
+    }
+
+
+    @Override
+    public boolean onLongClick(View v) {
+
+        int id = v.getId();
+
+        EditText editText = v.findViewById(id);
+
+        ClipboardUtils.pasteSimpleText(this,editText);
+        return true;
     }
 }

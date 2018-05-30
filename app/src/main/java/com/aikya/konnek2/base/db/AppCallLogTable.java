@@ -105,7 +105,6 @@ public class AppCallLogTable {
                 }
                 flag = db.insert(TABLE_CALL_LOG, null, initialValues);
 
-
             } else {
 
                 flag = db.update(TABLE_CALL_LOG, initialValues, DB_COLUMN_USER + "=?" + " AND " +
@@ -128,7 +127,6 @@ public class AppCallLogTable {
                         appcallLogModel.get(0).getCallDuration(),
                         appcallLogModel.get(0).getCallType()
                 });
-
             }
 
         } catch (Exception e) {
@@ -150,7 +148,7 @@ public class AppCallLogTable {
             initialValues.put(DB_COLUMN_DATE, appcallLogModel.get(0).getCallDate());
             initialValues.put(DB_COLUMN_CALL_STATUS, appcallLogModel.get(0).getCallStatus());
             initialValues.put(DB_COLUMN_CALL_PRIORITY, appcallLogModel.get(0).getCallPriority());
-            initialValues.put(DB_COLUMN_CALL_DURATION,  appcallLogModel.get(0).getCallDuration());
+            initialValues.put(DB_COLUMN_CALL_DURATION, appcallLogModel.get(0).getCallDuration());
             initialValues.put(DB_COLUMN_CALL_TYPE, appcallLogModel.get(0).getCallType());
 
         } catch (Exception e) {
@@ -219,18 +217,16 @@ public class AppCallLogTable {
     }
 
     public long UpdateCallLog(ArrayList<AppCallLogModel> appcallLogModel) {
-
-
         long flag = 0;
         try {
             ContentValues initialValues = updateContentValues(appcallLogModel);
-                flag = db.update(TABLE_CALL_LOG, initialValues, DB_COLUMN_USER + "=?" + " AND " +
-                        DB_COLUMN_DATE + "=?" + " AND " +
-                        DB_COLUMN_TIME + "=?",
-                        new String[]{appcallLogModel.get(0).getCallUserName(),
-                        appcallLogModel.get(0).getCallDate(),
-                        appcallLogModel.get(0).getCallTime()
-                        });
+            flag = db.update(TABLE_CALL_LOG, initialValues, DB_COLUMN_USER + "=?" + " AND " +
+                            DB_COLUMN_DATE + "=?" + " AND " +
+                            DB_COLUMN_TIME + "=?",
+                    new String[]{appcallLogModel.get(0).getCallUserName(),
+                            appcallLogModel.get(0).getCallDate(),
+                            appcallLogModel.get(0).getCallTime()
+                    });
 
 
         } catch (Exception e) {

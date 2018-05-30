@@ -835,6 +835,7 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
                 if (data instanceof Bundle) {
                     String observeKey = ((Bundle) data).getString(BaseManager.EXTRA_OBSERVE_KEY);
 
+                    String otherKey = dataManager.getMessageDataManager().getObserverKey();
                     if (observeKey.equals(dataManager.getMessageDataManager().getObserverKey())
                             && (((Bundle) data).getSerializable(BaseManager.EXTRA_OBJECT) instanceof Message)) {
                         int action = ((Bundle) data).getInt(BaseManager.EXTRA_ACTION);

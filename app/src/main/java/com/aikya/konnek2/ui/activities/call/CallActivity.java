@@ -22,6 +22,7 @@ import com.aikya.konnek2.App;
 import com.aikya.konnek2.R;
 import com.aikya.konnek2.base.db.AppCallLogModel;
 import com.aikya.konnek2.call.core.core.command.Command;
+import com.aikya.konnek2.call.core.models.AppSession;
 import com.aikya.konnek2.call.core.models.CallPushParams;
 import com.aikya.konnek2.call.core.models.StartConversationReason;
 import com.aikya.konnek2.call.core.qb.helpers.QBCallChatHelper;
@@ -42,6 +43,7 @@ import com.aikya.konnek2.utils.PowerManagerHelper;
 import com.aikya.konnek2.utils.StringUtils;
 import com.aikya.konnek2.utils.ToastUtils;
 import com.aikya.konnek2.utils.helpers.SystemPermissionHelper;
+import com.aikya.konnek2.utils.listeners.AppCommon;
 import com.aikya.konnek2.utils.listeners.CallDurationInterface;
 import com.quickblox.chat.QBChatService;
 import com.quickblox.chat.model.QBChatDialog;
@@ -114,6 +116,7 @@ public class CallActivity extends BaseLoggableActivity implements
     private AppCallLogModel appCallLogModel;
     private ArrayList<AppCallLogModel> appCallLogModelArrayList;
 
+    List<QBUser> qbUserList;
     private String Name, Date, Times;
 
 
@@ -177,6 +180,8 @@ public class CallActivity extends BaseLoggableActivity implements
             finish();
             return;
         }
+
+        AppConstant.TIME = AppCommon.currentTime();
 
         canPerformLogout.set(false);
         initFields();
@@ -761,18 +766,34 @@ public class CallActivity extends BaseLoggableActivity implements
     }
 
     private void stopTimer() {
-
-
         if (timerChronometer != null) {
             timerChronometer.stop();
             isStarted = false;
 
-            appCallLogModel.setCallUserName(AppConstant.CALL_DURATION_NAME);
-            appCallLogModel.setCallTime(AppConstant.CALL_DURATION_TIME);
-            appCallLogModel.setCallDate(AppConstant.CALL_DURATION_DATE);
+            String callDuration =  timerChronometer.getText().toString();
+
+
+            appCallLogModel.setUserId(String.valueOf(AppSession.getSession().getUser().getId()));
+            appCallLogModel.setCallUserName(AppSession.getSession().getUser().getFullName());
+
+            appCallLogModel.setCallTime(AppConstant.TIME);
+
+            appCallLogModel.setCallDate(AppCommon.currentDate());
+
             appCallLogModel.setCallDuration(timerChronometer.getText().toString());
+            appCallLogModel.setCallOpponentId(String.valueOf(opponentsList.get(0).getId()));
+            appCallLogModel.setCallOpponentName(opponentsList.get(0).getFullName());
+            if (isInComingCall) {
+                appCallLogModel.setCallStatus(AppConstant.CALL_STATUS_RECEIVED);
+            } else {
+                appCallLogModel.setCallStatus(AppConstant.CALL_STATUS_DIALED);
+            }
+
+
             appCallLogModelArrayList.add(appCallLogModel);
-            App.appcallLogTableDAO.UpdateCallLog(appCallLogModelArrayList);
+
+//            App.appcallLogTableDAO.UpdateCallLog(appCallLogModelArrayList);
+            App.appcallLogTableDAO.saveCallLog(appCallLogModelArrayList);
         }
     }
 

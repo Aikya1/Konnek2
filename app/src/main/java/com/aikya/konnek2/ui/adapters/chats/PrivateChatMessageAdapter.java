@@ -112,6 +112,7 @@ public class PrivateChatMessageAdapter extends BaseChatMessagesAdapter implement
 
         LinearLayout layout = holder.itemView.findViewById(R.id.msg_bubble_background2);
 
+
         layout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {

@@ -291,7 +291,7 @@ public class QBChatHelper extends BaseThreadPoolHelper {
     }
 
     public void deleteMessageById(String messageId) throws QBResponseException {
-        QBRestChatService.deleteMessage(messageId, false).perform();
+        QBRestChatService.deleteMessage(messageId, true).perform();
     }
 
     public List<QBChatMessage> getDialogMessages(QBRequestGetBuilder customObjectRequestBuilder,

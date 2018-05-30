@@ -42,6 +42,7 @@ import com.aikya.konnek2.ui.activities.profile.UserProfileActivity;
 import com.aikya.konnek2.ui.adapters.chats.PrivateChatMessageAdapter;
 import com.aikya.konnek2.utils.AppConstant;
 import com.aikya.konnek2.utils.AppPreference;
+import com.aikya.konnek2.utils.ClipboardUtils;
 import com.aikya.konnek2.utils.DateUtils;
 import com.aikya.konnek2.utils.ToastUtils;
 import com.aikya.konnek2.utils.listeners.AppCommon;
@@ -85,6 +86,9 @@ public class PrivateDialogActivity extends BaseDialogActivity implements Private
     private CallDurationInterface callDurationInterface;
 
     public static final int RESULT_DELETE_MESSAGE = 2;
+
+
+    /*Variables for copy paste text using ClipboardManager*/
 
 
     /*Variables for chat features such as delete, copy, forward the selecetd message in a 1-1 chat*/
@@ -354,7 +358,7 @@ public class PrivateDialogActivity extends BaseDialogActivity implements Private
 
             Log.d("PrivateDialogCALL", "callToUser" + qbUserList.get(0).getId());
             CallActivity.start(PrivateDialogActivity.this, qbUserList, qbConferenceType, null);
-            CallHistory();
+//            CallHistory();
 
         } catch (Exception e) {
             e.getMessage();
@@ -586,6 +590,15 @@ public class PrivateDialogActivity extends BaseDialogActivity implements Private
             case R.id.action_view_reply_msg:
                 break;
             case R.id.action_view_copy_msg:
+                String userTextToCopy = chatMessage.getBody();
+                copyText(userTextToCopy);
+                /*TextView messageTv = messageView.findViewById(R.id.msg_text_message);
+                if (messageTv != null) {
+                    String copyText = messageTv.getText().toString();
+                    Log.d(TAG, "Copy Text = " + copyText);
+                }*/
+
+
                 break;
             case R.id.action_view_forward_msg:
                 break;
@@ -613,6 +626,12 @@ public class PrivateDialogActivity extends BaseDialogActivity implements Private
         // handle menu item here
     }
 
+    /*Method that will copy the text the user has selected..*/
+    private void copyText(String userTextToCopy) {
+
+        ClipboardUtils.copySimpleTextToClipboard(this, userTextToCopy);
+    }
+
     @Override
     public void onContextMenuClosed(Menu menu) {
         super.onContextMenuClosed(menu);
@@ -623,6 +642,7 @@ public class PrivateDialogActivity extends BaseDialogActivity implements Private
         @Override
         public void execute(Bundle bundle) {
             hideProgress();
+
             setResult(RESULT_DELETE_MESSAGE, getIntent());
         }
     }
