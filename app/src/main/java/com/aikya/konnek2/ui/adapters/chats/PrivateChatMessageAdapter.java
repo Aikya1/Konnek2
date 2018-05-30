@@ -4,6 +4,7 @@ package com.aikya.konnek2.ui.adapters.chats;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -17,6 +18,7 @@ import com.aikya.konnek2.ui.activities.base.BaseActivity;
 import com.aikya.konnek2.R;
 import com.aikya.konnek2.call.db.managers.DataManager;
 import com.aikya.konnek2.utils.DateUtils;
+import com.aikya.konnek2.utils.ToastUtils;
 import com.aikya.konnek2.utils.listeners.FriendOperationListener;
 import com.quickblox.chat.model.QBChatDialog;
 
@@ -26,8 +28,6 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-
-
 
 
 public class PrivateChatMessageAdapter extends BaseChatMessagesAdapter implements StickyRecyclerHeadersAdapter<RecyclerView.ViewHolder> {
@@ -41,17 +41,19 @@ public class PrivateChatMessageAdapter extends BaseChatMessagesAdapter implement
 
     protected DataManager dataManager;
 
+    OnMessageClickListener onMessageClickListener;
+
+
     public PrivateChatMessageAdapter(BaseActivity baseActivity,
                                      List<CombinationMessage> chatMessages,
                                      FriendOperationListener friendOperationListener,
-                                     QBChatDialog chatDialog) {
+                                     QBChatDialog chatDialog, OnMessageClickListener onMessageClickListener) {
         super(baseActivity, chatDialog, chatMessages);
+        this.onMessageClickListener = onMessageClickListener;
         this.friendOperationListener = friendOperationListener;
         dataManager = DataManager.getInstance();
         this.chatDialog = chatDialog;
     }
-
-
 
 
     @Override
@@ -106,7 +108,20 @@ public class PrivateChatMessageAdapter extends BaseChatMessagesAdapter implement
     protected void onBindViewMsgRightHolder(TextMessageHolder holder, CombinationMessage chatMessage, int position) {
         //set the image view resource for the status of the message( delivered sent or failure )
         ImageView view = holder.itemView.findViewById(R.id.message_status_image_view1);
+        View view3 = qbViewHolder.itemView;
+
+        LinearLayout layout = holder.itemView.findViewById(R.id.msg_bubble_background2);
+
+        layout.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                onMessageClickListener.onMessageLongClicked(view3, chatMessage, position, chatMessages);
+                return true;
+            }
+        });
+
         setViewVisibility(holder.avatar, View.GONE);
+
 
         if (chatMessage.getState() != null) {
             setMessageStatus(view, State.DELIVERED.equals(
@@ -118,6 +133,7 @@ public class PrivateChatMessageAdapter extends BaseChatMessagesAdapter implement
         super.onBindViewMsgRightHolder(holder, chatMessage, position);
     }
 
+
     //Make changes below to edit the layout and get rid of the custom View holder above.
     //The msg_linear_frame_left is the Parent Layout which is in the file
     //widget_text_msg_left.xml
@@ -126,15 +142,28 @@ public class PrivateChatMessageAdapter extends BaseChatMessagesAdapter implement
     @Override
     protected void onBindViewMsgLeftHolder(TextMessageHolder holder, CombinationMessage chatMessage, int position) {
         LinearLayout linearLayout = holder.itemView.findViewById(R.id.msg_linear_frame_left);
+
+        LinearLayout layout = holder.itemView.findViewById(R.id.msg_bubble_background2);
+        View view3 = qbViewHolder.itemView;
         setViewVisibility(holder.avatar, View.VISIBLE);
         setViewVisibility(linearLayout, View.GONE);
 
         TextView tv = holder.itemView.findViewById(R.id.msg_text_user_name);
 
+        layout.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                onMessageClickListener.onMessageLongClicked(view3, chatMessage, position, chatMessages);
+
+                return true;
+            }
+        });
+
         tv.setText(chatMessage.getDialogOccupant().getUser().getFullName());
 
         updateMessageState(chatMessage, chatDialog);
         super.onBindViewMsgLeftHolder(holder, chatMessage, position);
+
     }
 
     @Override
@@ -194,8 +223,7 @@ public class PrivateChatMessageAdapter extends BaseChatMessagesAdapter implement
     @Override
     public RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup parent) {
         View view = inflater.inflate(R.layout.item_chat_sticky_header_date, parent, false);
-        return new RecyclerView.ViewHolder(view)
-        {
+        return new RecyclerView.ViewHolder(view) {
         };
     }
 
@@ -305,12 +333,14 @@ public class PrivateChatMessageAdapter extends BaseChatMessagesAdapter implement
             iconResourceId = R.drawable.ic_status_mes_sent_received;
         } else if (isDelivered) {
             iconResourceId = R.drawable.ic_status_mes_sent;
+        } else {
+            iconResourceId = R.drawable.ic_status_mes_sent;
         }
 
         return iconResourceId;
     }
 
-    protected static class FriendsViewHolder extends QBMessageViewHolder {
+    public static class FriendsViewHolder extends QBMessageViewHolder implements ContextMenu.ContextMenuInfo{
         @Nullable
         @Bind(R.id.message_textview)
         TextView messageTextView;
@@ -336,5 +366,9 @@ public class PrivateChatMessageAdapter extends BaseChatMessagesAdapter implement
             super(view);
             ButterKnife.bind(this, itemView);
         }
+    }
+
+    public interface OnMessageClickListener {
+        void onMessageLongClicked(View v, CombinationMessage chatMessage, int position, List<CombinationMessage> chatMessages);
     }
 }

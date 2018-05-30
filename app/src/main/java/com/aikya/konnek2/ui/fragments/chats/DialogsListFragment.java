@@ -27,6 +27,7 @@ import com.aikya.konnek2.call.core.qb.helpers.QBFriendListHelper;
 import com.aikya.konnek2.call.db.managers.base.BaseManager;
 import com.aikya.konnek2.call.db.models.Dialog;
 import com.aikya.konnek2.call.db.models.DialogNotification;
+import com.aikya.konnek2.call.db.models.Friend;
 import com.aikya.konnek2.call.services.model.QMUser;
 import com.aikya.konnek2.ui.activities.chats.PrivateDialogActivity;
 import com.aikya.konnek2.ui.fragments.search.SearchFragment;
@@ -179,7 +180,7 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
 
         if (service != null) {
             QBFriendListHelper friendListHelper = (QBFriendListHelper) service.getHelper(FRIEND_LIST_HELPER);
-            Log.d(TAG,"Helper..");
+            Log.d(TAG, "Helper..");
         }
     }
 
@@ -598,7 +599,8 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
     private void initChatsDialogs() {
 
         List<DialogWrapper> dialogsList = new ArrayList<>();
-        dialogsListAdapter = new DialogsListAdapter(baseActivity, dialogsList, adapterFlag, DialogsListFragment.this);
+        dialogsListAdapter = new DialogsListAdapter(baseActivity, dialogsList);
+
     }
 
     private void initActions() {
@@ -614,8 +616,8 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
         List<DialogOccupant> occupantsList = dataManager.getDialogOccupantDataManager()
                 .getDialogOccupantsListByDialogId(chatDialog.getDialogId());
         QMUser opponent = ChatUtils.getOpponentFromPrivateDialog(UserFriendUtils.createLocalUser(qbUser), occupantsList);
-
-        try {
+        insertUserAsFriendToDb(opponent);
+        /*try {
             int id = opponent.getId();
 
             long onlineStatus = QBChatService.getInstance().getLastUserActivity(id);
@@ -624,10 +626,19 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
             friendListHelper.addFriend(opponent.getId());
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
         if (!TextUtils.isEmpty(chatDialog.getDialogId())) {
             PrivateDialogActivity.startForResult(this, opponent, chatDialog, PICK_DIALOG);
         }
+    }
+
+    private void insertUserAsFriendToDb(QMUser selectedUser) {
+
+        Friend friend = new Friend();
+        friend.setUser(selectedUser);
+
+        dataManager.getFriendDataManager().createOrUpdate(friend, true);
+
     }
 
     private void startGroupChatActivity(QBChatDialog chatDialog) {

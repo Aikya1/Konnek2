@@ -2,6 +2,7 @@ package com.aikya.konnek2.call.db.managers;
 
 import android.os.Bundle;
 
+import com.aikya.konnek2.call.core.models.CombinationMessage;
 import com.aikya.konnek2.call.db.managers.base.BaseManager;
 import com.aikya.konnek2.call.db.models.Dialog;
 import com.aikya.konnek2.call.db.utils.ErrorUtils;
@@ -16,6 +17,8 @@ import com.aikya.konnek2.call.db.models.State;
 import com.aikya.konnek2.call.services.model.QMUserColumns;
 
 
+import org.jivesoftware.smack.chat.ChatMessageListener;
+
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -29,7 +32,7 @@ public class MessageDataManager extends BaseManager<Message> {
     private Dao<DialogOccupant, Long> dialogOccupantDao;
 
     public MessageDataManager(Dao<Message, Long> messageDao, Dao<Dialog, Long> dialogDao,
-            Dao<DialogOccupant, Long> dialogOccupantDao) {
+                              Dao<DialogOccupant, Long> dialogOccupantDao) {
         super(messageDao, MessageDataManager.class.getSimpleName());
         this.dialogDao = dialogDao;
         this.dialogOccupantDao = dialogOccupantDao;
@@ -210,7 +213,7 @@ public class MessageDataManager extends BaseManager<Message> {
         return messagesList;
     }
 
-    public List<Message> getMessagesByDialogIdAndDate(String dialogId, long createdDate, boolean moreDate){
+    public List<Message> getMessagesByDialogIdAndDate(String dialogId, long createdDate, boolean moreDate) {
         List<Message> messagesList = new ArrayList<>();
 
         try {
@@ -240,7 +243,7 @@ public class MessageDataManager extends BaseManager<Message> {
         return messagesList;
     }
 
-    public List<Message> getMessagesByDialogIdAndDate(String dialogId, long createdDate, boolean moreDate, long limit){
+    public List<Message> getMessagesByDialogIdAndDate(String dialogId, long createdDate, boolean moreDate, long limit) {
         List<Message> messagesList = new ArrayList<>();
 
         try {
@@ -293,10 +296,27 @@ public class MessageDataManager extends BaseManager<Message> {
         } catch (SQLException e) {
             ErrorUtils.logError(e);
         }
-
     }
 
-    public List<Message> getTempMessagesByDialogId(String dialogId){
+    public void deleteMessage(CombinationMessage chatMessage) {
+        try {
+
+            DeleteBuilder<Message, Long> deleteBuilder = dao.deleteBuilder();
+
+            Where<Message, Long> where = deleteBuilder.where();
+
+            where.eq(Message.Column.ID, chatMessage.getMessageId());
+
+            if (deleteBuilder.delete() > 0) {
+                notifyObservers();
+            }
+        } catch (SQLException e) {
+            ErrorUtils.logError(e);
+        }
+    }
+
+
+    public List<Message> getTempMessagesByDialogId(String dialogId) {
         List<Message> messagesList = new ArrayList<>();
         try {
             QueryBuilder<Message, Long> messageQueryBuilder = dao.queryBuilder();
@@ -322,7 +342,7 @@ public class MessageDataManager extends BaseManager<Message> {
         return messagesList;
     }
 
-    public Message getLastTempMessagesByDialogId(String dialogId){
+    public Message getLastTempMessagesByDialogId(String dialogId) {
         Message message = null;
         try {
             QueryBuilder<Message, Long> messageQueryBuilder = dao.queryBuilder();

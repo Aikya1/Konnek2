@@ -29,16 +29,10 @@ import java.util.List;
 public class DialogsListAdapter extends BaseListAdapter<DialogWrapper> {
 
     private static final String TAG = DialogsListAdapter.class.getSimpleName();
-    Collection<Integer> onlineUsers = null;
 
     SimpleDateFormat simpleDateformat = new SimpleDateFormat("E"); //
 
     public DialogsListAdapter(BaseActivity baseActivity, List<DialogWrapper> objectsList) {
-        super(baseActivity, objectsList);
-    }
-
-    public DialogsListAdapter(BaseActivity baseActivity, List<DialogWrapper> objectsList,
-                              boolean typeFlag, ContactInterface contactInterface) {
         super(baseActivity, objectsList);
     }
 
@@ -48,7 +42,6 @@ public class DialogsListAdapter extends BaseListAdapter<DialogWrapper> {
         final ViewHolder viewHolder;
         DialogWrapper dialogWrapper = getItem(position);
         final QBChatDialog currentDialog = dialogWrapper.getChatDialog();
-
 
         if (convertView == null) {
 
@@ -82,6 +75,7 @@ public class DialogsListAdapter extends BaseListAdapter<DialogWrapper> {
             displayGroupPhotoImage(currentDialog.getPhoto(), viewHolder.avatarImageView);
         }
         long totalCount = dialogWrapper.getTotalCount();
+
         if (totalCount > ConstsCore.ZERO_INT_VALUE) {
             viewHolder.unreadMessagesTextView.setText(totalCount + ConstsCore.EMPTY_STRING);
             viewHolder.unreadMessagesTextView.setVisibility(View.VISIBLE);
@@ -91,19 +85,19 @@ public class DialogsListAdapter extends BaseListAdapter<DialogWrapper> {
         }
         viewHolder.lastMessageTextView.setText(dialogWrapper.getLastMessage());
 
-        if (dialogWrapper.getOpponentUser() != null) {
+        /*if (dialogWrapper.getOpponentUser() != null) {
             if (dialogWrapper.getOpponentUser().getLastRequestAt() != null) {
                 setUpDateTime(dialogWrapper.getOpponentUser(), viewHolder.datetimeTextView);
                 setUpOnlineStatus(dialogWrapper, viewHolder.userStatusImageView);
             }
 
-        }
+        }*/
 
 
         return convertView;
     }
 
-    private void setUpOnlineStatus(DialogWrapper dialogWrapper, ImageView userStatusImageView) {
+    /*private void setUpOnlineStatus(DialogWrapper dialogWrapper, ImageView userStatusImageView) {
 
         try {
             onlineUsers = dialogWrapper.getChatDialog().requestOnlineUsers();
@@ -124,7 +118,7 @@ public class DialogsListAdapter extends BaseListAdapter<DialogWrapper> {
     private void setUpDateTime(QMUser opponentUser, TextView datetimeTextView) {
         String day = simpleDateformat.format(opponentUser.getLastRequestAt());
         datetimeTextView.setText(day);
-    }
+    }*/
 
     public void updateItem(DialogWrapper dlgWrapper) {
         Log.i(TAG, "updateItem = " + dlgWrapper.getChatDialog().getUnreadMessageCount());

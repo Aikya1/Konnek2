@@ -38,6 +38,7 @@ import com.quickblox.chat.QBRestChatService;
 import com.quickblox.chat.QBSystemMessagesManager;
 import com.quickblox.chat.exception.QBChatException;
 import com.quickblox.chat.listeners.QBChatDialogMessageListener;
+import com.quickblox.chat.listeners.QBChatDialogMessageSentListener;
 import com.quickblox.chat.listeners.QBChatDialogParticipantListener;
 import com.quickblox.chat.listeners.QBChatDialogTypingListener;
 import com.quickblox.chat.listeners.QBMessageStatusListener;
@@ -71,6 +72,7 @@ import org.jivesoftware.smackx.muc.DiscussionHistory;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -93,12 +95,17 @@ public class QBChatHelper extends BaseThreadPoolHelper {
     private List<QBChatDialog> groupDialogsList;
     private QBChatDialogParticipantListener participantListener;
     private final ConnectionListener chatConnectionListener;
+    private PrivateMessageStatusListener privateMessageStatusListener;
+
+    private Integer senderId;
 
 
     public QBChatHelper(Context context) {
         super(context);
         participantListener = new ParticipantListener();
         allChatMessagesListener = new AllChatMessagesListener();
+        privateMessageStatusListener = new PrivateMessageStatusListener();
+
         systemMessagesListener = new SystemMessageListener();
         typingListener = new TypingListener();
         privateChatMessagesStatusListener = new PrivateChatMessagesStatusListener();
@@ -124,6 +131,9 @@ public class QBChatHelper extends BaseThreadPoolHelper {
             } else {
                 currentDialog.addIsTypingListener(typingListener);
             }
+            currentDialog.addMessageListener(allChatMessagesListener);
+            currentDialog.addMessageSentListener(privateMessageStatusListener);
+
         }
     }
 
@@ -188,6 +198,12 @@ public class QBChatHelper extends BaseThreadPoolHelper {
         sendAndSaveChatMessage(qbChatMessage, currentDialog);
     }
 
+   /* public void sendChatMessage(String message, Integer senderId) throws QBResponseException {
+        this.senderId = senderId;
+        QBChatMessage qbChatMessage = getQBChatMessage(message);
+        sendAndSaveChatMessage(qbChatMessage, currentDialog);
+    }*/
+
     public void sendMessageWithAttachment(Attachment.Type attachmentType, Object attachmentObject, String localPath) throws QBResponseException {
         String messageBody = "";
         QBAttachment attachment = null;
@@ -226,7 +242,8 @@ public class QBChatHelper extends BaseThreadPoolHelper {
         sendChatMessage(qbChatMessage, chatDialog);
         if (QBDialogType.PRIVATE.equals(chatDialog.getType())) {
             DbUtils.updateDialogModifiedDate(dataManager, chatDialog, ChatUtils.getMessageDateSent(qbChatMessage), false);
-            DbUtils.saveMessageOrNotificationToCache(context, dataManager, chatDialog.getDialogId(), qbChatMessage, State.SYNC, true);
+            DbUtils.saveMessageOrNotificationToCache
+                    (context, dataManager, chatDialog.getDialogId(), qbChatMessage, State.SYNC, true);
         }
     }
 
@@ -273,6 +290,9 @@ public class QBChatHelper extends BaseThreadPoolHelper {
         return qbChatDialog;
     }
 
+    public void deleteMessageById(String messageId) throws QBResponseException {
+        QBRestChatService.deleteMessage(messageId, false).perform();
+    }
 
     public List<QBChatMessage> getDialogMessages(QBRequestGetBuilder customObjectRequestBuilder,
                                                  Bundle returnedBundle, QBChatDialog qbDialog,
@@ -337,11 +357,28 @@ public class QBChatHelper extends BaseThreadPoolHelper {
         long time = DateUtilsCore.getCurrentTime();
         QBChatMessage chatMessage = new QBChatMessage();
         chatMessage.setBody(body);
+        chatMessage.setSenderId(senderId);
+        chatMessage.setDialogId(currentDialog.getDialogId());
+        chatMessage.setMarkable(true);
+        chatMessage.setSaveToHistory(true);
+        chatMessage.setRecipientId(currentDialog.getRecipientId());
+        chatMessage.setDateSent(new Date().getTime());
         chatMessage.setProperty(ChatNotificationUtils.PROPERTY_DATE_SENT, String.valueOf(time));
         chatMessage.setSaveToHistory(ChatNotificationUtils.VALUE_SAVE_TO_HISTORY);
 
         return chatMessage;
     }
+
+    /*private QBChatMessage getQBChatMessage(String body) {
+        long time = DateUtilsCore.getCurrentTime();
+        QBChatMessage chatMessage = new QBChatMessage();
+        chatMessage.setBody(body);
+        chatMessage.setMarkable(true);
+        chatMessage.setProperty(ChatNotificationUtils.PROPERTY_DATE_SENT, String.valueOf(time));
+        chatMessage.setSaveToHistory(ChatNotificationUtils.VALUE_SAVE_TO_HISTORY);
+
+        return chatMessage;
+    }*/
 
     private QBAttachment getAttachment(QBFile file, String attachType, String contentType) {
         QBAttachment attachment = new QBAttachment(attachType);
@@ -915,6 +952,7 @@ public class QBChatHelper extends BaseThreadPoolHelper {
 
         @Override
         public void authenticated(XMPPConnection connection, boolean resumed) {
+            Log.d(TAG, "ChatConnectionListener authenticated");
             chatCreator = AppSession.getSession().getUser();
             initMainChatListeners();
         }
@@ -927,6 +965,7 @@ public class QBChatHelper extends BaseThreadPoolHelper {
             threadPoolExecutor.execute(new Runnable() {
                 @Override
                 public void run() {
+                    Log.d(TAG, "run AllChatMessagesListener= ");
                     onChatMessageReceived(dialogId, qbChatMessage, senderId);
                 }
             });
@@ -935,6 +974,7 @@ public class QBChatHelper extends BaseThreadPoolHelper {
         @Override
         public void processError(String dialogId, QBChatException exception, QBChatMessage qbChatMessage, Integer integer) {
             //TODO VT need implement for process error message
+            Log.d(TAG, "ProcessError AllChatMessagesListener= ");
         }
     }
 
@@ -948,6 +988,19 @@ public class QBChatHelper extends BaseThreadPoolHelper {
         @Override
         public void processMessageRead(String messageId, String dialogId, Integer userId) {
             DbUtils.updateStatusMessageLocal(dataManager, messageId, State.READ);
+        }
+    }
+
+    private class PrivateMessageStatusListener implements QBChatDialogMessageSentListener {
+
+        @Override
+        public void processMessageSent(String s, QBChatMessage qbChatMessage) {
+            Log.d(TAG, "Process Message Sent == ");
+        }
+
+        @Override
+        public void processMessageFailed(String s, QBChatMessage qbChatMessage) {
+            Log.d(TAG, "Process Message Failed..");
         }
     }
 
@@ -1033,4 +1086,6 @@ public class QBChatHelper extends BaseThreadPoolHelper {
             }
         }
     }
+
+
 }

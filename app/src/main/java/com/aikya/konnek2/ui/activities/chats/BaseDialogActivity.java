@@ -10,7 +10,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -18,7 +17,6 @@ import android.os.Looper;
 import android.os.SystemClock;
 import android.os.Vibrator;
 import android.support.annotation.IdRes;
-import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -45,7 +43,6 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.aikya.konnek2.R;
-import com.aikya.konnek2.base.activity.Profile;
 import com.aikya.konnek2.call.core.core.command.Command;
 import com.aikya.konnek2.call.core.models.AppSession;
 import com.aikya.konnek2.call.core.models.CombinationMessage;
@@ -53,9 +50,11 @@ import com.aikya.konnek2.call.core.models.UserCustomData;
 import com.aikya.konnek2.call.core.qb.commands.QBLoadAttachFileCommand;
 import com.aikya.konnek2.call.core.qb.commands.chat.QBLoadDialogMessagesCommand;
 import com.aikya.konnek2.call.core.service.QBService;
+import com.aikya.konnek2.call.core.service.QBServiceConsts;
 import com.aikya.konnek2.call.core.utils.ChatUtils;
 import com.aikya.konnek2.call.core.utils.ConstsCore;
 import com.aikya.konnek2.call.core.utils.Utils;
+import com.aikya.konnek2.call.db.managers.DataManager;
 import com.aikya.konnek2.call.db.managers.DialogDataManager;
 import com.aikya.konnek2.call.db.managers.DialogNotificationDataManager;
 import com.aikya.konnek2.call.db.managers.MessageDataManager;
@@ -81,14 +80,12 @@ import com.aikya.konnek2.utils.MediaUtils;
 import com.aikya.konnek2.utils.StringUtils;
 import com.aikya.konnek2.utils.ToastUtils;
 import com.aikya.konnek2.utils.ValidationUtils;
+import com.aikya.konnek2.utils.helpers.MediaPickHelper;
 import com.aikya.konnek2.utils.helpers.SystemPermissionHelper;
 import com.aikya.konnek2.utils.image.ImageLoaderUtils;
 import com.aikya.konnek2.utils.listeners.AppCommon;
 import com.aikya.konnek2.utils.listeners.ChatUIHelperListener;
 import com.aikya.konnek2.utils.listeners.OnMediaPickedListener;
-import com.aikya.konnek2.call.core.service.QBServiceConsts;
-import com.aikya.konnek2.call.db.managers.DataManager;
-import com.aikya.konnek2.utils.helpers.MediaPickHelper;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 import com.quickblox.auth.session.QBSession;
@@ -99,7 +96,6 @@ import com.quickblox.chat.model.QBChatDialog;
 import com.quickblox.chat.model.QBDialogType;
 import com.quickblox.content.model.QBFile;
 import com.quickblox.core.exception.QBResponseException;
-
 import com.quickblox.ui.kit.chatmessage.adapter.listeners.QBChatAttachClickListener;
 import com.quickblox.ui.kit.chatmessage.adapter.listeners.QBChatMessageLinkClickListener;
 import com.quickblox.ui.kit.chatmessage.adapter.listeners.QBLinkPreviewClickListener;
@@ -131,7 +127,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.BlockingQueue;
@@ -575,6 +570,7 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
         messagesAdapter.setAttachVideoClickListener(videoAttachClickListener);
         messagesAdapter.setLinkPreviewClickListener(linkPreviewClickListener, false);
 
+
     }
 
     private void addAudioRecorderListener() {
@@ -669,8 +665,10 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
         messagesRecyclerView.setLayoutManager(layoutManager);
         messagesRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
+
         //use deprecated listener for support old devices
         messagesRecyclerView.setOnScrollListener(messagesScrollListener);
+
     }
 
     protected void initMediaManager() {
@@ -693,6 +691,9 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
 
         removeAction(QBServiceConsts.LOAD_DIALOG_MESSAGES_SUCCESS_ACTION);
         removeAction(QBServiceConsts.LOAD_DIALOG_MESSAGES_FAIL_ACTION);
+
+        removeAction(QBServiceConsts.DELETE_MESSAGE_SUCCESS_ACTION);
+        removeAction(QBServiceConsts.DELETE_MESSAGE_FAIL_ACTION);
 
 //        removeAction(QBServiceConsts.ACCEPT_FRIEND_SUCCESS_ACTION);
 //        removeAction(QBServiceConsts.ACCEPT_FRIEND_FAIL_ACTION);
@@ -953,6 +954,7 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
         }
         currentChatDialog = null;
     }
+
 
     protected List<CombinationMessage> buildLimitedCombinationMessagesListByDate(long createDate, boolean moreDate, long limit) {
         if (currentChatDialog == null || currentChatDialog.getDialogId() == null) {
@@ -1423,6 +1425,7 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
         @Override
         public void onLinkClicked(String linkText, QBMessageTextClickMovement.QBLinkType qbLinkType, int position) {
 
+
             if (!QBMessageTextClickMovement.QBLinkType.NONE.equals(qbLinkType)) {
                 canPerformLogout.set(false);
             }
@@ -1430,6 +1433,7 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
 
         @Override
         public void onLongClick(String text, int positionInAdapter) {
+
 
         }
 

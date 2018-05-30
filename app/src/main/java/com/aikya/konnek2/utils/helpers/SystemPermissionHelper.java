@@ -164,7 +164,7 @@ public class SystemPermissionHelper {
     }
 
     public boolean isAllLocationPermissionGranted() {
-        return isAllPermissionGranted(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION);
+        return isAllPermissionGranted(Manifest.permission.ACCESS_FINE_LOCATION/*, Manifest.permission.ACCESS_COARSE_LOCATION*/);
     }
 
     public void requestPermissionsForCallByType(QBRTCTypes.QBConferenceType qbConferenceType) {

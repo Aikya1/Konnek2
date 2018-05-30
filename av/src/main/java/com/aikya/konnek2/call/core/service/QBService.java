@@ -18,6 +18,7 @@ import com.aikya.konnek2.call.core.qb.commands.QBGetFileCommand;
 import com.aikya.konnek2.call.core.qb.commands.QBLoadAttachFileCommand;
 import com.aikya.konnek2.call.core.qb.commands.chat.QBAddFriendsToGroupCommand;
 import com.aikya.konnek2.call.core.qb.commands.chat.QBDeleteChatCommand;
+import com.aikya.konnek2.call.core.qb.commands.chat.QBDeleteMessageCommand;
 import com.aikya.konnek2.call.core.qb.commands.chat.QBInitCallChatCommand;
 import com.aikya.konnek2.call.core.qb.commands.chat.QBInitChatServiceCommand;
 import com.aikya.konnek2.call.core.qb.commands.chat.QBInitChatsCommand;
@@ -120,6 +121,7 @@ public class QBService extends Service {
         registerCreateGroupChatCommand();
         registerUpdateGroupDialogCommand();
         registerDeleteChatCommand();
+        registerDeleteMessageCommand();
         registerUpdateStatusMessageCommand();
         registerLogoutAndDestroyChatCommand();
         registerAddFriendsToGroupCommand();
@@ -148,6 +150,7 @@ public class QBService extends Service {
         registerGetFileCommand();
         registerSendPushCommand();
 
+
         // logout commands
         registerLogoutCommand();
     }
@@ -168,7 +171,6 @@ public class QBService extends Service {
         serviceCommandMap.put(QBServiceConsts.LOGIN_CHAT_ACTION, loginChatCommand);
         serviceCommandMap.put(QBServiceConsts.LOGIN_CHAT_COMPOSITE_ACTION, loginChatCompositeCommand);
     }
-
 
     // ------------------ chat commands
     private void registerCreatePrivateChatCommand() {
@@ -212,6 +214,16 @@ public class QBService extends Service {
                 QBServiceConsts.DELETE_DIALOG_FAIL_ACTION);
 
         serviceCommandMap.put(QBServiceConsts.DELETE_DIALOG_ACTION, deleteChatCommand);
+    }
+
+    private void registerDeleteMessageCommand() {
+        QBChatHelper chatHelper = (QBChatHelper) getHelper(CHAT_HELPER);
+
+        ServiceCommand deleteMessageCommand = new QBDeleteMessageCommand(this, chatHelper,
+                QBServiceConsts.DELETE_MESSAGE_SUCCESS_ACTION,
+                QBServiceConsts.DELETE_MESSAGE_FAIL_ACTION);
+
+        serviceCommandMap.put(QBServiceConsts.DELETE_MESSAGE_ACTION, deleteMessageCommand);
     }
 
     private void registerUpdateStatusMessageCommand() {
@@ -473,6 +485,7 @@ public class QBService extends Service {
 
         serviceCommandMap.put(QBServiceConsts.PUSH_CALL_COMPOSITE_ACTION, pushCallCompositeCommand);
     }
+
     private void addPushCallAndInitCommands(CompositeServiceCommand pushCallCommand) {
         QBChatRestHelper chatRestHelper = (QBChatRestHelper) getHelper(CHAT_REST_HELPER);
         QBChatHelper chatHelper = (QBChatHelper) getHelper(CHAT_HELPER);
@@ -498,7 +511,7 @@ public class QBService extends Service {
         Log.d(TAG, "onCreate()");
         IntentFilter filter = new IntentFilter();
         filter.addAction(QBServiceConsts.RE_LOGIN_IN_CHAT_SUCCESS_ACTION);
-        startForeground(1,new Notification());
+        startForeground(1, new Notification());
         if (broadcastReceiver != null) {
             LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver, filter);
         }

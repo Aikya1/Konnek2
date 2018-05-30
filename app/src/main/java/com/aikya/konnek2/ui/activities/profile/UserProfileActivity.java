@@ -3,6 +3,8 @@ package com.aikya.konnek2.ui.activities.profile;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -31,9 +33,17 @@ import com.aikya.konnek2.utils.DateUtils;
 import com.aikya.konnek2.utils.ToastUtils;
 import com.aikya.konnek2.utils.image.ImageLoaderUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.quickblox.chat.QBChatService;
+import com.quickblox.chat.QBPrivacyListsManager;
+import com.quickblox.chat.listeners.QBPrivacyListListener;
 import com.quickblox.chat.model.QBChatDialog;
+import com.quickblox.chat.model.QBPrivacyList;
+import com.quickblox.chat.model.QBPrivacyListItem;
 import com.quickblox.users.model.QBUser;
 import com.quickblox.videochat.webrtc.QBRTCTypes;
+
+import org.jivesoftware.smack.SmackException;
+import org.jivesoftware.smack.XMPPException;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -44,7 +54,10 @@ import java.util.Observer;
 import butterknife.Bind;
 import butterknife.OnClick;
 
-public class UserProfileActivity extends BaseLoggableActivity {
+public class UserProfileActivity extends BaseLoggableActivity implements BaseLoggableActivity.BlockListener {
+
+    private final static String TAG = UserProfileActivity.class.getSimpleName();
+
 
     @Bind(com.aikya.konnek2.R.id.avatar_imageview)
     ImageView avatarImageView;
@@ -54,6 +67,9 @@ public class UserProfileActivity extends BaseLoggableActivity {
 
     @Bind(com.aikya.konnek2.R.id.timestamp_textview)
     TextView timestampTextView;
+
+    @Bind(R.id.blockTv)
+    TextView blockTv;
 
     /*@Bind(com.aikya.konnek2.R.id.phone_view)
     View phoneView;
@@ -67,6 +83,18 @@ public class UserProfileActivity extends BaseLoggableActivity {
     private Observer userObserver;
     private boolean removeContactAndChatHistory;
 
+    //Block chat
+    /*ArrayList<QBPrivacyListItem> privacyListItems;
+    QBPrivacyListsManager privacyListsManager;
+
+    QBPrivacyList privacyList;
+
+    private static final String privacyListName = "Konnek2_privacy_list_name";
+
+
+    private static boolean blockFlag = false;*/
+
+
     public static void start(Context context, int friendId) {
         Intent intent = new Intent(context, UserProfileActivity.class);
         intent.putExtra(QBServiceConsts.EXTRA_FRIEND_ID, friendId);
@@ -76,7 +104,13 @@ public class UserProfileActivity extends BaseLoggableActivity {
     @Override
     protected int getContentResId() {
 //        return com.aikya.konnek2.R.layout.activity_user_profile;
-        return  R.layout.activity_view_contact;
+        return R.layout.activity_view_contact;
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
     }
 
     @Override
@@ -86,6 +120,7 @@ public class UserProfileActivity extends BaseLoggableActivity {
         setUpActionBarWithUpButton();
 
         initUIWithUsersData();
+        setUpPrivacyList(user);
         addActions();
     }
 
@@ -109,6 +144,17 @@ public class UserProfileActivity extends BaseLoggableActivity {
         super.onResume();
         addObservers();
         setOnlineStatus();
+        setBlockText();
+    }
+
+    /*Method that will set the text block/unblock
+     * depending on the blockFlag's value..*/
+    private void setBlockText() {
+        if (blockFlag) {
+            blockTv.setText(this.getString(R.string.unblockText));
+        } else {
+            blockTv.setText(this.getString(R.string.blockText));
+        }
     }
 
     @Override
@@ -243,8 +289,10 @@ public class UserProfileActivity extends BaseLoggableActivity {
 
     private void loadAvatar() {
         String url = user.getAvatar();
-        ImageLoader.getInstance().displayImage(url, avatarImageView,
-                ImageLoaderUtils.UIL_USER_AVATAR_DISPLAY_OPTIONS);
+        if (url != null && !TextUtils.isEmpty(url)) {
+            ImageLoader.getInstance().displayImage(url, avatarImageView,
+                    ImageLoaderUtils.UIL_USER_AVATAR_DISPLAY_OPTIONS);
+        }
     }
 
     private void showRemoveContactAndChatHistoryDialog() {
@@ -368,4 +416,26 @@ public class UserProfileActivity extends BaseLoggableActivity {
             startPrivateChat(qbDialog);
         }
     }
+
+    /*Block/Unblock user in private chat.*/
+
+    @OnClick(R.id.blockTv)
+    void block(View view) {
+        if (!blockFlag) {
+            addtoprivacy();
+        } else {
+            removefromprivacy();
+        }
+    }
+
+
+    @Override
+    public void isUserBlocked(boolean blockFlag) {
+        if (blockFlag) {
+            blockTv.setText(this.getString(R.string.unblockText));
+        } else {
+            blockTv.setText(this.getString(R.string.blockText));
+        }
+    }
+
 }

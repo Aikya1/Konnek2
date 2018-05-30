@@ -421,6 +421,7 @@ public class CatchUpActivity extends BaseLoggableActivity implements OnMapReadyC
     }
 
     private void updateContactsList(List<QBUser> usersList) {
+        friendsAdapter.clear();
         this.qbUserLists = usersList;
         Log.d(TAG, "UserList Size = " + usersList.size());
         for (int i = 0; i < usersList.size(); i++) {

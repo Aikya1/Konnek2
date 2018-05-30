@@ -121,7 +121,7 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
     @Bind(R.id.textView2)
     TextView policyTv;
 
-    String countryCode = "", phNumber = "";
+    String countryCode = "", phNumber = "", countryCodeWithPlus = "";
     private GoogleApiClient mGoogleApiClient;
 
     GdprCustomDialog gdprCustomDialog;
@@ -444,10 +444,13 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
     @OnClick(R.id.btnsignups)
     void phoneNumberConnect(View view) {
         if (checkNetworkAvailableWithError()) {
+            countryCode = countryCodePicker.getSelectedCountryCode();
+            phNumber = etphoneno.getText().toString();
+            countryCodeWithPlus = countryCodePicker.getSelectedCountryCodeWithPlus();
+
+
             if (phoneeval() && checkeval()) {
                 showProgress();
-                countryCode = countryCodePicker.getSelectedCountryCode();
-                phNumber = etphoneno.getText().toString();
                 serviceManager.checkIfUserExist(countryCode + phNumber)
                         .subscribe(checkIfUserExists);
             }
@@ -457,7 +460,7 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
     @Override
     protected void onResume() {
         super.onResume();
-        if (systemPermissionHelper.isAllLocationPermissionGranted()) {
+         if (systemPermissionHelper.isAllLocationPermissionGranted()) {
             userLocator.getLocation(Locator.Method.GPS, this);
         }
         checkRecordPermission();
@@ -485,7 +488,7 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
 
     private boolean phoneeval() {
         phoneNumber = etphoneno.getText().toString();
-        if (!EmailPhoneValidationUtils.isValidPhone(phoneNumber) || TextUtils.isEmpty(phoneNumber)) {
+        if (!EmailPhoneValidationUtils.isValidPhone(countryCodeWithPlus + phoneNumber) || TextUtils.isEmpty(phoneNumber)) {
             ToastUtils.shortToast("Phone No is empty/not valid");
             return false;
         }
@@ -693,7 +696,7 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
     private void checkLocationAndRecordPermission() {
 
         if (CheckingPermissionIsEnabledOrNot()) {
-            Toast.makeText(LandingActivity.this, "All Permissions Granted Successfully", Toast.LENGTH_LONG).show();
+//            Toast.makeText(LandingActivity.this, "All Permissions Granted Successfully", Toast.LENGTH_LONG).show();
         }
         // If, If permission is not enabled then else condition will execute.
         else {

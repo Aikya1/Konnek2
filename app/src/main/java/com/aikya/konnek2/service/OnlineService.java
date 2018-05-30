@@ -85,7 +85,9 @@ public class OnlineService extends Service {
                 }
 
                 Log.d("json object", "jsonobject is" + jObject);
-                qbUser.setCustomData(jObject.toString());
+                if (jObject != null) {
+                    qbUser.setCustomData(jObject.toString());
+                }
 
                 Log.d("now", "now" + qbUser);
 

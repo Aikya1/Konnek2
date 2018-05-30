@@ -9,6 +9,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -19,36 +20,38 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.aikya.konnek2.App;
-import com.aikya.konnek2.call.core.core.command.Command;
-import com.aikya.konnek2.call.core.qb.commands.friend.QBRejectFriendCommand;
-import com.aikya.konnek2.call.db.managers.FriendDataManager;
-import com.aikya.konnek2.call.services.model.QMUser;
-import com.aikya.konnek2.utils.AppPreference;
-import com.aikya.konnek2.utils.listeners.AppCommon;
 import com.aikya.konnek2.R;
 import com.aikya.konnek2.base.db.AppCallLogModel;
+import com.aikya.konnek2.call.core.core.command.Command;
+import com.aikya.konnek2.call.core.models.CombinationMessage;
+import com.aikya.konnek2.call.core.qb.commands.chat.QBDeleteChatCommand;
+import com.aikya.konnek2.call.core.qb.commands.chat.QBDeleteMessageCommand;
 import com.aikya.konnek2.call.core.qb.commands.friend.QBAcceptFriendCommand;
 import com.aikya.konnek2.call.core.service.QBService;
 import com.aikya.konnek2.call.core.service.QBServiceConsts;
 import com.aikya.konnek2.call.core.utils.OnlineStatusUtils;
 import com.aikya.konnek2.call.core.utils.UserFriendUtils;
 import com.aikya.konnek2.call.db.managers.DataManager;
+import com.aikya.konnek2.call.db.managers.FriendDataManager;
 import com.aikya.konnek2.call.db.models.Friend;
 import com.aikya.konnek2.call.services.QMUserService;
+import com.aikya.konnek2.call.services.model.QMUser;
 import com.aikya.konnek2.ui.activities.call.CallActivity;
 import com.aikya.konnek2.ui.activities.profile.UserProfileActivity;
 import com.aikya.konnek2.ui.adapters.chats.PrivateChatMessageAdapter;
-import com.aikya.konnek2.ui.fragments.dialogs.base.TwoButtonsDialogFragment;
 import com.aikya.konnek2.utils.AppConstant;
+import com.aikya.konnek2.utils.AppPreference;
 import com.aikya.konnek2.utils.DateUtils;
 import com.aikya.konnek2.utils.ToastUtils;
+import com.aikya.konnek2.utils.listeners.AppCommon;
 import com.aikya.konnek2.utils.listeners.CallDurationInterface;
 import com.aikya.konnek2.utils.listeners.FriendOperationListener;
 import com.quickblox.chat.QBChatService;
+import com.quickblox.chat.QBRestChatService;
 import com.quickblox.chat.model.QBChatDialog;
 import com.quickblox.chat.model.QBDialogType;
+import com.quickblox.core.exception.QBResponseException;
 import com.quickblox.users.model.QBUser;
 import com.quickblox.videochat.webrtc.QBRTCTypes;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
@@ -60,7 +63,7 @@ import java.util.Observer;
 
 import butterknife.OnClick;
 
-public class PrivateDialogActivity extends BaseDialogActivity {
+public class PrivateDialogActivity extends BaseDialogActivity implements PrivateChatMessageAdapter.OnMessageClickListener {
 
     private FriendOperationAction friendOperationAction;
     private QMUser opponentUser;
@@ -80,6 +83,15 @@ public class PrivateDialogActivity extends BaseDialogActivity {
     private EditText otherEditTxt;
     //    private QBChatDialog qbChatDialog;
     private CallDurationInterface callDurationInterface;
+
+    public static final int RESULT_DELETE_MESSAGE = 2;
+
+
+    /*Variables for chat features such as delete, copy, forward the selecetd message in a 1-1 chat*/
+    private List<CombinationMessage> currentCombinationMsgsList;
+    private CombinationMessage chatMessage;
+    private View messageView;
+    private int viewPosition;
 
     public static void start(Context context, QMUser opponent, QBChatDialog chatDialog) {
         Intent intent = getIntentWithExtra(context, opponent, chatDialog);
@@ -110,6 +122,7 @@ public class PrivateDialogActivity extends BaseDialogActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        addActions();
 
     }
 
@@ -117,13 +130,25 @@ public class PrivateDialogActivity extends BaseDialogActivity {
     protected void addActions() {
         super.addActions();
 
-//        addAction(QBServiceConsts.ACCEPT_FRIEND_SUCCESS_ACTION, new AcceptFriendSuccessAction());
-//        addAction(QBServiceConsts.ACCEPT_FRIEND_FAIL_ACTION, failAction);
+        addAction(QBServiceConsts.DELETE_MESSAGE_SUCCESS_ACTION, new DeleteMessageSuccessAction());
+        addAction(QBServiceConsts.DELETE_MESSAGE_FAIL_ACTION, failAction);
 
-//        addAction(QBServiceConsts.REJECT_FRIEND_SUCCESS_ACTION, new RejectFriendSuccessAction());
-//        addAction(QBServiceConsts.REJECT_FRIEND_FAIL_ACTION, failAction);
+
+       /* addAction(QBServiceConsts.ACCEPT_FRIEND_SUCCESS_ACTION, new AcceptFriendSuccessAction());
+        addAction(QBServiceConsts.ACCEPT_FRIEND_FAIL_ACTION, failAction);
+
+        addAction(QBServiceConsts.REJECT_FRIEND_SUCCESS_ACTION, new RejectFriendSuccessAction());
+        addAction(QBServiceConsts.REJECT_FRIEND_FAIL_ACTION, failAction);*/
 
         updateBroadcastActionList();
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        removeActions();
+
     }
 
     @Override
@@ -148,7 +173,8 @@ public class PrivateDialogActivity extends BaseDialogActivity {
 
     @Override
     protected void initChatAdapter() {
-        messagesAdapter = new PrivateChatMessageAdapter(this, combinationMessagesList, friendOperationAction, currentChatDialog);
+        messagesAdapter = new PrivateChatMessageAdapter(this, combinationMessagesList, friendOperationAction, currentChatDialog, this);
+
     }
 
     @Override
@@ -157,9 +183,10 @@ public class PrivateDialogActivity extends BaseDialogActivity {
         messagesRecyclerView.addItemDecoration(
                 new StickyRecyclerHeadersDecoration(messagesAdapter));
 //        findLastFriendsRequest(true);
-
         messagesRecyclerView.setAdapter(messagesAdapter);
         scrollMessagesToBottom(0);
+        registerForContextMenu(messagesRecyclerView);
+
     }
 
     @Override
@@ -232,7 +259,7 @@ public class PrivateDialogActivity extends BaseDialogActivity {
     protected void checkMessageSendingPossibility() {
         boolean enable = dataManager.getFriendDataManager().existsByUserId(opponentUser.getId()) && isNetworkAvailable();
 //        checkMessageSendingPossibility(enable);
-        checkMessageSendingPossibility(true);
+        checkMessageSendingPossibility(enable);
     }
 
     @OnClick(R.id.toolbar)
@@ -286,7 +313,7 @@ public class PrivateDialogActivity extends BaseDialogActivity {
     }*/
 
     private void setOnlineStatus(QMUser user) {
-        if (user != null) {
+        /*if (user != null) {
             if (friendListHelper != null && user.getLastRequestAt() != null) {
                 String offlineStatus = getString(R.string.last_seen, DateUtils.toTodayYesterdayShortDateWithoutYear2(user.getLastRequestAt().getTime()),
                         DateUtils.formatDateSimpleTime(user.getLastRequestAt().getTime()));
@@ -298,6 +325,15 @@ public class PrivateDialogActivity extends BaseDialogActivity {
             } else {
                 setActionBarSubtitle("R.string.last_seen  at 16:38");
             }
+        }*/
+
+        if (user != null) {
+            if (friendListHelper != null) {
+                String offlineStatus = getString(R.string.last_seen, DateUtils.toTodayYesterdayShortDateWithoutYear2(user.getLastRequestAt().getTime()),
+                        DateUtils.formatDateSimpleTime(user.getLastRequestAt().getTime()));
+                setActionBarSubtitle(
+                        OnlineStatusUtils.getOnlineStatus(this, friendListHelper.isUserOnline(user.getId()), offlineStatus));
+            }
         }
     }
 
@@ -308,7 +344,6 @@ public class PrivateDialogActivity extends BaseDialogActivity {
 
     //Method that will initiate the audio call
     public void callToUser(QMUser user, QBRTCTypes.QBConferenceType qbConferenceType) {
-
         try {
             if (!isChatInitializedAndUserLoggedIn()) {
                 ToastUtils.longToast(R.string.call_chat_service_is_initializing);
@@ -327,7 +362,7 @@ public class PrivateDialogActivity extends BaseDialogActivity {
 
     }
 
-    /*private void acceptUser(final int userId) {
+    private void acceptUser(final int userId) {
 
         if (isNetworkAvailable()) {
             if (!isChatInitializedAndUserLoggedIn()) {
@@ -342,7 +377,7 @@ public class PrivateDialogActivity extends BaseDialogActivity {
         }
     }
 
-    private void rejectUser(final int userId) {
+   /* private void rejectUser(final int userId) {
         if (isNetworkAvailable()) {
             if (!isChatInitializedAndUserLoggedIn()) {
                 ToastUtils.longToast(R.string.call_chat_service_is_initializing);
@@ -356,7 +391,7 @@ public class PrivateDialogActivity extends BaseDialogActivity {
         }
     }*/
 
-    /*private void showRejectUserDialog(final int userId) {
+   /* private void showRejectUserDialog(final int userId) {
         QMUser user = QMUserService.getInstance().getUserCache().get((long) userId);
         if (user == null) {
             return;
@@ -414,7 +449,7 @@ public class PrivateDialogActivity extends BaseDialogActivity {
         }
     }
 
-    /*private class AcceptFriendSuccessAction implements Command {
+    private class AcceptFriendSuccessAction implements Command {
 
         @Override
         public void execute(Bundle bundle) {
@@ -434,7 +469,7 @@ public class PrivateDialogActivity extends BaseDialogActivity {
             startLoadDialogMessages(false);
             hideProgress();
         }
-    }*/
+    }
 
     private class FriendObserver implements Observer {
         @Override
@@ -510,5 +545,85 @@ public class PrivateDialogActivity extends BaseDialogActivity {
             e.printStackTrace();
         }
         return true;
+    }
+
+
+    @Override
+    public void onMessageLongClicked(View itemView, CombinationMessage chatMessage, int position,
+                                     List<CombinationMessage> chatMessages) {
+
+        itemView.showContextMenu();
+        this.chatMessage = chatMessage;
+        this.currentCombinationMsgsList = chatMessages;
+        this.viewPosition = position;
+        this.messageView = itemView;
+        messageView.setBackgroundColor(this.getResources().getColor(R.color.light_gray));
+
+
+//        messagesAdapter.notifyItemRemoved(position);
+//        messagesAdapter.setList(chatMessages, true);
+//        ToastUtils.shortToast("OnMessageLongClicked...");
+
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        // inflate menu
+        MenuInflater inflater = this.getMenuInflater();
+        inflater.inflate(R.menu.private_chat_msg_menu, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+
+            case R.id.action_view_starred_messages:
+
+
+                break;
+            case R.id.action_view_reply_msg:
+                break;
+            case R.id.action_view_copy_msg:
+                break;
+            case R.id.action_view_forward_msg:
+                break;
+            case R.id.action_view_translate_msg:
+                break;
+            case R.id.action_view_delete_msg:
+
+                dataManager.getMessageDataManager().deleteMessage(chatMessage);
+//                QBRestChatService.deleteMessage(chatMessage.getMessageId(),true);
+
+                QBDeleteMessageCommand.start(PrivateDialogActivity.this, chatMessage.getMessageId());
+
+                currentCombinationMsgsList.remove(chatMessage);
+                messagesAdapter.notifyItemRemoved(viewPosition);
+//                messageView.setVisibility(View.GONE);
+                messagesAdapter.notifyItemRangeChanged(viewPosition, currentCombinationMsgsList.size());
+
+                break;
+
+        }
+
+        return super.onContextItemSelected(item);
+
+
+        // handle menu item here
+    }
+
+    @Override
+    public void onContextMenuClosed(Menu menu) {
+        super.onContextMenuClosed(menu);
+    }
+
+    private class DeleteMessageSuccessAction implements Command {
+
+        @Override
+        public void execute(Bundle bundle) {
+            hideProgress();
+            setResult(RESULT_DELETE_MESSAGE, getIntent());
+        }
     }
 }

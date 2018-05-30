@@ -1,0 +1,38 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+   <!-- <item
+        android:id="@+id/action_search"
+        android:icon="@drawable/ic_app_search"
+        android:title="@string/action_bar_search"
+        app:showAsAction="ifRoom" />-->
+
+
+    <item
+        android:id="@+id/action_view_starred_messages"
+        android:title="@string/action_starred_msgs" />
+
+    <item
+        android:id="@+id/action_view_reply_msg"
+        android:title="@string/action_reply_msg" />
+
+    <item
+        android:id="@+id/action_view_copy_msg"
+        android:title="@string/action_copy_msg" />
+
+    <item
+        android:id="@+id/action_view_forward_msg"
+        android:title="@string/action_forward_msg" />
+
+    <item
+        android:id="@+id/action_view_translate_msg"
+        android:title="@string/action_translate_msg" />
+
+    <item
+        android:id="@+id/action_view_delete_msg"
+        android:title="@string/action_delete_msg" />
+
+
+
+
+</menu>

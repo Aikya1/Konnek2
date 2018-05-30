@@ -214,8 +214,10 @@ public class AppHomeActivity extends BaseLoggableActivity implements NavigationV
         addDialogsAction();
 
 //        +++++++++++++++++++++TEST CODE ++++++++++++++++
-        if (serviceManager.friendList == null) {
+        if (serviceManager.friendList == null && systemPermissionHelper.isContactPermissionGranted()) {
             serviceManager.uploadAllContacts(this);
+        } else {
+            systemPermissionHelper.requestPermissionsReadContacts();
         }
     }
 

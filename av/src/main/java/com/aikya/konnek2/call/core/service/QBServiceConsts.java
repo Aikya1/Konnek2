@@ -256,4 +256,13 @@ public class QBServiceConsts {
 
     public static final String REMOVE_USER__FROM_GROUP_SUCCESS_ACTION = "remove_user_from_group_success_action";
     public static final String REMOVE_USER__FROM_GROUP_FAIL_ACTION = "remove_user_from_group_fail_action";
+
+
+    /*Contacts Synch actions*/
+    public static final String CONTACTS_SUCCESS_ACTION = "contacts_success_action";
+    public static final String CONTACTS_FAIL_ACTION = "contacts_fail_action";
+    public static final String SYNCH_CONTACTS_ACTION = "synch_contacts_action";
+    public static final String DELETE_MESSAGE_ACTION = "delete_message_action";
+    public static final String DELETE_MESSAGE_SUCCESS_ACTION = "delete_message_success_action";
+    public static final String DELETE_MESSAGE_FAIL_ACTION = "delete_message_fail_action";
 }

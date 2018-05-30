@@ -116,6 +116,7 @@ public class NewMessageActivity extends BaseLoggableActivity implements SearchVi
 
                     @Override
                     public void onError(Throwable e) {
+                        hideProgress();
                         Log.d(TAG, "Error == " + e.getMessage());
                     }
 

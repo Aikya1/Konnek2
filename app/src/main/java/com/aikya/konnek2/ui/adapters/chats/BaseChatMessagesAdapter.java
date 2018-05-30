@@ -12,21 +12,19 @@ import android.widget.TextView;
 import com.aikya.konnek2.call.core.models.AppSession;
 import com.aikya.konnek2.call.core.models.CombinationMessage;
 import com.aikya.konnek2.call.core.qb.commands.chat.QBUpdateStatusMessageCommand;
+import com.aikya.konnek2.call.db.managers.DataManager;
 import com.aikya.konnek2.call.db.models.State;
 import com.aikya.konnek2.ui.activities.base.BaseActivity;
+import com.aikya.konnek2.utils.DateUtils;
 import com.aikya.konnek2.utils.FileUtils;
 import com.aikya.konnek2.utils.ToastUtils;
 import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.aikya.konnek2.call.db.managers.DataManager;
-import com.aikya.konnek2.utils.DateUtils;
 import com.quickblox.chat.model.QBChatDialog;
-
 import com.quickblox.ui.kit.chatmessage.adapter.QBMessagesAdapter;
 import com.quickblox.users.model.QBUser;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
-
 
 import java.util.List;
 
@@ -34,7 +32,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 
-public class BaseChatMessagesAdapter extends QBMessagesAdapter<CombinationMessage> implements StickyRecyclerHeadersAdapter<RecyclerView.ViewHolder> {
+public class BaseChatMessagesAdapter extends QBMessagesAdapter<CombinationMessage> implements
+        StickyRecyclerHeadersAdapter<RecyclerView.ViewHolder> {
     private static final String TAG = BaseChatMessagesAdapter.class.getSimpleName();
     protected static final int TYPE_REQUEST_MESSAGE = 100;
     protected QBUser currentUser;
@@ -63,6 +62,7 @@ public class BaseChatMessagesAdapter extends QBMessagesAdapter<CombinationMessag
     @Override
     public RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup parent) {
         View view = inflater.inflate(com.aikya.konnek2.R.layout.item_chat_sticky_header_date, parent, false);
+
         return new RecyclerView.ViewHolder(view) {
         };
     }
@@ -71,14 +71,13 @@ public class BaseChatMessagesAdapter extends QBMessagesAdapter<CombinationMessag
     public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
         View view = holder.itemView;
 
+
         TextView headerTextView = view.findViewById(com.aikya.konnek2.R.id.header_date_textview);
         CombinationMessage combinationMessage = getItem(position);
         headerTextView.setText(DateUtils.toTodayYesterdayFullMonthDate(combinationMessage.getCreatedDate()));
 
 
-
     }
-
 
     @Override
     public int getItemViewType(int position) {
@@ -95,7 +94,6 @@ public class BaseChatMessagesAdapter extends QBMessagesAdapter<CombinationMessag
 
         return new ImageRequestListener((ImageAttachHolder) holder, isIncoming(chatMessage));
     }
-
 
 
     @Override
@@ -230,6 +228,7 @@ public class BaseChatMessagesAdapter extends QBMessagesAdapter<CombinationMessag
         public RequestsViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, itemView);
+
         }
     }
 }
