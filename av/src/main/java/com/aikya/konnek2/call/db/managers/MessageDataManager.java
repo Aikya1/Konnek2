@@ -299,19 +299,21 @@ public class MessageDataManager extends BaseManager<Message> {
     }
 
     public void deleteMessage(CombinationMessage chatMessage) {
-        try {
+        if (chatMessage.getMessageId() != null) {
+            try {
 
-            DeleteBuilder<Message, Long> deleteBuilder = dao.deleteBuilder();
+                DeleteBuilder<Message, Long> deleteBuilder = dao.deleteBuilder();
 
-            Where<Message, Long> where = deleteBuilder.where();
+                Where<Message, Long> where = deleteBuilder.where();
 
-            where.eq(Message.Column.ID, chatMessage.getMessageId());
+                where.eq(Message.Column.ID, chatMessage.getMessageId());
 
-            if (deleteBuilder.delete() > 0) {
-                notifyObservers();
+                if (deleteBuilder.delete() > 0) {
+                    notifyObservers();
+                }
+            } catch (SQLException e) {
+                ErrorUtils.logError(e);
             }
-        } catch (SQLException e) {
-            ErrorUtils.logError(e);
         }
     }
 

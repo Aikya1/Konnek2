@@ -73,4 +73,13 @@ public class ConstsCore {
     public static final int CHRONOMETER_ALARM_SECOND = 27;
 
     public static final String EVENT = "event";
+
+
+    public static final String PUSH_MESSAGE_TYPE_VOIP = "1";
+    public static final String MESSAGE = "message";
+    public static final String MESSAGE_TYPE = "type";
+    public static final String MESSAGE_VOIP_TYPE = "VOIPCall";
+    public static final String MESSAGE_IOS_VOIP = "ios_voip";
+    public static final String MESSAGE_DIALOG_ID = "dialog_id";
+    public static final String MESSAGE_USER_ID = "user_id";
 }

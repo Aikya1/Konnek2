@@ -20,8 +20,6 @@ import com.aikya.konnek2.utils.image.ImageLoaderUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 
-
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -124,11 +122,10 @@ public class AppCallHistoryAdapter extends BaseAdapter {
 
 
                 if (appcallLogModelArrayList.get(position).getCallStatus().equalsIgnoreCase(AppConstant.CALL_STATUS_DIALED)) {
-                    holder.call_status.setImageResource(R.drawable.ic_call_uparrow);
+                    holder.call_status.setImageResource(R.drawable.calls_outgoing_20_2x);
                 } else {
                     if (appcallLogModelArrayList.get(position).getCallStatus().equalsIgnoreCase(AppConstant.CALL_STATUS_RECEIVED)) {
-                        holder.call_status.setImageResource(R.drawable.ic_call_downarrow);
-
+                        holder.call_status.setImageResource(R.drawable.calls_incoming_20);
                     } else {
                         holder.call_status.setImageResource(R.drawable.ic_call_missedcall);
                     }

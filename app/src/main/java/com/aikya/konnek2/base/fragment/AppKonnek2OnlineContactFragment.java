@@ -142,7 +142,7 @@ public class AppKonnek2OnlineContactFragment extends BaseFragment implements Con
     }
 
     private void getOnlineUsersFromQBAddressBook() {
-       // baseActivity.showProgress();
+        // baseActivity.showProgress();
         String UDID = "";
         boolean isCompact = false;
         Performer<ArrayList<QBUser>> performer = QBUsers.getRegisteredUsersFromAddressBook(UDID, isCompact);
@@ -189,19 +189,17 @@ public class AppKonnek2OnlineContactFragment extends BaseFragment implements Con
                 friendsOnlineAdapter = new FriendsOnlineAdapter(baseActivity, qMUserList, false, this);
                 listView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-                    DividerItemDecoration divider = new DividerItemDecoration(listView.getContext(), DividerItemDecoration.VERTICAL);
-                    divider.setDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.divider_horizontal));
-                    listView.addItemDecoration(divider);
+                DividerItemDecoration divider = new DividerItemDecoration(listView.getContext(), DividerItemDecoration.VERTICAL);
+                divider.setDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.divider_horizontal));
+                listView.addItemDecoration(divider);
 
                 listView.setAdapter(friendsOnlineAdapter);
-
 
 
             }
         }
 
-        if(qMUserList.isEmpty())
-        {
+        if (qMUserList.isEmpty()) {
             materialDesignFAM.hideMenuButton(true);
         }
 
@@ -297,15 +295,12 @@ public class AppKonnek2OnlineContactFragment extends BaseFragment implements Con
 
     public void callToUser(List<String> opponentsList, QBRTCTypes.QBConferenceType qbConferenceType) {
         try {
-           if (!isChatInitializedAndUserLoggedIn()) {
+            if (!isChatInitializedAndUserLoggedIn()) {
                 ToastUtils.longToast(R.string.call_chat_service_is_initializing);
-               return;
+                return;
             }
-
-
             //qMUserList = qmUserCache.getUsersByIDs(getUserIntegerId(opponentsList));
             List<QMUser> qmUsers = qmUserCache.getUsersByIDs(getUserIntegerId(opponentsList));
-
             qbUserLists = new ArrayList<>(qmUsers.size());
             qbUserLists.addAll(UserFriendUtils.createQbUserList(qMUserList));
             CallActivity.start(getActivity(), qbUserLists, qbConferenceType, null);
@@ -314,7 +309,7 @@ public class AppKonnek2OnlineContactFragment extends BaseFragment implements Con
         } catch (Exception e) {
             e.getMessage();
         }
-        CallHistory();
+//        CallHistory();
     }
 
     private ArrayList<Integer> getUserIntegerId(List<String> opponentUsers) {

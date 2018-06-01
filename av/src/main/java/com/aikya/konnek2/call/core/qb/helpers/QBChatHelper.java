@@ -225,6 +225,13 @@ public class QBChatHelper extends BaseThreadPoolHelper {
                 attachment = getAttachmentAudio((QBFile) attachmentObject, localPath);
                 break;
             case DOC:
+              /*  messageBody = context.getString(R.string.dlg_attached_audio_last_message);
+                attachment = getAttachmentDocument((QBFile)attachmentObject, localPath);*/
+                break;
+
+            case CONTACT:
+               /* messageBody = context.getString(R.string.dlg_attached_contact_message);
+                attachment = getAttachmentContact((String) attachmentObject);*/
                 break;
             case OTHER:
                 break;
@@ -411,6 +418,14 @@ public class QBChatHelper extends BaseThreadPoolHelper {
         return attachment;
     }
 
+    private QBAttachment getAttachmentContact(String contact) {
+        QBAttachment attachment = new QBAttachment(Attachment.Type.CONTACT.toString().toLowerCase());
+        attachment.setData(contact);
+        attachment.setId(String.valueOf(contact.hashCode()));
+
+        return attachment;
+    }
+
     private QBAttachment getAttachmentAudio(QBFile file, String localPath) {
         QBAttachment attachment = getAttachment(file, QBAttachment.AUDIO_TYPE, MimeTypeAttach.AUDIO_MIME);
 
@@ -419,6 +434,10 @@ public class QBChatHelper extends BaseThreadPoolHelper {
             attachment.setDuration(durationSec);
         }
         return attachment;
+    }
+
+    private QBAttachment getAttachmentDocument(QBFile file, String localPath) {
+        return getAttachment(file, QBAttachment.IMAGE_TYPE, MimeTypeAttach.DOCUMENT_MIME);
     }
 
     private QBAttachment getAttachmentVideo(QBFile file, String localPath) {

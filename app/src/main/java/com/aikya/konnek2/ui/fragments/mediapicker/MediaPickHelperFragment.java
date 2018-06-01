@@ -2,6 +2,7 @@ package com.aikya.konnek2.ui.fragments.mediapicker;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -19,6 +20,7 @@ import android.util.Log;
 import com.aikya.konnek2.R;
 import com.aikya.konnek2.tasks.GetFilepathFromUriTask;
 import com.aikya.konnek2.ui.activities.base.BaseActivity;
+import com.aikya.konnek2.utils.listeners.OnContactPickedListener;
 import com.aikya.konnek2.utils.listeners.OnMediaPickedListener;
 import com.aikya.konnek2.call.core.utils.ConstsCore;
 import com.aikya.konnek2.call.db.models.Attachment;
@@ -38,6 +40,7 @@ public class MediaPickHelperFragment extends Fragment {
     private static final String TAG = MediaPickHelperFragment.class.getSimpleName();
 
     private OnMediaPickedListener listener;
+    private OnContactPickedListener contactPickedListener;
 
     public MediaPickHelperFragment() {
     }
@@ -85,7 +88,7 @@ public class MediaPickHelperFragment extends Fragment {
         takePhotoIntent.putExtra("return-data", true);
         File photoFile = MediaUtils.getTemporaryCameraFilePhoto();
         if (photoFile != null) {
-            Uri photoURI = MediaUtils.getValidUri(photoFile,context);
+            Uri photoURI = MediaUtils.getValidUri(photoFile, context);
             takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
         }
         intentList = addIntentsToList(context, intentList, pickIntent);
@@ -137,6 +140,11 @@ public class MediaPickHelperFragment extends Fragment {
                 new GetFilepathFromUriTask(getChildFragmentManager(), listener,
                         getArguments().getInt(ARG_REQUEST_CODE)).execute(data);
             }
+            if (requestCode == MediaUtils.CONTACT_REQUEST_CODE) {
+                if (contactPickedListener != null) {
+                    contactPickedListener.onContactSelected(data);
+                }
+            }
         } else {
             stop(getChildFragmentManager());
             if (listener != null) {
@@ -156,14 +164,18 @@ public class MediaPickHelperFragment extends Fragment {
         if (fragment != null) {
             if (fragment instanceof OnMediaPickedListener) {
                 listener = (OnMediaPickedListener) fragment;
+            } else if (fragment instanceof OnContactPickedListener) {
+                contactPickedListener = (OnContactPickedListener) fragment;
             }
         } else {
             if (activity instanceof OnMediaPickedListener) {
                 listener = (OnMediaPickedListener) activity;
+            } else if (activity instanceof OnContactPickedListener) {
+                contactPickedListener = (OnContactPickedListener) activity;
             }
         }
 
-        if (listener == null) {
+        if (listener == null /*|| contactPickedListener == null*/) {
             throw new IllegalStateException(
                     "Either activity or fragment should implement OnMediaPickedListener");
         }
@@ -173,10 +185,15 @@ public class MediaPickHelperFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         listener = null;
+        contactPickedListener = null;
     }
 
     public void setListener(OnMediaPickedListener listener) {
         this.listener = listener;
+    }
+
+    public void setContactPickedListener(OnContactPickedListener contactPickedListener) {
+        this.contactPickedListener = contactPickedListener;
     }
 
     private boolean isResultFromMediaPick(int requestCode, int resultCode, Intent data) {
@@ -184,6 +201,8 @@ public class MediaPickHelperFragment extends Fragment {
                 ((requestCode == MediaUtils.CAMERA_PHOTO_REQUEST_CODE
                         || requestCode == MediaUtils.CAMERA_VIDEO_REQUEST_CODE)
                         || (requestCode == MediaUtils.GALLERY_REQUEST_CODE && data != null)
-                        || (requestCode == MediaUtils.IMAGE_VIDEO_LOCATION_REQUEST_CODE && data != null));
+                        || (requestCode == MediaUtils.IMAGE_VIDEO_LOCATION_REQUEST_CODE && data != null)
+                        || (requestCode == MediaUtils.CONTACT_REQUEST_CODE && data != null)
+                        || (requestCode == MediaUtils.DOC_REQUEST_CODE && data != null));
     }
 }

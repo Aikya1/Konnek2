@@ -135,6 +135,9 @@
         <item>LOCATION</item>
         <item>AUDIO</item>
         <item>VIDEO</item>
+        <item>DOC</item>
+        <item>CONTACT</item>
+        <item>OTHER</item>
     </string-array>
 
     <!-- dots inactive colors -->

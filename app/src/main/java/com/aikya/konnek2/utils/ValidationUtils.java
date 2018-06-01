@@ -90,8 +90,7 @@ public class ValidationUtils {
                 passwordTextInputLayout.setError(context.getString(R.string.auth_password_field_is_too_short));
             }
             return valid;
-        }
-        else if (!isFullNameEntered && !isEmailEntered && !isPasswordEntered) {
+        } else if (!isFullNameEntered && !isEmailEntered && !isPasswordEntered) {
             fullNameTextInputLayout.setError(context.getString(R.string.auth_not_all_fields_entered));
             emailTextInputLayout.setError(context.getString(R.string.auth_not_all_fields_entered));
             passwordTextInputLayout.setError(context.getString(R.string.auth_not_all_fields_entered));
@@ -244,7 +243,6 @@ public class ValidationUtils {
                 break;
             }
         }
-
         return supported;
     }
 
@@ -254,11 +252,17 @@ public class ValidationUtils {
     }
 
     private static boolean isValidMimeType(String mimeType) {
-        return !TextUtils.isEmpty(mimeType) && (mimeType.startsWith(MimeType.IMAGE_MIME_PREFIX) || mimeType.equals(MimeType.AUDIO_MIME_MP3));
+        return !TextUtils.isEmpty(mimeType) &&
+                (mimeType.startsWith(MimeType.IMAGE_MIME_PREFIX)
+                        || mimeType.startsWith(MimeType.APPLICATION)
+                        || mimeType.equals(MimeType.AUDIO_MIME_MP3)
+                        || mimeType.equals(MimeType.DOC_MIMETYPE)
+                );
     }
 
     private static boolean isValidExtension(String extension) {
-        return !TextUtils.isEmpty(extension) && (extension.equals(MimeType.VIDEO_MIME_EXTENSION_MP4) || extension.equals(MimeType.AUDIO_MIME_EXTENSION_MP3));
+        return !TextUtils.isEmpty(extension) &&
+                (extension.equals(MimeType.VIDEO_MIME_EXTENSION_MP4) || extension.equals(MimeType.AUDIO_MIME_EXTENSION_MP3));
     }
 
     private boolean isEmailValid(String email) {

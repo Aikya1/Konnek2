@@ -246,4 +246,9 @@ public class AppCallLogTable {
         }
         return initialValues;
     }
+
+    public void deleteCallLog() {
+        db.delete(TABLE_CALL_LOG, null, null);
+    }
+
 }

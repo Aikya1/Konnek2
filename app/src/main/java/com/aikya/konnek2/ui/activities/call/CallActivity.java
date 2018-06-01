@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -766,11 +767,11 @@ public class CallActivity extends BaseLoggableActivity implements
     }
 
     private void stopTimer() {
-        if (timerChronometer != null) {
+       /* if (timerChronometer != null) {
             timerChronometer.stop();
             isStarted = false;
 
-            String callDuration =  timerChronometer.getText().toString();
+            String callDuration = timerChronometer.getText().toString();
 
 
             appCallLogModel.setUserId(String.valueOf(AppSession.getSession().getUser().getId()));
@@ -788,11 +789,39 @@ public class CallActivity extends BaseLoggableActivity implements
             } else {
                 appCallLogModel.setCallStatus(AppConstant.CALL_STATUS_DIALED);
             }
-
-
             appCallLogModelArrayList.add(appCallLogModel);
+//          App.appcallLogTableDAO.UpdateCallLog(appCallLogModelArrayList);
+            App.appcallLogTableDAO.saveCallLog(appCallLogModelArrayList);
+        }*/
 
-//            App.appcallLogTableDAO.UpdateCallLog(appCallLogModelArrayList);
+
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString("call_duration", timerChronometer.getText().toString());
+        editor.apply();
+        AppConstant.DATE = AppCommon.currentDate();
+        AppConstant.TIME = AppCommon.currentTime();
+        if (timerChronometer != null) {
+            timerChronometer.stop();
+            isStarted = false;
+            appCallLogModel.setCallUserName(AppSession.getSession().getUser().getFullName());
+            appCallLogModel.setUserId(String.valueOf(AppSession.getSession().getUser().getId()));
+            appCallLogModel.setCallTime(AppCommon.currentTime());
+            appCallLogModel.setCallDate(AppCommon.currentDate());
+            appCallLogModel.setCallDuration(timerChronometer.getText().toString());
+            appCallLogModel.setCallOpponentName(String.valueOf(opponentsList.get(0).getFullName()));
+            appCallLogModel.setCallOpponentId(String.valueOf(opponentsList.get(0).getId()));
+            appCallLogModel.setCallPriority(" ");
+            appCallLogModel.setCallType(" ");
+            if (isInComingCall) {
+                appCallLogModel.setCallStatus(AppConstant.CALL_STATUS_RECEIVED);
+            } else {
+                appCallLogModel.setCallStatus(AppConstant.CALL_STATUS_DIALED);
+            }
+            appCallLogModelArrayList.add(appCallLogModel);
+            Log.d(TAG, "In list" + appCallLogModelArrayList);
+            Log.d(TAG, "In lists" + timerChronometer.getText().toString());
+            // App.appcallLogTableDAO.UpdateCallLog(appCallLogModelArrayList);
             App.appcallLogTableDAO.saveCallLog(appCallLogModelArrayList);
         }
     }

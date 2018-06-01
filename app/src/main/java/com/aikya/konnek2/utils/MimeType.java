@@ -15,5 +15,8 @@ public interface MimeType {
     String VIDEO_MIME_EXTENSION_MP4 = "mp4";
     String AUDIO_MIME_EXTENSION_MP3 = "mp3";
 
-    String DOC_MIME="application/msword";
+    String DOC_MIME = "docx";
+    String PDF_MIME = "pdf";
+    String DOC_MIMETYPE = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+    String APPLICATION = "application";
 }

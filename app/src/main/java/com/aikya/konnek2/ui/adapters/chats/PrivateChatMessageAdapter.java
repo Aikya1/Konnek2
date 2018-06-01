@@ -112,14 +112,16 @@ public class PrivateChatMessageAdapter extends BaseChatMessagesAdapter implement
 
         LinearLayout layout = holder.itemView.findViewById(R.id.msg_bubble_background2);
 
+        if (layout != null) {
+            layout.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    onMessageClickListener.onMessageLongClicked(view3, chatMessage, position, chatMessages);
+                    return true;
+                }
+            });
+        }
 
-        layout.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                onMessageClickListener.onMessageLongClicked(view3, chatMessage, position, chatMessages);
-                return true;
-            }
-        });
 
         setViewVisibility(holder.avatar, View.GONE);
 
@@ -151,14 +153,16 @@ public class PrivateChatMessageAdapter extends BaseChatMessagesAdapter implement
 
         TextView tv = holder.itemView.findViewById(R.id.msg_text_user_name);
 
-        layout.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                onMessageClickListener.onMessageLongClicked(view3, chatMessage, position, chatMessages);
+        if (layout != null) {
+            layout.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    onMessageClickListener.onMessageLongClicked(view3, chatMessage, position, chatMessages);
 
-                return true;
-            }
-        });
+                    return true;
+                }
+            });
+        }
 
         tv.setText(chatMessage.getDialogOccupant().getUser().getFullName());
 
@@ -341,7 +345,7 @@ public class PrivateChatMessageAdapter extends BaseChatMessagesAdapter implement
         return iconResourceId;
     }
 
-    public static class FriendsViewHolder extends QBMessageViewHolder implements ContextMenu.ContextMenuInfo{
+    public static class FriendsViewHolder extends QBMessageViewHolder implements ContextMenu.ContextMenuInfo {
         @Nullable
         @Bind(R.id.message_textview)
         TextView messageTextView;

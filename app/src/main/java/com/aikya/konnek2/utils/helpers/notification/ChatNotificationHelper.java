@@ -13,6 +13,10 @@ import com.aikya.konnek2.call.core.models.NotificationEvent;
 import com.aikya.konnek2.call.core.utils.ConstsCore;
 import com.aikya.konnek2.utils.SystemUtils;
 
+import static com.aikya.konnek2.call.core.utils.ConstsCore.MESSAGE_DIALOG_ID;
+import static com.aikya.konnek2.call.core.utils.ConstsCore.MESSAGE_USER_ID;
+import static com.aikya.konnek2.call.core.utils.ConstsCore.MESSAGE_VOIP_TYPE;
+
 
 public class ChatNotificationHelper {
 
@@ -30,6 +34,7 @@ public class ChatNotificationHelper {
     private static String message;
     private static boolean isLoginNow;
     private static String messageType;
+    private static String messageTypeVOIP;
 
 
     public ChatNotificationHelper(Context context) {
@@ -39,7 +44,7 @@ public class ChatNotificationHelper {
 
     public void parseChatMessage(Bundle extras) {
 
-        if (extras.getString(ChatNotificationHelper.MESSAGE) != null) {
+      /*  if (extras.getString(ChatNotificationHelper.MESSAGE) != null) {
             message = extras.getString(ChatNotificationHelper.MESSAGE);
         }
 
@@ -55,8 +60,16 @@ public class ChatNotificationHelper {
             messageType = extras.getString(ChatNotificationHelper.MESSAGE_TYPE);
         }
 
-        boolean callPush = TextUtils.equals(messageType, ConstsCore.PUSH_MESSAGE_TYPE_CALL);
+        */
 
+        message = extras.getString(MESSAGE);
+        userId = extras.getString(MESSAGE_USER_ID) == null ? 0 : Integer.parseInt(extras.getString(MESSAGE_USER_ID));
+        dialogId = extras.getString(MESSAGE_DIALOG_ID);
+        messageType = extras.getString(MESSAGE_TYPE);
+        messageTypeVOIP = extras.getString(MESSAGE_VOIP_TYPE);
+
+
+        boolean callPush = TextUtils.equals(messageType, ConstsCore.PUSH_MESSAGE_TYPE_CALL);
 
         if (callPush && shouldProceedCall()) {
             CallService.start(context);

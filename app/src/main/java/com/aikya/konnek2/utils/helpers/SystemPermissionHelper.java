@@ -219,6 +219,8 @@ public class SystemPermissionHelper {
         return isPermissionGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE);
     }
 
+
+
     public void requestPermissionsForSaveFile() {
         checkAndRequestPermissions(PERMISSIONS_FOR_SAVE_FILE_REQUEST, Manifest.permission.WRITE_EXTERNAL_STORAGE);
     }

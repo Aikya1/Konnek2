@@ -19,13 +19,13 @@ import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.ParcelFileDescriptor;
+import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
 import android.util.TypedValue;
 import android.webkit.MimeTypeMap;
-
 
 import com.aikya.konnek2.App;
 import com.aikya.konnek2.call.core.utils.ConstsCore;
@@ -56,7 +56,7 @@ public class MediaUtils {
     public static final int IMAGE_VIDEO_LOCATION_REQUEST_CODE = 444;
 
     public static final int DOC_REQUEST_CODE = 555;
-
+    public static final int CONTACT_REQUEST_CODE = 666;
 
 
     private static final String TAG = MediaUtils.class.getSimpleName();
@@ -182,25 +182,40 @@ public class MediaUtils {
     }
 
 
-    public static void startDocForResult(Activity activity)
-    {
+    public static void startDocForResult(Activity activity) {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         //intent.setType("file/*");
         intent.setType("*/*");
+        setIntentDocPicker(intent);
         activity.startActivityForResult(
-                Intent.createChooser(intent, activity.getString(com.aikya.konnek2.R.string.dlg_choose_media_from)),DOC_REQUEST_CODE);
+                Intent.createChooser(intent, activity.getString(com.aikya.konnek2.R.string.dlg_choose_media_from)), DOC_REQUEST_CODE);
 
 
     }
 
 
-    public static void startDocForResult(Fragment fragment)
-    {
+    public static void startDocForResult(Fragment fragment) {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("file/*");
+        intent.setType("*/*");
+        setIntentDocPicker(intent);
 
         fragment.startActivityForResult(
-                Intent.createChooser(intent, fragment.getString(com.aikya.konnek2.R.string.dlg_choose_media_from)), DOC_REQUEST_CODE);
+                Intent.createChooser(intent, fragment.getString(com.aikya.konnek2.R.string.dlg_choose_media_from)),
+                DOC_REQUEST_CODE);
+    }
+
+    public static void startContactForResult(Activity activity) {
+
+        Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+        intent.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE);
+        activity.startActivityForResult(intent, CONTACT_REQUEST_CODE);
+    }
+
+    public static void startContactForResult(Fragment fragment) {
+
+        Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+        intent.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE);
+        fragment.startActivityForResult(intent, CONTACT_REQUEST_CODE);
     }
 
     private static void setIntentMediaPicker(Intent intent) {
@@ -216,7 +231,15 @@ public class MediaUtils {
         }
     }
 
-
+    private static void setIntentDocPicker(Intent intent) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            intent.setType("*/*");
+        } else {
+            intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
+            intent.setType("*/*");
+        }
+    }
 
 
     private static void setIntentImagePicker(Intent intent) {
@@ -224,7 +247,7 @@ public class MediaUtils {
             intent.setAction(Intent.ACTION_GET_CONTENT);
             intent.setType(MimeType.IMAGE_MIME);
         } else {
-            intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
+            intent.setAction(Intent.ACTION_GET_CONTENT);
             intent.addCategory(Intent.CATEGORY_OPENABLE);
             intent.setType(MimeType.IMAGE_MIME);
         }

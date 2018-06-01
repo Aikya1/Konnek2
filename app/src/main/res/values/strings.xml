@@ -538,7 +538,11 @@
     <string name="action_copy_msg">Copy</string>
     <string name="action_forward_msg">Forward</string>
     <string name="action_translate_msg">Translate</string>
-    <string name="action_delete_msg">Delete</string>>
+    <string name="action_delete_msg">Delete</string>
+    <string name="action_paste_text">Paste</string>
+    <string name="clear_call_log">Clear</string>>
+
+
 
 
 </resources>

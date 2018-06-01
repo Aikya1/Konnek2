@@ -8,25 +8,25 @@
         app:showAsAction="ifRoom" />-->
 
 
-    <item
+   <!-- <item
         android:id="@+id/action_view_starred_messages"
         android:title="@string/action_starred_msgs" />
 
     <item
         android:id="@+id/action_view_reply_msg"
-        android:title="@string/action_reply_msg" />
+        android:title="@string/action_reply_msg" />-->
 
     <item
         android:id="@+id/action_view_copy_msg"
         android:title="@string/action_copy_msg" />
 
-    <item
+   <!-- <item
         android:id="@+id/action_view_forward_msg"
-        android:title="@string/action_forward_msg" />
+        android:title="@string/action_forward_msg" />-->
 
-    <item
+  <!--  <item
         android:id="@+id/action_view_translate_msg"
-        android:title="@string/action_translate_msg" />
+        android:title="@string/action_translate_msg" />-->
 
     <item
         android:id="@+id/action_view_delete_msg"

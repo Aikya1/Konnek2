@@ -15,30 +15,28 @@ import com.aikya.konnek2.R;
 import com.aikya.konnek2.utils.AppConstant;
 
 import com.quickblox.users.model.QBUser;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class AppCallHistoryActivity extends AppCompatActivity {
 
 
-    //jghjhrfrhjf vggegeefeefe
     private AppCallHistoryAdapter appCallHistoryAdapter;
     private ListView callListivew;
     private ArrayList<AppCallLogModel> appCallLogModels;
     private QBUser currentUser;
     private String currentUserName;
     Toolbar toolbar;
-    private String random = "sadasdasdas";
 
 
-    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_call_history);
         toolbar = findViewById(R.id.toolbar_hisory);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setSubtitle(AppConstant.HOME + AppConstant.GREATER_THAN +AppConstant.HISTORY);
+        getSupportActionBar().setSubtitle(AppConstant.HOME + AppConstant.GREATER_THAN + AppConstant.HISTORY);
         toolbar.setNavigationIcon(R.drawable.ic_app_back);
         toolbar.setSubtitleTextColor(getResources().getColor(R.color.white));
         initViews();
@@ -50,8 +48,8 @@ public class AppCallHistoryActivity extends AppCompatActivity {
         callListivew = findViewById(R.id.call_logList);
         currentUserName = AppPreference.getUserName();
         appCallLogModels = new ArrayList<AppCallLogModel>();
-        if (currentUserName != null && !currentUserName .isEmpty()) {
-            appCallLogModels = App.appcallLogTableDAO.getCallHistory(currentUserName );
+        if (currentUserName != null && !currentUserName.isEmpty()) {
+            appCallLogModels = App.appcallLogTableDAO.getCallHistory(currentUserName);
         }
         Collections.reverse(appCallLogModels);
         appCallHistoryAdapter = new AppCallHistoryAdapter(AppCallHistoryActivity.this, appCallLogModels);
@@ -59,7 +57,6 @@ public class AppCallHistoryActivity extends AppCompatActivity {
             callListivew.setAdapter(appCallHistoryAdapter);
 
         }
-
     }
 
     @Override
@@ -67,13 +64,18 @@ public class AppCallHistoryActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
-
-
                 return true;
-            default:
-                return super.onOptionsItemSelected(item);
+            case R.id.clear_logs:
+                clearLogs();
+                break;
         }
+        return true;
     }
 
+    private void clearLogs() {
+        appCallLogModels.clear();
+        appCallHistoryAdapter.notifyDataSetChanged();
+        App.appcallLogTableDAO.deleteCallLog();
+    }
 
 }

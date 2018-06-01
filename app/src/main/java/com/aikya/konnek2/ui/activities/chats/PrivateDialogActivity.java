@@ -88,9 +88,6 @@ public class PrivateDialogActivity extends BaseDialogActivity implements Private
     public static final int RESULT_DELETE_MESSAGE = 2;
 
 
-    /*Variables for copy paste text using ClipboardManager*/
-
-
     /*Variables for chat features such as delete, copy, forward the selecetd message in a 1-1 chat*/
     private List<CombinationMessage> currentCombinationMsgsList;
     private CombinationMessage chatMessage;
@@ -233,7 +230,6 @@ public class PrivateDialogActivity extends BaseDialogActivity implements Private
     //options. ( Upper layout )
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
        /* boolean isFriend = DataManager.getInstance().getFriendDataManager().getByUserId(
                 opponentUser.getId()) != null;*/
         if (DataManager.getInstance().getFriendDataManager().getByUserId(opponentUser.getId()) == null) {
@@ -343,6 +339,8 @@ public class PrivateDialogActivity extends BaseDialogActivity implements Private
 
     public void sendMessage(View view) {
         sendMessage();
+
+
     }
 
 
@@ -556,12 +554,15 @@ public class PrivateDialogActivity extends BaseDialogActivity implements Private
     public void onMessageLongClicked(View itemView, CombinationMessage chatMessage, int position,
                                      List<CombinationMessage> chatMessages) {
 
-        itemView.showContextMenu();
-        this.chatMessage = chatMessage;
-        this.currentCombinationMsgsList = chatMessages;
-        this.viewPosition = position;
-        this.messageView = itemView;
-        messageView.setBackgroundColor(this.getResources().getColor(R.color.light_gray));
+
+        if (itemView != null) {
+            itemView.showContextMenu();
+            this.chatMessage = chatMessage;
+            this.currentCombinationMsgsList = chatMessages;
+            this.viewPosition = position;
+            this.messageView = itemView;
+            messageView.setBackgroundColor(this.getResources().getColor(R.color.light_gray));
+        }
 
 
 //        messagesAdapter.notifyItemRemoved(position);
@@ -575,23 +576,36 @@ public class PrivateDialogActivity extends BaseDialogActivity implements Private
         super.onCreateContextMenu(menu, v, menuInfo);
         // inflate menu
         MenuInflater inflater = this.getMenuInflater();
+
+        EditText et = v.findViewById(R.id.message_edittext);
+
         inflater.inflate(R.menu.private_chat_msg_menu, menu);
+
+
+        /*if (et != null) {
+            Log.d(TAG, "NOT NULL");
+            inflater.inflate(R.menu.paste_text_menu, menu);
+        }else{
+            inflater.inflate(R.menu.private_chat_msg_menu, menu);
+        }*/
+
     }
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
 
+        Log.d(TAG, "Item == " + item.toString());
+
         switch (item.getItemId()) {
 
-            case R.id.action_view_starred_messages:
-
-
+            /*case R.id.action_view_starred_messages:
                 break;
             case R.id.action_view_reply_msg:
-                break;
+                break;*/
             case R.id.action_view_copy_msg:
                 String userTextToCopy = chatMessage.getBody();
                 copyText(userTextToCopy);
+                break;
                 /*TextView messageTv = messageView.findViewById(R.id.msg_text_message);
                 if (messageTv != null) {
                     String copyText = messageTv.getText().toString();
@@ -599,11 +613,12 @@ public class PrivateDialogActivity extends BaseDialogActivity implements Private
                 }*/
 
 
-                break;
+            /*    break;
             case R.id.action_view_forward_msg:
                 break;
             case R.id.action_view_translate_msg:
-                break;
+                break;*/
+
             case R.id.action_view_delete_msg:
 
                 dataManager.getMessageDataManager().deleteMessage(chatMessage);
@@ -630,6 +645,7 @@ public class PrivateDialogActivity extends BaseDialogActivity implements Private
     private void copyText(String userTextToCopy) {
 
         ClipboardUtils.copySimpleTextToClipboard(this, userTextToCopy);
+        ToastUtils.shortToast("Copied");
     }
 
     @Override

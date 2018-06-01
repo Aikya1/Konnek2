@@ -3,9 +3,11 @@ package com.aikya.konnek2.ui.activities.chats;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -16,6 +18,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
 import android.os.Vibrator;
+import android.provider.ContactsContract;
 import android.support.annotation.IdRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -71,6 +74,7 @@ import com.aikya.konnek2.ui.activities.location.MapsActivity;
 import com.aikya.konnek2.ui.activities.others.PreviewImageActivity;
 import com.aikya.konnek2.ui.adapters.chats.BaseChatMessagesAdapter;
 import com.aikya.konnek2.ui.fragments.dialogs.base.TwoButtonsDialogFragment;
+import com.aikya.konnek2.ui.views.CustomContactView;
 import com.aikya.konnek2.ui.views.recyclerview.WrapContentLinearLayoutManager;
 import com.aikya.konnek2.utils.AppConversionCallaback;
 import com.aikya.konnek2.utils.AppSpeechToTextConvertor;
@@ -85,6 +89,7 @@ import com.aikya.konnek2.utils.helpers.SystemPermissionHelper;
 import com.aikya.konnek2.utils.image.ImageLoaderUtils;
 import com.aikya.konnek2.utils.listeners.AppCommon;
 import com.aikya.konnek2.utils.listeners.ChatUIHelperListener;
+import com.aikya.konnek2.utils.listeners.OnContactPickedListener;
 import com.aikya.konnek2.utils.listeners.OnMediaPickedListener;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
@@ -136,7 +141,6 @@ import java.util.concurrent.TimeUnit;
 
 import butterknife.Bind;
 import butterknife.OnClick;
-import butterknife.OnLongClick;
 import butterknife.OnTextChanged;
 import butterknife.OnTouch;
 
@@ -145,7 +149,7 @@ import static com.aikya.konnek2.utils.AppConstant.nonDupLangList;
 
 public abstract class BaseDialogActivity extends BaseLoggableActivity implements AppConversionCallaback,
         EmojiconGridFragment.OnEmojiconClickedListener, EmojiconsFragment.OnEmojiconBackspaceClickedListener,
-        ChatUIHelperListener, OnMediaPickedListener, View.OnLongClickListener {
+        ChatUIHelperListener, OnMediaPickedListener, OnContactPickedListener {
 
     private static final String TAG = BaseDialogActivity.class.getSimpleName();
     private static final int TYPING_DELAY = 1000;
@@ -475,7 +479,8 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
     @Override
     public void onMediaPicked(int requestCode, Attachment.Type type, Object attachment) {
         canPerformLogout.set(true);
-        if (ValidationUtils.validateAttachment(getSupportFragmentManager(), getResources().getStringArray(com.aikya.konnek2.R.array.supported_attachment_types), type, attachment)) {
+        if (ValidationUtils.validateAttachment(getSupportFragmentManager(),
+                getResources().getStringArray(com.aikya.konnek2.R.array.supported_attachment_types), type, attachment)) {
             startLoadAttachFile(type, attachment, currentChatDialog.getDialogId());
         }
     }
@@ -640,7 +645,8 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
         vibro = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         messagesScrollListener = new MessagesScrollListener();
 
-        messageEditText.setOnLongClickListener(this);
+//        messageEditText.setOnLongClickListener(this);
+//        registerForContextMenu(messageEditText);
 
     }
 
@@ -811,9 +817,13 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
                             case VIDEO:
                             case DOC:
 
-                                showProgress();
-                                QBLoadAttachFileCommand.start(BaseDialogActivity.this, (File) attachment, dialogId);
+//                                showProgress();
+//                                QBLoadAttachFileCommand.start(BaseDialogActivity.this, (File) attachment, dialogId);
+                                sendMessageWithAttachment(dialogId, Attachment.Type.DOC, attachment, null);
                                 break;
+                            case CONTACT:
+
+
                         }
                     }
                 });
@@ -2031,13 +2041,62 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
 
 
     @Override
+    public void onContactSelected(Intent data) {
+        Uri contactsData = data.getData();
+        CursorLoader loader = new CursorLoader(this, contactsData, null, null, null, null);
+        Cursor c = loader.loadInBackground();
+
+        CustomContactView contactView = new CustomContactView(this);
+
+/*
+        if (c.moveToFirst()) {
+            Log.i(TAG, "Contacts ID: " + c.getString(c.getColumnIndex(ContactsContract.Contacts._ID)));
+            Log.i(TAG, "Contacts Name: " + c.getString(c.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)));
+            Log.i(TAG, "Contacts Phone Number: " + c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)));
+            Log.i(TAG, "Contacts Photo Uri: " + c.getString(c.getColumnIndex(ContactsContract.Contacts.Photo.PHOTO_URI)));
+        }*/
+
+
+        if (c.moveToFirst()) {
+            TextView nameTv = contactView.findViewById(R.id.contactNameTv);
+            TextView phTv = contactView.findViewById(R.id.contactPhTv);
+            String name = c.getString(c.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+            String phone = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+            nameTv.setText(name);
+            phTv.setText(phone);
+        }
+
+        sendMessageWithAttachment(currentChatDialog.getDialogId(), Attachment.Type.CONTACT, contactView, null);
+    }
+
+
+
+    /*@Override
     public boolean onLongClick(View v) {
 
         int id = v.getId();
 
         EditText editText = v.findViewById(id);
 
-        ClipboardUtils.pasteSimpleText(this,editText);
+//        ClipboardUtils.pasteSimpleText(this,editText);
         return true;
+    }*/
+
+  /*  @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.paste_text_menu, menu);
+
+
     }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+
+        Log.d(TAG,"Item selected == "+item.toString());
+
+
+        return super.onContextItemSelected(item);
+    }*/
 }

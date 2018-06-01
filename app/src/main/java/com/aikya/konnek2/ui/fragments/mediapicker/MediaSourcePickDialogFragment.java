@@ -15,21 +15,12 @@ import android.view.KeyEvent;
 import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.aikya.konnek2.ui.activities.base.BaseLoggableActivity;
-import com.aikya.konnek2.utils.ToastUtils;
-import com.aikya.konnek2.utils.helpers.SystemPermissionHelper;
 import com.aikya.konnek2.R;
+import com.aikya.konnek2.ui.activities.base.BaseLoggableActivity;
 import com.aikya.konnek2.utils.DialogsUtils;
 import com.aikya.konnek2.utils.MediaUtils;
-import com.quickblox.chat.model.QBAttachment;
-import com.quickblox.chat.model.QBChatMessage;
-import com.quickblox.content.QBContent;
-import com.quickblox.content.model.QBFile;
-import com.quickblox.core.QBEntityCallback;
-import com.quickblox.core.exception.QBResponseException;
+import com.aikya.konnek2.utils.helpers.SystemPermissionHelper;
 
-
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -83,7 +74,11 @@ public class MediaSourcePickDialogFragment extends DialogFragment {
             title = R.string.dlg_choose_image_from;
             mediaPickList.remove(mediaPickArray[2]);
             mediaPickList.remove(mediaPickArray[3]);
+            mediaPickList.remove(mediaPickArray[4]);
+            mediaPickList.remove(mediaPickArray[5]);
+
         }
+
         builder.title(title);
         builder.items(mediaPickList.toArray(new String[mediaPickList.size()]));
         builder.itemsCallback(new MaterialDialog.ListCallback() {
@@ -124,14 +119,14 @@ public class MediaSourcePickDialogFragment extends DialogFragment {
                         onImageSourcePickedListener.onImageSourcePicked(ImageSource.LOCATION);
                         break;
                     case POSITION_CONTACT:
-                        onImageSourcePickedListener.onImageSourcePicked(ImageSource.CONTACT);
+//                        onImageSourcePickedListener.onImageSourcePicked(ImageSource.CONTACT);
                         break;
                     case POSITION_DOC:
-                        if (systemPermissionHelper.isAllPermissionsGrantedForSaveFile()) {
+                       /* if (systemPermissionHelper.isAllPermissionsGrantedForSaveFile()) {
                             onImageSourcePickedListener.onImageSourcePicked(ImageSource.DOCUMENT);
                         } else {
                             systemPermissionHelper.requestPermissionsForSaveFile();
-                        }
+                        }*/
 
 
                         break;
@@ -227,6 +222,13 @@ public class MediaSourcePickDialogFragment extends DialogFragment {
                         } else {
                             showPermissionSettingsDialog(R.string.dlg_permission_storage);
                         }
+
+                    case (SystemPermissionHelper.PERMISSIONS_FOR_READ_CONTACT_REQUEST):
+                        if (systemPermissionHelper.isContactPermissionGranted()) {
+                            onImageSourcePickedListener.onImageSourcePicked(ImageSource.CONTACT);
+                        } else {
+                            showPermissionSettingsDialog(R.string.dlg_permission_read_contact);
+                        }
                         break;
 
                 }
@@ -320,12 +322,20 @@ public class MediaSourcePickDialogFragment extends DialogFragment {
                     }
 
 
-                   // https://github.com/QuickBlox/q-municate-android/issues/155
+                    // https://github.com/QuickBlox/q-municate-android/issues/155
 
                     break;
 
                 case CONTACT:
-                    ToastUtils.shortToast("Contact In Progress");
+                    if(fragment != null){
+                        Activity activity = fragment.getActivity();
+                        setupActivityToBeNonLoggable(activity);
+                        MediaUtils.startContactForResult(fragment);
+                    }else{
+                        setupActivityToBeNonLoggable(activity);
+                        MediaUtils.startContactForResult(activity);
+                    }
+
                     break;
             }
         }

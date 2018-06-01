@@ -16,25 +16,25 @@ import java.util.ArrayList;
 
 public class StringUtils {
 
-    public static String createHumanNameFromSystemPermission(String permission){
+    public static String createHumanNameFromSystemPermission(String permission) {
         String permissionName = permission.replace("android.permission.", "");
         String[] words = permissionName.split("_", 0);
         String newPermissionName = "";
-        for(String word : words){
-            newPermissionName+= word.substring(0,1) + word.substring(1).toLowerCase() + " ";
+        for (String word : words) {
+            newPermissionName += word.substring(0, 1) + word.substring(1).toLowerCase() + " ";
         }
 
         return newPermissionName;
     }
 
-    public static String createCompositeString(ArrayList<String> permissions){
+    public static String createCompositeString(ArrayList<String> permissions) {
         StringBuilder stringBuilder = new StringBuilder();
 
-        for (String string : permissions){
+        for (String string : permissions) {
             stringBuilder.append(createHumanNameFromSystemPermission(string));
-            if (permissions.indexOf(string) == permissions.size() -2){
+            if (permissions.indexOf(string) == permissions.size() - 2) {
                 stringBuilder.append(" and ");
-            } else if (permissions.indexOf(string) == permissions.size() -1){
+            } else if (permissions.indexOf(string) == permissions.size() - 1) {
                 stringBuilder.append("");
             } else {
                 stringBuilder.append(", ");
@@ -78,19 +78,21 @@ public class StringUtils {
         return getAttachmentTypeByFileName(file.getName());
     }
 
-    public static Attachment.Type getAttachmentTypeByFileName(String fileName){
+    public static Attachment.Type getAttachmentTypeByFileName(String fileName) {
         Attachment.Type attachmentType;
         String extension = fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length()).toLowerCase();
         String mimeType = MimeUtils.guessMimeTypeFromExtension(extension);
-        if (mimeType == null){
+        if (mimeType == null) {
             attachmentType = Attachment.Type.OTHER;
-        } else if (mimeType.startsWith("image")){
+        } else if (mimeType.startsWith("image")) {
             attachmentType = Attachment.Type.IMAGE;
-        } else if (mimeType.startsWith("audio")){
+        } else if (mimeType.startsWith("audio")) {
             attachmentType = Attachment.Type.AUDIO;
-        } else if (mimeType.startsWith("video")){
+        } else if (mimeType.startsWith("video")) {
             attachmentType = Attachment.Type.VIDEO;
         } else if (mimeType.startsWith("text")) {
+            attachmentType = Attachment.Type.DOC;
+        } else if (mimeType.startsWith("application")) {
             attachmentType = Attachment.Type.DOC;
         } else {
             attachmentType = Attachment.Type.OTHER;
