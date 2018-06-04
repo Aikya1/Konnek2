@@ -78,7 +78,7 @@ public class AppHomeActivity extends BaseLoggableActivity implements NavigationV
     private SystemPermissionHelper systemPermissionHelper;
 
 
-    private OnlineService onlineService;
+//    private OnlineService onlineService;
     Intent onlineServiceIntent;
 
 
@@ -126,11 +126,11 @@ public class AppHomeActivity extends BaseLoggableActivity implements NavigationV
         serviceManager = ServiceManager.getInstance();
 
 
-        onlineService = new OnlineService();
+       /* onlineService = new OnlineService();
         onlineServiceIntent = new Intent(this, onlineService.getClass());
         if (!isMyServiceRunning(onlineService.getClass())) {
             startService(onlineServiceIntent);
-        }
+        }*/
 
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

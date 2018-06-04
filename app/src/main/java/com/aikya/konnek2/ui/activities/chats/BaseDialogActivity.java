@@ -813,17 +813,22 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
                                 sendMessageWithAttachment(dialogId, Attachment.Type.LOCATION, attachment, null);
                                 break;
                             case IMAGE:
+
+                             /*   sendMessageWithAttachment(dialogId, Attachment.Type.IMAGE, attachment, null);
+
+                                break;*/
                             case AUDIO:
-                            case VIDEO:
+                              /*  sendMessageWithAttachment(dialogId, Attachment.Type.AUDIO, attachment, null);
+
+                                break;*/
                             case DOC:
-
-//                                showProgress();
-//                                QBLoadAttachFileCommand.start(BaseDialogActivity.this, (File) attachment, dialogId);
-                                sendMessageWithAttachment(dialogId, Attachment.Type.DOC, attachment, null);
-                                break;
+                               /* sendMessageWithAttachment(dialogId, Attachment.Type.DOC, attachment, null);
+                                break;*/
                             case CONTACT:
-
-
+                            case VIDEO:
+                                showProgress();
+                                QBLoadAttachFileCommand.start(BaseDialogActivity.this, (File) attachment, dialogId);
+                                break;
                         }
                     }
                 });
@@ -2066,7 +2071,7 @@ public abstract class BaseDialogActivity extends BaseLoggableActivity implements
             phTv.setText(phone);
         }
 
-        sendMessageWithAttachment(currentChatDialog.getDialogId(), Attachment.Type.CONTACT, contactView, null);
+//        sendMessageWithAttachment(currentChatDialog.getDialogId(), Attachment.Type.CONTACT, contactView, null);
     }
 
 

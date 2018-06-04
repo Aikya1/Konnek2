@@ -9,6 +9,7 @@
     <string name="dlg_attached_audio_last_message">Voice attachment</string>
     <string name="dlg_attached_video_last_message">Video attachment</string>
     <string name="dlg_attached_contact_message">Contact</string>
+    <string name="dlg_attached_document_message">Document</string>
     <string name="dlg_location_last_message">Location</string>
     <string name="dlg_fail_send_msg">Errors occurred while sending msg! Please, try later</string>
     <string name="dlg_fail_connection">Sorry, connection lost. It will be reestablished when the Internet will be available.</string>

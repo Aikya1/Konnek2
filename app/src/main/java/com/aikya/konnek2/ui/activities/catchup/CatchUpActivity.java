@@ -452,7 +452,7 @@ public class CatchUpActivity extends BaseLoggableActivity implements OnMapReadyC
 
                 int result = Double.compare(distanceInKm, val3);
 
-                if (result > 0) {
+                if (result > 0 && mapMarker != null) {
                     //distanceInKm is greater than val3
                     Log.d(TAG, "User not present in radius");
                     mapMarker.remove();

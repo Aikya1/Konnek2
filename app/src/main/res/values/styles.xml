@@ -318,6 +318,43 @@
         <item name="android:layout_gravity">center_horizontal</item>
     </style>
 
+
+    <style name="BubbleAttachFrame.Right">
+        <item name="android:background">@drawable/right_bubble2</item>
+    </style>
+
+    <style name="BubbleAttachFrame.Left">
+        <item name="android:background">@drawable/left_bubble2</item>
+    </style>
+
+    <style name="TextViewAttach">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:alpha">0.5</item>
+        <item name="android:gravity">right|bottom</item>
+        <item name="android:padding">@dimen/padding_small</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="TextViewAttach.Left" />
+
+    <style name="TextViewAttach.Right" />
+
+    <style name="ImageViewAttach">
+        <item name="android:layout_width">@dimen/chat_attach_width</item>
+        <item name="android:layout_height">@dimen/chat_attach_height</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">right|bottom</item>
+        <item name="android:scaleType">centerCrop</item>
+    </style>
+    <style name="ImageViewAttach.Left">
+        <item name="android:layout_marginLeft">@dimen/padding_common</item>
+    </style>
+    <style name="ImageViewAttach.Right">
+        <item name="android:layout_marginRight">@dimen/padding_common</item>
+    </style>
+
+
     <!--<style name="AppTheme" parent="Base.AppTheme">
         <item name="cropImageStyle">@style/Widget.CropImageView</item>
     </style>

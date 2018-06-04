@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.aikya.konnek2.call.core.models.CallPushParams;
 import com.aikya.konnek2.call.core.utils.UserFriendUtils;
@@ -145,7 +146,10 @@ public class QBCallChatHelper extends BaseHelper {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.getApplicationContext().startActivity(intent);
         } else {
-            throw new NullPointerException("user is null!");
+
+            Toast.makeText(context, "No User is present!", Toast.LENGTH_SHORT).show();
+//            throw new NullPointerException("user is null!");
+            
         }
     }
 

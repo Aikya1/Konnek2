@@ -21,6 +21,7 @@ import com.aikya.konnek2.utils.ToastUtils;
 import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.quickblox.chat.model.QBAttachment;
 import com.quickblox.chat.model.QBChatDialog;
 import com.quickblox.ui.kit.chatmessage.adapter.QBMessagesAdapter;
 import com.quickblox.users.model.QBUser;
@@ -138,6 +139,8 @@ public class BaseChatMessagesAdapter extends QBMessagesAdapter<CombinationMessag
             QBUpdateStatusMessageCommand.start(baseActivity, dialog, message, true);
         }
     }
+
+
 
     @Override
     protected void onBindViewAttachLeftHolder(ImageAttachHolder holder, CombinationMessage chatMessage, int position) {

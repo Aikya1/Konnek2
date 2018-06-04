@@ -183,9 +183,7 @@ public class MediaUtils {
 
 
     public static void startDocForResult(Activity activity) {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        //intent.setType("file/*");
-        intent.setType("*/*");
+        Intent intent = new Intent();
         setIntentDocPicker(intent);
         activity.startActivityForResult(
                 Intent.createChooser(intent, activity.getString(com.aikya.konnek2.R.string.dlg_choose_media_from)), DOC_REQUEST_CODE);
@@ -195,10 +193,8 @@ public class MediaUtils {
 
 
     public static void startDocForResult(Fragment fragment) {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("*/*");
+        Intent intent = new Intent();
         setIntentDocPicker(intent);
-
         fragment.startActivityForResult(
                 Intent.createChooser(intent, fragment.getString(com.aikya.konnek2.R.string.dlg_choose_media_from)),
                 DOC_REQUEST_CODE);

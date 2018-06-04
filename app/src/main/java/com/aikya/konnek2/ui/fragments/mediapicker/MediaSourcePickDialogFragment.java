@@ -119,14 +119,14 @@ public class MediaSourcePickDialogFragment extends DialogFragment {
                         onImageSourcePickedListener.onImageSourcePicked(ImageSource.LOCATION);
                         break;
                     case POSITION_CONTACT:
-//                        onImageSourcePickedListener.onImageSourcePicked(ImageSource.CONTACT);
+                        onImageSourcePickedListener.onImageSourcePicked(ImageSource.CONTACT);
                         break;
                     case POSITION_DOC:
-                       /* if (systemPermissionHelper.isAllPermissionsGrantedForSaveFile()) {
+                        if (systemPermissionHelper.isAllPermissionsGrantedForSaveFile()) {
                             onImageSourcePickedListener.onImageSourcePicked(ImageSource.DOCUMENT);
                         } else {
                             systemPermissionHelper.requestPermissionsForSaveFile();
-                        }*/
+                        }
 
 
                         break;
