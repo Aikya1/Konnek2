@@ -12,6 +12,7 @@
     <style name="ToolbarStyle">
         <item name="android:minHeight">?android:attr/actionBarSize</item>
         <item name="android:background">?android:attr/colorPrimary</item>
+        <item name="android:textColor">@color/white</item>
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
         <item name="theme">@style/ToolbarTheme</item>
         <item name="contentInsetStartWithNavigation">0dp</item>
@@ -354,6 +355,17 @@
         <item name="android:layout_marginRight">@dimen/padding_common</item>
     </style>
 
+
+    <style name="expandedappbar" parent="@android:style/TextAppearance.Medium"> //Change Medium to Small
+        <item name="android:textSize">28sp</item>  <!--Or Change the font size -->
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="collapsedappbar" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
 
     <!--<style name="AppTheme" parent="Base.AppTheme">
         <item name="cropImageStyle">@style/Widget.CropImageView</item>

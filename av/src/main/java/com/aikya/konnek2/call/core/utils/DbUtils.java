@@ -17,8 +17,7 @@ import com.quickblox.chat.model.QBAttachment;
 import com.quickblox.chat.model.QBChatMessage;
 import com.quickblox.chat.model.QBChatDialog ;
 import com.quickblox.core.helper.CollectionsUtil;
-
-
+import com.quickblox.users.model.QBUser;
 
 
 import java.util.ArrayList;
@@ -48,6 +47,11 @@ public class DbUtils {
 
     public static void saveDialogToCache(DataManager dataManager, QBChatDialog qbDialog, boolean notify) {
         dataManager.getQBChatDialogDataManager().createOrUpdate(qbDialog, notify);
+        saveDialogsOccupants(dataManager, qbDialog);
+    }
+
+    public static void saveDialogToCache(DataManager dataManager, QBChatDialog qbDialog, QBUser currentUser) {
+        dataManager.getQBChatDialogDataManager().createOrUpdate(qbDialog, currentUser);
         saveDialogsOccupants(dataManager, qbDialog);
     }
 

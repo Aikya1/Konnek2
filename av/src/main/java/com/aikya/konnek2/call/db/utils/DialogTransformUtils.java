@@ -6,6 +6,7 @@ import com.aikya.konnek2.call.db.models.DialogOccupant;
 import com.quickblox.chat.model.QBChatDialog;
 import com.quickblox.chat.model.QBDialogType;
 import com.quickblox.core.helper.CollectionsUtil;
+import com.quickblox.users.model.QBUser;
 
 
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ public class DialogTransformUtils {
         QBChatDialog qbDialog = new QBChatDialog();
         qbDialog.setDialogId(dialog.getDialogId());
         qbDialog.setRoomJid(dialog.getRoomJid());
+
         qbDialog.setPhoto(dialog.getPhoto());
         qbDialog.setName(dialog.getTitle());
         qbDialog.setOccupantsIds(createOccupantsIdsFromDialogOccupantsList(dialogOccupantsList));
@@ -52,7 +54,7 @@ public class DialogTransformUtils {
         dialog.setTitle(qbDialog.getName());
         dialog.setPhoto(qbDialog.getPhoto());
         if (qbDialog.getUpdatedAt() != null) {
-            dialog.setUpdatedAt(qbDialog.getUpdatedAt().getTime()/1000);
+            dialog.setUpdatedAt(qbDialog.getUpdatedAt().getTime() / 1000);
         }
         dialog.setModifiedDateLocal(qbDialog.getLastMessageDateSent());
 
@@ -65,9 +67,31 @@ public class DialogTransformUtils {
         return dialog;
     }
 
-    public static List<Dialog> getListLocalDialogsFromQBDialogs(Collection<QBChatDialog> chatDialogs){
+    public static Dialog createLocalDialog(QBChatDialog qbDialog, QBUser currentUser) {
+        Dialog dialog = new Dialog();
+        dialog.setDialogId(qbDialog.getDialogId());
+        dialog.setRoomJid(qbDialog.getRoomJid());
+        dialog.setTitle(qbDialog.getName());
+        dialog.setPhoto(qbDialog.getPhoto());
+        dialog.setGroupCreatorId(currentUser.getId());
+
+        if (qbDialog.getUpdatedAt() != null) {
+            dialog.setUpdatedAt(qbDialog.getUpdatedAt().getTime() / 1000);
+        }
+        dialog.setModifiedDateLocal(qbDialog.getLastMessageDateSent());
+
+        if (QBDialogType.PRIVATE.equals(qbDialog.getType())) {
+            dialog.setType(Dialog.Type.PRIVATE);
+        } else if (QBDialogType.GROUP.equals(qbDialog.getType())) {
+            dialog.setType(Dialog.Type.GROUP);
+        }
+
+        return dialog;
+    }
+
+    public static List<Dialog> getListLocalDialogsFromQBDialogs(Collection<QBChatDialog> chatDialogs) {
         List<Dialog> dialogsList = new ArrayList<>(chatDialogs.size());
-        for (QBChatDialog chatDialog : chatDialogs){
+        for (QBChatDialog chatDialog : chatDialogs) {
             dialogsList.add(DialogTransformUtils.createLocalDialog(chatDialog));
         }
 

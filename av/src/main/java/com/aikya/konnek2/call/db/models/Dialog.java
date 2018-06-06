@@ -5,6 +5,7 @@ import com.j256.ormlite.table.DatabaseTable;
 
 import java.io.Serializable;
 
+import static com.aikya.konnek2.call.db.models.Dialog.Column.GROUP_CREATOR_ID;
 import static com.aikya.konnek2.call.db.models.Dialog.Column.ID;
 import static com.aikya.konnek2.call.db.models.Dialog.Column.MODIFIED_DATE_LOCAL;
 import static com.aikya.konnek2.call.db.models.Dialog.Column.PHOTO;
@@ -47,6 +48,9 @@ public class Dialog implements Serializable {
     @DatabaseField(
             columnName = UPDATED_AT)
     private long updatedAt;
+
+    @DatabaseField(columnName = GROUP_CREATOR_ID)
+    private Integer groupCreatorId;
 
     public Dialog() {
     }
@@ -114,6 +118,14 @@ public class Dialog implements Serializable {
                 + "', title='" + title + "']";
     }
 
+    public Integer getGroupCreatorId() {
+        return groupCreatorId;
+    }
+
+    public void setGroupCreatorId(Integer groupCreatorId) {
+        this.groupCreatorId = groupCreatorId;
+    }
+
     public enum Type {
 
         PRIVATE(0),
@@ -152,5 +164,6 @@ public class Dialog implements Serializable {
         String TYPE = "type";
         String MODIFIED_DATE_LOCAL = "modified_date_local";
         String UPDATED_AT = "updated_at";
+        String GROUP_CREATOR_ID = "group_creator_id";
     }
 }

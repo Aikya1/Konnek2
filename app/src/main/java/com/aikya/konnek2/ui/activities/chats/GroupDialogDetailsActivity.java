@@ -305,7 +305,7 @@ public class GroupDialogDetailsActivity extends BaseLoggableActivity implements
                             e.printStackTrace();
                         }*/
 
-                        QBRemoveUserFromGroupCommand.start(this,qbDialog,selectedUser);
+                        QBRemoveUserFromGroupCommand.start(this, qbDialog, selectedUser);
 
                     }
                 }
@@ -390,8 +390,6 @@ public class GroupDialogDetailsActivity extends BaseLoggableActivity implements
         groupDialogParticipantsAdapter.setNewData(occupantsList);
         if (qbDialog != null) {
             title = qbDialog.getName();
-
-
             setActionBarTitle(title);
         }
     }

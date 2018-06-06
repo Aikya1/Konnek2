@@ -4,6 +4,8 @@ import com.aikya.konnek2.call.db.models.Dialog;
 import com.aikya.konnek2.call.db.utils.DialogTransformUtils;
 import com.aikya.konnek2.call.db.managers.base.Manager;
 import com.quickblox.chat.model.QBChatDialog;
+import com.quickblox.users.model.QBUser;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.Observer;
@@ -53,6 +55,11 @@ public class QBChatDialogDataManager implements Manager<QBChatDialog> {
     public void createOrUpdate(QBChatDialog object, boolean notify) {
         Dialog dialog = DialogTransformUtils.createLocalDialog(object);
         dialogDataManager.createOrUpdate(dialog, notify);
+    }
+
+    public void createOrUpdate(QBChatDialog object, QBUser currentUser) {
+        Dialog dialog = DialogTransformUtils.createLocalDialog(object, currentUser);
+        dialogDataManager.create(dialog);
     }
 
     @Override

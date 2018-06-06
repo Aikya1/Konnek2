@@ -260,6 +260,7 @@ public class QBChatHelper extends BaseThreadPoolHelper {
 
         Log.d("FRIENDREQUEST252525", "QBChatHelper  sendChatMessage");
         if (QBDialogType.GROUP.equals(chatDialog.getType())) {
+            Log.d(TAG, "Is Joined group " + chatDialog.isJoined());
             if (!chatDialog.isJoined()) {
                 Log.d("FRIENDREQUEST252525", "QBChatHelper  sendChatMessage  IF  tryJoinRoomChat ");
                 tryJoinRoomChat(chatDialog);
@@ -742,6 +743,7 @@ public class QBChatHelper extends BaseThreadPoolHelper {
 
     public void sendGroupMessageToFriends(QBChatDialog qbDialog, DialogNotification.Type notificationType,
                                           Collection<Integer> occupantsIdsList, boolean leavedFromDialog) throws QBResponseException {
+
         QBChatMessage chatMessage = ChatNotificationUtils.createGroupMessageAboutUpdateChat(context, qbDialog,
                 notificationType, occupantsIdsList, leavedFromDialog);
         sendChatMessage(chatMessage, qbDialog);
@@ -808,6 +810,30 @@ public class QBChatHelper extends BaseThreadPoolHelper {
 
         QBChatDialog qbDialog = QBRestChatService.createChatDialog(dialogToCreate).perform();
         DbUtils.saveDialogToCache(dataManager, qbDialog);
+
+        joinRoomChat(qbDialog);
+
+        sendSystemMessageAboutCreatingGroupChat(qbDialog, friendIdsList);
+        QBChatMessage chatMessage = ChatNotificationUtils.createGroupMessageAboutCreateGroupChat(context, qbDialog, photoUrl);
+        sendChatMessage(chatMessage, qbDialog);
+
+        return qbDialog;
+    }
+
+
+    public QBChatDialog createGroupChat(String name, List<Integer> friendIdsList, String photoUrl, QBUser currentUser) throws Exception {
+        ArrayList<Integer> occupantIdsList = (ArrayList<Integer>) ChatUtils.getOccupantIdsWithUser(friendIdsList);
+
+        QBChatDialog dialogToCreate = new QBChatDialog();
+        dialogToCreate.setName(name);
+        dialogToCreate.setType(QBDialogType.GROUP);
+        dialogToCreate.setOccupantsIds(occupantIdsList);
+        dialogToCreate.setPhoto(photoUrl);
+        dialogToCreate.setUserId(currentUser.getId());
+        dialogToCreate.setCreatedAt(new Date());
+
+        QBChatDialog qbDialog = QBRestChatService.createChatDialog(dialogToCreate).perform();
+        DbUtils.saveDialogToCache(dataManager, qbDialog,currentUser);
 
         joinRoomChat(qbDialog);
 

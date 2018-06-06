@@ -341,12 +341,13 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
     @Override
     public void onPause() {
         super.onPause();
+        setStopStateUpdateDialogsProcess();
+
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        setStopStateUpdateDialogsProcess();
     }
 
     @Override
@@ -404,7 +405,7 @@ public class DialogsListFragment extends BaseLoaderFragment<List<DialogWrapper>>
         QBChatDialog qbChatDialog = dataManager.getQBChatDialogDataManager().getByDialogId(dialogId);
         DialogWrapper dialogWrapper = new DialogWrapper(getContext(), dataManager, qbChatDialog);
         Log.i(TAG, "updateOrAddDialog dialogWrapper= " + dialogWrapper.getTotalCount());
-        if (updateDialogsProcess == State.finished || dialogsListAdapter.getCount() != 0 || updateDialogsProcess == State.stopped) {
+        if (updateDialogsProcess == State.finished || dialogsListAdapter.getCount() != 0) {
             dialogsListAdapter.updateItem(dialogWrapper);
         }
 

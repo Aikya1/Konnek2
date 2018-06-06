@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.aikya.konnek2.call.core.models.AppSession;
 import com.aikya.konnek2.call.services.model.QMUser;
 import com.aikya.konnek2.ui.activities.others.BaseFriendsListActivity;
 import com.aikya.konnek2.ui.adapters.friends.FriendsAdapter;
@@ -30,6 +31,7 @@ import com.aikya.konnek2.utils.listeners.simple.SimpleOnRecycleItemClickListener
 import com.quickblox.chat.model.QBChatDialog;
 import com.quickblox.content.model.QBFile;
 
+import com.quickblox.users.model.QBUser;
 import com.soundcloud.android.crop.Crop;
 
 import java.io.File;
@@ -53,10 +55,13 @@ public class CreateGroupDialogActivity extends BaseFriendsListActivity implement
     @Bind(R.id.participants_count_textview)
     TextView participantsCountTextView;
 
+
     private QBFile qbFile;
     private List<QMUser> friendsList;
     private MediaPickHelper mediaPickHelper;
     private Uri imageUri;
+    private QBUser currentUser;
+
 
     public static void start(Context context, List<QMUser> selectedFriendsList) {
         Intent intent = new Intent(context, CreateGroupDialogActivity.class);
@@ -157,6 +162,7 @@ public class CreateGroupDialogActivity extends BaseFriendsListActivity implement
 
     private void initFields() {
         title = getString(R.string.create_group_title);
+        currentUser = AppSession.getSession().getUser();
         friendsList = (List<QMUser>) getIntent().getExtras().getSerializable(EXTRA_FRIENDS_LIST);
         participantsCountTextView.setText(getString(R.string.create_group_participants, friendsList.size()));
         mediaPickHelper = new MediaPickHelper();
@@ -200,7 +206,9 @@ public class CreateGroupDialogActivity extends BaseFriendsListActivity implement
 
     private void createGroupChat() {
         String photoUrl = qbFile != null ? qbFile.getPublicUrl() : null;
-        QBCreateGroupDialogCommand.start(this, groupNameEditText.getText().toString(), (ArrayList<QMUser>) friendsList, photoUrl);
+
+        QBCreateGroupDialogCommand.start(this, groupNameEditText.getText().toString(), (ArrayList<QMUser>) friendsList,
+                photoUrl, currentUser);
     }
 
     private void startCropActivity(Uri originalUri) {

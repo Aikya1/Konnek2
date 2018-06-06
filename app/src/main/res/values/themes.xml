@@ -60,7 +60,6 @@
         <item name="android:textColorPrimary">@color/black</item>
         <!--3 dots color in app-->
         <item name="android:textColorSecondary">@color/white</item>
-
         <item name="actionModeBackground">@color/action_mode_background</item>
 
         <item name="android:editTextStyle">@style/EditTextStyle</item>
@@ -97,6 +96,7 @@
     <style name="AppTheme" parent="Base.AppTheme" />
 
     <style name="ToolbarTheme">
+        <item name="android:textColorTertiary">@color/white</item>
         <item name="colorControlNormal">@color/white</item>
     </style>
 
