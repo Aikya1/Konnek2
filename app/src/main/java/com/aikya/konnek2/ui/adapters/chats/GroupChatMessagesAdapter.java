@@ -10,8 +10,10 @@ import com.aikya.konnek2.call.db.models.State;
 import com.aikya.konnek2.ui.activities.base.BaseActivity;
 import com.aikya.konnek2.R;
 import com.aikya.konnek2.utils.ColorUtils;
+import com.aikya.konnek2.utils.ToastUtils;
 import com.quickblox.chat.model.QBChatDialog;
 
+import com.quickblox.ui.kit.chatmessage.adapter.QBMessagesAdapter;
 import com.quickblox.ui.kit.chatmessage.adapter.utils.LinkUtils;
 
 import java.util.List;
@@ -44,10 +46,30 @@ public class GroupChatMessagesAdapter extends BaseChatMessagesAdapter {
         }
     }
 
+
+    protected void onBindViewMsgRightHolder(QBMessagesAdapter.TextMessageHolder holder, CombinationMessage chatMessage, int position) {
+
+        TextView messageTv = holder.messageTextView;
+        TextView timeTv = holder.timeTextMessageTextView;
+        View view = holder.itemView;
+
+        view.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                ToastUtils.shortToast("long clicked");
+                return true;
+            }
+        });
+        this.fillTextMessageHolder(holder, chatMessage, position, false);
+    }
+
+
     @Override
     protected QBMessageViewHolder onCreateCustomViewHolder(ViewGroup parent, int viewType) {
-        return viewType == TYPE_REQUEST_MESSAGE ? new RequestsViewHolder(inflater.inflate(R.layout.item_notification_message, parent, false)) : null;
+        return viewType == TYPE_REQUEST_MESSAGE ? new
+                RequestsViewHolder(inflater.inflate(R.layout.item_notification_message, parent, false)) : null;
     }
+
 
     @Override
     protected void onBindViewMsgLeftHolder(TextMessageHolder holder, CombinationMessage chatMessage, int position) {

@@ -40,7 +40,7 @@ allprojects {
 
 ext {
     compileSdkVersion = 26
-    buildToolsVersion = '26.0.2'
+    buildToolsVersion = '27.0.3'
     minSdkVersion = 16
     targetSdkVersion = 26
     versionName = '1.0'
@@ -60,7 +60,7 @@ ext {
 
     // Dependencies versions
     multiDexVersion = '1.0.1'
-    supportVersion = '27.0.2'
+    supportVersion = '27.1.1'
     googlePlayServicesVersion = '12.0.0'
     universalImageLoaderVersion = '1.9.1'
     ormliteAndroidVersion = '5.0'
@@ -75,11 +75,11 @@ ext {
     twitterDigitsSdkVersion = '2.0.0'
 
     // Dependency versions
-    supportV4Version = '27.0.2'
-    appcompatV7Version = '27.0.2'
-    recyclerviewV7Version = '27.0.2'
-    supportAnnotationsVersion = '27.0.2'
-    designVersion = '27.0.2'
+    supportV4Version = ext.supportVersion
+    appcompatV7Version = ext.supportVersion
+    recyclerviewV7Version = ext.supportVersion
+    supportAnnotationsVersion = ext.supportVersion
+    designVersion = ext.supportVersion
 
     uilVersion = '1.9.0'
     glideVersion = '3.6.1'

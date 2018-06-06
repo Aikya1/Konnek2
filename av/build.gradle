@@ -1,20 +1,17 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion rootProject.compileSdkVersion
-    buildToolsVersion rootProject.buildToolsVersion
-
+    compileSdkVersion 26
+    buildToolsVersion '26.0.2'
     defaultConfig {
-        minSdkVersion rootProject.minSdkVersion
-        targetSdkVersion rootProject.targetSdkVersion
-        versionCode rootProject.versionCode
+        minSdkVersion 16
+        targetSdkVersion 27
         versionName rootProject.versionName
-
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     compileOptions {
-        sourceCompatibility 1.8
-        targetCompatibility 1.8
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 //    buildTypes {
 //        release {
@@ -23,18 +20,18 @@ android {
 //        }
 //    }
     buildToolsVersion '26.0.3'
+    productFlavors {
+    }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-
     compile "com.quickblox:quickblox-android-sdk-chat:${rootProject.qbSdkVersion}"
     compile "com.android.support:appcompat-v7:${rootProject.supportVersion}"
     testCompile 'junit:junit:4.12'
-
     // service
     compile 'com.j256.ormlite:ormlite-android:5.0'
     compile "com.quickblox:quickblox-android-sdk-core:${rootProject.qbSdkVersion}"
@@ -42,30 +39,25 @@ dependencies {
     compile 'io.reactivex:rxandroid:1.2.1'
     compile 'com.annimon:stream:1.1.2'
     compile 'com.google.dagger:dagger:2.0'
-//    apt 'com.google.dagger:dagger-compiler:2.0'
+    //    apt 'com.google.dagger:dagger-compiler:2.0'
     provided 'org.glassfish:javax.annotation:10.0-b28'
     compile 'org.jetbrains:annotations-java5:15.0'
-
     // db
     compile "com.j256.ormlite:ormlite-android:${rootProject.ormliteAndroidVersion}"
     compile "com.j256.ormlite:ormlite-core:${rootProject.ormliteCoreVersion}"
-
     // core
     compile "com.quickblox:quickblox-android-sdk-content:${rootProject.qbSdkVersion}"
     compile "com.quickblox:quickblox-android-sdk-customobjects:${rootProject.qbSdkVersion}"
     compile "com.quickblox:quickblox-android-sdk-messages:${rootProject.qbSdkVersion}"
     compile "com.quickblox:quickblox-android-sdk-videochat-webrtc:${rootProject.qbSdkVersion}"
-
     compile("com.digits.sdk.android:digits:${rootProject.twitterDigitsSdkVersion}@aar") {
         transitive = true
     }
-
     compile('com.android.support:cardview-v7:27.0.2') {
         force = true
     }
     compile "com.facebook.android:facebook-android-sdk:$rootProject.facebookSdkVersoin"
-
-    compile ("com.quickblox:chat-message-adapter:$rootProject.qbMessageAdapterVersion"){
+    compile("com.quickblox:chat-message-adapter:$rootProject.qbMessageAdapterVersion") {
         exclude module: 'quickblox-android-sdk-chat'
         exclude module: 'quickblox-android-sdk-content'
     }

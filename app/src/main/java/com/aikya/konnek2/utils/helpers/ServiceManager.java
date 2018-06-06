@@ -633,6 +633,7 @@ public class ServiceManager {
 
 
     private void uploadToQbAddressBook(ArrayList<QBAddressBookContact> contactsGlobal) {
+        Log.d(TAG, "uploading contacts..");
         String UDID = "";
         boolean force = true;
 
@@ -649,12 +650,13 @@ public class ServiceManager {
 
                     @Override
                     public void onError(Throwable e) {
+                        Log.d(TAG, "uploading contacts Error = ");
                         Log.d(TAG, "Error =-= " + e.getMessage());
                     }
 
                     @Override
                     public void onNext(QBAddressBookResponse qbAddressBookResponse) {
-
+                        Log.d(TAG, "OnNext uploading contacts..");
                         int createdCount = qbAddressBookResponse.getCreatedCount();
                         int updatedCount = qbAddressBookResponse.getUpdatedCount();
                         Log.d(TAG, "Response ==  " + qbAddressBookResponse.toString());

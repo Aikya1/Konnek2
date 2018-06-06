@@ -19,6 +19,7 @@ import com.aikya.konnek2.App;
 import com.aikya.konnek2.base.db.AppCallLogModel;
 import com.aikya.konnek2.call.core.qb.helpers.QBFriendListHelper;
 import com.aikya.konnek2.call.services.model.QMUser;
+import com.aikya.konnek2.ui.activities.profile.UserProfileActivity;
 import com.aikya.konnek2.ui.adapters.call.GroupCallUserAdapter;
 import com.aikya.konnek2.utils.AppPreference;
 import com.aikya.konnek2.utils.ChatDialogUtils;
@@ -50,6 +51,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import butterknife.OnClick;
 
 public class GroupDialogActivity extends BaseDialogActivity implements UserListInterface {
 
@@ -237,8 +240,7 @@ public class GroupDialogActivity extends BaseDialogActivity implements UserListI
 
         try {
 
-            if(!isChatInitializedAndUserLoggedIn())
-            {
+            if (!isChatInitializedAndUserLoggedIn()) {
                 ToastUtils.longToast(R.string.call_chat_service_is_initializing);
                 return;
             }
@@ -252,6 +254,11 @@ public class GroupDialogActivity extends BaseDialogActivity implements UserListI
         }
 
         CallHistory();
+    }
+
+    @OnClick(R.id.toolbar)
+    void openProfile(View view) {
+        GroupDialogDetailsActivity.start(this, currentChatDialog.getDialogId());
     }
 
     private void CallHistory() {

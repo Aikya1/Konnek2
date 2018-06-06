@@ -124,7 +124,6 @@ android {
 
 
 dependencies {
-    implementation 'com.android.support:support-v4:26.1.0'
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
@@ -139,6 +138,7 @@ dependencies {
     compile "com.android.support:multidex:${rootProject.multiDexVersion}"
     compile "com.android.support:appcompat-v7:${rootProject.supportVersion}"
     compile "com.android.support:design:${rootProject.supportVersion}"
+
     compile "com.google.android.gms:play-services-gcm:${rootProject.googlePlayServicesVersion}"
     compile "com.google.android.gms:play-services-auth:${rootProject.googlePlayServicesVersion}"
     compile "com.google.firebase:firebase-messaging:${rootProject.googlePlayServicesVersion}"
@@ -146,6 +146,7 @@ dependencies {
     compile "com.google.android.gms:play-services-location:${rootProject.googlePlayServicesVersion}"
     compile "com.google.android.gms:play-services-places:${rootProject.googlePlayServicesVersion}"
     compile "com.google.android.gms:play-services-analytics:${rootProject.googlePlayServicesVersion}"
+
     compile "com.firebase:firebase-jobdispatcher-with-gcm-dep:${rootProject.firebaseDispatcherVersion}"
     compile "com.google.firebase:firebase-auth:${rootProject.firebaseAuthVersion}"
     compile "com.firebaseui:firebase-ui-auth:${rootProject.firebaseUiAuthVersion}"
@@ -180,7 +181,7 @@ dependencies {
     }
 }*/
 
-configurations.all {
+/*configurations.all {
     resolutionStrategy.eachDependency { DependencyResolveDetails details ->
         def requested = details.requested
         if (requested.group == 'com.android.support') {
@@ -189,6 +190,6 @@ configurations.all {
             }
         }
     }
-}
+}*/
 
 apply plugin: 'com.google.gms.google-services'

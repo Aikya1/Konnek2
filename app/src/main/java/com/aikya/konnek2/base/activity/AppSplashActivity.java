@@ -202,7 +202,9 @@ public class AppSplashActivity extends BaseActivity {
 
         @Override
         public void onError(Throwable e) {
+            hideProgress();
             Log.d(TAG, "User List == " + e.getMessage());
+            startActivity();
         }
 
         @Override

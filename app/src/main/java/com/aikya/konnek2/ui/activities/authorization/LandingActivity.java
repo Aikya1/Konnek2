@@ -82,6 +82,7 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import rx.Observer;
 import rx.Subscriber;
+import rx.Subscription;
 
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
@@ -453,6 +454,7 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
                 showProgress();
                 serviceManager.checkIfUserExist(countryCode + phNumber)
                         .subscribe(checkIfUserExists);
+
             }
         }
     }
@@ -460,7 +462,7 @@ public class LandingActivity extends BaseAuthActivity implements GoogleApiClient
     @Override
     protected void onResume() {
         super.onResume();
-         if (systemPermissionHelper.isAllLocationPermissionGranted()) {
+        if (systemPermissionHelper.isAllLocationPermissionGranted()) {
             userLocator.getLocation(Locator.Method.GPS, this);
         }
         checkRecordPermission();

@@ -22,6 +22,8 @@ import com.quickblox.core.helper.CollectionUtils;
 
 import com.quickblox.users.model.QBUser;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -86,10 +88,10 @@ public class ChatNotificationUtils {
     }
 
     public static QBChatDialog parseDialogFromQBMessage(Context context, QBChatMessage qbChatMessage,
-            String lastMessage, QBDialogType qbDialogType) {
+                                                        String lastMessage, QBDialogType qbDialogType) {
         QBChatDialog qbDialog = parseDialogFromQBMessage(context, qbChatMessage, qbDialogType);
 
-        if (! CollectionUtils.isEmpty(qbChatMessage.getAttachments())) {
+        if (!CollectionUtils.isEmpty(qbChatMessage.getAttachments())) {
             qbDialog.setLastMessage(context.getString(R.string.dlg_attached_last_message));
         } else if (!TextUtils.isEmpty(lastMessage)) {
             qbDialog.setLastMessage(lastMessage);
@@ -142,7 +144,7 @@ public class ChatNotificationUtils {
     }
 
     private static void setDialogOccupants(DataManager dataManager, String dialogId,
-            String currentOccupantsIdsString, String deletedOccupantsIdsString) {
+                                           String currentOccupantsIdsString, String deletedOccupantsIdsString) {
         if (!TextUtils.isEmpty(currentOccupantsIdsString)) {
             setDialogOccupant(dataManager, dialogId, currentOccupantsIdsString, DialogOccupant.Status.ACTUAL);
         }
@@ -153,7 +155,7 @@ public class ChatNotificationUtils {
     }
 
     private static void setDialogOccupant(DataManager dataManager, String dialogId, String occupantsIdsString,
-            DialogOccupant.Status status) {
+                                          DialogOccupant.Status status) {
         List<Integer> occupantsIdsList = ChatUtils.getOccupantsIdsListFromString(occupantsIdsString);
         DbUtils.updateDialogOccupants(dataManager, dialogId, occupantsIdsList, status);
     }
@@ -170,7 +172,7 @@ public class ChatNotificationUtils {
     }
 
     private static void addNecessaryPropertyForCreatingSystemMessage(Context context,
-            QBChatMessage qbChatMessage, QBChatDialog qbDialog) {
+                                                                     QBChatMessage qbChatMessage, QBChatDialog qbDialog) {
         qbChatMessage.setBody(context.getResources().getString(R.string.cht_notification_message));
         qbChatMessage.setProperty(PROPERTY_MODULE_IDENTIFIER, VALUE_MODULE_IDENTIFIER);
         qbChatMessage.setProperty(PROPERTY_NOTIFICATION_TYPE,
@@ -194,23 +196,23 @@ public class ChatNotificationUtils {
         String resultMessage = resources.getString(R.string.cht_notification_message);
         QBUser user = AppSession.getSession().getUser();
         int senderId;
-        Log.d("FIRENDREQUEST1234","ChatNotificationUtils IF   0 "+notificationType);
+        Log.d("FIRENDREQUEST1234", "ChatNotificationUtils IF   0 " + notificationType);
         if (qbChatMessage.getSenderId() == null) {
             senderId = user.getId();
-            Log.d("FIRENDREQUEST1234","ChatNotificationUtils IF   1 "+senderId);
+            Log.d("FIRENDREQUEST1234", "ChatNotificationUtils IF   1 " + senderId);
         } else {
             senderId = qbChatMessage.getSenderId();
-            Log.d("FIRENDREQUEST1234","ChatNotificationUtils ELSE   2 "+senderId);
+            Log.d("FIRENDREQUEST1234", "ChatNotificationUtils ELSE   2 " + senderId);
 
         }
 
-        Log.d("FIRENDREQUEST","ChatNotificationUtils FRIENDS_REQUEST  ");
+        Log.d("FIRENDREQUEST", "ChatNotificationUtils FRIENDS_REQUEST  ");
         boolean ownMessage = user.getId() == senderId;
 
         switch (notificationType) {
             case FRIENDS_REQUEST: {
 
-                Log.d("FIRENDREQUEST","ChatNotificationUtils FRIENDS_REQUEST  ");
+                Log.d("FIRENDREQUEST", "ChatNotificationUtils FRIENDS_REQUEST  ");
                 QBAcceptFriendCommand.start(context, senderId);
                 resultMessage = ownMessage
                         ? resources.getString(R.string.frl_friends_request_message_for_me)
@@ -219,7 +221,7 @@ public class ChatNotificationUtils {
                 break;
             }
             case FRIENDS_ACCEPT: {
-                Log.d("FIRENDREQUEST","ChatNotificationUtils FRIENDS_ACCEPT  ");
+                Log.d("FIRENDREQUEST", "ChatNotificationUtils FRIENDS_ACCEPT  ");
 //
 
                 resultMessage = ownMessage
@@ -228,23 +230,23 @@ public class ChatNotificationUtils {
                 break;
             }
             case FRIENDS_REJECT: {
-                Log.d("FIRENDREQUEST","ChatNotificationUtils FRIENDS_REJECT  ");
+                Log.d("FIRENDREQUEST", "ChatNotificationUtils FRIENDS_REJECT  ");
                 resultMessage = ownMessage
                         ? resources.getString(R.string.frl_friends_request_reject_message_for_me)
                         : resources.getString(R.string.frl_friends_request_reject_message_for_friend);
                 break;
             }
             case FRIENDS_REMOVE: {
-                Log.d("FIRENDREQUEST","ChatNotificationUtils FRIENDS_REMOVE  ");
+                Log.d("FIRENDREQUEST", "ChatNotificationUtils FRIENDS_REMOVE  ");
                 QMUser opponentUser;
 
                 if (qbChatMessage.getRecipientId().intValue() == user.getId().intValue()) {
-                    opponentUser = QMUserService.getInstance().getUserCache().get((long)senderId);
+                    opponentUser = QMUserService.getInstance().getUserCache().get((long) senderId);
                     resultMessage =
                             resources.getString(R.string.frl_friends_request_remove_message_for_friend,
-                            opponentUser.getFullName());
+                                    opponentUser.getFullName());
                 } else {
-                    opponentUser = QMUserService.getInstance().getUserCache().get((long)qbChatMessage.getRecipientId());
+                    opponentUser = QMUserService.getInstance().getUserCache().get((long) qbChatMessage.getRecipientId());
                     resultMessage = resources.getString(R.string.frl_friends_request_remove_message_for_me,
                             opponentUser.getFullName());
                 }
@@ -257,8 +259,8 @@ public class ChatNotificationUtils {
     }
 
     public static QBChatMessage createPrivateMessageAboutFriendsRequests(Context context,
-            NotificationType notificationType) {
-        Log.d("FIRENDREQUEST","QBFriendListHelper createPrivateMessageAboutFriendsRequests "+notificationType);
+                                                                         NotificationType notificationType) {
+        Log.d("FIRENDREQUEST", "QBFriendListHelper createPrivateMessageAboutFriendsRequests " + notificationType);
         QBChatMessage qbChatMessage = new QBChatMessage();
         qbChatMessage.setSenderId(AppSession.getSession().getUser().getId());
         qbChatMessage.setBody(context.getResources().getString(R.string.cht_notification_message));
@@ -287,7 +289,7 @@ public class ChatNotificationUtils {
     }
 
     public static QBChatMessage createGroupMessageAboutUpdateChat(Context context, QBChatDialog qbDialog,
-            DialogNotification.Type notificationType, Collection<Integer> occupantsIdsList, boolean leavedFromChat) {
+                                                                  DialogNotification.Type notificationType, Collection<Integer> occupantsIdsList, boolean leavedFromChat) {
         QBChatMessage qbChatMessage = new QBChatMessage();
         qbChatMessage.setSaveToHistory(VALUE_SAVE_TO_HISTORY);
         qbChatMessage.setProperty(PROPERTY_NOTIFICATION_TYPE,
@@ -391,7 +393,7 @@ public class ChatNotificationUtils {
     }
 
     public static String getBodyForUpdateChatNotificationMessage(Context context, DataManager dataManager,
-            QBChatMessage qbChatMessage) {
+                                                                 QBChatMessage qbChatMessage) {
         String notificationTypeString = (String) qbChatMessage.getProperty(PROPERTY_NOTIFICATION_TYPE);
         String updatedInfo = (String) qbChatMessage.getProperty(PROPERTY_ROOM_UPDATE_INFO);
         String addedOccupantsIdsString = (String) qbChatMessage.getProperty(PROPERTY_ROOM_ADDED_OCCUPANTS_IDS);
@@ -444,13 +446,30 @@ public class ChatNotificationUtils {
                     break;
                 case CHAT_OCCUPANTS:
                     String fullNames;
-
+                    StringBuilder output = new StringBuilder();
                     if (!TextUtils.isEmpty(addedOccupantsIdsString)) {
                         fullNames = ChatUtils.getFullNamesFromOpponentIds(dataManager, addedOccupantsIdsString);
+                        String[] nameArr = fullNames.split(",");
+                        List<String> nameList = new ArrayList<String>(Arrays.asList(nameArr));
+
+                        String createrOfGroup = qbUser.getFullName().trim();
+
+                        for (int i = 0; i < nameList.size(); i++) {
+                            if (nameList.get(i).trim().equalsIgnoreCase(createrOfGroup)) {
+                                nameList.remove(i);
+                            }
+                        }
+
+                        fullNames = nameList.toString().replace("[", "").replace("]", "");
+
                         resultMessage = ownMessage ?
                                 resources.getString(R.string.cht_update_group_added_message, qbUser.getFullName(), fullNames)
                                 : resources.getString(R.string.cht_update_group_added_message, ChatUtils.getFullNameById(dataManager, qbChatMessage.getSenderId()),
                                 fullNames);
+                       /* resultMessage = ownMessage ?
+                                resources.getString(R.string.cht_update_group_added_message, qbUser.getFullName(), fullNames)
+                                : resources.getString(R.string.cht_update_group_added_message, ChatUtils.getFullNameById(dataManager, qbChatMessage.getSenderId()),
+                                fullNames);*/
                     }
 
                     if (!TextUtils.isEmpty(deletedOccupantsIdsString)) {

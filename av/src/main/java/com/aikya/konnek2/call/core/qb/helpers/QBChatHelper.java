@@ -174,13 +174,13 @@ public class QBChatHelper extends BaseThreadPoolHelper {
     }
 
     private void initMainChatListeners() {
-        if (chatService != null && systemMessagesManager != null) {
-            chatService.getMessageStatusesManager().addMessageStatusListener(privateChatMessagesStatusListener);
-            chatService.getIncomingMessagesManager().addDialogMessageListener(allChatMessagesListener);
+//        if (chatService != null && systemMessagesManager != null) {
+        chatService.getMessageStatusesManager().addMessageStatusListener(privateChatMessagesStatusListener);
+        chatService.getIncomingMessagesManager().addDialogMessageListener(allChatMessagesListener);
 
-            systemMessagesManager = QBChatService.getInstance().getSystemMessagesManager();
-            systemMessagesManager.addSystemMessageListener(systemMessagesListener);
-        }
+        systemMessagesManager = QBChatService.getInstance().getSystemMessagesManager();
+        systemMessagesManager.addSystemMessageListener(systemMessagesListener);
+//        }
 
 
     }
@@ -812,7 +812,6 @@ public class QBChatHelper extends BaseThreadPoolHelper {
         joinRoomChat(qbDialog);
 
         sendSystemMessageAboutCreatingGroupChat(qbDialog, friendIdsList);
-
         QBChatMessage chatMessage = ChatNotificationUtils.createGroupMessageAboutCreateGroupChat(context, qbDialog, photoUrl);
         sendChatMessage(chatMessage, qbDialog);
 
@@ -844,7 +843,6 @@ public class QBChatHelper extends BaseThreadPoolHelper {
     private void sendSystemMessageAboutCreatingGroupChat(QBChatDialog dialog, Integer friendId) throws Exception {
         QBChatMessage chatMessageForSending = ChatNotificationUtils
                 .createSystemMessageAboutCreatingGroupChat(context, dialog);
-
         addNecessaryPropertyForQBChatMessage(chatMessageForSending, dialog.getDialogId());
         sendSystemMessage(chatMessageForSending, friendId, dialog.getDialogId());
     }

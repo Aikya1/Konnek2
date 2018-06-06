@@ -10,8 +10,8 @@
 
 
     <style name="ToolbarStyle">
-        <item name="android:minHeight">?actionBarSize</item>
-        <item name="android:background">?colorPrimary</item>
+        <item name="android:minHeight">?android:attr/actionBarSize</item>
+        <item name="android:background">?android:attr/colorPrimary</item>
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
         <item name="theme">@style/ToolbarTheme</item>
         <item name="contentInsetStartWithNavigation">0dp</item>
@@ -23,7 +23,7 @@
         <item name="theme">@style/ToolbarThemeCall</item>
     </style>
 
-    <style name="ButtonStyle" parent="Widget.AppCompat.Button">
+    <style name="ButtonStyle" parent="Base.Widget.AppCompat.Button">
         <item name="android:background">@drawable/selector_button_general</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:textColor">@color/text_dark</item>
